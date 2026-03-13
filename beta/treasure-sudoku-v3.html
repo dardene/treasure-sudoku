@@ -1766,6 +1766,37 @@ const ARTIFACTS = {
    STATE
 ══════════════════════════════════════════════════════ */
 const SETTINGS={sound:true,particles:true,highlight:true,showErrors:true};
+
+/* ── PERSISTENT STORAGE ── */
+const SAVE_KEY='treasure_sudoku_save';
+function saveState(){
+  try{
+    localStorage.setItem(SAVE_KEY,JSON.stringify({
+      bestTimes:BEST_TIMES,
+      gameStats:GAME_STATS,
+      settings:SETTINGS,
+    }));
+  }catch(e){console.warn('Save failed:',e);}
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(SAVE_KEY);
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    if(d.bestTimes)Object.assign(BEST_TIMES,d.bestTimes);
+    if(d.gameStats)Object.assign(GAME_STATS,d.gameStats);
+    if(d.settings){
+      Object.assign(SETTINGS,d.settings);
+      ['set-sound','set-particles','set-highlight','set-errors'].forEach(id=>{
+        const key={
+          'set-sound':'sound','set-particles':'particles',
+          'set-highlight':'highlight','set-errors':'showErrors'
+        }[id];
+        document.getElementById(id)?.classList.toggle('on',SETTINGS[key]);
+      });
+    }
+  }catch(e){console.warn('Load failed:',e);}
+}
 const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0)};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 
@@ -2094,7 +2125,7 @@ function pzCheckWin(){
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
   else document.getElementById('win-best-val').textContent=`Best: ${fmtTime(prev.time)}`;
   document.getElementById('win-time-val').textContent=fmtTime(t);
-  pzUpdateBest();spawnWinCoins();
+  pzUpdateBest();spawnWinCoins();saveState();
   setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),400);
 }
 
@@ -2556,7 +2587,7 @@ function dpCheckWin(){
   DP.completed=true;clearInterval(DP.timerInterval);
   DP.score+=2000;dpUpdateHUD();
   GAME_STATS.dailyWins++;GAME_STATS.dailyTotalScore+=DP.score;
-  spawnWinCoins();
+  saveState();spawnWinCoins();
   showAchievement('🏆 PUZZLE COMPLETE! +2000!');
   setTimeout(()=>dpShowWin(),800);
 }
@@ -2960,13 +2991,15 @@ document.querySelectorAll('.toggle-btn').forEach(btn=>{
     if(id==='set-particles')SETTINGS.particles=this.classList.contains('on');
     if(id==='set-highlight')SETTINGS.highlight=this.classList.contains('on');
     if(id==='set-errors')SETTINGS.showErrors=this.classList.contains('on');
+    saveState();
   });
 });
 document.getElementById('settings-done').addEventListener('click',()=>showScreen('screen-menu'));
+loadState(); // Restore best times, stats, and settings from previous sessions
 document.getElementById('reset-records').addEventListener('click',()=>{
   Object.keys(BEST_TIMES).forEach(k=>BEST_TIMES[k]=null);
   GAME_STATS.puzzleWins=0;GAME_STATS.dailyWins=0;GAME_STATS.dailyTotalScore=0;GAME_STATS.artifactCounts.fill(0);
-  showToast('Records reset!');
+  saveState();showToast('Records reset!');
 });
 </script>
 </body>
