@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "prototype",
+      "runtimeExecutable": "/usr/bin/env",
+      "runtimeArgs": ["-S", "PATH=/opt/homebrew/bin:/usr/bin:/bin", "npx", "serve", "-l", "5500", "beta"],
+      "port": 5500
+    }
+  ]
+}
