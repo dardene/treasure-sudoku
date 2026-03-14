@@ -11,7 +11,7 @@
   --gold:#f5c842;--gold-light:#ffe17a;--gold-dark:#b8860b;
   --stone-light:#c4a882;--stone-dark:#4a3728;
   --glow-gold:rgba(245,200,66,.65);
-  --panel-bg:rgba(12,7,2,.93);--panel-border:rgba(180,140,60,.5);
+  --panel-bg:rgba(12,7,2,.68);--panel-border:rgba(180,140,60,.5);
   --deep-bg:#080402;
   --ai-blue:#4aa8e8;--ai-glow:rgba(74,168,232,.6);
   --human-green:#50d890;--human-glow:rgba(80,216,144,.6);
@@ -25,17 +25,17 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
 /* Sky gradient — vivid Dubai tropical blue with warm horizon */
 #sky{position:absolute;inset:0;
   background:linear-gradient(180deg,
-    #0a3d6b 0%,    /* deep azure zenith */
-    #0f6ab5 10%,   /* rich royal blue */
-    #1e95df 22%,   /* bright tropical blue */
-    #4ab8f0 34%,   /* vivid sky blue */
-    #7ed4f8 44%,   /* pale upper sky */
-    #b8ecff 51%,   /* horizon luminance */
-    #f5edd0 55%,   /* warm sandy horizon glow */
-    #20c4d4 61%,   /* turquoise sea starts */
-    #00a8c4 73%,   /* mid-ocean teal */
-    #008aaa 86%,   /* deep teal */
-    #006680 100%); /* ocean depth */
+    #060d1e 0%,    /* deep indigo zenith */
+    #0a1e4a 8%,    /* midnight blue */
+    #0e3872 18%,   /* deep navy */
+    #1a5a98 30%,   /* rich sapphire */
+    #2878b8 40%,   /* fantasy sky blue */
+    #6aaed0 48%,   /* muted horizon */
+    #b8a888 53%,   /* warm amber horizon */
+    #1a8494 59%,   /* deep teal sea starts */
+    #0e6878 72%,   /* mid-ocean deep */
+    #095060 86%,   /* abyss teal */
+    #04303c 100%); /* ocean depth */
 }
 
 /* Fluffy clouds */
@@ -81,17 +81,17 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
 /* ══ PALM LEAVES ══ */
 #palms{position:absolute;inset:0;}
 
-/* ══ TREASURE ISLAND (distant) ══ */
-#island{position:absolute;top:22%;left:50%;transform:translateX(-50%);}
+/* ══ TREASURE ISLAND (distant) — removed ══ */
+#island{display:none;}
 
 /* ══ PIRATE SHIP ══ */
-#ship{position:absolute;top:28%;right:12%;animation:shipFloat 6s ease-in-out infinite;}
+#ship{position:absolute;bottom:34%;right:6%;animation:shipFloat 6s ease-in-out infinite;transform-origin:center bottom;scale:0.72;}
 @keyframes shipFloat{0%,100%{transform:translateY(0) rotate(0deg)}
   33%{transform:translateY(-4px) rotate(.4deg)}
   66%{transform:translateY(-2px) rotate(-.3deg)}}
 
 /* ══ TREASURE CHEST ══ */
-#treasure-chest{position:absolute;bottom:28%;left:6%;animation:chestIdle 4s ease-in-out infinite;}
+#treasure-chest{position:absolute;bottom:14%;left:3%;animation:chestIdle 4s ease-in-out infinite;}
 @keyframes chestIdle{0%,100%{transform:rotate(0deg) translateY(0)}
   50%{transform:rotate(.5deg) translateY(-2px)}}
 
@@ -291,22 +291,51 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
 .lr-close:hover{box-shadow:0 0 20px rgba(200,80,255,.5);}
 
 /* ══════════════ MAIN MENU ══════════════ */
-#screen-menu{justify-content:center;}
-.menu-logo-wrap{text-align:center;margin-bottom:32px;animation:logoFloat 6s ease-in-out infinite;}
+#screen-menu{justify-content:center;padding-top:12%;padding-bottom:0;}
 /* ══ MENU SCREEN — legibility over bright tropical bg ══ */
-#screen-menu{background:linear-gradient(180deg,rgba(0,20,40,.18) 0%,rgba(0,10,20,.32) 100%);}
-.menu-title{font-size:clamp(22px,5vw,38px);font-weight:900;color:var(--gold-light);text-shadow:0 0 30px var(--glow-gold),0 2px 8px rgba(0,0,0,.95),0 4px 16px rgba(0,0,0,.8);letter-spacing:.18em;line-height:1;}
-.menu-subtitle{font-family:'Crimson Pro',serif;font-size:13px;color:#fff;letter-spacing:.3em;text-transform:uppercase;margin-top:4px;text-shadow:0 1px 6px rgba(0,0,0,.9);}
-.version-tag{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(255,230,140,.7);letter-spacing:.2em;margin-top:12px;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.8);}
-@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.menu-logo-icon{font-size:72px;line-height:1;filter:drop-shadow(0 0 20px rgba(245,200,66,.7));display:block;margin-bottom:8px;}
-.menu-title{font-size:clamp(22px,5vw,38px);font-weight:900;color:var(--gold-light);text-shadow:0 0 30px var(--glow-gold),0 2px 6px rgba(0,0,0,.9);letter-spacing:.18em;line-height:1;}
-.menu-subtitle{font-family:'Crimson Pro',serif;font-size:13px;color:var(--stone-light);letter-spacing:.3em;text-transform:uppercase;margin-top:4px;}
+#screen-menu{background:linear-gradient(180deg,rgba(0,20,40,.1) 0%,rgba(0,10,20,.28) 100%);}
+
+/* Sky title — floats above the sand castle in the upper sky */
+.menu-sky-title{
+  position:fixed;top:5%;left:50%;transform:translateX(-50%);
+  text-align:center;z-index:11;pointer-events:none;
+  animation:skyTitleFloat 7s ease-in-out infinite;
+}
+@keyframes skyTitleFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-7px)}}
+
+.menu-title{
+  font-size:clamp(28px,6vw,52px);font-weight:900;
+  color:var(--gold-light);letter-spacing:.2em;line-height:1;
+  text-shadow:
+    0 0 40px rgba(255,220,80,.9),
+    0 0 80px rgba(245,200,66,.5),
+    0 0 120px rgba(200,140,20,.3),
+    0 2px 8px rgba(0,0,0,.95),
+    0 4px 20px rgba(0,0,0,.8);
+  animation:titleGlow 4s ease-in-out infinite;
+}
+@keyframes titleGlow{
+  0%,100%{text-shadow:0 0 40px rgba(255,220,80,.9),0 0 80px rgba(245,200,66,.5),0 0 120px rgba(200,140,20,.3),0 2px 8px rgba(0,0,0,.95);}
+  50%{text-shadow:0 0 60px rgba(255,240,120,1),0 0 120px rgba(245,200,66,.8),0 0 180px rgba(255,180,40,.5),0 2px 8px rgba(0,0,0,.95);}
+}
+
+.menu-subtitle{
+  font-family:'Crimson Pro',serif;font-size:clamp(11px,1.8vw,15px);
+  color:rgba(255,245,200,.95);letter-spacing:.35em;text-transform:uppercase;margin-top:6px;
+  text-shadow:0 0 20px rgba(245,200,66,.7),0 1px 6px rgba(0,0,0,.9);
+  animation:subtitleShimmer 6s ease-in-out infinite;
+}
+@keyframes subtitleShimmer{
+  0%,100%{opacity:.85;letter-spacing:.35em;}
+  50%{opacity:1;letter-spacing:.4em;}
+}
+
+.version-tag{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(255,230,140,.7);letter-spacing:.2em;margin-top:8px;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.8);}
 .menu-panel{padding:28px 32px;width:min(90vw,360px);display:flex;flex-direction:column;gap:12px;}
 .menu-btn{width:100%;padding:14px 20px;border-radius:14px;font-size:13px;display:flex;align-items:center;gap:12px;position:relative;overflow:hidden;}
-.menu-btn .mb-icon{font-size:24px;flex-shrink:0;width:36px;text-align:center;}
+.menu-btn .mb-icon{font-size:28px;flex-shrink:0;width:40px;text-align:center;}
 .menu-btn .mb-text{text-align:left;flex:1;}
-.menu-btn .mb-title{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;}
+.menu-btn .mb-title{display:block;font-size:15px;font-weight:700;letter-spacing:.08em;}
 .menu-btn .mb-sub{display:block;font-size:9px;font-family:'Crimson Pro',serif;letter-spacing:.15em;margin-top:1px;opacity:.75;}
 .menu-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,220,100,.1),transparent 60%);pointer-events:none;}
 .menu-btn-primary{background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(150,100,20,.95));border:1px solid var(--gold);color:var(--gold-light);}
@@ -516,7 +545,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
   <!-- Clouds — realistic volumetric cumulus -->
   <div id="clouds">
     <!-- Large central cloud mass behind island -->
-    <svg style="position:absolute;top:6%;left:26%;width:50%;height:auto;opacity:.98" viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg">
+    <svg style="position:absolute;top:8%;left:31%;width:36%;height:auto;opacity:.82" viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="cg-main" cx="48%" cy="32%" r="58%">
           <stop offset="0%" stop-color="#ffffff"/>
@@ -547,7 +576,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
     </svg>
 
     <!-- Left cloud — layered with blue-gray shadow -->
-    <svg style="position:absolute;top:4%;left:0%;width:26%;height:auto;opacity:.92" viewBox="0 0 250 130" xmlns="http://www.w3.org/2000/svg">
+    <svg style="position:absolute;top:5%;left:0%;width:18%;height:auto;opacity:.78" viewBox="0 0 250 130" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="cg-l" cx="44%" cy="30%" r="58%">
           <stop offset="0%" stop-color="#ffffff"/>
@@ -564,7 +593,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
     </svg>
 
     <!-- Right cloud -->
-    <svg style="position:absolute;top:2%;right:1%;width:24%;height:auto;opacity:.88" viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg">
+    <svg style="position:absolute;top:3%;right:1%;width:17%;height:auto;opacity:.76" viewBox="0 0 220 110" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="110" cy="90" rx="102" ry="22" fill="rgba(148,190,228,.32)"/>
       <ellipse cx="110" cy="68" rx="100" ry="42" fill="#edf4fc"/>
       <ellipse cx="72" cy="52" rx="66" ry="40" fill="white"/>
@@ -575,7 +604,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
     </svg>
 
     <!-- Small accent cloud mid-left -->
-    <svg style="position:absolute;top:13%;left:16%;width:16%;height:auto;opacity:.72" viewBox="0 0 140 68" xmlns="http://www.w3.org/2000/svg">
+    <svg style="position:absolute;top:14%;left:20%;width:11%;height:auto;opacity:.62" viewBox="0 0 140 68" xmlns="http://www.w3.org/2000/svg">
       <ellipse cx="70" cy="50" rx="64" ry="20" fill="rgba(200,225,248,.5)"/>
       <ellipse cx="70" cy="40" rx="62" ry="26" fill="#f0f7ff"/>
       <ellipse cx="46" cy="30" rx="42" ry="28" fill="white"/>
@@ -898,7 +927,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
 
   <!-- Treasure Chest (bottom-left) — ornate, glowing -->
   <div id="treasure-chest">
-    <svg width="220" height="185" viewBox="0 0 220 185" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+    <svg width="130" height="110" viewBox="0 0 220 185" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
       <defs>
         <radialGradient id="tc-glow" cx="50%" cy="50%" r="60%">
           <stop offset="0%" stop-color="rgba(255,210,50,.55)"/>
@@ -1020,7 +1049,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
 
   <!-- Palm fronds — LEFT foreground (tall, realistic coconut palm) -->
   <div id="palms">
-    <svg style="position:absolute;top:-6%;left:-4%;width:42%;height:auto;pointer-events:none" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+    <svg style="position:absolute;bottom:19%;left:-1%;width:25%;height:auto;pointer-events:none;z-index:2;overflow:visible" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
       <defs>
         <linearGradient id="trk-l" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#3d2008"/>
@@ -1029,97 +1058,172 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
           <stop offset="82%" stop-color="#7a4c24"/>
           <stop offset="100%" stop-color="#4a2c10"/>
         </linearGradient>
+        <radialGradient id="island-l" cx="50%" cy="60%" r="50%">
+          <stop offset="0%" stop-color="#f8f0d8"/>
+          <stop offset="40%" stop-color="#ead88a"/>
+          <stop offset="100%" stop-color="#c09030"/>
+        </radialGradient>
       </defs>
-      <!-- Trunk — elegant natural curve -->
-      <path d="M62 520 C68 456 78 392 92 330 C104 274 116 222 128 174 C136 138 143 104 150 70" stroke="url(#trk-l)" stroke-width="28" fill="none" stroke-linecap="round"/>
-      <!-- Trunk highlight (sun catch) -->
-      <path d="M70 512 C76 448 86 384 100 322 C112 266 124 214 136 166 C144 130 151 96 158 64" stroke="rgba(210,160,90,.38)" stroke-width="9" fill="none" stroke-linecap="round"/>
-      <!-- Trunk characteristic ring marks -->
-      <path d="M63 498 Q82 492 91 498" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M65 478 Q84 472 93 478" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M67 458 Q86 452 95 458" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M70 438 Q89 432 98 438" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M73 418 Q92 412 101 418" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M76 398 Q95 392 104 398" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M79 378 Q98 372 107 378" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M82 358 Q101 352 110 358" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M85 338 Q104 332 113 338" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M89 318 Q108 312 117 318" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M93 298 Q112 292 121 298" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M97 278 Q116 272 125 278" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M101 258 Q120 252 129 258" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M105 238 Q124 232 133 238" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M109 218 Q128 212 137 218" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M114 198 Q133 192 142 198" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M118 178 Q137 172 146 178" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M123 158 Q142 152 151 158" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M127 138 Q146 132 155 138" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M132 118 Q151 112 160 118" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M136 98 Q155 92 164 98" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M140 78 Q159 72 168 78" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-
-      <!-- FROND 1 — dramatic sweep far right -->
-      <path d="M150 70 C196 46 256 22 344 6" stroke="#1a5a08" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-      <path d="M168 58 C180 40 196 30 216 22" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M188 48 C202 30 220 20 242 14" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M210 38 C226 22 246 13 268 8" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M232 29 C250 15 270 8 295 4" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M256 21 C274 10 296 4 320 2" stroke="#1e6210" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <!-- lower leaflets F1 -->
-      <path d="M168 58 C174 74 176 90 170 106" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M188 48 C196 64 198 80 192 96" stroke="#2e7c18" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M210 38 C220 54 222 70 216 86" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M232 29 C244 44 246 60 240 76" stroke="#267015" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M256 21 C268 36 270 52 264 68" stroke="#1e6210" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 2 — left sweep -->
-      <path d="M148 68 C106 40 58 18 -8 5" stroke="#165208" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M128 54 C108 36 84 22 56 15" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M108 42 C86 26 60 16 30 11" stroke="#246c14" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M88 34 C64 20 36 12 4 8" stroke="#1c5e10" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M68 28 C42 16 12 9 -20 6" stroke="#1c5e10" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <!-- lower leaflets F2 -->
-      <path d="M128 54 C120 70 108 82 90 88" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M108 42 C102 58 90 70 72 76" stroke="#246c14" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M88 34 C84 50 72 62 54 68" stroke="#1c5e10" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 3 — drooping down-left arch -->
-      <path d="M146 72 C118 112 78 166 26 228" stroke="#165208" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M128 90 C102 124 68 162 30 196" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M110 112 C86 144 56 178 22 210" stroke="#1c5e10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <!-- upper side leaflets F3 -->
-      <path d="M128 90 C140 120 144 150 140 178" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M110 112 C124 140 128 168 124 194" stroke="#1c5e10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 4 — arching up then right -->
-      <path d="M152 66 C178 38 218 16 272 4" stroke="#1a5a08" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-      <path d="M168 52 C188 30 214 14 248 5" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M186 40 C208 20 236 8 268 2" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <!-- lower leaflets F4 -->
-      <path d="M168 52 C172 68 172 86 164 102" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M186 40 C192 56 192 74 184 90" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M206 30 C214 46 214 62 206 78" stroke="#1e6210" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 5 — drooping right, lower -->
-      <path d="M152 72 C176 58 214 50 268 46" stroke="#165208" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M168 64 C188 52 218 46 256 44" stroke="#246c14" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M168 64 C170 80 168 96 158 112" stroke="#246c14" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M186 58 C188 72 186 88 178 104" stroke="#1c5e10" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-      <!-- Coconut cluster at crown -->
-      <circle cx="152" cy="84" r="11" fill="#304e0e"/>
-      <circle cx="140" cy="79" r="10" fill="#3e6414"/>
-      <circle cx="162" cy="79" r="10" fill="#304e0e"/>
-      <circle cx="149" cy="70" r="9" fill="#4a7018"/>
-      <circle cx="136" cy="75" r="9" fill="#3a5e12"/>
-      <!-- coconut glint -->
-      <circle cx="137" cy="73" r="3" fill="rgba(255,255,255,.24)"/>
-      <circle cx="149" cy="67" r="2.5" fill="rgba(255,255,255,.2)"/>
-      <circle cx="161" cy="76" r="2.5" fill="rgba(255,255,255,.18)"/>
+      <!-- Island mound at trunk base -->
+      <ellipse cx="62" cy="514" rx="108" ry="28" fill="#b8860b" opacity="0.4"/>
+      <ellipse cx="62" cy="510" rx="104" ry="24" fill="url(#island-l)"/>
+      <ellipse cx="52" cy="502" rx="62" ry="10" fill="rgba(255,255,255,0.28)"/>
+      <!-- Trunk — 3D filled shape -->
+      <path d="M40,522 C50,416 72,310 100,208 C122,128 148,66 174,38 C180,38 188,40 194,44 C168,74 142,136 120,216 C92,318 70,422 62,522Z" fill="#2c1404"/>
+      <path d="M62,522 C70,422 92,318 120,216 C142,136 168,74 194,44 C200,48 204,54 204,60 C180,88 156,148 134,224 C106,328 84,430 78,522Z" fill="#7c4818"/>
+      <path d="M78,522 C84,430 106,328 134,224 C156,148 180,88 204,60 C208,66 210,74 208,80 C186,104 164,162 142,232 C114,334 94,434 90,522Z" fill="#a06030"/>
+      <path d="M92,516 C98,422 116,326 140,232 C160,154 182,90 202,68" stroke="rgba(240,185,85,.22)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <!-- Ring marks -->
+      <path d="M44,510 Q62,504 74,510" stroke="#1c0e04" stroke-width="1.8" fill="none" opacity=".65"/>
+      <path d="M48,492 Q66,486 78,492" stroke="#1c0e04" stroke-width="1.7" fill="none" opacity=".62"/>
+      <path d="M54,474 Q72,468 84,474" stroke="#1c0e04" stroke-width="1.7" fill="none" opacity=".6"/>
+      <path d="M60,456 Q78,450 90,456" stroke="#1c0e04" stroke-width="1.6" fill="none" opacity=".57"/>
+      <path d="M66,438 Q84,432 96,438" stroke="#1c0e04" stroke-width="1.6" fill="none" opacity=".55"/>
+      <path d="M74,418 Q92,412 104,418" stroke="#1c0e04" stroke-width="1.5" fill="none" opacity=".52"/>
+      <path d="M82,396 Q100,390 112,396" stroke="#1c0e04" stroke-width="1.5" fill="none" opacity=".5"/>
+      <path d="M92,374 Q110,368 122,374" stroke="#1c0e04" stroke-width="1.4" fill="none" opacity=".47"/>
+      <path d="M104,350 Q122,344 134,350" stroke="#1c0e04" stroke-width="1.4" fill="none" opacity=".45"/>
+      <path d="M116,324 Q134,318 146,324" stroke="#1c0e04" stroke-width="1.3" fill="none" opacity=".42"/>
+      <path d="M130,296 Q148,290 158,296" stroke="#1c0e04" stroke-width="1.3" fill="none" opacity=".4"/>
+      <path d="M144,268 Q162,262 172,268" stroke="#1c0e04" stroke-width="1.2" fill="none" opacity=".37"/>
+      <path d="M158,240 Q174,234 184,240" stroke="#1c0e04" stroke-width="1.2" fill="none" opacity=".35"/>
+      <path d="M170,212 Q186,206 194,212" stroke="#1c0e04" stroke-width="1.1" fill="none" opacity=".32"/>
+      <path d="M180,184 Q196,178 202,184" stroke="#1c0e04" stroke-width="1.1" fill="none" opacity=".3"/>
+      <path d="M188,156 Q202,150 208,156" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".27"/>
+      <path d="M194,128 Q206,122 210,128" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".25"/>
+      <path d="M198,100 Q210,94 212,100" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".22"/>
+      <path d="M200,74 Q210,68 212,74" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".2"/>
+      <!-- ══ FRONDS — Crown at (204, 62) ══ -->
+      <!-- FROND 1: far right sweep -->
+      <path d="M204,62 C266,20 356,-2 464,-12 C452,8 362,22 264,70Z" fill="#1e8818" opacity=".90"/>
+      <path d="M204,62 C266,20 356,-2 464,-12" stroke="#0a4e06" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M227,52 Q222,36 220,20" stroke="#38b824" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M227,52 Q232,66 234,80" stroke="#156e0e" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M252,40 Q247,24 246,8" stroke="#34aa20" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M252,40 Q258,54 260,68" stroke="#13660c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M280,28 Q276,12 274,-4" stroke="#30a21c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M280,28 Q286,42 288,56" stroke="#116010" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M311,18 Q307,2 306,-14" stroke="#2c9a18" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M311,18 Q317,32 318,46" stroke="#0f5808" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M344,8 Q340,-8 338,-22" stroke="#289018" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M344,8 Q350,22 352,36" stroke="#0d5209" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M380,0 Q376,-14 375,-28" stroke="#248816" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M380,0 Q386,14 388,26" stroke="#0b4c08" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M420,-6 Q416,-20 415,-32" stroke="#1e8012" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M420,-6 Q426,8 428,20" stroke="#094508" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 2: up-right arch -->
+      <path d="M204,62 C240,14 280,-28 328,-82 C322,-70 282,-22 240,26Z" fill="#228a1a" opacity=".90"/>
+      <path d="M204,62 C240,14 280,-28 328,-82" stroke="#0a4e06" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M218,50 Q210,32 206,16" stroke="#36b022" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M220,60 Q232,68 244,76" stroke="#197010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M234,36 Q224,18 220,2" stroke="#32a81e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M236,48 Q250,56 262,62" stroke="#167010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M252,20 Q240,2 236,-14" stroke="#2e9e1c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M254,32 Q268,40 282,46" stroke="#136610" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M272,2 Q260,-16 256,-32" stroke="#2a9618" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M274,16 Q290,22 304,28" stroke="#0f5e0e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M292,-18 Q280,-36 276,-52" stroke="#268e16" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M296,-4 Q312,2 326,8" stroke="#0c560c" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M314,-44 Q302,-62 298,-76" stroke="#228614" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M318,-30 Q334,-22 346,-14" stroke="#0a4e0a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 3: straight up -->
+      <path d="M204,62 C198,16 192,-28 186,-126 C192,-116 200,-24 210,22Z" fill="#249020" opacity=".90"/>
+      <path d="M204,62 C198,16 192,-28 186,-126" stroke="#0a5206" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M201,42 Q188,38 176,30" stroke="#3ab226" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M207,42 Q220,38 230,28" stroke="#34a820" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M199,22 Q186,18 174,10" stroke="#30a01e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M205,22 Q218,16 228,8" stroke="#2c9c1c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M197,2 Q184,-4 172,-10" stroke="#289818" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M203,0 Q216,-6 228,-12" stroke="#249416" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M195,-20 Q182,-26 170,-32" stroke="#228e16" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M201,-22 Q214,-28 226,-34" stroke="#208a14" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M193,-44 Q180,-50 168,-56" stroke="#1e8414" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M199,-46 Q212,-52 222,-58" stroke="#1c8012" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M191,-68 Q178,-74 166,-82" stroke="#1a7c12" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M197,-70 Q210,-76 220,-84" stroke="#187810" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M189,-94 Q177,-100 166,-108" stroke="#167410" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <path d="M195,-96 Q208,-102 218,-110" stroke="#147010" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 4: up-left arch -->
+      <path d="M204,62 C170,14 128,-22 74,-82 C80,-70 120,-18 162,30Z" fill="#228c1a" opacity=".90"/>
+      <path d="M204,62 C170,14 128,-22 74,-82" stroke="#0a4e06" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M193,48 Q198,30 198,14" stroke="#38ae24" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M191,58 Q174,64 158,66" stroke="#197010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M178,32 Q184,14 184,-2" stroke="#34a81e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M174,44 Q156,50 140,52" stroke="#167010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M160,16 Q166,-2 166,-18" stroke="#30a01c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M156,28 Q136,36 120,38" stroke="#126810" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M140,0 Q148,-18 148,-34" stroke="#2a9618" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M136,12 Q116,22 98,24" stroke="#0f6010" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M118,-16 Q128,-36 128,-52" stroke="#269016" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M114,-4 Q92,6 76,8" stroke="#0c5a0e" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M96,-42 Q106,-62 106,-76" stroke="#228814" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M92,-30 Q72,-18 56,-14" stroke="#0a5208" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 5: far left sweep -->
+      <path d="M204,62 C148,26 72,6 -28,8 C-20,26 60,40 154,70Z" fill="#1e8818" opacity=".90"/>
+      <path d="M204,62 C148,26 72,6 -28,8" stroke="#0a4e06" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M182,54 Q178,38 178,22" stroke="#38b622" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M182,62 Q168,74 156,80" stroke="#167010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M158,44 Q154,28 154,12" stroke="#32ac1e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M158,54 Q144,66 130,72" stroke="#147010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M130,34 Q126,18 126,2" stroke="#2ca01a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M130,44 Q116,56 102,62" stroke="#106810" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M102,24 Q98,8 98,-6" stroke="#289618" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M102,34 Q88,46 74,52" stroke="#0e6210" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M74,16 Q70,0 70,-14" stroke="#248e16" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M74,26 Q60,38 46,44" stroke="#0c5a10" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M44,8 Q40,-6 40,-18" stroke="#208416" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M44,18 Q30,30 16,36" stroke="#0a5210" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 6: left droop -->
+      <path d="M204,62 C162,84 92,128 6,206 C20,208 90,140 166,94Z" fill="#1a7812" opacity=".88"/>
+      <path d="M204,62 C162,84 92,128 6,206" stroke="#085006" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M188,68 Q172,58 156,50" stroke="#2ea01c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M188,76 Q176,92 166,108" stroke="#146e10" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M166,78 Q148,66 132,58" stroke="#2a9818" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M164,88 Q150,106 138,122" stroke="#126610" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M138,94 Q120,82 104,74" stroke="#268e14" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M136,106 Q118,124 106,140" stroke="#105e0e" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M106,118 Q88,106 72,98" stroke="#228614" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M104,130 Q86,148 74,166" stroke="#0e580c" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M72,148 Q54,136 38,128" stroke="#1e7e12" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M68,160 Q52,178 40,196" stroke="#0c540c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 7: right droop -->
+      <path d="M204,62 C252,84 316,126 402,206 C386,204 320,138 248,94Z" fill="#1a7812" opacity=".88"/>
+      <path d="M204,62 C252,84 316,126 402,206" stroke="#085006" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M220,62 Q236,52 252,44" stroke="#2ea01c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M220,72 Q230,88 238,104" stroke="#147012" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M244,70 Q262,60 278,52" stroke="#2a9818" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M244,82 Q254,100 262,116" stroke="#126610" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M270,82 Q288,72 306,64" stroke="#269014" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M270,96 Q280,114 288,132" stroke="#106010" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M298,96 Q318,86 336,80" stroke="#228612" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M298,112 Q308,130 316,148" stroke="#0e5a0e" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M328,116 Q348,108 366,102" stroke="#1e8012" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M328,132 Q338,152 344,170" stroke="#0c560c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 8: center droop -->
+      <path d="M204,62 C206,96 210,128 212,204 C218,196 216,124 210,90Z" fill="#1c7c14" opacity=".85"/>
+      <path d="M204,62 C206,96 210,128 212,204" stroke="#0a5006" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M200,80 Q186,96 176,114" stroke="#2e9c1c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M207,82 Q220,98 228,116" stroke="#289818" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M200,104 Q186,122 176,142" stroke="#269018" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M207,108 Q220,126 228,146" stroke="#228c16" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M200,130 Q186,150 178,168" stroke="#208816" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M207,134 Q220,154 228,172" stroke="#1e8414" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M200,158 Q186,178 178,196" stroke="#1c8012" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M207,162 Q220,182 228,200" stroke="#1a7c10" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- Coconut cluster -->
+      <circle cx="202" cy="76" r="10" fill="#243808"/>
+      <circle cx="190" cy="70" r="9.5" fill="#2e4a0a"/>
+      <circle cx="214" cy="70" r="9" fill="#243808"/>
+      <circle cx="200" cy="62" r="9" fill="#344c0c"/>
+      <circle cx="212" cy="64" r="8.5" fill="#2e4408"/>
+      <circle cx="190" cy="64" r="8" fill="#243808"/>
+      <circle cx="190" cy="61" r="2.5" fill="rgba(255,255,255,.24)"/>
+      <circle cx="200" cy="59" r="2" fill="rgba(255,255,255,.2)"/>
+      <circle cx="213" cy="62" r="2" fill="rgba(255,255,255,.18)"/>
     </svg>
 
     <!-- RIGHT foreground palm — leans slightly inward -->
-    <svg style="position:absolute;top:-6%;right:-4%;width:38%;height:auto;pointer-events:none" viewBox="0 0 380 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
+    <svg style="position:absolute;bottom:17%;right:-1%;width:23%;height:auto;pointer-events:none;z-index:2" viewBox="0 0 380 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
       <defs>
         <linearGradient id="trk-r" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#4a2a10"/>
@@ -1128,130 +1232,138 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
           <stop offset="85%" stop-color="#7a5028"/>
           <stop offset="100%" stop-color="#3d2008"/>
         </linearGradient>
+        <radialGradient id="island-r" cx="50%" cy="60%" r="50%">
+          <stop offset="0%" stop-color="#f8f0d8"/>
+          <stop offset="40%" stop-color="#ead88a"/>
+          <stop offset="100%" stop-color="#c09030"/>
+        </radialGradient>
       </defs>
-      <!-- Trunk -->
-      <path d="M318 500 C312 436 302 372 290 310 C280 253 268 200 256 152 C246 116 238 82 232 52" stroke="url(#trk-r)" stroke-width="26" fill="none" stroke-linecap="round"/>
-      <path d="M310 494 C304 430 294 366 282 304 C272 247 260 194 248 146 C238 110 230 76 224 48" stroke="rgba(210,160,90,.32)" stroke-width="8" fill="none" stroke-linecap="round"/>
-      <!-- Trunk rings -->
-      <path d="M316 480 Q297 474 288 480" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M314 460 Q295 454 286 460" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M311 440 Q292 434 283 440" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M308 420 Q289 414 280 420" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M305 400 Q286 394 277 400" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M302 380 Q283 374 274 380" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M299 360 Q280 354 271 360" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M296 340 Q277 334 268 340" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M292 320 Q273 314 264 320" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M289 300 Q270 294 261 300" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M285 280 Q266 274 257 280" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M281 260 Q262 254 253 260" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M278 240 Q259 234 250 240" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M274 220 Q255 214 246 220" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M270 200 Q251 194 242 200" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M266 180 Q247 174 238 180" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M262 160 Q243 154 234 160" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M258 140 Q239 134 230 140" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M254 120 Q235 114 226 120" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M250 100 Q231 94 222 100" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M246 80 Q227 74 218 80" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-      <path d="M241 62 Q222 56 213 62" stroke="#2a1208" stroke-width="2" fill="none" opacity=".65"/>
-
-      <!-- FROND 1 — sweeping far left -->
-      <path d="M232 52 C186 28 128 10 46 0" stroke="#1a5a08" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-      <path d="M212 40 C190 22 164 10 132 4" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M192 30 C168 14 140 5 106 0" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M170 22 C144 8 114 1 78 -2" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M148 16 C120 4 88 -1 52 -3" stroke="#1e6210" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <!-- lower leaflets F1 -->
-      <path d="M212 40 C212 56 208 72 198 86" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M192 30 C194 46 190 62 180 76" stroke="#2e7c18" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M170 22 C174 38 170 54 160 68" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M148 16 C154 32 150 48 140 62" stroke="#1e6210" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 2 — right sweep -->
-      <path d="M234 50 C275 26 326 8 390 -2" stroke="#165208" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M254 38 C286 20 322 6 364 -1" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M272 28 C306 12 344 3 380 0" stroke="#1c5e10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <!-- lower leaflets F2 -->
-      <path d="M254 38 C252 54 244 68 230 80" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M272 28 C272 44 264 58 252 70" stroke="#1c5e10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M292 20 C294 34 286 48 276 60" stroke="#1c5e10" stroke-width="3" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 3 — drooping down-right -->
-      <path d="M236 56 C262 96 300 150 348 212" stroke="#165208" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M254 72 C276 106 306 154 346 204" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M270 92 C290 124 318 168 354 218" stroke="#1c5e10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <!-- upper side leaflets F3 -->
-      <path d="M254 72 C244 102 240 132 244 160" stroke="#246c14" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M270 92 C258 122 254 150 258 178" stroke="#1c5e10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 4 — arching up-left -->
-      <path d="M230 50 C200 22 162 6 114 -2" stroke="#1a5a08" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-      <path d="M212 38 C190 16 162 4 126 0" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M194 28 C170 8 140 0 104 -3" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <!-- lower leaflets F4 -->
-      <path d="M212 38 C212 54 210 72 202 88" stroke="#2e7c18" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M194 28 C196 44 194 62 186 78" stroke="#267015" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-
-      <!-- FROND 5 — drooping left, lower -->
-      <path d="M232 56 C208 44 170 38 120 36" stroke="#165208" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M216 48 C196 38 164 33 124 32" stroke="#246c14" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M216 48 C214 64 210 80 200 96" stroke="#246c14" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M198 40 C198 56 194 72 184 88" stroke="#1c5e10" stroke-width="3" fill="none" stroke-linecap="round"/>
-
+      <!-- Island mound at trunk base -->
+      <ellipse cx="318" cy="494" rx="100" ry="26" fill="#b8860b" opacity="0.4"/>
+      <ellipse cx="318" cy="490" rx="96" ry="22" fill="url(#island-r)"/>
+      <ellipse cx="308" cy="482" rx="58" ry="9" fill="rgba(255,255,255,0.26)"/>
+      <!-- Trunk — 3D filled shape (right palm, leans left) -->
+      <path d="M340,502 C330,396 310,290 282,188 C260,108 236,46 210,18 C204,18 196,20 190,24 C218,52 242,114 264,192 C292,294 312,398 322,502Z" fill="#2c1404"/>
+      <path d="M322,502 C312,398 292,294 264,192 C242,114 218,52 190,24 C184,28 180,34 180,40 C206,68 230,128 252,204 C280,308 300,410 308,502Z" fill="#7c4818"/>
+      <path d="M308,502 C300,410 280,308 252,204 C230,128 206,68 180,40 C176,46 174,54 176,60 C198,84 222,144 244,216 C272,320 292,420 298,502Z" fill="#a06030"/>
+      <path d="M296,496 C288,404 272,306 248,216 C228,138 206,76 186,52" stroke="rgba(240,185,85,.22)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <!-- Ring marks -->
+      <path d="M338,490 Q320,484 308,490" stroke="#1c0e04" stroke-width="1.8" fill="none" opacity=".65"/>
+      <path d="M334,472 Q316,466 304,472" stroke="#1c0e04" stroke-width="1.7" fill="none" opacity=".62"/>
+      <path d="M330,454 Q312,448 300,454" stroke="#1c0e04" stroke-width="1.7" fill="none" opacity=".6"/>
+      <path d="M326,436 Q308,430 296,436" stroke="#1c0e04" stroke-width="1.6" fill="none" opacity=".57"/>
+      <path d="M320,416 Q302,410 290,416" stroke="#1c0e04" stroke-width="1.6" fill="none" opacity=".55"/>
+      <path d="M314,396 Q296,390 284,396" stroke="#1c0e04" stroke-width="1.5" fill="none" opacity=".52"/>
+      <path d="M306,374 Q288,368 276,374" stroke="#1c0e04" stroke-width="1.5" fill="none" opacity=".5"/>
+      <path d="M298,350 Q280,344 268,350" stroke="#1c0e04" stroke-width="1.4" fill="none" opacity=".47"/>
+      <path d="M288,326 Q270,320 258,326" stroke="#1c0e04" stroke-width="1.4" fill="none" opacity=".45"/>
+      <path d="M278,300 Q260,294 248,300" stroke="#1c0e04" stroke-width="1.3" fill="none" opacity=".42"/>
+      <path d="M266,274 Q248,268 236,274" stroke="#1c0e04" stroke-width="1.3" fill="none" opacity=".4"/>
+      <path d="M254,248 Q236,242 224,248" stroke="#1c0e04" stroke-width="1.2" fill="none" opacity=".37"/>
+      <path d="M242,222 Q224,216 212,222" stroke="#1c0e04" stroke-width="1.2" fill="none" opacity=".35"/>
+      <path d="M230,196 Q212,190 200,196" stroke="#1c0e04" stroke-width="1.1" fill="none" opacity=".32"/>
+      <path d="M218,170 Q202,164 192,170" stroke="#1c0e04" stroke-width="1.1" fill="none" opacity=".3"/>
+      <path d="M208,144 Q194,138 186,144" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".27"/>
+      <path d="M200,118 Q186,112 180,118" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".25"/>
+      <path d="M194,92 Q182,86 178,92" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".22"/>
+      <path d="M190,66 Q180,60 178,66" stroke="#1c0e04" stroke-width="1" fill="none" opacity=".2"/>
+      <!-- ══ FRONDS — Crown at (186, 58) ══ -->
+      <!-- FROND 1: far left sweep (mirror of right tree's right) -->
+      <path d="M186,58 C130,24 62,6 -10,4 C-2,20 66,30 124,62Z" fill="#1e8016" opacity=".92"/>
+      <path d="M186,58 C130,30 62,12 -10,8" stroke="#0e5a08" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M166,52 C152,36 140,26 126,18" stroke="#38b824" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M166,62 C156,76 150,90 146,104" stroke="#18720e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M138,42 C124,26 110,16 94,8" stroke="#32ac1e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M138,54 C128,68 122,82 120,96" stroke="#147010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M110,32 C96,18 80,10 62,4" stroke="#2ca01a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M110,46 C100,60 94,74 92,90" stroke="#106810" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M80,22 C66,12 50,4 32,0" stroke="#269618" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path d="M80,38 C70,52 66,66 64,82" stroke="#0e6210" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <!-- FROND 2: up-left arch -->
+      <path d="M186,58 C152,16 116,-20 80,-58 C84,-48 118,-12 154,24Z" fill="#228a1a" opacity=".9"/>
+      <path d="M186,58 C152,18 116,-18 80,-58" stroke="#0e5808" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M174,46 C160,28 148,14 134,0" stroke="#36b022" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M174,58 C156,62 142,66 126,68" stroke="#1a7210" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M154,30 C140,12 124,-4 110,-18" stroke="#30a41e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M154,44 C138,48 124,52 108,54" stroke="#167010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M132,14 C118,-4 104,-20 90,-34" stroke="#2a9c1c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M132,30 C118,34 104,38 88,40" stroke="#126810" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 3: straight up -->
+      <path d="M186,58 C192,18 196,-24 200,-92 C194,-82 186,-20 180,22Z" fill="#249020" opacity=".9"/>
+      <path d="M186,58 C192,18 196,-24 200,-92" stroke="#0e5808" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M182,42 C172,24 164,6 158,-14" stroke="#3ab226" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M190,42 C200,24 208,6 214,-14" stroke="#32a820" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M182,20 C172,2 164,-18 160,-40" stroke="#2e9e1e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M190,18 C200,0 208,-18 212,-40" stroke="#289a1c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M184,-4 C176,-24 170,-46 168,-68" stroke="#24921a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M192,-6 C202,-26 208,-48 210,-70" stroke="#229018" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 4: up-right arch -->
+      <path d="M186,58 C218,18 254,-16 298,-56 C294,-46 260,-10 224,28Z" fill="#228c1a" opacity=".9"/>
+      <path d="M186,58 C218,18 254,-16 298,-56" stroke="#0e5808" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M196,46 C212,28 228,12 244,-2" stroke="#38ae24" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M196,58 C214,62 230,66 248,64" stroke="#1a7210" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M214,30 C232,12 248,-4 264,-18" stroke="#32a81e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M216,44 C234,48 250,50 268,48" stroke="#167010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 5: far right sweep -->
+      <path d="M186,58 C238,28 306,12 374,16 C368,30 300,38 242,64Z" fill="#1e8016" opacity=".92"/>
+      <path d="M186,58 C238,28 306,12 374,16" stroke="#0e5808" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M208,52 C222,36 238,24 254,16" stroke="#38b622" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M208,62 C222,72 238,80 254,84" stroke="#187210" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M236,42 C252,26 270,16 288,10" stroke="#32ac1e" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M236,54 C252,64 268,72 286,76" stroke="#147010" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M266,32 C282,20 300,12 320,6" stroke="#2ca01a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M266,46 C282,56 298,64 316,68" stroke="#106810" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 6: right droop -->
+      <path d="M186,58 C222,78 284,116 352,172 C340,170 278,106 228,82Z" fill="#1a7812" opacity=".88"/>
+      <path d="M186,58 C222,78 284,116 352,172" stroke="#0a5208" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M204,62 C218,54 234,48 250,44" stroke="#2ea01c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M204,72 C218,86 230,102 240,116" stroke="#14680e" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M230,70 C246,62 264,56 280,52" stroke="#289418" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M230,82 C244,96 256,112 266,128" stroke="#106010" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 7: left droop -->
+      <path d="M186,58 C150,78 90,116 24,174 C36,170 96,104 148,80Z" fill="#1a7812" opacity=".88"/>
+      <path d="M186,58 C150,78 90,116 24,174" stroke="#0a5208" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M168,62 C152,54 136,48 120,44" stroke="#2ea01c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M168,74 C152,88 136,102 122,118" stroke="#14680e" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M144,70 C128,62 110,56 92,52" stroke="#289416" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M144,84 C128,98 110,114 94,130" stroke="#106010" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <!-- FROND 8: gentle center droop -->
+      <path d="M186,58 C184,88 182,118 180,170 C188,160 188,122 188,88Z" fill="#1c7c14" opacity=".85"/>
+      <path d="M186,58 C184,88 182,122 180,170" stroke="#0c5608" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M180,76 C170,92 160,110 150,128" stroke="#2e9c1c" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M188,78 C200,94 210,110 218,128" stroke="#289818" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+      <path d="M180,104 C170,122 160,140 152,160" stroke="#268e18" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M188,106 C200,124 208,142 212,162" stroke="#228a16" stroke-width="5" fill="none" stroke-linecap="round"/>
       <!-- Coconut cluster -->
-      <circle cx="228" cy="66" r="11" fill="#304e0e"/>
-      <circle cx="240" cy="62" r="10" fill="#3e6414"/>
-      <circle cx="218" cy="63" r="10" fill="#304e0e"/>
-      <circle cx="231" cy="54" r="9" fill="#4a7018"/>
-      <circle cx="244" cy="58" r="9" fill="#3a5e12"/>
-      <circle cx="241" cy="59" r="3" fill="rgba(255,255,255,.24)"/>
-      <circle cx="225" cy="60" r="2.5" fill="rgba(255,255,255,.2)"/>
+      <circle cx="184" cy="72" r="10" fill="#243808"/>
+      <circle cx="172" cy="66" r="9.5" fill="#2e4a0a"/>
+      <circle cx="196" cy="66" r="9" fill="#243808"/>
+      <circle cx="182" cy="58" r="9" fill="#344c0c"/>
+      <circle cx="196" cy="60" r="8.5" fill="#2e4408"/>
+      <circle cx="172" cy="60" r="8" fill="#243808"/>
+      <circle cx="172" cy="57" r="2.5" fill="rgba(255,255,255,.24)"/>
+      <circle cx="184" cy="55" r="2" fill="rgba(255,255,255,.2)"/>
+      <circle cx="196" cy="58" r="2" fill="rgba(255,255,255,.18)"/>
     </svg>
 
-    <!-- Bottom-left tropical foliage — lush, vibrant -->
-    <svg style="position:absolute;bottom:18%;left:0;width:28%;height:auto;pointer-events:none" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="80" cy="160" rx="80" ry="55" fill="#1a6010"/>
-      <ellipse cx="50" cy="142" rx="62" ry="46" fill="#237018"/>
-      <ellipse cx="112" cy="147" rx="66" ry="43" fill="#1a6010"/>
-      <ellipse cx="28" cy="122" rx="52" ry="40" fill="#2e8022"/>
-      <ellipse cx="92" cy="118" rx="58" ry="38" fill="#267020"/>
-      <!-- Large tropical leaf shapes -->
-      <path d="M18 132 C50 92 88 88 108 95" stroke="#1e6e14" stroke-width="14" fill="none" stroke-linecap="round"/>
-      <path d="M8 112 C42 68 82 66 98 74" stroke="#1a6010" stroke-width="12" fill="none" stroke-linecap="round"/>
-      <path d="M-2 90 C32 52 68 50 86 60" stroke="#268020" stroke-width="10" fill="none" stroke-linecap="round"/>
-      <!-- Leaf midrib highlights -->
-      <path d="M20 130 C42 110 60 106 74 108" stroke="#34902e" stroke-width="4" fill="none"/>
-      <path d="M10 110 C34 88 54 84 72 88" stroke="#34902e" stroke-width="4" fill="none"/>
-    </svg>
-
-    <!-- Bottom-right tropical foliage -->
-    <svg style="position:absolute;bottom:14%;right:0;width:22%;height:auto;pointer-events:none" viewBox="0 0 220 180" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="150" cy="142" rx="76" ry="50" fill="#0e5228"/>
-      <ellipse cx="120" cy="128" rx="66" ry="44" fill="#166030"/>
-      <ellipse cx="166" cy="124" rx="62" ry="40" fill="#0e5228"/>
-      <path d="M182 116 C142 76 106 80 88 88" stroke="#0e5228" stroke-width="12" fill="none" stroke-linecap="round"/>
-      <path d="M198 102 C154 60 114 64 96 74" stroke="#166030" stroke-width="10" fill="none" stroke-linecap="round"/>
-      <path d="M192 128 C156 92 124 96 108 106" stroke="#0e5228" stroke-width="10" fill="none" stroke-linecap="round"/>
-    </svg>
   </div>
 
   <!-- Subtle warm sun glow top-right -->
-  <div style="position:absolute;top:-10%;right:5%;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,240,160,.28) 0%,rgba(255,200,80,.1) 40%,transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;top:4%;right:5%;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(255,240,160,.28) 0%,rgba(255,200,80,.1) 40%,transparent 70%);pointer-events:none;"></div>
 
-  <!-- Sun — bright Dubai midday sun, top-right -->
-  <div style="position:absolute;top:5%;right:12%;pointer-events:none;z-index:1;">
+  <!-- Sun — lower in sky, top-right -->
+  <div style="position:absolute;top:16%;right:12%;pointer-events:none;z-index:1;">
     <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="sun-core" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fffde8"/>
-          <stop offset="28%" stop-color="#fff5a0"/>
-          <stop offset="60%" stop-color="#ffd940"/>
-          <stop offset="100%" stop-color="rgba(255,200,40,0)"/>
+          <stop offset="0%" stop-color="#fff8d8"/>
+          <stop offset="28%" stop-color="#ffe878"/>
+          <stop offset="60%" stop-color="#ffb820"/>
+          <stop offset="100%" stop-color="rgba(255,160,20,0)"/>
         </radialGradient>
         <radialGradient id="sun-halo" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="rgba(255,240,120,.22)"/>
-          <stop offset="100%" stop-color="rgba(255,180,40,0)"/>
+          <stop offset="0%" stop-color="rgba(255,220,80,.18)"/>
+          <stop offset="100%" stop-color="rgba(255,140,20,0)"/>
         </radialGradient>
       </defs>
       <!-- Outer halo -->
@@ -1272,6 +1384,98 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
     <div style="position:absolute;top:0;left:72%;width:45px;height:2px;border-radius:50%;background:rgba(255,255,255,.55);filter:blur(1px);animation:foamPulse 4s ease-in-out infinite 1.2s;"></div>
   </div>
 
+  <!-- ══ SAND DECORATIONS — starfish, shells, sparkles ══ -->
+  <svg style="position:absolute;bottom:0;left:0;right:0;width:100%;height:38%;pointer-events:none;z-index:3;overflow:visible" viewBox="0 0 800 300" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="sf-grad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ff8c42"/>
+        <stop offset="60%" stop-color="#e05a10"/>
+        <stop offset="100%" stop-color="#c03a00"/>
+      </radialGradient>
+      <radialGradient id="sf2-grad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ff6eb0"/>
+        <stop offset="60%" stop-color="#d43090"/>
+        <stop offset="100%" stop-color="#a01060"/>
+      </radialGradient>
+      <radialGradient id="shell-grad" cx="30%" cy="30%" r="60%">
+        <stop offset="0%" stop-color="#fff8e8"/>
+        <stop offset="50%" stop-color="#f5d080"/>
+        <stop offset="100%" stop-color="#c8902a"/>
+      </radialGradient>
+      <radialGradient id="shell2-grad" cx="30%" cy="30%" r="60%">
+        <stop offset="0%" stop-color="#ffe8f8"/>
+        <stop offset="50%" stop-color="#e8a0c8"/>
+        <stop offset="100%" stop-color="#b05080"/>
+      </radialGradient>
+      <filter id="shell-glow">
+        <feGaussianBlur stdDeviation="2" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+
+    <!-- Spiral shell 1 — cream/gold, center-left -->
+    <g transform="translate(290,240)" filter="url(#shell-glow)">
+      <ellipse cx="0" cy="0" rx="13" ry="10" fill="url(#shell-grad)" opacity="0.95"/>
+      <path d="M-8,0 C-6,-5 0,-7 6,-4 C10,-1 10,4 6,7 C2,9 -4,8 -7,4 C-9,0 -7,-4 -3,-6 C1,-8 6,-6 7,-2" stroke="rgba(160,100,20,.5)" stroke-width="1.2" fill="none"/>
+      <ellipse cx="0" cy="-1" rx="4" ry="3" fill="rgba(255,255,255,.35)"/>
+    </g>
+
+    <!-- Spiral shell 2 — pink, right area -->
+    <g transform="translate(520,232)">
+      <ellipse cx="0" cy="0" rx="11" ry="8.5" fill="url(#shell2-grad)" opacity="0.92"/>
+      <path d="M-6,0 C-5,-4 0,-6 5,-3 C8,-1 8,3 5,6 C2,7 -3,6 -5,3 C-7,0 -5,-3 -2,-5 C1,-6 5,-5 6,-1" stroke="rgba(140,60,100,.45)" stroke-width="1.2" fill="none"/>
+      <ellipse cx="0" cy="-1" rx="3.5" ry="2.5" fill="rgba(255,255,255,.3)"/>
+    </g>
+
+    <!-- Small conch shell — far left -->
+    <g transform="translate(60,265) rotate(30)">
+      <ellipse cx="0" cy="0" rx="9" ry="6" fill="#f5d080" opacity="0.88"/>
+      <ellipse cx="3" cy="-1" rx="4" ry="2.5" fill="#ffe8a0" opacity="0.7"/>
+      <path d="M-7,2 C-4,-2 2,-3 6,0" stroke="#c8902a" stroke-width="1" fill="none" opacity=".5"/>
+    </g>
+
+    <!-- Tiny pebble shells scattered -->
+    <circle cx="195" cy="258" r="4" fill="#e8d0a0" opacity=".7"/>
+    <circle cx="200" cy="255" r="3" fill="#f0ddb0" opacity=".6"/>
+    <circle cx="420" cy="250" r="3.5" fill="#f5c8d0" opacity=".65"/>
+    <circle cx="415" cy="254" r="2.5" fill="#e8b8c0" opacity=".55"/>
+    <circle cx="700" cy="260" r="4" fill="#e8d8b8" opacity=".7"/>
+    <circle cx="706" cy="257" r="3" fill="#f0e0c0" opacity=".6"/>
+
+    <!-- Wet sand shimmer lines near water's edge -->
+    <path d="M0,80 Q200,72 400,78 Q600,84 800,76" stroke="rgba(255,255,255,.18)" stroke-width="2" fill="none"/>
+    <path d="M0,92 Q200,86 400,90 Q600,94 800,88" stroke="rgba(255,255,255,.12)" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <!-- ══ FANTASY SPARKLES — twinkling magic in the air ══ -->
+  <div id="magic-sparkles" style="position:absolute;inset:0;pointer-events:none;z-index:4;overflow:hidden;">
+    <svg width="100%" height="100%" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="spk" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fff8c0"/>
+          <stop offset="100%" stop-color="rgba(255,220,80,0)"/>
+        </radialGradient>
+      </defs>
+      <!-- Sparkle 1 -->
+      <g style="animation:spkTwinkle 3.2s ease-in-out infinite"><circle cx="120" cy="180" r="3.5" fill="url(#spk)"/><path d="M120,172 L120,188 M112,180 L128,180 M114,174 L126,186 M126,174 L114,186" stroke="rgba(255,240,140,.7)" stroke-width="1.2" stroke-linecap="round"/></g>
+      <!-- Sparkle 2 -->
+      <g style="animation:spkTwinkle 4s ease-in-out infinite .7s"><circle cx="660" cy="220" r="3" fill="url(#spk)"/><path d="M660,213 L660,227 M653,220 L667,220 M655,215 L665,225 M665,215 L655,225" stroke="rgba(255,220,100,.65)" stroke-width="1.1" stroke-linecap="round"/></g>
+      <!-- Sparkle 3 -->
+      <g style="animation:spkTwinkle 3.7s ease-in-out infinite 1.4s"><circle cx="380" cy="130" r="2.5" fill="url(#spk)"/><path d="M380,124 L380,136 M374,130 L386,130 M376,126 L384,134 M384,126 L376,134" stroke="rgba(255,255,180,.6)" stroke-width="1" stroke-linecap="round"/></g>
+      <!-- Sparkle 4 -->
+      <g style="animation:spkTwinkle 5s ease-in-out infinite 2.1s"><circle cx="720" cy="320" r="2.5" fill="url(#spk)"/><path d="M720,314 L720,326 M714,320 L726,320 M716,316 L724,324 M724,316 L716,324" stroke="rgba(200,240,255,.6)" stroke-width="1" stroke-linecap="round"/></g>
+      <!-- Sparkle 5 -->
+      <g style="animation:spkTwinkle 3.5s ease-in-out infinite .4s"><circle cx="80" cy="350" r="2" fill="url(#spk)"/><path d="M80,344 L80,356 M74,350 L86,350" stroke="rgba(255,200,120,.55)" stroke-width="1" stroke-linecap="round"/></g>
+      <!-- Sparkle 6 -->
+      <g style="animation:spkTwinkle 4.5s ease-in-out infinite 1.9s"><circle cx="500" cy="90" r="3" fill="url(#spk)"/><path d="M500,83 L500,97 M493,90 L507,90 M495,85 L505,95 M505,85 L495,95" stroke="rgba(255,240,160,.65)" stroke-width="1.1" stroke-linecap="round"/></g>
+    </svg>
+  </div>
+
+  <style>
+    @keyframes sfSway{0%,100%{transform:rotate(15deg) scale(1)}50%{transform:rotate(20deg) scale(1.06)}}
+    @keyframes spkTwinkle{0%,100%{opacity:0;transform:scale(.4)}40%,60%{opacity:1;transform:scale(1)}20%,80%{opacity:.3;transform:scale(.7)}}
+  </style>
+
   <div id="env-overlay"></div>
 </div>
 <div id="particles"></div>
@@ -1281,49 +1485,122 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);min-height:100vh;overf
 
 <!-- ═══════════════ SCREEN: MAIN MENU ═══════════════ -->
 <div class="screen active" id="screen-menu">
-  <div class="menu-logo-wrap">
-    <span class="menu-logo-icon">🗺️</span>
+  <div class="menu-sky-title">
     <div class="menu-title">TREASURE SUDOKU</div>
     <div class="menu-subtitle">The Lost Relics of Solara</div>
-  </div>
-  <div class="menu-runes">
-    <div class="rune" style="--rd:0s">☿</div>
-    <div class="rune" style="--rd:.5s">♆</div>
-    <div class="rune" style="--rd:1s">⚶</div>
-    <div class="rune" style="--rd:1.5s">♃</div>
-    <div class="rune" style="--rd:2s">☉</div>
   </div>
   <div class="menu-panel panel">
     <button class="menu-btn menu-btn-primary ghost-btn" id="menu-daily">
       <span class="mb-icon">📅</span>
       <span class="mb-text">
         <span class="mb-title">DAILY PUZZLE</span>
-        <span class="mb-sub">Draw artifacts · Place wisely · Earn glory · Leaderboard</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-battle ghost-btn" id="menu-puzzle">
-      <span class="mb-icon">🗿</span>
+      <span class="mb-icon"><svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;overflow:visible">
+        <defs>
+          <clipPath id="pz-c">
+            <path d="M11,11 L18,11 Q24,3 30,11 L37,11 L37,18 Q45,24 37,30 L37,37 L30,37 Q24,29 18,37 L11,37 L11,30 Q17,24 11,18 Z"/>
+          </clipPath>
+          <linearGradient id="pz-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f4e4a0"/>
+            <stop offset="100%" stop-color="#c8a040"/>
+          </linearGradient>
+        </defs>
+        <!-- Drop shadow -->
+        <path d="M11,11 L18,11 Q24,3 30,11 L37,11 L37,18 Q45,24 37,30 L37,37 L30,37 Q24,29 18,37 L11,37 L11,30 Q17,24 11,18 Z" fill="rgba(0,0,0,.38)" transform="translate(2,2)"/>
+        <!-- Piece base -->
+        <path d="M11,11 L18,11 Q24,3 30,11 L37,11 L37,18 Q45,24 37,30 L37,37 L30,37 Q24,29 18,37 L11,37 L11,30 Q17,24 11,18 Z" fill="url(#pz-bg)"/>
+        <!-- Inner map scene, clipped -->
+        <g clip-path="url(#pz-c)">
+          <rect x="11" y="11" width="26" height="26" fill="#e8d484"/>
+          <!-- Parchment texture lines -->
+          <path d="M13,17 Q20,16 27,18 Q33,19 37,17" stroke="rgba(120,70,10,.13)" stroke-width=".8" fill="none"/>
+          <path d="M13,23 Q19,22 25,24 Q31,25 37,23" stroke="rgba(120,70,10,.11)" stroke-width=".8" fill="none"/>
+          <path d="M13,29 Q20,28 26,30 Q32,31 37,29" stroke="rgba(120,70,10,.09)" stroke-width=".8" fill="none"/>
+          <!-- Ocean patch top-right -->
+          <path d="M27,11 L37,11 L37,23 Q33,21 27,22 Z" fill="rgba(28,110,175,.62)"/>
+          <path d="M28,15 Q32,13 37,15" stroke="rgba(120,210,245,.5)" stroke-width=".7" fill="none"/>
+          <path d="M28,18 Q32,17 37,18" stroke="rgba(120,210,245,.4)" stroke-width=".7" fill="none"/>
+          <!-- Tiny island -->
+          <ellipse cx="33" cy="20" rx="3.2" ry="1.9" fill="#d49a30"/>
+          <!-- Dotted trail -->
+          <path d="M15,35 Q17,30 20,27 Q23,24 25,21" stroke="#7a4808" stroke-width="1" fill="none" stroke-dasharray="1.4,1.9"/>
+          <!-- X marks the spot -->
+          <path d="M23,19 L27,23 M27,19 L23,23" stroke="#c81818" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- Compass rose -->
+          <circle cx="15" cy="33" r="3.5" fill="none" stroke="rgba(100,60,10,.36)" stroke-width=".7"/>
+          <path d="M15,29.5 L15,36.5 M11.5,33 L18.5,33" stroke="rgba(100,60,10,.38)" stroke-width=".7"/>
+          <path d="M15,29.5 L15,31.8" stroke="#c02020" stroke-width="1.3" stroke-linecap="round"/>
+        </g>
+        <!-- Piece border -->
+        <path d="M11,11 L18,11 Q24,3 30,11 L37,11 L37,18 Q45,24 37,30 L37,37 L30,37 Q24,29 18,37 L11,37 L11,30 Q17,24 11,18 Z" fill="none" stroke="#6a4010" stroke-width="2.4" stroke-linejoin="round"/>
+        <!-- Edge highlights top/left -->
+        <path d="M11,11 L18,11" stroke="rgba(255,245,170,.6)" stroke-width="1.3" fill="none"/>
+        <path d="M18,11 Q24,3 30,11" stroke="rgba(255,240,155,.5)" stroke-width="1.2" fill="none"/>
+        <path d="M11,18 Q17,24 11,30" stroke="rgba(255,238,150,.38)" stroke-width="1.1" fill="none"/>
+      </svg></span>
       <span class="mb-text">
         <span class="mb-title">PUZZLE MODE</span>
-        <span class="mb-sub">Classic artifact solving · 4 difficulties</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-vault ghost-btn" id="menu-vault">
-      <span class="mb-icon">💎</span>
+      <span class="mb-icon"><svg width="30" height="28" viewBox="0 0 48 42" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
+        <defs>
+          <linearGradient id="tcm-wood" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#a06030"/>
+            <stop offset="50%" stop-color="#6c3c18"/>
+            <stop offset="100%" stop-color="#4a2808"/>
+          </linearGradient>
+          <linearGradient id="tcm-lid" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#c07838"/>
+            <stop offset="100%" stop-color="#7a4820"/>
+          </linearGradient>
+          <linearGradient id="tcm-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffe060"/>
+            <stop offset="100%" stop-color="#c88820"/>
+          </linearGradient>
+          <radialGradient id="tcm-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,220,80,.5)"/>
+            <stop offset="100%" stop-color="rgba(255,160,0,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- Glow -->
+        <ellipse cx="24" cy="38" rx="18" ry="5" fill="url(#tcm-glow)"/>
+        <!-- Chest body -->
+        <rect x="4" y="22" width="40" height="18" rx="2" fill="url(#tcm-wood)"/>
+        <!-- Body gold band -->
+        <rect x="4" y="26" width="40" height="4" fill="url(#tcm-gold)" rx="0"/>
+        <!-- Body planks -->
+        <line x1="15" y1="22" x2="15" y2="40" stroke="rgba(0,0,0,.25)" stroke-width="1"/>
+        <line x1="33" y1="22" x2="33" y2="40" stroke="rgba(0,0,0,.25)" stroke-width="1"/>
+        <!-- Lid -->
+        <path d="M4,22 Q4,8 24,8 Q44,8 44,22 Z" fill="url(#tcm-lid)"/>
+        <!-- Lid top highlight -->
+        <path d="M8,18 Q16,10 32,10 Q40,14 42,18" stroke="rgba(220,160,80,.4)" stroke-width="1.5" fill="none"/>
+        <!-- Lid gold trim -->
+        <path d="M4,22 Q4,8 24,8 Q44,8 44,22" fill="none" stroke="url(#tcm-gold)" stroke-width="1.8"/>
+        <!-- Hinges -->
+        <rect x="10" y="20" width="5" height="4" rx="1" fill="url(#tcm-gold)"/>
+        <rect x="33" y="20" width="5" height="4" rx="1" fill="url(#tcm-gold)"/>
+        <!-- Latch -->
+        <rect x="19" y="25" width="10" height="7" rx="2" fill="url(#tcm-gold)"/>
+        <circle cx="24" cy="28" r="2.5" fill="#7a4808"/>
+        <circle cx="24" cy="28" r="1.2" fill="#ffd840"/>
+        <!-- Sparkle on lid -->
+        <path d="M24,13 L24.5,15 L26,15 L24.8,16 L25.3,18 L24,17 L22.7,18 L23.2,16 L22,15 L23.5,15 Z" fill="rgba(255,240,160,.8)" opacity=".9"/>
+      </svg></span>
       <span class="mb-text">
         <span class="mb-title">TREASURE VAULT</span>
-        <span class="mb-sub">Records · Artifact collection · Daily stats</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-settings ghost-btn" id="menu-settings">
       <span class="mb-icon">⚙️</span>
       <span class="mb-text">
         <span class="mb-title">SETTINGS</span>
-        <span class="mb-sub">Sound · Theme · Preferences</span>
       </span>
     </button>
   </div>
-  <div class="version-tag">Version 4.0 · Daily Edition</div>
 </div>
 
 <!-- ═══════════════ SCREEN: PUZZLE ═══════════════ -->
