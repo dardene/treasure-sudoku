@@ -430,7 +430,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 @keyframes wfu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .win-btn{padding:11px 28px;border-radius:12px;font-size:12px;animation:wfu .5s ease .9s both;}
 .coin-particle{position:fixed;border-radius:50%;pointer-events:none;z-index:400;animation:coinFall var(--cf-dur,1.5s) ease-in var(--cf-delay,0s) both;}
-@keyframes coinFall{0%{transform:translate(var(--cx,0),var(--cy,0)) rotate(0deg) scale(1);opacity:1}80%{opacity:1}100%{transform:translate(calc(var(--cx,0) + var(--cdx,0px)),calc(var(--cy,0) + 400px)) rotate(720deg) scale(.3);opacity:0}}
+@keyframes coinFall{0%{transform:translate(var(--cx,0),var(--cy,0)) rotate(0deg) scale(1);opacity:1}75%{opacity:1}100%{transform:translate(calc(var(--cx,0) + var(--cdx,0px)),calc(var(--cy,0) + 620px)) rotate(900deg) scale(.2);opacity:0}}
 
 /* ── WIN CHEST PHASE ── */
 #win-phase1{display:flex;flex-direction:column;align-items:center;text-align:center;}
@@ -702,7 +702,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   </div>
 
   <!-- Distant Island (back right of ocean) -->
-  <div style="position:absolute;bottom:44%;right:5%;z-index:1;pointer-events:none;opacity:0.85">
+  <div style="position:absolute;bottom:39%;right:8%;z-index:1;pointer-events:none;opacity:0.85">
     <svg width="110" height="64" viewBox="0 0 90 52" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="isle-sand" cx="48%" cy="60%" r="55%">
@@ -1215,7 +1215,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
     </svg>
 
     <!-- RIGHT foreground palm — leans slightly inward -->
-    <svg style="position:absolute;bottom:17%;right:-1%;width:23%;height:auto;pointer-events:none;z-index:2" viewBox="0 -100 380 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
+    <svg style="position:absolute;bottom:17%;right:-1%;width:31%;height:auto;pointer-events:none;z-index:2" viewBox="0 -100 380 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
       <defs>
         <linearGradient id="trk-r" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#4a2a10"/>
@@ -2539,9 +2539,8 @@ function pzCheckWin(){
   _wp1.style.display='';_wp1.style.opacity='';_wp1.style.transition='';
   _wp2.classList.remove('show');_wp2.style.display='none';
   pzUpdateBest();spawnWinCoins();saveState();
-  setTimeout(()=>spawnWinCoins(),1400);
-  setTimeout(()=>spawnWinCoins(),2800);
-  setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),900);
+  setTimeout(()=>spawnWinCoins(),1600);
+  setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),3800);
 }
 
 /* ══════════════════════════════════════════════════════
