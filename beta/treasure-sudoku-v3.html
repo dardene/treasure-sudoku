@@ -432,6 +432,21 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .coin-particle{position:fixed;border-radius:50%;pointer-events:none;z-index:400;animation:coinFall var(--cf-dur,1.5s) ease-in var(--cf-delay,0s) both;}
 @keyframes coinFall{0%{transform:translate(var(--cx,0),var(--cy,0)) rotate(0deg) scale(1);opacity:1}80%{opacity:1}100%{transform:translate(calc(var(--cx,0) + var(--cdx,0px)),calc(var(--cy,0) + 400px)) rotate(720deg) scale(.3);opacity:0}}
 
+/* ── WIN CHEST PHASE ── */
+#win-phase1{display:flex;flex-direction:column;align-items:center;text-align:center;}
+#win-chest-wrap{cursor:pointer;filter:drop-shadow(0 0 30px rgba(255,200,50,.65));animation:wChestPop .65s cubic-bezier(.34,1.56,.64,1) .15s both,wChestWiggle 2.2s ease-in-out 1.6s infinite;}
+#win-chest-wrap:hover{filter:drop-shadow(0 0 48px rgba(255,228,80,.92))!important;}
+@keyframes wChestPop{from{transform:scale(0) rotate(-8deg);opacity:0}65%{transform:scale(1.12) rotate(2deg)}to{transform:scale(1) rotate(0deg);opacity:1}}
+@keyframes wChestWiggle{0%,100%{transform:rotate(0deg) translateY(0)}25%{transform:rotate(-2.5deg) translateY(-3px)}75%{transform:rotate(2.5deg) translateY(-3px)}}
+.win-lid-group{transform-origin:50% 100%;transform-box:fill-box;transition:transform .58s cubic-bezier(.34,1.56,.64,1);}
+#win-chest-wrap.opened .win-lid-group{transform:rotate(-118deg);}
+#wc-inner-glow{opacity:0;transition:opacity .45s .15s;}
+#win-chest-wrap.opened #wc-inner-glow{opacity:1;}
+#win-tap-hint{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.3em;color:var(--gold);margin-top:22px;animation:tapPulse 1.5s ease-in-out infinite;}
+@keyframes tapPulse{0%,100%{opacity:.45;transform:scale(.97)}50%{opacity:1;transform:scale(1.04)}}
+#win-phase2{display:none;}
+#win-phase2.show{display:block;animation:wfu .4s ease both;}
+
 /* ══════════════ BATTLE MODE ══════════════ */
 
 .battle-layout{width:100%;max-width:660px;display:flex;flex-direction:column;align-items:center;gap:6px;}
@@ -1760,7 +1775,79 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
 <!-- ═══════════════ WIN OVERLAY (Puzzle) ═══════════════ -->
 <div id="win-overlay">
-  <div class="win-panel">
+
+  <!-- ── Phase 1: Treasure chest to tap ── -->
+  <div id="win-phase1">
+    <div id="win-chest-wrap">
+      <svg width="178" height="162" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+        <defs>
+          <linearGradient id="wcw" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7a4820"/><stop offset="45%" stop-color="#5c3410"/><stop offset="100%" stop-color="#3e2008"/></linearGradient>
+          <linearGradient id="wcl" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8c5428"/><stop offset="100%" stop-color="#5a3010"/></linearGradient>
+          <linearGradient id="wcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="30%" stop-color="#f8d840"/><stop offset="70%" stop-color="#e0a820"/><stop offset="100%" stop-color="#c48010"/></linearGradient>
+          <radialGradient id="wci" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="rgba(255,225,90,.95)"/><stop offset="55%" stop-color="rgba(255,165,25,.6)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient>
+          <radialGradient id="wcc" cx="50%" cy="38%" r="58%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="50%" stop-color="#e8c030"/><stop offset="100%" stop-color="#a07008"/></radialGradient>
+        </defs>
+        <!-- Shadow -->
+        <ellipse cx="100" cy="180" rx="84" ry="8" fill="rgba(0,0,0,.38)"/>
+        <!-- Inner glow (shows on open) -->
+        <ellipse id="wc-inner-glow" cx="100" cy="100" rx="78" ry="46" fill="url(#wci)"/>
+        <!-- ── Body ── -->
+        <rect x="8" y="100" width="184" height="76" rx="9" fill="url(#wcw)"/>
+        <rect x="8" y="100" width="184" height="76" rx="9" fill="none" stroke="#2a1404" stroke-width="2.5"/>
+        <line x1="38" y1="100" x2="38" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
+        <line x1="68" y1="100" x2="68" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
+        <line x1="132" y1="100" x2="132" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
+        <line x1="162" y1="100" x2="162" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
+        <line x1="8" y1="127" x2="192" y2="127" stroke="#3a1c08" stroke-width="1" opacity=".28"/>
+        <line x1="8" y1="153" x2="192" y2="153" stroke="#3a1c08" stroke-width="1" opacity=".28"/>
+        <!-- Gold band 1 -->
+        <rect x="6" y="118" width="188" height="9" rx="2.5" fill="url(#wcg)"/>
+        <circle cx="36" cy="122.5" r="4.2" fill="#d82090"/><circle cx="36" cy="122.5" r="2" fill="rgba(255,140,215,.7)"/>
+        <circle cx="76" cy="122.5" r="4.2" fill="#20a8d8"/><circle cx="76" cy="122.5" r="2" fill="rgba(140,225,255,.7)"/>
+        <circle cx="124" cy="122.5" r="4.2" fill="#28cc68"/><circle cx="124" cy="122.5" r="2" fill="rgba(140,255,195,.7)"/>
+        <circle cx="164" cy="122.5" r="4.2" fill="#d84820"/><circle cx="164" cy="122.5" r="2" fill="rgba(255,165,125,.7)"/>
+        <!-- Gold band 2 -->
+        <rect x="6" y="145" width="188" height="8" rx="2.5" fill="url(#wcg)"/>
+        <circle cx="54" cy="149" r="3.8" fill="#9820d8"/><circle cx="54" cy="149" r="1.9" fill="rgba(205,145,255,.7)"/>
+        <circle cx="100" cy="149" r="3.8" fill="#e8c030"/><circle cx="100" cy="149" r="1.9" fill="rgba(255,242,155,.75)"/>
+        <circle cx="146" cy="149" r="3.8" fill="#20d8a8"/><circle cx="146" cy="149" r="1.9" fill="rgba(140,255,225,.7)"/>
+        <!-- Foot studs -->
+        <circle cx="26" cy="170" r="5.5" fill="url(#wcg)" stroke="#8a5a08" stroke-width="1.2"/>
+        <circle cx="174" cy="170" r="5.5" fill="url(#wcg)" stroke="#8a5a08" stroke-width="1.2"/>
+        <!-- Clasp -->
+        <rect x="84" y="93" width="32" height="22" rx="6" fill="url(#wcg)" stroke="#7a5008" stroke-width="1.8"/>
+        <rect x="88" y="97" width="24" height="14" rx="3.5" fill="rgba(120,76,0,.55)"/>
+        <circle cx="100" cy="104" r="5" fill="url(#wcc)" stroke="#7a5008" stroke-width="1.2"/>
+        <circle cx="100" cy="104" r="2.2" fill="rgba(255,248,180,.72)"/>
+        <!-- ── Lid group (animates open) ── -->
+        <g class="win-lid-group">
+          <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="url(#wcl)"/>
+          <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="none" stroke="#2a1404" stroke-width="2.5"/>
+          <path d="M16 100 Q16 52 100 48 Q184 52 184 100Z" fill="#1e0c04"/>
+          <line x1="44" y1="96" x2="58" y2="53" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
+          <line x1="70" y1="99" x2="78" y2="51" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
+          <line x1="130" y1="99" x2="122" y2="51" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
+          <line x1="156" y1="96" x2="142" y2="53" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
+          <!-- Lid gold arch band -->
+          <path d="M8 78 Q8 44 100 38 Q192 44 192 78" fill="none" stroke="url(#wcg)" stroke-width="9" stroke-linecap="round"/>
+          <!-- Filigree -->
+          <path d="M30 74 Q58 54 100 50 Q142 54 170 74" fill="none" stroke="rgba(255,220,80,.38)" stroke-width="2"/>
+          <path d="M52 89 Q70 71 100 67 Q130 71 148 89" fill="none" stroke="rgba(255,220,80,.26)" stroke-width="1.5"/>
+          <!-- Center star emblem -->
+          <circle cx="100" cy="68" r="10" fill="url(#wcg)" stroke="rgba(160,110,0,.5)" stroke-width="1.3"/>
+          <path d="M100 60 L102.4 66.2 L109 66.2 L103.8 70 L105.8 76.2 L100 72.5 L94.2 76.2 L96.2 70 L91 66.2 L97.6 66.2Z" fill="#2a1404"/>
+          <circle cx="100" cy="68" r="3.4" fill="rgba(255,250,180,.52)"/>
+          <!-- Corner scrollwork -->
+          <path d="M22 96 Q19 87 26 80 Q33 74 37 79" fill="none" stroke="rgba(255,200,50,.42)" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M178 96 Q181 87 174 80 Q167 74 163 79" fill="none" stroke="rgba(255,200,50,.42)" stroke-width="2.2" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+    <div id="win-tap-hint">✦ TAP TO OPEN ✦</div>
+  </div>
+
+  <!-- ── Phase 2: Treasure Found reveal ── -->
+  <div id="win-phase2" class="win-panel">
     <div class="win-chest">🏆</div>
     <div class="win-title">TREASURE FOUND!</div>
     <div class="win-sub">The ancient relics have been restored.</div>
@@ -1769,6 +1856,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
     <button class="gold-btn win-btn" id="win-play-again" style="padding:11px 28px;font-size:12px;">⚔ Play Again ⚔</button>
     <div style="margin-top:10px;"><button class="ghost-btn" id="win-menu" style="padding:8px 18px;font-size:10px;">← Main Menu</button></div>
   </div>
+
 </div>
 
 <!-- ═══════════════ DAILY FAIL OVERLAY ═══════════════ -->
@@ -2285,12 +2373,13 @@ function floatText(x,y,text){
 function spawnWinCoins(){
   if(!SETTINGS.particles)return;
   const pc=document.getElementById('particles');
-  for(let i=0;i<50;i++){
+  for(let i=0;i<72;i++){
     const c=document.createElement('div');c.className='coin-particle';
     const val=Math.ceil(Math.random()*9);c.innerHTML=ARTIFACTS.svg(val);
-    const x=(Math.random()-.5)*window.innerWidth*.9,y=-window.innerHeight*.3-Math.random()*100;
-    c.style.cssText=`left:${window.innerWidth/2-8}px;top:${window.innerHeight/2}px;width:20px;height:20px;--cx:${x}px;--cy:${y}px;--cdx:${(Math.random()-.5)*100}px;--cf-dur:${1.2+Math.random()*1.5}s;--cf-delay:${i*.04}s;`;
-    pc.appendChild(c);setTimeout(()=>c.remove(),(1.2+i*.04+1.5)*1000);
+    const x=(Math.random()-.5)*window.innerWidth*.95,y=-window.innerHeight*.42-Math.random()*140;
+    const dur=1.8+Math.random()*2.5,delay=i*.055;
+    c.style.cssText=`left:${window.innerWidth/2-8}px;top:${window.innerHeight/2}px;width:20px;height:20px;--cx:${x}px;--cy:${y}px;--cdx:${(Math.random()-.5)*130}px;--cf-dur:${dur}s;--cf-delay:${delay}s;`;
+    pc.appendChild(c);setTimeout(()=>c.remove(),(dur+delay+0.5)*1000);
   }
 }
 
@@ -2441,8 +2530,18 @@ function pzCheckWin(){
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
   else document.getElementById('win-best-val').textContent=`Best: ${fmtTime(prev.time)}`;
   document.getElementById('win-time-val').textContent=fmtTime(t);
+  // Reset chest to closed state for this win
+  const _wc=document.getElementById('win-chest-wrap');
+  const _wp1=document.getElementById('win-phase1');
+  const _wp2=document.getElementById('win-phase2');
+  _wc.classList.remove('opened');
+  _wc.style.animation='none';_wc.offsetHeight;_wc.style.animation='';
+  _wp1.style.display='';_wp1.style.opacity='';_wp1.style.transition='';
+  _wp2.classList.remove('show');_wp2.style.display='none';
   pzUpdateBest();spawnWinCoins();saveState();
-  setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),400);
+  setTimeout(()=>spawnWinCoins(),1400);
+  setTimeout(()=>spawnWinCoins(),2800);
+  setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),900);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -3249,6 +3348,27 @@ document.getElementById('dp-leaderboard-btn').addEventListener('click',openLeade
 // Win overlays
 document.getElementById('win-play-again').addEventListener('click',()=>{document.getElementById('win-overlay').classList.remove('show');pzStart(PZ.diff);});
 document.getElementById('win-menu').addEventListener('click',()=>{clearInterval(PZ.timerInterval);document.getElementById('win-overlay').classList.remove('show');showScreen('screen-menu');});
+
+// Win chest tap — open lid then reveal results
+document.getElementById('win-chest-wrap').addEventListener('click',function(){
+  if(this.classList.contains('opened'))return;
+  this.classList.add('opened');
+  // Burst particles from chest center
+  const r=this.getBoundingClientRect();
+  spawnParticles(r.left+r.width/2,r.top+r.height*.45,9);
+  setTimeout(()=>spawnParticles(r.left+r.width/2,r.top+r.height*.3,6),180);
+  // After lid swings open, fade out phase1 and reveal phase2
+  const p1=document.getElementById('win-phase1');
+  const p2=document.getElementById('win-phase2');
+  setTimeout(()=>{
+    p1.style.transition='opacity .3s';p1.style.opacity='0';
+    setTimeout(()=>{
+      p1.style.display='none';
+      p2.style.display='block';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>p2.classList.add('show')));
+    },300);
+  },520);
+});
 
 // Daily fail overlay
 document.getElementById('df-menu').addEventListener('click',()=>{document.getElementById('daily-fail-overlay').style.display='none';showScreen('screen-menu');});
