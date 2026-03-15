@@ -2225,18 +2225,10 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .mapv-title{font-size:17px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:2px;flex-shrink:0;}
 .mapv-sub{font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:12px;flex-shrink:0;text-align:center;}
 .mapv-grid-wrap{flex-shrink:0;margin-bottom:10px;}
-.mapv-parchment{background:linear-gradient(145deg,#c8a040,#d4b55a,#b88a32,#c8a040);border-radius:10px;border:3px solid #7a4a0a;box-shadow:0 0 28px rgba(100,60,10,.7),inset 0 1px 0 rgba(255,240,160,.3);padding:5px;position:relative;overflow:hidden;}
+.mapv-parchment{background:linear-gradient(145deg,#c8a040,#d4b55a,#b88a32,#c8a040);border-radius:10px;border:3px solid #7a4a0a;box-shadow:0 0 28px rgba(100,60,10,.7),inset 0 1px 0 rgba(255,240,160,.3);padding:5px;position:relative;overflow:visible;}
 .mapv-parchment::before{content:'';position:absolute;inset:8px;border:1px dashed rgba(100,60,10,.3);border-radius:5px;pointer-events:none;z-index:10;}
-.mapv-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;width:min(330px,88vw);overflow:visible;}
-.mapv-slot{aspect-ratio:1;cursor:pointer;overflow:visible;position:relative;transition:filter .18s;background-color:rgba(70,35,5,.25);}
-.mapv-slot:hover{filter:brightness(1.18);}
-.mapv-slot.has-piece{}
-.mapv-slot.selected-target{filter:brightness(1.25) drop-shadow(0 0 6px rgba(245,200,66,.8));}
-.mapv-slot.wrong-shake{animation:mapShake .38s ease;}
-.mapv-slot.x-slot{}
-.mapv-slot.x-revealed{animation:xSlotPulse 1.1s ease-in-out infinite;cursor:pointer;}
-.mapv-slot-overlay{position:absolute;inset:0;background:rgba(6,3,0,.76);pointer-events:none;z-index:1;}
-.mapv-slot-bg{position:absolute;pointer-events:none;image-rendering:crisp-edges;}
+.mapv-grid{width:min(340px,90vw);margin:0 auto;}
+.mapv-grid svg{overflow:visible;}
 @keyframes mapShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 @keyframes xSlotPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(255,50,50,.7))}50%{filter:drop-shadow(0 0 18px rgba(255,60,60,1)) drop-shadow(0 0 32px rgba(220,20,20,.5))}}
 .mapv-tray-label{font-size:8px;letter-spacing:.22em;color:var(--stone-light);font-family:'Crimson Pro',serif;text-transform:uppercase;margin-bottom:6px;text-align:center;flex-shrink:0;}
@@ -4255,6 +4247,21 @@ function injectJigsawDefs(){
   document.body.appendChild(svg);
 }
 
+// Build jigsaw path in SVG user-space coordinates.
+// col/row = grid position (0-based), csize = cell size in SVG px, edges = PIECE_EDGES[id]
+// Tabs protrude outside the cell; sockets cut inward. Order 1-15 ensures later pieces
+// (higher z) show tabs through the sockets of earlier pieces.
+function jigsawPathSVG(col,row,csize,edges){
+  const x0=col*csize,y0=row*csize,W=csize,H=csize;
+  function norm(e){return typeof e==='string'?{t:e,p:.5,d:.22,hw:.20}:{t:e.t||'f',p:e.p||.5,d:e.d||.22,hw:e.hw||.20};}
+  const te=norm(edges.T),re=norm(edges.R),be=norm(edges.B),le=norm(edges.L);
+  function tEdge(e){if(e.t==='f')return`L${x0+W} ${y0}`;const[xs,xm,xn,yt]=[x0+(e.p-e.hw)*W,x0+e.p*W,x0+(e.p+e.hw)*W,e.t==='o'?y0-e.d*H:y0+e.d*H];return`L${xs} ${y0} Q${xs} ${yt} ${xm} ${yt} Q${xn} ${yt} ${xn} ${y0} L${x0+W} ${y0}`;}
+  function rEdge(e){if(e.t==='f')return`L${x0+W} ${y0+H}`;const[ys,ym,yn,xr]=[y0+(e.p-e.hw)*H,y0+e.p*H,y0+(e.p+e.hw)*H,e.t==='o'?x0+W+e.d*W:x0+W-e.d*W];return`L${x0+W} ${ys} Q${xr} ${ys} ${xr} ${ym} Q${xr} ${yn} ${x0+W} ${yn} L${x0+W} ${y0+H}`;}
+  function bEdge(e){if(e.t==='f')return`L${x0} ${y0+H}`;const[xn,xm,xs,yb]=[x0+(e.p+e.hw)*W,x0+e.p*W,x0+(e.p-e.hw)*W,e.t==='o'?y0+H+e.d*H:y0+H-e.d*H];return`L${xn} ${y0+H} Q${xn} ${yb} ${xm} ${yb} Q${xs} ${yb} ${xs} ${y0+H} L${x0} ${y0+H}`;}
+  function lEdge(e){if(e.t==='f')return`L${x0} ${y0}`;const[yn,ym,ys,xl]=[y0+(e.p+e.hw)*H,y0+e.p*H,y0+(e.p-e.hw)*H,e.t==='o'?x0-e.d*W:x0+e.d*W];return`L${x0} ${yn} Q${xl} ${yn} ${xl} ${ym} Q${xl} ${ys} ${x0} ${ys} L${x0} ${y0}`;}
+  return`M${x0} ${y0}${tEdge(te)}${rEdge(re)}${bEdge(be)}${lEdge(le)}Z`;
+}
+
 // Piece labels for tooltips (indexed 1-15, row-major in 5×3 grid)
 const MAP_PIECE_LABELS=[null,
   'Compass Rose','Rocky Coast','Pirate Ship','Sea Serpent','Cliff Shores',
@@ -4609,82 +4616,89 @@ function mapCyclePiecesEarned(){
 
 function renderMapPuzzle(){
   MAP_SELECTED_PIECE=null;
-  injectJigsawDefs();
   const earned=mapCyclePiecesEarned();
   const placed=new Set(GAME_STATS.placedMapPieces||[]);
   const allPlaced=(placed.size===15);
-
-  // Map is 500×300 matching a 5-col × 3-row square-cell grid
-  // Each slot shows 1/5 width × 1/3 height of the full map
   const COLS=5,ROWS=3;
+  // SVG cell size — all 15 pieces rendered in one <svg> so tabs protrude over sockets
+  const CS=64, SVG_W=COLS*CS, SVG_H=ROWS*CS;
 
-  const grid=document.getElementById('mapv-grid');
-  grid.innerHTML='';
+  // --- Puzzle grid: single SVG element ---
+  const container=document.getElementById('mapv-grid');
+  container.innerHTML='';
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('viewBox',`0 0 ${SVG_W} ${SVG_H}`);
+  svg.setAttribute('width','100%');
+  svg.setAttribute('height','auto');
+  svg.id='mapv-svg';
+  svg.style.cssText='display:block;overflow:visible;';
 
+  // Defs: one clipPath per piece in SVG user-space coordinates
+  const svgDefs=document.createElementNS('http://www.w3.org/2000/svg','defs');
   for(let id=1;id<=15;id++){
-    const col=(id-1)%COLS;
-    const row=Math.floor((id-1)/COLS);
-    const ed=PIECE_EDGES[id];
-
-    const slot=document.createElement('div');
-    slot.className='mapv-slot'+(id===15?' x-slot':'');
-    slot.dataset.slotId=id;
-    slot.style.clipPath=`url(#jcp_${id})`;
-    const hasOut=[ed.T,ed.R,ed.B,ed.L].some(e=>(e.t||e)==='o');
-    slot.style.zIndex=hasOut?'2':'1';
-    if(placed.has(id)){
-      slot.classList.add('has-piece');
-      if(id===15&&allPlaced)slot.classList.add('x-revealed');
-    }
-
-    // Full treasure map image — sized 500%×300% and offset to show this piece's region
-    // The img must extend beyond the slot bounds so jigsaw tabs show map content
-    const img=document.createElement('img');
-    img.className='mapv-slot-bg';
-    img.src=TREASURE_MAP_URI;
-    img.style.width=`${COLS*100}%`;
-    img.style.height=`${ROWS*100}%`;
-    img.style.left=`${-col*100}%`;
-    img.style.top=`${-row*100}%`;
-    img.draggable=false;
-    slot.appendChild(img);
-
-    // Dark overlay on unplaced/unearned slots (faint map hint)
-    if(!placed.has(id)){
-      const ov=document.createElement('div');
-      ov.className='mapv-slot-overlay';
-      slot.appendChild(ov);
-    }
-
-    slot.addEventListener('click',()=>mapPlaceOnSlot(id));
-    if(id===15&&allPlaced){
-      slot.addEventListener('click',mapRevealChest,{once:true});
-    }
-    grid.appendChild(slot);
+    const col=(id-1)%COLS,row=Math.floor((id-1)/COLS);
+    const cp=document.createElementNS('http://www.w3.org/2000/svg','clipPath');
+    cp.id=`mcp_${id}`;
+    const pe=document.createElementNS('http://www.w3.org/2000/svg','path');
+    pe.setAttribute('d',jigsawPathSVG(col,row,CS,PIECE_EDGES[id]));
+    cp.appendChild(pe);
+    svgDefs.appendChild(cp);
   }
+  svg.appendChild(svgDefs);
 
-  // Render tray — scrambled, showing map thumbnail per piece
+  // Render pieces 1→15. Each piece is a <g clip-path="url(#mcp_N)"> containing the
+  // full-size map <image>. Later elements are higher in SVG z-order, so each piece's
+  // tabs (protruding into already-rendered neighbors) show through those neighbors' sockets.
+  for(let id=1;id<=15;id++){
+    const isPlaced=placed.has(id);
+    const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('clip-path',`url(#mcp_${id})`);
+    g.dataset.slotId=id;
+    g.style.cursor='pointer';
+
+    // Full map image — clip-path reveals only this piece's jigsaw shape
+    const img=document.createElementNS('http://www.w3.org/2000/svg','image');
+    img.setAttribute('href',TREASURE_MAP_URI);
+    img.setAttribute('x','0');img.setAttribute('y','0');
+    img.setAttribute('width',SVG_W);img.setAttribute('height',SVG_H);
+    img.setAttribute('preserveAspectRatio','none');
+    g.appendChild(img);
+
+    // Dark overlay for unplaced pieces
+    if(!isPlaced){
+      const ov=document.createElementNS('http://www.w3.org/2000/svg','rect');
+      ov.setAttribute('x','0');ov.setAttribute('y','0');
+      ov.setAttribute('width',SVG_W);ov.setAttribute('height',SVG_H);
+      ov.setAttribute('fill','rgba(4,2,0,.82)');
+      g.appendChild(ov);
+    }
+
+    // X-piece glow when complete
+    if(id===15&&allPlaced){
+      g.style.filter='drop-shadow(0 0 10px rgba(255,50,50,.9))';
+      g.addEventListener('click',mapRevealChest,{once:true});
+    } else {
+      g.addEventListener('click',()=>mapPlaceOnSlot(id));
+    }
+    svg.appendChild(g);
+  }
+  container.appendChild(svg);
+
+  // --- Tray: scrambled map thumbnails (CSS divs) ---
   const tray=document.getElementById('mapv-tray');
   tray.innerHTML='';
   const trayIds=[];
   for(let i=1;i<=15;i++)trayIds.push(i);
   let seed=((GAME_STATS.mapPieces||0)*7+13)%997;
-  for(let i=trayIds.length-1;i>0;i--){
-    seed=(seed*31+17)%997;
-    const j=seed%(i+1);
-    [trayIds[i],trayIds[j]]=[trayIds[j],trayIds[i]];
-  }
-  const T=52; // tray item px size
+  for(let i=trayIds.length-1;i>0;i--){seed=(seed*31+17)%997;const j=seed%(i+1);[trayIds[i],trayIds[j]]=[trayIds[j],trayIds[i]];}
+  const T=52;
   for(const id of trayIds){
-    const col=(id-1)%COLS;
-    const row=Math.floor((id-1)/COLS);
-    const isPlaced=placed.has(id);
-    const isEarned=id<=earned;
+    const col=(id-1)%COLS,row=Math.floor((id-1)/COLS);
+    const isPlaced=placed.has(id),isEarned=id<=earned;
     const item=document.createElement('div');
     item.className='mapv-piece'+(isPlaced?' placed':(!isEarned?' unearned':''));
     item.dataset.pieceId=id;
     item.title=MAP_PIECE_LABELS[id]||'';
-    // Thumbnail: show this piece's region of the map scaled to fit T×T
     const tImg=document.createElement('img');
     tImg.src=TREASURE_MAP_URI;
     tImg.style.cssText=`position:absolute;width:${T*COLS}px;height:${T*ROWS}px;left:${-col*T}px;top:${-row*T}px;pointer-events:none;`;
@@ -4695,29 +4709,29 @@ function renderMapPuzzle(){
   }
 
   const sub=document.getElementById('mapv-sub');
-  if(allPlaced){
-    sub.textContent='Map complete! Tap the ✕ to claim your reward!';
-  } else {
-    sub.textContent=`${placed.size} / 15 pieces placed — ${earned} earned`;
-  }
+  sub.textContent=allPlaced?'Map complete! Tap the ✕ to claim your reward!':`${placed.size} / 15 pieces placed — ${earned} earned`;
   const vBtn=document.getElementById('vault-map-btn');
   if(vBtn)vBtn.disabled=(earned===0);
 }
 
 function mapSelectPiece(id){
   const placed=new Set(GAME_STATS.placedMapPieces||[]);
-  if(placed.has(id))return; // already on map
+  if(placed.has(id))return;
   const earned=mapCyclePiecesEarned();
-  if(id>earned)return; // not yet earned
+  if(id>earned)return;
   MAP_SELECTED_PIECE=(MAP_SELECTED_PIECE===id)?null:id;
-  // Update tray visuals
+  // Tray visuals
   document.querySelectorAll('.mapv-piece').forEach(el=>{
     el.classList.toggle('selected',parseInt(el.dataset.pieceId)===MAP_SELECTED_PIECE);
   });
-  // Highlight matching slot
-  document.querySelectorAll('.mapv-slot').forEach(el=>{
+  // Highlight matching SVG slot group
+  const allPlaced=(placed.size===15);
+  document.querySelectorAll('#mapv-svg g[data-slot-id]').forEach(el=>{
     const sid=parseInt(el.dataset.slotId);
-    el.classList.toggle('selected-target',MAP_SELECTED_PIECE!==null&&sid===MAP_SELECTED_PIECE);
+    const isTarget=MAP_SELECTED_PIECE!==null&&sid===MAP_SELECTED_PIECE;
+    el.style.filter=isTarget
+      ?'drop-shadow(0 0 8px rgba(245,200,66,.95)) brightness(1.3)'
+      :(sid===15&&allPlaced?'drop-shadow(0 0 10px rgba(255,50,50,.9))':'');
   });
 }
 
@@ -4725,24 +4739,17 @@ function mapPlaceOnSlot(slotId){
   if(!MAP_SELECTED_PIECE)return;
   const placed=new Set(GAME_STATS.placedMapPieces||[]);
   if(placed.has(slotId)){MAP_SELECTED_PIECE=null;return;}
-
   if(MAP_SELECTED_PIECE===slotId){
-    // Correct placement!
     GAME_STATS.placedMapPieces.push(slotId);
     saveState();
     MAP_SELECTED_PIECE=null;
     const allDone=(GAME_STATS.placedMapPieces.length===15);
     renderMapPuzzle();
-    if(allDone){
-      setTimeout(mapRevealChest,800);
-    }
+    if(allDone)setTimeout(mapRevealChest,800);
   } else {
-    // Wrong slot — shake it
-    const targetSlot=document.querySelector(`.mapv-slot[data-slot-id="${slotId}"]`);
-    if(targetSlot){
-      targetSlot.classList.add('wrong-shake');
-      setTimeout(()=>targetSlot.classList.remove('wrong-shake'),420);
-    }
+    // Wrong slot — shake the SVG group
+    const g=document.querySelector(`#mapv-svg g[data-slot-id="${slotId}"]`);
+    if(g){g.style.animation='mapShake .38s ease';setTimeout(()=>{g.style.animation='';},420);}
     showToast("That piece doesn't fit here...",1200);
   }
 }
