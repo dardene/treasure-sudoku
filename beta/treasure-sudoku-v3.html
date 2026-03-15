@@ -517,21 +517,52 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
 /* ══════════════ TREASURE VAULT ══════════════ */
 #screen-vault{padding:14px;}
-.vault-panel{width:min(90vw,500px);padding:20px 24px;}
-.vault-title{font-size:18px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);text-align:center;margin-bottom:4px;letter-spacing:.15em;}
-.vault-sub{font-family:'Crimson Pro',serif;font-size:12px;color:var(--stone-light);text-align:center;letter-spacing:.2em;margin-bottom:18px;}
-.vault-section{margin-bottom:18px;}
-.vault-section-title{font-size:9px;letter-spacing:.25em;color:var(--stone-light);text-transform:uppercase;font-family:'Crimson Pro',serif;border-bottom:1px solid rgba(180,140,60,.2);padding-bottom:6px;margin-bottom:10px;}
+.vault-panel{
+  width:min(90vw,500px);padding:22px 20px;
+  background:linear-gradient(170deg,rgba(22,12,4,.97) 0%,rgba(14,8,2,.98) 60%,rgba(18,10,3,.97) 100%);
+  border:1px solid rgba(200,155,55,.45);
+  box-shadow:0 0 0 1px rgba(100,65,15,.3),0 0 40px rgba(200,150,40,.12),0 20px 60px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,240,160,.06);
+}
+.vault-panel::before{content:'◆';position:absolute;top:-1px;left:50%;transform:translateX(-50%) translateY(-50%);font-size:11px;color:var(--gold);background:rgba(14,8,2,.98);padding:0 10px;line-height:1;}
+.vault-title{font-size:18px;font-weight:900;color:var(--gold);text-shadow:0 0 24px var(--glow-gold),0 0 50px rgba(200,150,30,.3);text-align:center;margin-bottom:3px;letter-spacing:.15em;animation:vaultTitlePulse 3s ease-in-out infinite;}
+@keyframes vaultTitlePulse{0%,100%{text-shadow:0 0 20px var(--glow-gold),0 0 40px rgba(200,150,30,.25)}50%{text-shadow:0 0 32px rgba(255,220,80,.9),0 0 70px rgba(200,150,30,.45)}}
+.vault-sub{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(200,165,90,.7);text-align:center;letter-spacing:.22em;margin-bottom:6px;font-style:italic;}
+.vault-ornament{text-align:center;margin-bottom:16px;color:rgba(180,140,50,.5);font-size:10px;letter-spacing:.08em;}
+.vault-section{margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(180,140,60,.12);}
+.vault-section:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.vault-section-title{
+  font-size:9px;letter-spacing:.28em;color:rgba(220,175,80,.85);text-transform:uppercase;
+  font-family:'Crimson Pro',serif;margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.vault-section-title::before{content:'';flex:none;width:3px;height:14px;background:linear-gradient(180deg,var(--gold),rgba(180,120,20,.3));border-radius:2px;}
+.vault-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(180,140,60,.3),transparent);}
 .vault-records{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.vault-record{background:rgba(30,18,6,.8);border:1px solid rgba(160,110,40,.3);border-radius:10px;padding:10px 12px;text-align:center;}
-.vr-diff{font-size:8px;letter-spacing:.2em;color:var(--stone-light);font-family:'Crimson Pro',serif;text-transform:uppercase;}
-.vr-time{font-size:20px;font-weight:700;color:var(--gold);text-shadow:0 0 10px var(--glow-gold);}
-.vr-mistakes{font-size:8px;color:rgba(200,160,100,.6);font-family:'Crimson Pro',serif;margin-top:2px;}
-.vr-wins{font-size:9px;color:var(--stone-light);font-family:'Crimson Pro',serif;}
+.vault-record{
+  background:linear-gradient(145deg,rgba(36,20,6,.95),rgba(22,12,3,.95));
+  border:1px solid rgba(160,110,40,.28);border-radius:12px;padding:12px;text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,230,120,.04),0 2px 8px rgba(0,0,0,.4);
+  transition:border-color .2s,box-shadow .2s;position:relative;overflow:hidden;
+}
+.vault-record::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,150,40,.06),transparent 70%);pointer-events:none;}
+.vault-record.has-record{border-color:rgba(200,155,55,.5);box-shadow:inset 0 1px 0 rgba(255,230,120,.07),0 0 16px rgba(180,130,30,.18),0 2px 8px rgba(0,0,0,.4);}
+.vr-diff{font-size:8px;letter-spacing:.22em;color:rgba(180,145,75,.75);font-family:'Crimson Pro',serif;text-transform:uppercase;margin-bottom:4px;}
+.vr-time{font-size:22px;font-weight:700;color:var(--gold);text-shadow:0 0 12px var(--glow-gold);line-height:1;}
+.vr-time.no-record{font-size:18px;color:rgba(140,105,50,.45);text-shadow:none;}
+.vr-mistakes{font-size:8px;color:rgba(200,160,100,.6);font-family:'Crimson Pro',serif;margin-top:3px;}
+.vr-mistakes.perfect{color:rgba(100,220,140,.7);}
+.vr-wins{font-size:8px;color:rgba(160,130,70,.55);font-family:'Crimson Pro',serif;margin-top:2px;}
 .battle-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.bs-stat{background:rgba(30,18,6,.8);border:1px solid rgba(160,110,40,.3);border-radius:10px;padding:10px;text-align:center;}
-.bs-val{font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 10px var(--glow-gold);}
-.bs-label{font-size:7px;color:var(--stone-light);font-family:'Crimson Pro',serif;letter-spacing:.1em;text-transform:uppercase;}
+.bs-stat{
+  background:linear-gradient(145deg,rgba(36,20,6,.95),rgba(22,12,3,.95));
+  border:1px solid rgba(160,110,40,.3);border-radius:12px;padding:12px 8px;text-align:center;
+  box-shadow:inset 0 1px 0 rgba(255,230,120,.04),0 2px 8px rgba(0,0,0,.4);position:relative;overflow:hidden;
+}
+.bs-stat::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,150,40,.07),transparent 70%);pointer-events:none;}
+.bs-val{font-size:24px;font-weight:900;color:var(--gold);text-shadow:0 0 12px var(--glow-gold);line-height:1;margin-bottom:4px;}
+.bs-label{font-size:7px;color:rgba(170,135,65,.7);font-family:'Crimson Pro',serif;letter-spacing:.12em;text-transform:uppercase;}
+/* Map progress bar shimmer */
+@keyframes mapFillShimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.map-progress-fill{background:linear-gradient(90deg,#c8900a,#f5c842,#e8a820,#ffe880,#c8900a);background-size:200% 100%;animation:mapFillShimmer 2.5s linear infinite;}
 
 /* ══════════════ SETTINGS ══════════════ */
 #screen-settings{padding:14px;}
@@ -1723,6 +1754,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   <div class="vault-panel panel" style="margin-top:40px;">
     <div class="vault-title">⚜ TREASURE VAULT ⚜</div>
     <div class="vault-sub">Your legendary achievements</div>
+    <div class="vault-ornament">◆ ─────────────────── ◆</div>
     <div class="vault-section">
       <div class="vault-section-title">📜 Puzzle Mode Records</div>
       <div class="vault-records" id="vault-records"></div>
@@ -1748,6 +1780,203 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
 <!-- ═══════════════ SCREEN: TREASURE MAP PUZZLE ═══════════════ -->
 <div class="screen" id="screen-mapview">
+  <div id="mapv-bg" aria-hidden="true"><svg viewBox="0 0 400 780" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bgB1" x1="0.3" y1="0" x2="0.55" y2="1" gradientUnits="objectBoundingBox"><stop offset="0%" stop-color="#ffe090" stop-opacity=".22"/><stop offset="100%" stop-color="#ffe090" stop-opacity="0"/></linearGradient>
+      <linearGradient id="bgB2" x1="0.6" y1="0" x2="0.45" y2="1" gradientUnits="objectBoundingBox"><stop offset="0%" stop-color="#fff0b0" stop-opacity=".16"/><stop offset="100%" stop-color="#fff0b0" stop-opacity="0"/></linearGradient>
+      <radialGradient id="bgRG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00e8d0" stop-opacity=".75"/><stop offset="100%" stop-color="#00e8d0" stop-opacity="0"/></radialGradient>
+      <radialGradient id="bgCoin" cx="38%" cy="32%" r="60%"><stop offset="0%" stop-color="#ffe878"/><stop offset="100%" stop-color="#b86800"/></radialGradient>
+      <radialGradient id="bgCA" cx="50%" cy="100%" r="60%"><stop offset="0%" stop-color="#ffd040" stop-opacity=".5"/><stop offset="100%" stop-color="#ffd040" stop-opacity="0"/></radialGradient>
+      <linearGradient id="bgCW" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6a3c18"/><stop offset="100%" stop-color="#2c1408"/></linearGradient>
+      <linearGradient id="bgCL" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4a280e"/><stop offset="100%" stop-color="#7a4820"/></linearGradient>
+      <linearGradient id="bgWL" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#082838" stop-opacity=".8"/><stop offset="100%" stop-color="#041018" stop-opacity=".95"/></linearGradient>
+      <filter id="bgF2"><feGaussianBlur stdDeviation="2"/></filter>
+      <filter id="bgF5"><feGaussianBlur stdDeviation="5"/></filter>
+      <filter id="bgF8"><feGaussianBlur stdDeviation="8"/></filter>
+    </defs>
+    <!-- Base dark stone -->
+    <rect width="400" height="780" fill="#07050280"/>
+    <!-- Left stone wall -->
+    <rect x="0" y="0" width="72" height="780" fill="#0b0805"/>
+    <rect x="0" y="0" width="2" height="780" fill="#1a1208" opacity=".6"/>
+    <!-- Stone blocks left -->
+    <rect x="4" y="20" width="30" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="36" y="20" width="28" height="16" rx="1" fill="#110e09" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="4" y="38" width="22" height="16" rx="1" fill="#0d0b07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="28" y="38" width="36" height="16" rx="1" fill="#100d08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="4" y="56" width="34" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="40" y="56" width="24" height="16" rx="1" fill="#0c0a07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="4" y="74" width="26" height="16" rx="1" fill="#110e09" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="32" y="74" width="32" height="16" rx="1" fill="#0e0b08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="4" y="92" width="38" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="44" y="92" width="20" height="16" rx="1" fill="#0d0b07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="4" y="110" width="20" height="16" rx="1" fill="#100d08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="26" y="110" width="38" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="4" y="128" width="32" height="16" rx="1" fill="#0c0a07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="38" y="128" width="26" height="16" rx="1" fill="#110e09" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <!-- Right stone wall -->
+    <rect x="328" y="0" width="72" height="780" fill="#0b0805"/>
+    <rect x="398" y="0" width="2" height="780" fill="#1a1208" opacity=".6"/>
+    <rect x="330" y="20" width="28" height="16" rx="1" fill="#100d08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="360" y="20" width="34" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="330" y="38" width="36" height="16" rx="1" fill="#0d0b07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="368" y="38" width="26" height="16" rx="1" fill="#110e09" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="330" y="56" width="24" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="356" y="56" width="38" height="16" rx="1" fill="#0c0a07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="330" y="74" width="32" height="16" rx="1" fill="#0e0b08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="364" y="74" width="30" height="16" rx="1" fill="#110e09" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="330" y="92" width="20" height="16" rx="1" fill="#0f0c08" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <rect x="352" y="92" width="42" height="16" rx="1" fill="#0d0b07" stroke="#18140a" stroke-width=".6" opacity=".9"/>
+    <!-- Ceiling jagged edge + cracks -->
+    <path d="M0,0 L0,45 Q15,30 25,50 Q35,68 50,42 Q62,22 75,55 Q85,72 100,40 Q112,18 130,52 Q142,70 160,35 Q175,8 200,40 Q218,62 240,30 Q256,10 275,48 Q288,68 310,38 Q322,18 345,52 Q358,70 375,38 Q388,16 400,45 L400,0 Z" fill="#060402"/>
+    <!-- Crack 1 with sunbeam -->
+    <polygon points="128,0 136,0 195,780 120,780" fill="url(#bgB1)" opacity=".55"/>
+    <!-- Crack 2 with sunbeam -->
+    <polygon points="248,0 258,0 305,780 240,780" fill="url(#bgB2)" opacity=".4"/>
+    <!-- Crack lines on ceiling -->
+    <path d="M132,0 Q135,35 129,80 Q124,125 131,180 Q136,230 128,290" stroke="#161008" stroke-width="2.2" fill="none" opacity=".85"/>
+    <path d="M138,0 Q140,20 136,55" stroke="#1a1408" stroke-width="1.2" fill="none" opacity=".6"/>
+    <path d="M253,0 Q250,28 255,65 Q259,108 251,155" stroke="#161008" stroke-width="2" fill="none" opacity=".8"/>
+    <!-- Teal rune ambient glow blobs -->
+    <ellipse cx="38" cy="195" rx="34" ry="34" fill="url(#bgRG)" filter="url(#bgF8)" opacity=".65"/>
+    <ellipse cx="36" cy="420" rx="28" ry="28" fill="url(#bgRG)" filter="url(#bgF8)" opacity=".5"/>
+    <ellipse cx="40" cy="620" rx="24" ry="24" fill="url(#bgRG)" filter="url(#bgF8)" opacity=".45"/>
+    <ellipse cx="362" cy="260" rx="32" ry="32" fill="url(#bgRG)" filter="url(#bgF8)" opacity=".6"/>
+    <ellipse cx="358" cy="490" rx="26" ry="26" fill="url(#bgRG)" filter="url(#bgF8)" opacity=".48"/>
+    <ellipse cx="365" cy="680" rx="22" ry="22" fill="url(#bgRG)" filter="url(#bgF8)" opacity=".42"/>
+    <!-- Rune 1 left: bullseye -->
+    <g opacity=".6" transform="translate(37,193)">
+      <circle r="12" stroke="#00e8d0" stroke-width="1.6" fill="none"/>
+      <circle r="5" stroke="#00e8d0" stroke-width="1.2" fill="none"/>
+      <circle r="1.8" fill="#00e8d0" opacity=".9"/>
+      <line x1="0" y1="-15" x2="0" y2="15" stroke="#00e8d0" stroke-width=".9" opacity=".6"/>
+      <line x1="-15" y1="0" x2="15" y2="0" stroke="#00e8d0" stroke-width=".9" opacity=".6"/>
+    </g>
+    <!-- Rune 2 left: angular rune letters -->
+    <g opacity=".55" transform="translate(34,418)">
+      <line x1="-10" y1="-12" x2="-10" y2="12" stroke="#00e8d0" stroke-width="1.5"/>
+      <line x1="-10" y1="-12" x2="-2" y2="-5" stroke="#00e8d0" stroke-width="1.5"/>
+      <line x1="-10" y1="0" x2="-2" y2="0" stroke="#00e8d0" stroke-width="1.5"/>
+      <line x1="4" y1="-12" x2="4" y2="12" stroke="#00e8d0" stroke-width="1.5"/>
+      <line x1="4" y1="-4" x2="11" y2="-12" stroke="#00e8d0" stroke-width="1.5"/>
+      <line x1="4" y1="4" x2="11" y2="12" stroke="#00e8d0" stroke-width="1.5"/>
+    </g>
+    <!-- Rune 3 left: diamond with cross -->
+    <g opacity=".5" transform="translate(38,618)">
+      <polygon points="0,-13 10,0 0,13 -10,0" stroke="#00e8d0" stroke-width="1.4" fill="none"/>
+      <line x1="0" y1="-13" x2="0" y2="13" stroke="#00e8d0" stroke-width=".8" opacity=".7"/>
+      <line x1="-10" y1="0" x2="10" y2="0" stroke="#00e8d0" stroke-width=".8" opacity=".7"/>
+      <circle r="3" stroke="#00e8d0" stroke-width="1" fill="none"/>
+    </g>
+    <!-- Rune 4 right: hexagon star -->
+    <g opacity=".58" transform="translate(361,258)">
+      <polygon points="0,-13 11,-6 11,6 0,13 -11,6 -11,-6" stroke="#00e8d0" stroke-width="1.4" fill="none"/>
+      <polygon points="0,-7 6,-3 6,3 0,7 -6,3 -6,-3" stroke="#00e8d0" stroke-width=".9" fill="none"/>
+      <circle r="2.5" fill="#00e8d0" opacity=".8"/>
+    </g>
+    <!-- Rune 5 right: tree of life style -->
+    <g opacity=".52" transform="translate(360,488)">
+      <line x1="0" y1="13" x2="0" y2="-13" stroke="#00e8d0" stroke-width="1.5"/>
+      <line x1="0" y1="-6" x2="-10" y2="-13" stroke="#00e8d0" stroke-width="1.3"/>
+      <line x1="0" y1="-6" x2="10" y2="-13" stroke="#00e8d0" stroke-width="1.3"/>
+      <line x1="0" y1="1" x2="-8" y2="-5" stroke="#00e8d0" stroke-width="1.2"/>
+      <line x1="0" y1="1" x2="8" y2="-5" stroke="#00e8d0" stroke-width="1.2"/>
+      <line x1="0" y1="8" x2="-6" y2="4" stroke="#00e8d0" stroke-width="1.1"/>
+      <line x1="0" y1="8" x2="6" y2="4" stroke="#00e8d0" stroke-width="1.1"/>
+    </g>
+    <!-- Rune 6 right: tri-spiral -->
+    <g opacity=".46" transform="translate(363,678)">
+      <circle r="11" stroke="#00e8d0" stroke-width="1.3" fill="none"/>
+      <path d="M0,0 Q5,-8 0,-11" stroke="#00e8d0" stroke-width="1.1" fill="none"/>
+      <path d="M0,0 Q9,5 9,0" stroke="#00e8d0" stroke-width="1.1" fill="none"/>
+      <path d="M0,0 Q-8,5 -5,9" stroke="#00e8d0" stroke-width="1.1" fill="none"/>
+      <circle r="2" fill="#00e8d0" opacity=".75"/>
+    </g>
+    <!-- Moss patches on walls -->
+    <ellipse cx="28" cy="300" rx="20" ry="8" fill="#142808" opacity=".55"/>
+    <ellipse cx="24" cy="530" rx="16" ry="6" fill="#162a0a" opacity=".48"/>
+    <ellipse cx="372" cy="340" rx="18" ry="7" fill="#142808" opacity=".5"/>
+    <ellipse cx="375" cy="560" rx="14" ry="6" fill="#162a0a" opacity=".44"/>
+    <!-- Water channels — left floor -->
+    <path d="M0,690 Q18,678 38,692 Q58,706 80,686 Q95,672 110,688 L115,780 L0,780 Z" fill="url(#bgWL)" opacity=".75"/>
+    <!-- Water channels — right floor -->
+    <path d="M285,688 Q302,674 322,690 Q342,706 362,684 Q378,668 400,688 L400,780 L285,780 Z" fill="url(#bgWL)" opacity=".75"/>
+    <!-- Water shimmer lines left -->
+    <path d="M5,698 Q22,690 42,700 Q62,710 88,695 Q102,686 112,697" stroke="#0af8e0" stroke-width=".9" fill="none" opacity=".45"/>
+    <path d="M5,714 Q28,706 52,716 Q76,726 108,710" stroke="#0af8e0" stroke-width=".65" fill="none" opacity=".32"/>
+    <path d="M5,728 Q32,720 60,730 Q90,740 108,726" stroke="#0af8e0" stroke-width=".5" fill="none" opacity=".22"/>
+    <!-- Water shimmer lines right -->
+    <path d="M292,695 Q312,685 336,697 Q360,709 392,692" stroke="#0af8e0" stroke-width=".9" fill="none" opacity=".45"/>
+    <path d="M288,712 Q315,702 342,714 Q368,726 396,710" stroke="#0af8e0" stroke-width=".65" fill="none" opacity=".32"/>
+    <!-- Water teal glow -->
+    <rect x="0" y="672" width="125" height="108" fill="#00e8d0" filter="url(#bgF5)" opacity=".06"/>
+    <rect x="275" y="672" width="125" height="108" fill="#00e8d0" filter="url(#bgF5)" opacity=".06"/>
+    <!-- Gold coins scattered — left cluster -->
+    <g opacity=".6">
+      <ellipse cx="72" cy="668" rx="7.5" ry="4" fill="url(#bgCoin)" transform="rotate(-18,72,668)"/>
+      <ellipse cx="58" cy="680" rx="7" ry="3.8" fill="url(#bgCoin)" transform="rotate(14,58,680)"/>
+      <ellipse cx="88" cy="676" rx="6.5" ry="3.5" fill="url(#bgCoin)" transform="rotate(-6,88,676)"/>
+      <ellipse cx="65" cy="660" rx="6" ry="3.2" fill="url(#bgCoin)" transform="rotate(22,65,660)"/>
+      <ellipse cx="100" cy="666" rx="6.5" ry="3.5" fill="url(#bgCoin)"/>
+      <ellipse cx="50" cy="694" rx="5.5" ry="3" fill="url(#bgCoin)" transform="rotate(-10,50,694)"/>
+    </g>
+    <!-- Gold coins — mid floor scattered -->
+    <g opacity=".45">
+      <ellipse cx="160" cy="725" rx="6.5" ry="3.5" fill="url(#bgCoin)" transform="rotate(-12,160,725)"/>
+      <ellipse cx="148" cy="738" rx="5.5" ry="3" fill="url(#bgCoin)" transform="rotate(18,148,738)"/>
+      <ellipse cx="175" cy="740" rx="5" ry="2.8" fill="url(#bgCoin)"/>
+      <ellipse cx="210" cy="730" rx="5.5" ry="3" fill="url(#bgCoin)" transform="rotate(8,210,730)"/>
+      <ellipse cx="228" cy="744" rx="5" ry="2.8" fill="url(#bgCoin)" transform="rotate(-8,228,744)"/>
+    </g>
+    <!-- Gold coins — right cluster -->
+    <g opacity=".55">
+      <ellipse cx="298" cy="670" rx="7" ry="3.8" fill="url(#bgCoin)" transform="rotate(12,298,670)"/>
+      <ellipse cx="315" cy="682" rx="7.5" ry="4" fill="url(#bgCoin)" transform="rotate(-14,315,682)"/>
+      <ellipse cx="282" cy="678" rx="6.5" ry="3.5" fill="url(#bgCoin)" transform="rotate(6,282,678)"/>
+      <ellipse cx="328" cy="668" rx="6" ry="3.2" fill="url(#bgCoin)"/>
+    </g>
+    <!-- Colored gems -->
+    <g opacity=".65">
+      <polygon points="135,668 139,676 135,684 131,676" fill="#00e8d0" opacity=".75"/>
+      <polygon points="118,720 122,727 118,734 114,727" fill="#00c8b8" opacity=".65"/>
+      <polygon points="255,672 259,679 255,686 251,679" fill="#ff3060" opacity=".72"/>
+      <polygon points="240,730 243,736 240,742 237,736" fill="#cc2050" opacity=".62"/>
+      <polygon points="192,748 196,755 192,762 188,755" fill="#4488ff" opacity=".68"/>
+      <polygon points="208,718 212,724 208,730 204,724" fill="#ffd040" opacity=".75"/>
+      <polygon points="176,708 180,714 176,720 172,714" fill="#aa44ff" opacity=".65"/>
+    </g>
+    <!-- Treasure chest — lower right area -->
+    <ellipse cx="348" cy="658" rx="58" ry="28" fill="url(#bgCA)" filter="url(#bgF5)" opacity=".85"/>
+    <!-- Chest body -->
+    <rect x="308" y="620" width="88" height="52" rx="4" fill="url(#bgCW)" opacity=".88"/>
+    <!-- Chest lid arc -->
+    <path d="M305,622 Q305,598 352,598 Q399,598 399,622 Z" fill="url(#bgCL)" opacity=".88"/>
+    <!-- Lid rim outline -->
+    <path d="M305,622 Q305,598 352,598 Q399,598 399,622" stroke="#9a6030" stroke-width="2.5" fill="none" opacity=".92"/>
+    <!-- Chest metal band horizontal -->
+    <rect x="308" y="636" width="88" height="8" rx="2" fill="#a07420" opacity=".82"/>
+    <!-- Chest metal band vertical center -->
+    <rect x="344" y="620" width="16" height="52" rx="2" fill="#a07420" opacity=".82"/>
+    <!-- Lock base -->
+    <rect x="347" y="630" width="10" height="10" rx="2.5" fill="#c49010" opacity=".92"/>
+    <!-- Lock keyhole -->
+    <circle cx="352" cy="634" r="3" fill="#ffe050" opacity=".92"/>
+    <path d="M350,636 L352,641 L354,636" fill="#ffe050" opacity=".7"/>
+    <!-- Chest corner brackets -->
+    <rect x="306" y="618" width="9" height="9" rx="1.5" fill="#9a6020" opacity=".88"/>
+    <rect x="389" y="618" width="9" height="9" rx="1.5" fill="#9a6020" opacity=".88"/>
+    <rect x="306" y="663" width="9" height="9" rx="1.5" fill="#9a6020" opacity=".88"/>
+    <rect x="389" y="663" width="9" height="9" rx="1.5" fill="#9a6020" opacity=".88"/>
+    <!-- Coins spilling from chest base -->
+    <ellipse cx="324" cy="674" rx="9" ry="4.5" fill="#ffd040" opacity=".52" transform="rotate(-12,324,674)"/>
+    <ellipse cx="352" cy="676" rx="8" ry="4" fill="#ffd040" opacity=".45"/>
+    <ellipse cx="374" cy="672" rx="7.5" ry="4" fill="#ffd040" opacity=".48" transform="rotate(10,374,672)"/>
+    <!-- Subtle center vignette (helps puzzle stand out) -->
+    <radialGradient id="bgVig" cx="50%" cy="45%" r="55%"><stop offset="0%" stop-color="#000000" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient>
+    <rect width="400" height="780" fill="url(#bgVig)"/>
+    <!-- Top dark overhang -->
+    <rect x="0" y="0" width="400" height="65" fill="rgba(0,0,0,.65)"/>
+  </svg></div>
   <button class="ghost-btn back-btn" id="mapview-back">← Vault</button>
   <div class="mapv-title">⚜ TREASURE MAP ⚜</div>
   <div class="mapv-sub" id="mapv-sub">Place your earned pieces in the right spots</div>
@@ -2221,18 +2450,23 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
 /* ══ TREASURE MAP SCREEN ══ */
-#screen-mapview{flex-direction:column;align-items:center;overflow-y:auto;padding:50px 12px 20px;gap:0;}
+#screen-mapview{flex-direction:column;align-items:center;overflow-y:auto;padding:50px 12px 20px;gap:0;background:#060402;}
+#mapv-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+#mapv-bg svg{width:100%;height:100%;display:block;}
+#screen-mapview > *:not(#mapv-bg){position:relative;z-index:2;}
+#screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
 .mapv-title{font-size:17px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:2px;flex-shrink:0;}
 .mapv-sub{font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:12px;flex-shrink:0;text-align:center;}
 .mapv-grid-wrap{flex-shrink:0;margin-bottom:10px;}
 .mapv-parchment{background:linear-gradient(145deg,#c8a040,#d4b55a,#b88a32,#c8a040);border-radius:10px;border:3px solid #7a4a0a;box-shadow:0 0 28px rgba(100,60,10,.7),inset 0 1px 0 rgba(255,240,160,.3);padding:5px;position:relative;overflow:visible;}
 .mapv-parchment::before{content:'';position:absolute;inset:8px;border:1px dashed rgba(100,60,10,.3);border-radius:5px;pointer-events:none;z-index:10;}
-.mapv-grid{width:min(340px,90vw);margin:0 auto;}
+.mapv-grid{width:min(420px,94vw);margin:0 auto;}
 .mapv-grid svg{overflow:visible;}
 @keyframes mapShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes mapSlotPulse{0%,100%{opacity:1}50%{opacity:.6}}
 @keyframes xSlotPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(255,50,50,.7))}50%{filter:drop-shadow(0 0 18px rgba(255,60,60,1)) drop-shadow(0 0 32px rgba(220,20,20,.5))}}
 .mapv-tray-label{font-size:8px;letter-spacing:.22em;color:var(--stone-light);font-family:'Crimson Pro',serif;text-transform:uppercase;margin-bottom:6px;text-align:center;flex-shrink:0;}
-.mapv-tray{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;padding:8px 6px;max-width:360px;flex-shrink:0;}
+.mapv-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:18px 10px 28px;max-width:420px;flex-shrink:0;overflow:visible;}
 .mapv-piece{cursor:pointer;flex-shrink:0;position:relative;}
 .mapv-piece svg{display:block;overflow:visible;transition:filter .2s,transform .2s;}
 .mapv-piece.selected svg{filter:drop-shadow(0 0 9px rgba(245,200,66,.95)) brightness(1.2);transform:scale(1.14);}
@@ -4163,10 +4397,12 @@ function renderVault(){
   const vr=document.getElementById('vault-records');vr.innerHTML='';
   const DIFF_LABELS={easy:'EASY',medium:'INTERMEDIATE',hard:'ADVANCED',expert:'EXPERT'};
   ['easy','medium','hard','expert'].forEach(d=>{
-    const rec=BEST_TIMES[d];const div=document.createElement('div');div.className='vault-record';
+    const rec=BEST_TIMES[d];const div=document.createElement('div');
+    div.className='vault-record'+(rec?' has-record':'');
     const timeStr=rec?fmtTime(rec.time):'--';
     const mistakesStr=rec?(rec.mistakes===0?'Perfect run':`${rec.mistakes} mistake${rec.mistakes===1?'':'s'}`):'';
-    div.innerHTML=`<div class="vr-diff">${DIFF_LABELS[d]}</div><div class="vr-time">${timeStr}</div>${rec?`<div class="vr-mistakes">${mistakesStr}</div>`:''}<div class="vr-wins">${GAME_STATS.puzzleWins} puzzles solved</div>`;
+    const isPerfect=rec&&rec.mistakes===0;
+    div.innerHTML=`<div class="vr-diff">${DIFF_LABELS[d]}</div><div class="vr-time${rec?'':' no-record'}">${timeStr}</div>${rec?`<div class="vr-mistakes${isPerfect?' perfect':''}">${mistakesStr}</div>`:''}<div class="vr-wins">${GAME_STATS.puzzleWins} puzzles solved</div>`;
     vr.appendChild(div);
   });
   const bs=document.getElementById('vault-daily-stats');bs.innerHTML='';
@@ -4610,6 +4846,101 @@ const TREASURE_MAP_URI='data:image/svg+xml,'+encodeURIComponent(TREASURE_MAP_SVG
 
 let MAP_SELECTED_PIECE=null; // currently selected piece ID in tray
 
+// Drag state
+let MAP_DRAG_ID=null,_mapDragEl=null,_mapDragOrigin=null,_mapDragLive=false;
+
+function _mapSlotCenter(id){
+  const svg=document.getElementById('mapv-svg');
+  if(!svg)return null;
+  const r=svg.getBoundingClientRect();
+  const col=(id-1)%5,row=Math.floor((id-1)/5);
+  const sx=r.width/320,sy=r.height/192;
+  return{x:r.left+(col+.5)*64*sx,y:r.top+(row+.5)*64*sy};
+}
+
+function _mapMakeGhost(id,x,y){
+  if(_mapDragEl)_mapDragEl.remove();
+  const T=68,COLS=5,ROWS=3;
+  const col=(id-1)%COLS,row=Math.floor((id-1)/COLS);
+  const d=document.createElement('div');
+  d.style.cssText=`position:fixed;left:${x-T/2}px;top:${y-T/2}px;width:${T}px;height:${T}px;pointer-events:none;z-index:200;transform:scale(1.12);transition:filter .12s;filter:drop-shadow(0 4px 16px rgba(0,0,0,.9));`;
+  const psvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  psvg.setAttribute('viewBox',`0 0 ${T} ${T}`);psvg.setAttribute('width',T);psvg.setAttribute('height',T);
+  psvg.style.cssText='display:block;overflow:visible;';
+  const pdefs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  const pcp=document.createElementNS('http://www.w3.org/2000/svg','clipPath');pcp.id='_dg_cp';
+  const ppe=document.createElementNS('http://www.w3.org/2000/svg','path');
+  ppe.setAttribute('d',jigsawPathSVG(0,0,T,PIECE_EDGES[id]));
+  pcp.appendChild(ppe);pdefs.appendChild(pcp);psvg.appendChild(pdefs);
+  const pg=document.createElementNS('http://www.w3.org/2000/svg','g');
+  pg.setAttribute('clip-path','url(#_dg_cp)');
+  const pimg=document.createElementNS('http://www.w3.org/2000/svg','image');
+  pimg.setAttribute('href',TREASURE_MAP_URI);
+  pimg.setAttribute('x',-col*T);pimg.setAttribute('y',-row*T);
+  pimg.setAttribute('width',T*COLS);pimg.setAttribute('height',T*ROWS);
+  pimg.setAttribute('preserveAspectRatio','none');
+  pimg.style.filter='brightness(1.75) saturate(1.2)';
+  pg.appendChild(pimg);psvg.appendChild(pg);d.appendChild(psvg);
+  document.body.appendChild(d);_mapDragEl=d;
+}
+
+function _mapMoveGhost(x,y){
+  if(!_mapDragEl)return;
+  _mapDragEl.style.left=(x-34)+'px';_mapDragEl.style.top=(y-34)+'px';
+  const c=_mapSlotCenter(MAP_DRAG_ID);
+  const dx=c?x-c.x:9999,dy=c?y-c.y:9999;
+  const near=Math.sqrt(dx*dx+dy*dy)<52;
+  _mapDragEl.style.filter=near
+    ?'drop-shadow(0 0 18px rgba(255,210,50,1)) drop-shadow(0 0 8px rgba(255,210,50,.8))'
+    :'drop-shadow(0 4px 16px rgba(0,0,0,.9))';
+}
+
+function _mapDragMove(e){
+  const pt=e.touches?e.touches[0]:e;
+  const x=pt.clientX,y=pt.clientY;
+  if(!_mapDragLive){
+    const dx=x-_mapDragOrigin.x,dy=y-_mapDragOrigin.y;
+    if(Math.sqrt(dx*dx+dy*dy)>8){_mapDragLive=true;_mapMakeGhost(MAP_DRAG_ID,x,y);}
+    else return;
+  }
+  _mapMoveGhost(x,y);
+  if(e.cancelable)e.preventDefault();
+}
+
+function _mapDragEnd(e){
+  document.removeEventListener('mousemove',_mapDragMove);
+  document.removeEventListener('mouseup',_mapDragEnd);
+  document.removeEventListener('touchmove',_mapDragMove);
+  document.removeEventListener('touchend',_mapDragEnd);
+  const pt=e.changedTouches?e.changedTouches[0]:e;
+  const x=pt.clientX,y=pt.clientY;
+  const id=MAP_DRAG_ID;
+  const wasLive=_mapDragLive;
+  if(_mapDragEl){_mapDragEl.remove();_mapDragEl=null;}
+  MAP_DRAG_ID=null;_mapDragLive=false;
+  if(!wasLive){mapSelectPiece(id);return;}
+  const c=_mapSlotCenter(id);
+  const dx=c?x-c.x:9999,dy=c?y-c.y:9999;
+  if(Math.sqrt(dx*dx+dy*dy)<52){
+    MAP_SELECTED_PIECE=id;
+    mapPlaceOnSlot(id);
+  }
+  // else: cancelled — leave selection state unchanged
+}
+
+function _mapPieceDown(id,e){
+  const placed=new Set(GAME_STATS.placedMapPieces||[]);
+  if(placed.has(id))return;
+  if(id>mapCyclePiecesEarned())return;
+  const pt=e.touches?e.touches[0]:e;
+  MAP_DRAG_ID=id;_mapDragOrigin={x:pt.clientX,y:pt.clientY};_mapDragLive=false;
+  document.addEventListener('mousemove',_mapDragMove);
+  document.addEventListener('mouseup',_mapDragEnd);
+  document.addEventListener('touchmove',_mapDragMove,{passive:false});
+  document.addEventListener('touchend',_mapDragEnd);
+  if(e.cancelable)e.preventDefault();
+}
+
 function mapCyclePiecesEarned(){
   const total=GAME_STATS.mapPieces||0;
   return Math.min((total%15)||((total>0)?15:0),15);
@@ -4634,47 +4965,46 @@ function renderMapPuzzle(){
   svg.id='mapv-svg';
   svg.style.cssText='display:block;overflow:visible;';
 
-  // Defs: one clipPath per piece in SVG user-space coordinates
-  const svgDefs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  // Render pieces 1→15. Placed pieces show map image clipped to jigsaw shape;
+  // unplaced slots show a light outline fill only.
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  svg.appendChild(defs);
   for(let id=1;id<=15;id++){
     const col=(id-1)%COLS,row=Math.floor((id-1)/COLS);
-    const cp=document.createElementNS('http://www.w3.org/2000/svg','clipPath');
-    cp.id=`mcp_${id}`;
-    const pe=document.createElementNS('http://www.w3.org/2000/svg','path');
-    pe.setAttribute('d',jigsawPathSVG(col,row,CS,PIECE_EDGES[id]));
-    cp.appendChild(pe);
-    svgDefs.appendChild(cp);
-  }
-  svg.appendChild(svgDefs);
-
-  // Render pieces 1→15. Each piece is a <g clip-path="url(#mcp_N)"> containing the
-  // full-size map <image>. Later elements are higher in SVG z-order, so each piece's
-  // tabs (protruding into already-rendered neighbors) show through those neighbors' sockets.
-  for(let id=1;id<=15;id++){
     const isPlaced=placed.has(id);
     const g=document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('clip-path',`url(#mcp_${id})`);
-    g.dataset.slotId=id;
-    g.style.cursor='pointer';
-
-    // Full map image — clip-path reveals only this piece's jigsaw shape
-    const img=document.createElementNS('http://www.w3.org/2000/svg','image');
-    img.setAttribute('href',TREASURE_MAP_URI);
-    img.setAttribute('x','0');img.setAttribute('y','0');
-    img.setAttribute('width',SVG_W);img.setAttribute('height',SVG_H);
-    img.setAttribute('preserveAspectRatio','none');
-    g.appendChild(img);
-
-    // Dark overlay for unplaced pieces
-    if(!isPlaced){
-      const ov=document.createElementNS('http://www.w3.org/2000/svg','rect');
-      ov.setAttribute('x','0');ov.setAttribute('y','0');
-      ov.setAttribute('width',SVG_W);ov.setAttribute('height',SVG_H);
-      ov.setAttribute('fill','rgba(4,2,0,.82)');
-      g.appendChild(ov);
+    g.dataset.slotId=id;g.style.cursor='pointer';
+    if(isPlaced){
+      // Clip map image to jigsaw shape at grid position
+      const cpId=`gcp_${id}`;
+      const cp=document.createElementNS('http://www.w3.org/2000/svg','clipPath');
+      cp.id=cpId;
+      const cpPath=document.createElementNS('http://www.w3.org/2000/svg','path');
+      cpPath.setAttribute('d',jigsawPathSVG(col,row,CS,PIECE_EDGES[id]));
+      cp.appendChild(cpPath);defs.appendChild(cp);
+      const img=document.createElementNS('http://www.w3.org/2000/svg','image');
+      img.setAttribute('href',TREASURE_MAP_URI);
+      img.setAttribute('x','0');img.setAttribute('y','0');
+      img.setAttribute('width',SVG_W);img.setAttribute('height',SVG_H);
+      img.setAttribute('preserveAspectRatio','none');
+      img.setAttribute('clip-path',`url(#${cpId})`);
+      img.style.filter='brightness(1.35) saturate(1.15)';
+      g.appendChild(img);
+      // Gold outline on top
+      const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d',jigsawPathSVG(col,row,CS,PIECE_EDGES[id]));
+      p.setAttribute('fill','none');
+      p.setAttribute('stroke','rgba(200,160,55,.75)');
+      p.setAttribute('stroke-width','1.8');p.setAttribute('stroke-linejoin','round');
+      g.appendChild(p);
+    } else {
+      const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d',jigsawPathSVG(col,row,CS,PIECE_EDGES[id]));
+      p.setAttribute('fill','rgba(48,28,8,.52)');
+      p.setAttribute('stroke','rgba(110,72,22,.85)');
+      p.setAttribute('stroke-width','1.8');p.setAttribute('stroke-linejoin','round');
+      g.appendChild(p);
     }
-
-    // X-piece glow when complete
     if(id===15&&allPlaced){
       g.style.filter='drop-shadow(0 0 10px rgba(255,50,50,.9))';
       g.addEventListener('click',mapRevealChest,{once:true});
@@ -4692,7 +5022,7 @@ function renderMapPuzzle(){
   for(let i=1;i<=15;i++)trayIds.push(i);
   let seed=((GAME_STATS.mapPieces||0)*7+13)%997;
   for(let i=trayIds.length-1;i>0;i--){seed=(seed*31+17)%997;const j=seed%(i+1);[trayIds[i],trayIds[j]]=[trayIds[j],trayIds[i]];}
-  const T=52;
+  const T=68;
   for(const id of trayIds){
     const col=(id-1)%COLS,row=Math.floor((id-1)/COLS);
     const isPlaced=placed.has(id),isEarned=id<=earned;
@@ -4719,9 +5049,16 @@ function renderMapPuzzle(){
     pimg.setAttribute('x',-col*T);pimg.setAttribute('y',-row*T);
     pimg.setAttribute('width',T*COLS);pimg.setAttribute('height',T*ROWS);
     pimg.setAttribute('preserveAspectRatio','none');
+    pimg.style.filter='brightness(1.75) saturate(1.2)';
     pg.appendChild(pimg);psvg.appendChild(pg);
     item.appendChild(psvg);
-    item.addEventListener('click',()=>mapSelectPiece(id));
+    // Scatter: deterministic rotation + slight offset per piece
+    const rot=((id*17+7)%26)-13;
+    const tx=((id*13+3)%13)-6;
+    const ty=((id*11+5)%11)-5;
+    item.style.transform=`rotate(${rot}deg) translate(${tx}px,${ty}px)`;
+    item.addEventListener('mousedown',(e)=>_mapPieceDown(id,e));
+    item.addEventListener('touchstart',(e)=>_mapPieceDown(id,e),{passive:false});
     tray.appendChild(item);
   }
 
@@ -4741,21 +5078,39 @@ function mapSelectPiece(id){
   document.querySelectorAll('.mapv-piece').forEach(el=>{
     el.classList.toggle('selected',parseInt(el.dataset.pieceId)===MAP_SELECTED_PIECE);
   });
-  // Highlight matching SVG slot group
+  // Update hint text
+  const sub=document.getElementById('mapv-sub');
   const allPlaced=(placed.size===15);
+  if(MAP_SELECTED_PIECE){
+    sub.innerHTML='<span style="color:var(--gold);font-weight:700;">Piece selected — tap the glowing slot on the map ↑</span>';
+  } else {
+    sub.textContent=allPlaced?'Map complete! Tap the ✕ to claim your reward!':`${placed.size} / 15 pieces placed — ${earned} earned`;
+  }
+  // Update slot visuals: change path fill directly for strong visibility
   document.querySelectorAll('#mapv-svg g[data-slot-id]').forEach(el=>{
     const sid=parseInt(el.dataset.slotId);
     const isTarget=MAP_SELECTED_PIECE!==null&&sid===MAP_SELECTED_PIECE;
-    el.style.filter=isTarget
-      ?'drop-shadow(0 0 8px rgba(245,200,66,.95)) brightness(1.3)'
-      :(sid===15&&allPlaced?'drop-shadow(0 0 10px rgba(255,50,50,.9))':'');
+    const isPlaced=placed.has(sid);
+    const path=el.querySelector('path');
+    if(isTarget){
+      if(path){path.setAttribute('fill','rgba(200,148,20,.75)');path.setAttribute('stroke','rgba(255,215,50,.95)');}
+      el.style.filter='drop-shadow(0 0 14px rgba(255,210,50,1)) drop-shadow(0 0 6px rgba(255,210,50,.8))';
+      el.style.animation='mapSlotPulse 0.9s ease-in-out infinite';
+    } else {
+      if(path&&!isPlaced){
+        path.setAttribute('fill','rgba(48,28,8,.52)');
+        path.setAttribute('stroke','rgba(110,72,22,.85)');
+      }
+      el.style.filter=sid===15&&allPlaced?'drop-shadow(0 0 10px rgba(255,50,50,.9))':'';
+      el.style.animation='';
+    }
   });
 }
 
 function mapPlaceOnSlot(slotId){
   if(!MAP_SELECTED_PIECE)return;
   const placed=new Set(GAME_STATS.placedMapPieces||[]);
-  if(placed.has(slotId)){MAP_SELECTED_PIECE=null;return;}
+  if(placed.has(slotId)){showToast('That spot is already filled.',1000);return;}
   if(MAP_SELECTED_PIECE===slotId){
     GAME_STATS.placedMapPieces.push(slotId);
     saveState();
@@ -4767,7 +5122,7 @@ function mapPlaceOnSlot(slotId){
     // Wrong slot — shake the SVG group
     const g=document.querySelector(`#mapv-svg g[data-slot-id="${slotId}"]`);
     if(g){g.style.animation='mapShake .38s ease';setTimeout(()=>{g.style.animation='';},420);}
-    showToast("That piece doesn't fit here...",1200);
+    showToast("Not here — tap the glowing slot!",1200);
   }
 }
 
