@@ -88,10 +88,10 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 #island{display:none;}
 
 /* ══ PIRATE SHIP ══ */
-#ship{position:absolute;bottom:28%;right:4%;animation:shipFloat 6s ease-in-out infinite;transform-origin:center center;scale:0.40;}
-@keyframes shipFloat{0%,100%{transform:rotate(22deg) translateY(0)}
-  33%{transform:rotate(22.4deg) translateY(-4px)}
-  66%{transform:rotate(21.7deg) translateY(-2px)}}
+#ship{position:absolute;bottom:37%;left:9%;z-index:1;animation:shipFloat 6s ease-in-out infinite;transform-origin:center center;scale:0.42;}
+@keyframes shipFloat{0%,100%{transform:rotate(-8deg) translateY(0)}
+  33%{transform:rotate(-7.7deg) translateY(-4px)}
+  66%{transform:rotate(-8.2deg) translateY(-2px)}}
 
 /* ══ TREASURE CHEST ══ */
 #treasure-chest{position:absolute;bottom:14%;left:3%;z-index:3;animation:chestIdle 4s ease-in-out infinite;}
@@ -702,8 +702,8 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   </div>
 
   <!-- Distant Island (back right of ocean) -->
-  <div style="position:absolute;bottom:39%;right:8%;z-index:1;pointer-events:none;opacity:0.85">
-    <svg width="110" height="64" viewBox="0 0 90 52" xmlns="http://www.w3.org/2000/svg">
+  <div style="position:absolute;bottom:43%;right:7%;z-index:1;pointer-events:none;opacity:0.82">
+    <svg width="88" height="51" viewBox="0 0 90 52" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <radialGradient id="isle-sand" cx="48%" cy="60%" r="55%">
           <stop offset="0%" stop-color="#f5e8b0"/>
@@ -1041,7 +1041,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
   <!-- Palm fronds — LEFT foreground (tall, realistic coconut palm) -->
   <div id="palms">
-    <svg style="position:absolute;bottom:19%;left:-1%;width:25%;height:auto;pointer-events:none;z-index:2;overflow:visible;filter:saturate(1.2) brightness(1.08) drop-shadow(3px 6px 12px rgba(0,0,0,.45))" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+    <svg style="position:absolute;bottom:19%;left:-1%;width:25%;height:auto;pointer-events:none;z-index:2;overflow:visible;transform-origin:30% 100%;transform:scaleY(1.22);filter:saturate(1.2) brightness(1.08) drop-shadow(3px 6px 12px rgba(0,0,0,.45))" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
       <defs>
         <linearGradient id="trk-l" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#3d2008"/>
@@ -1215,7 +1215,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
     </svg>
 
     <!-- RIGHT foreground palm — leans slightly inward -->
-    <svg style="position:absolute;bottom:17%;right:-1%;width:31%;height:auto;pointer-events:none;z-index:2;transform-origin:86% 100%;transform:rotate(11deg);filter:saturate(1.2) brightness(1.08) drop-shadow(3px 6px 12px rgba(0,0,0,.45))" viewBox="0 -100 380 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
+    <svg style="position:absolute;bottom:17%;right:-1%;width:31%;height:auto;pointer-events:none;z-index:2;transform-origin:86% 100%;transform:rotate(11deg) scaleY(1.22);filter:saturate(1.2) brightness(1.08) drop-shadow(3px 6px 12px rgba(0,0,0,.45))" viewBox="0 -100 380 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
       <defs>
         <linearGradient id="trk-r" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#4a2a10"/>
@@ -1536,6 +1536,13 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
         <span class="mb-title">PUZZLE MODE</span>
       </span>
     </button>
+    <button class="menu-btn legendary-menu-btn ghost-btn" id="menu-legendary" style="display:none;border-color:rgba(200,80,255,.7);color:#d090ff;">
+      <span class="mb-icon">🔮</span>
+      <span class="mb-text">
+        <span class="mb-title">LEGENDARY QUEST</span>
+        <span class="mb-sub">A legendary artifact awaits</span>
+      </span>
+    </button>
     <button class="menu-btn menu-btn-vault ghost-btn" id="menu-vault">
       <span class="mb-icon"><svg width="30" height="28" viewBox="0 0 48 42" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
         <defs>
@@ -1670,15 +1677,15 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   <button class="ghost-btn back-btn" id="daily-back">← Menu</button>
 
   <!-- HUD -->
-  <div style="width:min(95vw,520px);display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;margin-top:44px;padding:0 4px;">
+  <div style="width:min(95vw,520px);display:flex;justify-content:center;align-items:center;gap:clamp(10px,4vw,36px);margin-bottom:3px;margin-top:10px;padding:0 4px;">
     <div style="text-align:center;">
       <div class="stat-label">⏱ TIME</div>
       <div class="stat-value" id="dp-timer">0:00</div>
     </div>
-    <div style="text-align:center;flex:1;">
+    <div style="text-align:center;">
       <div style="font-size:clamp(11px,2.5vw,15px);font-weight:900;color:var(--gold-light);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;">📅 DAILY QUEST</div>
       <div style="font-family:'Crimson Pro',serif;font-size:9px;color:var(--stone-light);letter-spacing:.2em;" id="dp-date-label">Loading...</div>
-      <div id="dp-diff-badge" style="display:inline-block;margin-top:3px;padding:2px 10px;border-radius:8px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.15em;font-weight:700;border:1px solid currentColor;"></div>
+      <div id="dp-diff-badge" style="display:inline-block;margin-top:2px;padding:2px 10px;border-radius:8px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.15em;font-weight:700;border:1px solid currentColor;"></div>
     </div>
     <div style="text-align:center;">
       <div class="stat-label">✦ SCORE</div>
@@ -1687,7 +1694,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   </div>
 
   <!-- Lives & streak row -->
-  <div style="width:min(95vw,520px);display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;padding:0 6px;">
+  <div style="width:min(95vw,520px);display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;padding:0 6px;">
     <div style="display:flex;gap:4px;align-items:center;">
       <span style="font-size:9px;letter-spacing:.15em;color:var(--stone-light);font-family:'Crimson Pro',serif;">LIVES:</span>
       <div id="dp-lives" style="display:flex;gap:3px;"></div>
@@ -1697,13 +1704,13 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   </div>
 
   <!-- Board -->
-  <div class="relic-frame" id="dp-frame" style="margin-bottom:6px;">
+  <div class="relic-frame" id="dp-frame" style="margin-bottom:4px;">
     <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
     <div class="sudoku-grid" id="dp-board" style="width:min(85vw,430px);height:min(85vw,430px);"></div>
   </div>
 
   <!-- Draw Hand -->
-  <div style="width:min(95vw,520px);background:linear-gradient(135deg,rgba(18,10,3,.95),rgba(30,18,5,.98));border:1px solid var(--panel-border);border-radius:14px;padding:10px 12px;margin-bottom:5px;">
+  <div style="width:min(95vw,520px);background:linear-gradient(135deg,rgba(18,10,3,.95),rgba(30,18,5,.98));border:1px solid var(--panel-border);border-radius:14px;padding:8px 12px;margin-bottom:4px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
       <div>
         <div style="font-size:10px;letter-spacing:.2em;color:var(--gold);font-weight:700;">YOUR HAND</div>
@@ -1742,6 +1749,29 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
       <div class="vault-section-title">🗝️ Artifact Collection</div>
       <div class="artifact-collection" id="vault-artifacts"></div>
     </div>
+    <div class="vault-section" id="vault-map-section">
+      <div class="vault-section-title">🗺️ Treasure Map Progress</div>
+      <div class="map-progress-wrap">
+        <div class="map-progress-bar"><div class="map-progress-fill" id="vault-map-fill" style="width:0%"></div></div>
+        <div class="map-progress-label" id="vault-map-label">0 / 15 pieces</div>
+      </div>
+    </div>
+    <div class="vault-section">
+      <div class="vault-section-title">⚡ Legendary Artifacts</div>
+      <div class="legendary-collection" id="vault-legendary"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN: DAILY HUB ═══════════════ -->
+<div class="screen" id="screen-daily-hub">
+  <button class="ghost-btn back-btn" id="hub-back">← Menu</button>
+  <div class="dh-panel">
+    <div class="dh-title">📅 Daily Archive</div>
+    <div class="dh-subtitle">The Lost Relics of Solara</div>
+    <div id="dh-today-wrap"></div>
+    <div class="dh-section-label">Past 6 Days</div>
+    <div id="dh-archive-list"></div>
   </div>
 </div>
 
@@ -2088,6 +2118,124 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   100%{box-shadow:none}
 }
 .action-btn.hint-used-up{opacity:.3;pointer-events:none;}
+/* ── Daily Challenge: Popup & Bomb squares ── */
+.challenge-popup{animation:chPopPulse 1.1s ease-in-out infinite!important;outline:3px solid rgba(245,200,66,.98)!important;outline-offset:-2px!important;background:rgba(200,155,20,.22)!important;}
+@keyframes chPopPulse{0%,100%{box-shadow:0 0 8px rgba(245,200,66,.4),inset 0 0 6px rgba(245,200,66,.15)}50%{box-shadow:0 0 22px rgba(245,200,66,.88),inset 0 0 14px rgba(245,200,66,.35)}}
+.challenge-bomb{animation:chBombPulse .72s ease-in-out infinite!important;outline:3px solid rgba(255,70,70,.98)!important;outline-offset:-2px!important;background:rgba(255,40,40,.22)!important;}
+@keyframes chBombPulse{0%,100%{box-shadow:0 0 8px rgba(255,70,70,.4),inset 0 0 6px rgba(255,70,70,.15)}50%{box-shadow:0 0 26px rgba(255,70,70,.92),inset 0 0 16px rgba(255,70,70,.38)}}
+.bomb-explode{animation:bombExp .75s ease-out forwards!important;z-index:10!important;}
+@keyframes bombExp{0%{background:inherit;box-shadow:none}10%{background:rgba(255,235,60,.95);box-shadow:inset 0 0 30px rgba(255,210,0,1)}30%{background:rgba(255,90,0,.9);box-shadow:inset 0 0 40px rgba(255,70,0,.95)}65%{background:rgba(140,25,0,.7);box-shadow:inset 0 0 20px rgba(120,20,0,.6)}100%{background:rgba(30,5,0,.3);box-shadow:inset 0 0 8px rgba(80,10,0,.3)}}
+.cell-blast{animation:cellBlast .7s ease-out forwards!important;}
+@keyframes cellBlast{0%{background:inherit;box-shadow:none}20%{background:rgba(255,80,0,.7);box-shadow:inset 0 0 18px rgba(255,120,0,.8)}55%{background:rgba(100,20,0,.5);box-shadow:inset 0 0 12px rgba(120,25,0,.5)}100%{background:rgba(20,4,0,.25);box-shadow:inset 0 0 6px rgba(60,8,0,.3)}}
+.challenge-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;line-height:1;gap:2px;pointer-events:none;z-index:20;}
+.ch-icon{font-size:20px;line-height:1;}
+.ch-icon-bomb{filter:brightness(1.15) contrast(1.1) drop-shadow(0 0 3px rgba(255,255,255,.55)) drop-shadow(0 -5px 6px rgba(255,200,0,1)) drop-shadow(0 -3px 3px rgba(255,100,0,.9));}
+.ch-icon-chest{filter:drop-shadow(0 0 4px rgba(255,215,0,1)) drop-shadow(0 0 8px rgba(255,170,0,.85)) drop-shadow(0 1px 2px rgba(0,0,0,.8));animation:chChestBounce .85s ease-in-out infinite;}
+@keyframes chChestBounce{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.25) rotate(4deg)}}
+.ch-time{font-size:11px;font-weight:900;color:#fff;text-shadow:0 0 4px rgba(0,0,0,1),0 1px 4px rgba(0,0,0,1),0 0 10px rgba(0,0,0,.9);}
+.ch-urgent{color:#ff5555!important;animation:chBlink .5s ease-in-out infinite;}
+@keyframes chBlink{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* ══ FOG OF WAR ══ */
+.fog-cell{position:relative;}
+.fog-cell::before{content:'';position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:radial-gradient(ellipse at 35% 30%,rgba(22,11,4,.93),rgba(8,4,1,.98));
+  border-radius:3px;}
+@keyframes fogClear{0%{opacity:1;transform:scale(1)}55%{opacity:.4;transform:scale(1.1)}100%{opacity:0;transform:scale(1.25)}}
+.fog-clearing::before{animation:fogClear .55s ease-out forwards!important;}
+.fog-sweep::before{animation:fogClear .35s ease-out forwards!important;}
+
+/* ══ MAP PROGRESS BAR ══ */
+.map-progress-wrap{margin-top:6px;}
+.map-progress-bar{height:8px;border-radius:6px;background:rgba(20,12,4,.8);border:1px solid rgba(160,110,40,.35);overflow:hidden;margin-bottom:5px;}
+.map-progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b8860b,#f5c842,#ffe17a);transition:width .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 8px rgba(245,200,66,.6);}
+.map-progress-label{font-size:9px;color:rgba(200,160,100,.7);letter-spacing:.18em;font-family:'Crimson Pro',serif;text-align:center;}
+
+/* ══ LEGENDARY VAULT SLOTS ══ */
+.legendary-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
+.leg-slot{border-radius:10px;padding:10px 6px;text-align:center;border:1px solid rgba(180,80,255,.25);background:rgba(25,5,40,.6);cursor:default;transition:all .3s;}
+.leg-slot.earned{border-color:rgba(200,80,255,.7);background:rgba(60,10,90,.85);box-shadow:0 0 14px rgba(200,80,255,.35);}
+.leg-slot.earned:hover{box-shadow:0 0 22px rgba(220,100,255,.55);}
+.leg-slot-icon{font-size:26px;line-height:1;margin-bottom:4px;}
+.leg-slot-icon svg{width:32px;height:32px;filter:drop-shadow(0 0 6px rgba(200,80,255,.8)) drop-shadow(0 0 12px rgba(160,40,220,.5));}
+.leg-slot-name{font-size:7px;letter-spacing:.12em;color:rgba(220,160,255,.85);font-family:'Crimson Pro',serif;margin-top:2px;}
+.leg-slot.locked .leg-slot-icon{filter:grayscale(1);opacity:.35;}
+.leg-slot.locked .leg-slot-name{color:rgba(120,80,160,.5);}
+@keyframes legEarned{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.leg-slot.earned{animation:legEarned .6s cubic-bezier(.34,1.56,.64,1);}
+
+/* ══ LEGENDARY PUZZLE MODE ══ */
+.legendary-mode #pz-board{box-shadow:0 0 30px rgba(180,80,255,.35),0 0 60px rgba(140,40,200,.2);}
+.legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
+.legendary-menu-btn{background:linear-gradient(135deg,rgba(60,10,90,.95),rgba(90,20,130,.95))!important;border-color:rgba(200,80,255,.7)!important;color:#d090ff!important;animation:legMenuPulse 2s ease-in-out infinite;}
+@keyframes legMenuPulse{0%,100%{box-shadow:0 0 12px rgba(200,80,255,.4)}50%{box-shadow:0 0 28px rgba(220,100,255,.7),0 0 50px rgba(180,60,240,.3)}}
+
+/* ══ LEGENDARY UNLOCK OVERLAY ══ */
+#legendary-unlock-overlay{position:fixed;inset:0;z-index:510;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);}
+#legendary-unlock-overlay.show{display:flex;}
+.luo-panel{background:radial-gradient(ellipse at 50% 0%,rgba(80,0,120,.98),rgba(8,3,18,.98));border:2px solid rgba(200,80,255,.75);border-radius:24px;padding:30px 28px;text-align:center;max-width:300px;width:90%;box-shadow:0 0 80px rgba(200,80,255,.6),0 30px 60px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,160,255,.15);animation:luoPop .55s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes luoPop{from{transform:scale(.4) rotate(-8deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+.luo-stars{font-size:26px;letter-spacing:5px;animation:lrStars 1.2s ease-in-out infinite;}
+.luo-pre{font-size:9px;letter-spacing:.35em;color:rgba(210,140,255,.75);font-family:'Crimson Pro',serif;text-transform:uppercase;margin:8px 0 3px;}
+.luo-name{font-size:20px;font-weight:900;color:#ff80ff;text-shadow:0 0 28px rgba(200,80,255,.9),0 0 55px rgba(160,40,220,.5);letter-spacing:.1em;margin-bottom:6px;}
+.luo-icon{margin:10px auto;width:64px;height:64px;display:flex;align-items:center;justify-content:center;}
+.luo-icon svg{width:64px;height:64px;filter:drop-shadow(0 0 12px rgba(200,80,255,.9)) drop-shadow(0 0 24px rgba(160,40,220,.6));}
+.luo-desc{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(220,180,255,.8);margin:8px 0 16px;line-height:1.55;}
+.luo-close{padding:10px 26px;border-radius:12px;background:linear-gradient(135deg,rgba(120,20,180,.9),rgba(80,10,130,.9));border:1px solid rgba(200,80,255,.6);color:#ff80ff;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;cursor:pointer;transition:all .2s;}
+.luo-close:hover{box-shadow:0 0 22px rgba(200,80,255,.55);}
+
+/* ══ ARTIFACT PICKER MODAL ══ */
+#artifact-picker{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);}
+#artifact-picker.show{display:flex;}
+.ap-panel{background:linear-gradient(160deg,rgba(20,12,5,.98),rgba(36,22,8,.98));border:1px solid rgba(180,140,60,.55);border-radius:22px;padding:22px 20px;max-width:min(92vw,380px);width:100%;box-shadow:0 0 60px rgba(245,200,66,.22),0 20px 60px rgba(0,0,0,.9);}
+.ap-title{font-size:14px;font-weight:900;color:var(--gold-light);letter-spacing:.14em;text-align:center;margin-bottom:3px;}
+.ap-sub{font-family:'Crimson Pro',serif;font-size:11px;color:rgba(200,160,100,.65);letter-spacing:.15em;text-align:center;margin-bottom:14px;}
+.ap-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:12px;}
+.ap-slot{border-radius:10px;padding:8px 4px;text-align:center;border:1.5px solid rgba(160,110,40,.3);background:rgba(25,15,5,.7);cursor:pointer;transition:all .18s;position:relative;}
+.ap-slot:hover{border-color:rgba(245,200,66,.5);}
+.ap-slot.selected{border-color:var(--gold);background:rgba(80,55,10,.85);box-shadow:0 0 12px rgba(245,200,66,.4);}
+.ap-slot.legendary-slot{border-color:rgba(180,80,255,.4);background:rgba(40,8,60,.7);}
+.ap-slot.legendary-slot.selected{border-color:#c840ff;background:rgba(70,15,110,.9);box-shadow:0 0 12px rgba(200,80,255,.45);}
+.ap-slot svg{width:28px;height:28px;}
+.ap-slot-label{font-size:6px;color:rgba(200,160,100,.7);letter-spacing:.08em;margin-top:3px;font-family:'Crimson Pro',serif;}
+.ap-slot.legendary-slot .ap-slot-label{color:rgba(210,140,255,.8);}
+.ap-count{font-size:10px;font-weight:900;color:var(--gold);text-align:center;letter-spacing:.18em;margin-bottom:10px;}
+.ap-count.ready{color:#90ee90;}
+.ap-confirm{width:100%;padding:11px;border-radius:12px;background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(150,100,20,.95));border:1px solid var(--gold);color:var(--gold-light);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;cursor:pointer;margin-bottom:7px;transition:all .2s;}
+.ap-confirm:disabled{opacity:.35;cursor:default;}
+.ap-confirm:not(:disabled):hover{box-shadow:0 0 20px rgba(245,200,66,.4);}
+.ap-reset{width:100%;padding:8px;border-radius:10px;background:transparent;border:1px solid rgba(160,110,40,.35);color:rgba(200,160,100,.6);font-family:'Crimson Pro',serif;font-size:10px;letter-spacing:.12em;cursor:pointer;}
+.ap-reset:hover{border-color:rgba(200,160,100,.5);color:rgba(220,180,120,.8);}
+
+/* ── Daily Hub ── */
+#screen-daily-hub{overflow-y:auto;}
+.dh-panel{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;margin:0 auto;padding:60px 16px 40px;gap:0;}
+.dh-title{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-align:center;margin-bottom:4px;}
+.dh-subtitle{font-family:'Crimson Pro',serif;font-size:13px;color:rgba(200,160,100,.7);letter-spacing:.1em;text-align:center;margin-bottom:20px;}
+/* Today card */
+.dh-today-card{width:100%;border:2px solid var(--gold);border-radius:14px;background:rgba(40,25,8,.85);padding:16px 18px 14px;box-shadow:0 0 18px rgba(245,200,66,.18);margin-bottom:6px;}
+.dh-today-tag{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
+.dh-today-date{font-family:'Crimson Pro',serif;font-size:16px;color:var(--gold-light);margin-bottom:4px;}
+.dh-today-diff{font-size:11px;letter-spacing:.1em;color:rgba(200,160,100,.7);margin-bottom:8px;}
+.dh-today-best{font-size:10px;color:rgba(150,210,150,.85);letter-spacing:.08em;margin-bottom:10px;}
+/* Archive list */
+.dh-section-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.22em;color:rgba(180,130,60,.6);text-transform:uppercase;margin:14px 0 8px;align-self:flex-start;}
+.dh-day-card{width:100%;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(160,110,40,.3);border-radius:10px;background:rgba(25,14,4,.7);padding:11px 14px;margin-bottom:6px;cursor:pointer;transition:border-color .2s,background .2s;}
+.dh-day-card:hover{border-color:rgba(245,200,66,.4);background:rgba(40,25,8,.85);}
+.dh-day-card.done{border-color:rgba(80,160,80,.4);background:rgba(20,35,20,.7);}
+.dh-day-card.done:hover{border-color:rgba(80,180,80,.6);}
+.dh-day-info{display:flex;flex-direction:column;gap:3px;}
+.dh-day-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);letter-spacing:.06em;}
+.dh-day-diff{font-size:10px;color:rgba(200,160,100,.6);letter-spacing:.08em;}
+.dh-day-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+.dh-day-score{font-size:10px;color:rgba(150,210,150,.85);letter-spacing:.06em;}
+.dh-day-action{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.15em;color:rgba(200,160,100,.7);text-transform:uppercase;}
+.dh-day-card.done .dh-day-action{color:rgba(100,200,100,.8);}
+/* Play buttons */
+.dh-play-btn{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(160,110,20,.95));border:1px solid var(--gold);color:var(--gold-light);font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;transition:all .2s;margin-top:4px;}
+.dh-play-btn:hover{box-shadow:0 0 22px rgba(245,200,66,.35);}
+.dh-play-btn.replay{background:rgba(30,20,8,.8);border-color:rgba(160,110,40,.5);color:rgba(200,160,100,.75);}
+.dh-play-btn.replay:hover{border-color:rgba(200,160,80,.6);color:rgba(220,180,120,.9);}
 </style>
 
 <script>
@@ -2114,6 +2262,272 @@ const ARTIFACTS = {
   }
 };
 
+/* ══ LEGENDARY ARTIFACT DEFINITIONS (indices 1-5, accessed as slot 10-14) ══ */
+const LEGENDARY_ARTIFACTS=[
+  null, // 0 unused
+  {name:'Phoenix Feather',label:'Phoenix',glow:'rgba(255,100,30,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff0a0"/><stop offset="45%" stop-color="#ff8020"/><stop offset="100%" stop-color="#c01010"/></linearGradient></defs><path d="M20,36 Q8,28 8,16 Q8,8 16,6 Q20,5 22,8 Q24,5 28,6 Q36,9 32,18 Q28,28 20,36Z" fill="url(#phg)" stroke="#ff6030" stroke-width="1"/><path d="M20,36 Q14,26 13,18 Q12,11 16,8" stroke="rgba(255,220,80,.6)" stroke-width="1.2" fill="none"/><path d="M20,36 Q26,26 27,18 Q28,11 26,8" stroke="rgba(255,180,60,.4)" stroke-width="1" fill="none"/><circle cx="20" cy="10" r="3" fill="#fff0a0" stroke="#ffd060" stroke-width="0.8"/><path d="M18,34 Q12,24 11,16" stroke="rgba(255,100,30,.5)" stroke-width="0.7" fill="none"/></svg>`},
+  {name:'Dragon Scale',label:'Dragon',glow:'rgba(40,220,140,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="dsg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a0ffd8"/><stop offset="50%" stop-color="#10c880"/><stop offset="100%" stop-color="#005830"/></linearGradient></defs><path d="M20,4 L32,12 L34,28 L20,36 L6,28 L8,12Z" fill="url(#dsg)" stroke="#20e070" stroke-width="1.2"/><path d="M20,4 L32,12 L20,18Z" fill="rgba(180,255,220,.3)"/><path d="M6,28 L20,18 L34,28Z" fill="rgba(0,60,30,.35)"/><path d="M8,12 L20,18 L6,28Z" fill="rgba(0,80,40,.25)"/><path d="M20,18 L32,12 L34,28Z" fill="rgba(0,80,40,.2)"/><circle cx="15" cy="14" r="2" fill="rgba(200,255,230,.55)"/><path d="M20,6 L20,18 M14,10 L20,18 M26,10 L20,18" stroke="rgba(160,255,200,.35)" stroke-width=".7" fill="none"/></svg>`},
+  {name:'Mermaid Tear',label:'Mermaid',glow:'rgba(40,190,255,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="mtg" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#d0f8ff"/><stop offset="45%" stop-color="#18a8e8"/><stop offset="100%" stop-color="#003880"/></radialGradient></defs><path d="M20,5 Q28,18 28,26 Q28,34 20,36 Q12,34 12,26 Q12,18 20,5Z" fill="url(#mtg)" stroke="#50ccff" stroke-width="1.2"/><path d="M20,5 Q24,18 24,26" stroke="rgba(200,240,255,.45)" stroke-width="1" fill="none"/><ellipse cx="16" cy="17" rx="3" ry="2" fill="rgba(255,255,255,.35)" transform="rotate(-30,16,17)"/><circle cx="20" cy="27" r="2.5" fill="rgba(180,240,255,.4)"/></svg>`},
+  {name:'Starfall Crystal',label:'Starfall',glow:'rgba(180,80,255,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0d8ff"/><stop offset="50%" stop-color="#b040f0"/><stop offset="100%" stop-color="#400080"/></linearGradient></defs><polygon points="20,4 23,16 35,16 25,24 29,36 20,29 11,36 15,24 5,16 17,16" fill="url(#sfg)" stroke="#cc60ff" stroke-width="1"/><polygon points="20,4 23,16 20,14 17,16" fill="rgba(255,220,255,.4)"/><circle cx="20" cy="20" r="3" fill="rgba(255,240,255,.8)" stroke="#e080ff" stroke-width=".8"/><circle cx="14" cy="12" r="1.2" fill="rgba(220,180,255,.65)"/></svg>`},
+  {name:'Eclipse Medallion',label:'Eclipse',glow:'rgba(255,215,0,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="emg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff0a0"/><stop offset="50%" stop-color="#d4a010"/><stop offset="100%" stop-color="#5a3800"/></radialGradient></defs><circle cx="20" cy="20" r="17" fill="url(#emg)" stroke="#c89020" stroke-width="1.2"/><circle cx="20" cy="20" r="12" fill="#0a0800" stroke="#c89020" stroke-width="0.8"/><circle cx="15" cy="15" r="8" fill="#1a1200" stroke="rgba(200,140,20,.4)" stroke-width=".6"/><path d="M20,4 L21.5,12 L20,11 L18.5,12Z M20,36 L21.5,28 L20,29 L18.5,28Z M4,20 L12,21.5 L11,20 L12,18.5Z M36,20 L28,21.5 L29,20 L28,18.5Z" fill="#f5c842"/><circle cx="20" cy="20" r="4" fill="#f5c842" opacity=".15"/></svg>`},
+];
+
+/* ── ARTIFACT HELPERS (support both standard + legendary slots) ── */
+function getArtifactSvg(slot){return slot>=10?LEGENDARY_ARTIFACTS[slot-9]?.svg||'':ARTIFACTS.svg(slot);}
+function getArtifactLabel(slot){return slot>=10?LEGENDARY_ARTIFACTS[slot-9]?.label||'?':ARTIFACTS.labels[slot];}
+function getArtifactGlow(slot){return slot>=10?LEGENDARY_ARTIFACTS[slot-9]?.glow||'rgba(255,215,0,.8)':ARTIFACTS.glowColors[slot];}
+
+/* ══ ARTIFACT SOUND EFFECTS ══ */
+const SOUNDS=(()=>{
+  let _ctx=null;
+  function ac(){
+    if(!_ctx)_ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(_ctx.state==='suspended')_ctx.resume();
+    return _ctx;
+  }
+  function env(g,t,att,peak,dec){
+    g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(peak,t+att);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+att+dec);
+  }
+  function tone(c,type,freq,dest,t0,t1){
+    const o=c.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t0);
+    o.connect(dest);o.start(t0);o.stop(t1);return o;
+  }
+  // D3-style shimmer: 3 rapid pings (32ms apart) + ascending sweep — ~0.20s total
+  function shimmer(c,t,m,r){
+    r=r||440;
+    [r,r*1.26,r*1.50].forEach((f,i)=>{
+      const g=c.createGain();g.connect(m);env(g,t+i*.032,.001,.11-i*.02,.08);
+      tone(c,'sine',f,g,t+i*.032,t+i*.032+.10);
+      const gh=c.createGain();gh.connect(m);env(gh,t+i*.032,.001,.03,.05);
+      tone(c,'triangle',f*2.01,gh,t+i*.032,t+i*.032+.07);
+    });
+    const gs=c.createGain();gs.connect(m);env(gs,t,.001,.05,.11);
+    const os=c.createOscillator();os.type='sine';
+    os.frequency.setValueAtTime(r*.5,t);os.frequency.exponentialRampToValueAtTime(r*1.8,t+.13);
+    os.connect(gs);os.start(t);os.stop(t+.16);
+  }
+  // 1: Golden Crown — metal thud on stone → royal D3 shimmer (C-maj)
+  function s1(c,t,m){
+    const gi=c.createGain();gi.connect(m);env(gi,t,.001,.72,.07);
+    const oi=c.createOscillator();oi.type='triangle';
+    oi.frequency.setValueAtTime(280,t);oi.frequency.exponentialRampToValueAtTime(130,t+.08);
+    oi.connect(gi);oi.start(t);oi.stop(t+.10);
+    const gr=c.createGain();gr.connect(m);env(gr,t,.002,.40,.13);
+    tone(c,'sine',146.83,gr,t,t+.17);
+    shimmer(c,t+.06,m,261.63);
+  }
+  // 2: Ruby Gem — sharp crystal snap → bright D3 shimmer (A-maj)
+  function s2(c,t,m){
+    const gc=c.createGain();gc.connect(m);env(gc,t,.001,.68,.06);
+    tone(c,'triangle',600,gc,t,t+.09);
+    const gr=c.createGain();gr.connect(m);env(gr,t,.002,.36,.11);
+    tone(c,'sine',440,gr,t,t+.15);
+    shimmer(c,t+.05,m,440);
+  }
+  // 3: Emerald Gem — deeper crystal tap → forest D3 shimmer (E-min)
+  function s3(c,t,m){
+    const gc=c.createGain();gc.connect(m);env(gc,t,.001,.60,.07);
+    tone(c,'triangle',460,gc,t,t+.10);
+    const gr=c.createGain();gr.connect(m);env(gr,t,.002,.28,.12);
+    tone(c,'sine',329.63,gr,t,t+.16);
+    shimmer(c,t+.06,m,329.63);
+  }
+  // 4: Sapphire Gem — quick water drop glide → ocean D3 shimmer (D-min)
+  function s4(c,t,m){
+    const gd=c.createGain();gd.connect(m);env(gd,t,.001,.62,.08);
+    const od=c.createOscillator();od.type='sine';
+    od.frequency.setValueAtTime(520,t);od.frequency.exponentialRampToValueAtTime(196,t+.10);
+    od.connect(gd);od.start(t);od.stop(t+.13);
+    shimmer(c,t+.05,m,293.66);
+  }
+  // 5: Ancient Compass — brass click + needle flick → adventure D3 shimmer (G-maj)
+  function s5(c,t,m){
+    const gk=c.createGain();gk.connect(m);env(gk,t,.001,.60,.06);
+    tone(c,'triangle',310,gk,t,t+.09);
+    const gn=c.createGain();gn.connect(m);env(gn,t+.04,.004,.34,.11);
+    const on=c.createOscillator();on.type='sine';
+    on.frequency.setValueAtTime(340,t+.04);on.frequency.exponentialRampToValueAtTime(136,t+.13);
+    on.connect(gn);on.start(t+.04);on.stop(t+.16);
+    shimmer(c,t+.07,m,392.0);
+  }
+  // 6: Pirate Coin — scattered change on metal table → soft shimmer
+  function s6(c,t,m){
+    // 3 coin strikes staggered: each a quick metallic tink with slight pitch drop
+    [[760,0],[840,.040],[695,.075]].forEach(([f,dt])=>{
+      const g=c.createGain();g.connect(m);env(g,t+dt,.001,.46,.09);
+      const o=c.createOscillator();o.type='triangle';
+      o.frequency.setValueAtTime(f,t+dt);o.frequency.exponentialRampToValueAtTime(f*.62,t+dt+.08);
+      o.connect(g);o.start(t+dt);o.stop(t+dt+.12);
+    });
+    // Metal table resonance: soft mid-range ring that lingers briefly
+    const gr=c.createGain();gr.connect(m);env(gr,t,.003,.16,.18);
+    tone(c,'sine',198,gr,t,t+.22);
+    shimmer(c,t+.09,m,440);
+  }
+  // 7: Treasure Key — two jingles + click → unlock D3 shimmer (E-maj)
+  function s7(c,t,m){
+    [440,554].forEach((f,i)=>{
+      const g=c.createGain();g.connect(m);env(g,t+i*.038,.001,.50,.08);
+      tone(c,'triangle',f,g,t+i*.038,t+i*.038+.11);
+    });
+    const gk=c.createGain();gk.connect(m);env(gk,t+.09,.001,.48,.07);
+    tone(c,'triangle',262,gk,t+.09,t+.16);
+    shimmer(c,t+.08,m,329.63);
+  }
+  // 8: Jeweled Chalice — hollow metal tap + ring → ceremonial D3 shimmer (C-maj)
+  function s8(c,t,m){
+    const gi=c.createGain();gi.connect(m);env(gi,t,.001,.55,.10);
+    tone(c,'triangle',222,gi,t,t+.14);
+    const gr=c.createGain();gr.connect(m);env(gr,t,.004,.42,.18);
+    tone(c,'sine',196.0,gr,t,t+.24);
+    shimmer(c,t+.07,m,261.63);
+  }
+  // 9: Golden Idol — deep sub punch → dark ancient D3 shimmer (F#-min)
+  function s9(c,t,m){
+    const gt=c.createGain();gt.connect(m);env(gt,t,.001,.80,.10);
+    const ot=c.createOscillator();ot.type='sine';
+    ot.frequency.setValueAtTime(86,t);ot.frequency.exponentialRampToValueAtTime(30,t+.11);
+    ot.connect(gt);ot.start(t);ot.stop(t+.14);
+    const gr=c.createGain();gr.connect(m);env(gr,t+.02,.008,.38,.16);
+    tone(c,'sine',82.41,gr,t+.02,t+.22);
+    shimmer(c,t+.07,m,369.99);
+  }
+  const FNS=[null,s1,s2,s3,s4,s5,s6,s7,s8,s9];
+  return{
+    play(n){
+      if(!SETTINGS.sound||n<1||n>9)return;
+      try{const c=ac(),t=c.currentTime,m=c.createGain();m.gain.value=0.15;m.connect(c.destination);FNS[n](c,t,m);}catch(e){}
+    }
+  };
+})();
+
+/* ══ BACKGROUND MUSIC ══ */
+const MUSIC=(()=>{
+  let _ctx=null,_master=null,_padBus=null,_harpBus=null,_ambBus=null,_magBus=null;
+  let _on=false,_magical=false,_tickId=null,_cycleId=null;
+  let _nextHarp=0,_harpIdx=0,_t0=0,_ambNodes=[];
+  const CDUR=32; // seconds per chord; 4 chords = 128s seamless loop
+  // D natural minor: Dm → Gm → Bb → F
+  const CHORDS=[
+    [36.71,73.42, 87.31,110.0, 146.83],   // Dm: D1,D2,F2,A2,D3
+    [49.0, 98.0,  116.54,146.83,196.0],   // Gm: G1,G2,Bb2,D3,G3
+    [58.27,116.54,146.83,174.61,233.08],  // Bb: Bb1,Bb2,D3,F3,Bb3
+    [43.65,87.31, 130.81,174.61,220.0],   // F:  F1,F2,C3,F3,A3
+  ];
+  // Meditative D-minor harp pools — one pluck every few seconds
+  const HARP  =[220,293.66,349.23,440,523.25,440,349.23,293.66,220,349.23,587.33,440];
+  const HARP_M=[587.33,698.46,880,1046.5,880,698.46,523.25,659.26,880,587.33];
+  const GAP   =[4.5,3.5,5.0,4.0,4.5,3.0,5.5,4.0,3.5,5.0,4.5,3.5]; // seconds between harp notes
+  function _ac(){if(!_ctx)_ctx=new(window.AudioContext||window.webkitAudioContext)();if(_ctx.state==='suspended')_ctx.resume();return _ctx;}
+  function _nb(c,s){const r=c.sampleRate,n=~~(r*s),b=c.createBuffer(1,n,r),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.random()*2-1;return b;}
+  // Warm detuned sine pair — deep sustained pad voice
+  function _pad(f,t,dur,pk){
+    const c=_ac();
+    [-3,3].forEach(det=>{
+      const o=c.createOscillator(),g=c.createGain();
+      o.type='sine';o.frequency.value=f;o.detune.value=det;
+      g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(pk*.55,t+5);
+      g.gain.setValueAtTime(pk*.55,t+dur-5);g.gain.linearRampToValueAtTime(0.0001,t+dur);
+      o.connect(g);g.connect(_padBus);o.start(t);o.stop(t+dur+.5);
+    });
+  }
+  // Soft harp pluck with gentle harmonic shimmer
+  function _harp(dest,f,t){
+    const c=_ac();
+    const o=c.createOscillator(),g=c.createGain();
+    o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(1,t+.007);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+3.8);
+    o.connect(g);g.connect(dest);o.start(t);o.stop(t+4);
+    const o2=c.createOscillator(),g2=c.createGain();
+    o2.type='sine';o2.frequency.value=f*2;
+    g2.gain.setValueAtTime(0.0001,t);g2.gain.linearRampToValueAtTime(.16,t+.007);
+    g2.gain.exponentialRampToValueAtTime(0.0001,t+1.8);
+    o2.connect(g2);g2.connect(dest);o2.start(t);o2.stop(t+2);
+  }
+  function _buildAmb(){
+    const c=_ac();
+    // Deep ocean rumble (low-passed noise)
+    const s1=c.createBufferSource(),f1=c.createBiquadFilter(),g1=c.createGain();
+    s1.buffer=_nb(c,5);s1.loop=true;f1.type='lowpass';f1.frequency.value=155;g1.gain.value=0.28;
+    s1.connect(f1);f1.connect(g1);g1.connect(_ambBus);s1.start();
+    // Wave swoosh with slow breathing LFO (~12s wave cycle)
+    const s2=c.createBufferSource(),f2=c.createBiquadFilter(),g2=c.createGain();
+    s2.buffer=_nb(c,8);s2.loop=true;f2.type='bandpass';f2.frequency.value=330;f2.Q.value=1.0;g2.gain.value=0.06;
+    s2.connect(f2);f2.connect(g2);g2.connect(_ambBus);s2.start();
+    const lfo=c.createOscillator(),lG=c.createGain();
+    lfo.type='sine';lfo.frequency.value=0.08;lG.gain.value=0.05;
+    lfo.connect(lG);lG.connect(g2.gain);lfo.start();
+    // Distant wind (narrow bandpass)
+    const s3=c.createBufferSource(),f3=c.createBiquadFilter(),g3=c.createGain();
+    s3.buffer=_nb(c,4);s3.loop=true;f3.type='bandpass';f3.frequency.value=640;f3.Q.value=4;g3.gain.value=0.014;
+    s3.connect(f3);f3.connect(g3);g3.connect(_ambBus);s3.start();
+    _ambNodes.push(s1,s2,s3,lfo);
+  }
+  function _schedCycle(){
+    if(!_on)return;
+    const c=_ac();_t0=c.currentTime;
+    CHORDS.forEach((ch,ci)=>{
+      const t=_t0+ci*CDUR,dur=CDUR+8; // 8s overlap for seamless crossfade
+      ch.forEach(f=>_pad(f,t,dur,f<80?0.22:0.15));
+    });
+    // Reschedule 2s before cycle ends so next cycle overlaps smoothly
+    _cycleId=setTimeout(_schedCycle,(CDUR*CHORDS.length-2)*1000);
+  }
+  function _tick(){
+    if(!_on)return;
+    const c=_ac(),now=c.currentTime;
+    if(_nextHarp<=now+.12){
+      const pool=_magical?HARP_M:HARP,dest=_magical?_magBus:_harpBus;
+      _harp(dest,pool[_harpIdx%pool.length],Math.max(_nextHarp,now+.01));
+      _nextHarp+=GAP[_harpIdx%GAP.length];_harpIdx++;
+    }
+    _tickId=setTimeout(_tick,60);
+  }
+  return{
+    start(){
+      if(_on)return;_on=true;_magical=false;_harpIdx=0;
+      const c=_ac(),now=c.currentTime;
+      _master=c.createGain();_master.gain.value=0;_master.connect(c.destination);
+      _master.gain.linearRampToValueAtTime(0.13,now+7); // gentle 7s fade-in
+      _padBus=c.createGain();_padBus.gain.value=1;_padBus.connect(_master);
+      _harpBus=c.createGain();_harpBus.gain.value=0.40;_harpBus.connect(_master);
+      _ambBus=c.createGain();_ambBus.gain.value=0.95;_ambBus.connect(_master);
+      _magBus=c.createGain();_magBus.gain.value=0;_magBus.connect(_master);
+      _buildAmb();_schedCycle();_nextHarp=now+3;_tick();
+    },
+    stop(){
+      if(!_on)return;_on=false;
+      clearTimeout(_tickId);clearTimeout(_cycleId);
+      const c=_ac(),now=c.currentTime;
+      if(_master){_master.gain.setValueAtTime(_master.gain.value,now);_master.gain.linearRampToValueAtTime(0,now+3);}
+      _ambNodes.forEach(n=>{try{n.stop(now+3.5);}catch(e){}});
+      setTimeout(()=>{_ambNodes=[];_master=_padBus=_harpBus=_ambBus=_magBus=null;},4000);
+    },
+    setMagical(on){
+      if(_magical===on||!_master)return;_magical=on;
+      const c=_ac(),now=c.currentTime;
+      if(on){
+        _magBus.gain.setValueAtTime(_magBus.gain.value,now);
+        _magBus.gain.linearRampToValueAtTime(0.42,now+8); // slow fade-in of magical layer
+        // Shimmery high D-minor pads (D5, F5, A5)
+        [[587.33,0],[698.46,0.6],[880,1.2]].forEach(([f,delay])=>{
+          [-3,3].forEach(det=>{
+            const o=c.createOscillator(),g=c.createGain();
+            o.type='sine';o.frequency.value=f;o.detune.value=det;
+            g.gain.setValueAtTime(0.0001,now+delay);g.gain.linearRampToValueAtTime(0.09,now+delay+6);
+            g.gain.linearRampToValueAtTime(0.09,now+40);g.gain.linearRampToValueAtTime(0.0001,now+45);
+            o.connect(g);g.connect(_magBus);o.start(now+delay);o.stop(now+46);
+          });
+        });
+      } else {
+        _magBus.gain.setValueAtTime(_magBus.gain.value,now);_magBus.gain.linearRampToValueAtTime(0,now+5);
+      }
+    },
+  };
+})();
+
 /* ══════════════════════════════════════════════════════
    STAR GENERATION
 ══════════════════════════════════════════════════════ */
@@ -2131,7 +2545,8 @@ const ARTIFACTS = {
 /* ══════════════════════════════════════════════════════
    STATE
 ══════════════════════════════════════════════════════ */
-const SETTINGS={sound:true,particles:true,highlight:true,showErrors:true};
+const SETTINGS={sound:true,particles:true,highlight:true,showErrors:true,customArtifacts:[1,2,3,4,5,6,7,8,9]};
+let ACTIVE_MODE='daily'; // 'daily' | 'puzzle' | 'legendary'
 
 /* ── PERSISTENT STORAGE ── */
 const SAVE_KEY='treasure_sudoku_save';
@@ -2141,6 +2556,7 @@ function saveState(){
       bestTimes:BEST_TIMES,
       gameStats:GAME_STATS,
       settings:SETTINGS,
+      dailyScores:DAILY_SCORES,
     }));
   }catch(e){console.warn('Save failed:',e);}
 }
@@ -2151,6 +2567,7 @@ function loadState(){
     const d=JSON.parse(raw);
     if(d.bestTimes)Object.assign(BEST_TIMES,d.bestTimes);
     if(d.gameStats)Object.assign(GAME_STATS,d.gameStats);
+    if(d.dailyScores)Object.assign(DAILY_SCORES,d.dailyScores);
     if(d.settings){
       Object.assign(SETTINGS,d.settings);
       ['set-sound','set-particles','set-highlight','set-errors'].forEach(id=>{
@@ -2163,8 +2580,9 @@ function loadState(){
     }
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0)};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,legendaryArtifacts:[],legendaryUnlockPending:false,completedDates:[]};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
+let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
 /* ══════════════════════════════════════════════════════
    SCREEN ROUTER
@@ -2206,7 +2624,14 @@ function showDiffPicker(onSelect){
     btn.onclick=function(){
       picker.classList.remove('show');
       const chosen=this.dataset.diff;
-      setTimeout(()=>onSelect(chosen),300);
+      setTimeout(()=>{
+        // If player has earned legendaries, show artifact picker before starting puzzle
+        if(GAME_STATS.legendaryArtifacts.length>0){
+          showArtifactPicker(chosen);
+        } else {
+          onSelect(chosen);
+        }
+      },300);
     };
   });
 }
@@ -2345,8 +2770,12 @@ function fmtTime(s){return`${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0
    SHARED CELL/PARTICLE UTILS
 ══════════════════════════════════════════════════════ */
 function makeCellIcon(val,isGiven){
-  const w=document.createElement('div');w.className='artifact-icon';w.innerHTML=ARTIFACTS.svg(val);
-  if(isGiven)w.style.filter=`drop-shadow(0 0 4px ${ARTIFACTS.glowColors[val]})`;
+  const w=document.createElement('div');w.className='artifact-icon';
+  // In puzzle mode, remap val through custom artifact selection
+  const slot=(ACTIVE_MODE==='puzzle')?SETTINGS.customArtifacts[val-1]||val:val;
+  w.innerHTML=getArtifactSvg(slot);
+  const glow=getArtifactGlow(slot);
+  if(isGiven)w.style.filter=`drop-shadow(0 0 4px ${glow})`;
   return w;
 }
 function spawnSparkle(cell){
@@ -2390,6 +2819,7 @@ let PZ={puzzle:[],solution:[],board:[],notes:[],selected:null,activeNum:null,not
 
 function pzStart(diff){
   clearInterval(PZ.timerInterval);
+  ACTIVE_MODE='puzzle';
   PZ={...PZ,diff,selected:null,activeNum:null,notesMode:false,mistakes:0,score:0,streak:0,hints:3,undoStack:[],elapsed:0};
   const diffNames={easy:'EASY',medium:'INTERMEDIATE',hard:'ADVANCED',expert:'EXPERT'};
   const badge=document.getElementById('pz-diff-badge');
@@ -2460,6 +2890,8 @@ function pzPlace(num){
   if(num===PZ.solution[placedIdx]){
     PZ.undoStack.push({idx:placedIdx,prev:PZ.board[placedIdx],prevNotes:new Set(PZ.notes[placedIdx])});
     PZ.board[placedIdx]=num;PZ.notes[placedIdx].clear();
+    SOUNDS.play(num);
+    const _pzRem=PZ.board.filter(v=>v===0).length;MUSIC.setMagical(_pzRem>0&&_pzRem<=9);
     const cell=document.querySelector(`#pz-board .cell[data-idx="${placedIdx}"]`);
     cell.classList.add('correct-flash');spawnSparkle(cell);
     setTimeout(()=>cell.classList.remove('correct-flash'),800);
@@ -2510,8 +2942,9 @@ function pzBuildNumpad(){
   const np=document.getElementById('pz-numpad');np.innerHTML='';
   for(let n=1;n<=9;n++){
     const btn=document.createElement('button');btn.className='num-btn';btn.dataset.n=n;
-    const iw=document.createElement('div');iw.className='btn-icon';iw.innerHTML=ARTIFACTS.svg(n);
-    const lb=document.createElement('div');lb.className='btn-label';lb.textContent=ARTIFACTS.labels[n];
+    const slot=SETTINGS.customArtifacts[n-1]||n;
+    const iw=document.createElement('div');iw.className='btn-icon';iw.innerHTML=getArtifactSvg(slot);
+    const lb=document.createElement('div');lb.className='btn-label';lb.textContent=getArtifactLabel(slot);
     btn.appendChild(iw);btn.appendChild(lb);
     btn.addEventListener('click',()=>{
       btn.classList.add('pulse-anim');setTimeout(()=>btn.classList.remove('pulse-anim'),300);
@@ -2642,11 +3075,25 @@ function dpGetTodayStr(){
   const d=new Date();
   return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 }
+function dpGetDateStrOffset(offset){
+  const d=new Date();d.setDate(d.getDate()+offset);
+  return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
 
-function dpStart(){
+function dpStart(isLegendary=false, replayDateStr=null){
   clearInterval(DP.timerInterval);
-  const dateStr=dpGetTodayStr();
-  const{puzzle,solution,diff,diffIdx}=generateDailyPuzzle(dateStr);
+  const isReplay=!!replayDateStr;
+  const dateStr=replayDateStr||(isLegendary?dpGetTodayStr():dpGetTodayStr());
+  let puzzle,solution,diff,diffIdx;
+  if(isLegendary){
+    const pz=generatePuzzle('expert');
+    puzzle=pz.puzzle;solution=pz.solution;
+    diff={name:'Legendary',emoji:'🔮',color:'rgba(180,80,255,1)'};diffIdx=5;
+  } else {
+    const dp=generateDailyPuzzle(dateStr);
+    puzzle=dp.puzzle;solution=dp.solution;diff=dp.diff;diffIdx=dp.diffIdx;
+  }
+  ACTIVE_MODE=isLegendary?'legendary':'daily';
   DP={
     puzzle:[...puzzle],solution:[...solution],board:[...puzzle],
     notes:Array(81).fill(null).map(()=>new Set()),
@@ -2656,11 +3103,17 @@ function dpStart(){
     undoStack:[],timerInterval:null,elapsed:0,startTime:Date.now(),
     dateStr,diff,diffIdx,gameOver:false,completed:false,
     completedRows:new Set(),completedCols:new Set(),completedBoxes:new Set(),
+    challenges:[],challengeQueue:[],challengeScheduleId:null,
+    fogCells:new Set(),isReplay,isLegendary,
   };
 
-  // Date label
+  // Date label — parse dateStr to show correct date for replays
   const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
-  document.getElementById('dp-date-label').textContent=new Date().toLocaleDateString(undefined,opts);
+  const[_y,_m,_d]=dateStr.split('-').map(Number);
+  const displayDate=new Date(_y,_m-1,_d);
+  document.getElementById('dp-date-label').textContent=isLegendary?'⚡ LEGENDARY QUEST'
+    :(isReplay?'🔄 REPLAY — '+displayDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})
+    :displayDate.toLocaleDateString(undefined,opts));
 
   // Difficulty badge
   const badge=document.getElementById('dp-diff-badge');
@@ -2668,6 +3121,13 @@ function dpStart(){
   badge.style.color=diff.color;
   badge.style.borderColor=diff.color;
   badge.style.background=`${diff.color}18`;
+
+  // Legendary mode styling
+  const ds=document.getElementById('screen-daily');
+  if(isLegendary){ds.classList.add('legendary-mode');}else{ds.classList.remove('legendary-mode');}
+
+  // Init fog BEFORE building board so dpRenderBoard sees the fog set
+  dpInitFog();
 
   // Build board
   dpBuildBoard();
@@ -2681,8 +3141,8 @@ function dpStart(){
   // Start timer
   DP.startTime=Date.now();
   DP.timerInterval=setInterval(()=>{
-    // Midnight reset check — if date has changed, prompt refresh
-    if(dpGetTodayStr()!==DP.dateStr){
+    // Midnight reset check — only for today's puzzle (not replays or legendary)
+    if(!DP.isReplay&&!DP.isLegendary&&dpGetTodayStr()!==DP.dateStr){
       clearInterval(DP.timerInterval);
       showToast('🌅 A new day has begun! Refreshing daily puzzle...',3000);
       setTimeout(()=>{dpStart();},2500);
@@ -2692,6 +3152,7 @@ function dpStart(){
     DP.elapsed=Math.floor((Date.now()-DP.startTime)/1000);
     document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);
   },500);
+  dpChallengeInit();
 }
 
 /* ── DRAW HAND ── */
@@ -2752,7 +3213,11 @@ function dpRenderBoard(){
       if(matchVal&&i!==DP.selected&&cellVal===matchVal)cell.classList.add('relic-match');
       return;
     }
-    cell.className='cell';cell.innerHTML='';
+    const _ch=DP.challenges&&DP.challenges.find(ch=>ch.idx===i&&DP.board[i]===0);
+    cell.className='cell'+(_ch?' '+(_ch.type==='bomb'?'challenge-bomb':'challenge-popup'):'');
+    if(DP.fogCells&&DP.fogCells.has(i)&&DP.board[i]===0)cell.classList.add('fog-cell');
+    cell.innerHTML='';
+    if(_ch){const ov=document.createElement('div');ov.className='challenge-overlay';ov.innerHTML=`<span class="ch-icon${_ch.type==='bomb'?' ch-icon-bomb':' ch-icon-chest'}">${_ch.type==='bomb'?'💣':'💰'}</span><span class="ch-time${_ch.timeLeft<=5?' ch-urgent':''}">${_ch.timeLeft}</span>`;cell.appendChild(ov);}
     const ns=DP.notes[i];
     if(DP.board[i]===0){
       if(ns.size>0){const ng=document.createElement('div');ng.className='notes-grid';for(let n=1;n<=9;n++){const nd=document.createElement('div');nd.className='note-dot';if(ns.has(n))nd.innerHTML=ARTIFACTS.svg(n);ng.appendChild(nd);}cell.appendChild(ng);}
@@ -2808,7 +3273,11 @@ function dpPlace(num){
       prevActiveHandIdx:slotIdx,
     });
     DP.board[placedIdx]=num;
+    DP.fogCells.delete(placedIdx);
     DP.notes[placedIdx].clear();
+    SOUNDS.play(num);
+    const _dpRem=DP.board.filter(v=>v===0).length;MUSIC.setMagical(_dpRem>0&&_dpRem<=6);
+    const _dpCh=DP.challenges&&DP.challenges.find(c=>c.idx===placedIdx);if(_dpCh)dpChallengeSuccess(_dpCh);
     dpClearNotesCascade(placedIdx,num);
 
     // Ghost this exact hand slot
@@ -2829,16 +3298,21 @@ function dpPlace(num){
 
     DP.selected=null;
     dpUpdateHUD();dpRenderHand();dpRenderBoard();
+    // Fog-clearing animation (applied after render so it survives className reset)
+    {const _fogEl=document.querySelector(`#dp-board .cell[data-idx="${placedIdx}"]`);
+    if(_fogEl){_fogEl.classList.add('fog-cell','fog-clearing');setTimeout(()=>{_fogEl.classList.remove('fog-cell','fog-clearing');},620);}}
     dpCheckCompletions(placedIdx);
     dpCheckHandBonus();
     dpCheckWin();
 
   // WRONG
   } else {
-    DP.streak=0;DP.lives--;
-    dpUpdateHUD();
-    if(DP.lives<=0){DP.gameOver=true;clearInterval(DP.timerInterval);}
-
+    DP.streak=0;
+    const _wrongCh=DP.challenges&&DP.challenges.find(c=>c.idx===placedIdx);
+    const _isPopup=_wrongCh&&_wrongCh.type==='popup';
+    const _isBomb=_wrongCh&&_wrongCh.type==='bomb';
+    // Popup + bomb squares: no life penalty — bomb triggers explosion instead
+    if(!_isPopup&&!_isBomb){DP.lives--;dpUpdateHUD();if(DP.lives<=0){DP.gameOver=true;clearInterval(DP.timerInterval);}}
     const cell=document.querySelector(`#dp-board .cell[data-idx="${placedIdx}"]`);
     cell.innerHTML='';cell.appendChild(makeCellIcon(num,false));cell.classList.add('wrong-placement');
     setTimeout(()=>{
@@ -2847,13 +3321,225 @@ function dpPlace(num){
         cell.classList.remove('wrong-placement','wrong-fade');
         cell.innerHTML='';DP.selected=null;
         dpRenderBoard();
-        if(DP.lives<=0)dpGameOver();
+        if(!_isPopup&&!_isBomb&&DP.lives<=0)dpGameOver();
       },200);
     },550);
-    showToast(`💔 Wrong relic! ${DP.lives} ${DP.lives===1?'life':'lives'} remaining`,1800);
+    if(_isPopup){
+      showToast('❌ Wrong relic — try again before time expires!',1800);
+    } else if(_isBomb){
+      showToast('💣 Wrong relic! 💥 Stand back…',1200);
+      setTimeout(()=>{const _bc=DP.challenges&&DP.challenges.find(c=>c.idx===placedIdx&&c.type==='bomb');if(_bc)dpChallengeBombWrong(_bc);},800);
+    } else {
+      showToast(`💔 Wrong relic! ${DP.lives} ${DP.lives===1?'life':'lives'} remaining`,1800);
+    }
   }
 }
 function dpClearNotesCascade(idx,num){const row=Math.floor(idx/9),col=idx%9;for(let i=0;i<81;i++){const r=Math.floor(i/9),c=i%9;if(r===row||c===col||(Math.floor(r/3)===Math.floor(row/3)&&Math.floor(c/3)===Math.floor(col/3)))DP.notes[i].delete(num);}}
+
+/* ══ DAILY CHALLENGE EVENTS (Popup Squares + Bombs) ══ */
+const CSOUNDS=(()=>{
+  let _ctx=null;
+  function _ac(){if(!_ctx)_ctx=new(window.AudioContext||window.webkitAudioContext)();if(_ctx.state==='suspended')_ctx.resume();return _ctx;}
+  function _env(g,t,att,pk,dec){g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(pk,t+att);g.gain.exponentialRampToValueAtTime(0.0001,t+att+dec);}
+  function _tone(c,type,freq,dest,t0,t1){const o=c.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t0);o.connect(dest);o.start(t0);o.stop(t1);}
+  function _play(fn){if(!SETTINGS.sound)return;try{const c=_ac(),m=c.createGain();m.gain.value=0.18;m.connect(c.destination);fn(c,c.currentTime,m);}catch(e){}}
+  return{
+    popupAppear(){_play((c,t,m)=>{
+      // Warm ascending two-note chime
+      [[392,0],[523.25,.13]].forEach(([f,dt])=>{
+        const g=c.createGain();g.connect(m);_env(g,t+dt,.005,.68,.38);_tone(c,'sine',f,g,t+dt,t+dt+.48);
+        const g2=c.createGain();g2.connect(m);_env(g2,t+dt,.003,.18,.22);_tone(c,'triangle',f*2,g2,t+dt,t+dt+.30);
+      });
+    });},
+    solved(){_play((c,t,m)=>{
+      // Bright treasure fanfare — ascending D-minor arpeggio with resolve
+      [[293.66,0],[369.99,.08],[440,.17],[587.33,.27],[440,.40]].forEach(([f,dt])=>{
+        const g=c.createGain();g.connect(m);_env(g,t+dt,.004,.80,.42);_tone(c,'sine',f,g,t+dt,t+dt+.55);
+        const g2=c.createGain();g2.connect(m);_env(g2,t+dt,.003,.22,.28);_tone(c,'triangle',f*2,g2,t+dt,t+dt+.32);
+      });
+    });},
+    bombAppear(){_play((c,t,m)=>{
+      // Ominous low drone + tritone overtone + two ticks
+      const g=c.createGain();g.connect(m);_env(g,t,.015,.62,.58);
+      const o=c.createOscillator();o.type='sine';o.frequency.setValueAtTime(98,t);o.frequency.exponentialRampToValueAtTime(55,t+.72);
+      o.connect(g);o.start(t);o.stop(t+.78);
+      const g2=c.createGain();g2.connect(m);_env(g2,t+.18,.01,.22,.42);_tone(c,'sine',138.59,g2,t+.18,t+.65);
+      [0,.38].forEach(dt=>{const gt=c.createGain();gt.connect(m);_env(gt,t+dt,.002,.35,.05);_tone(c,'square',220,gt,t+dt,t+dt+.04);});
+    });},
+    bombFail(){_play((c,t,m)=>{
+      // Dramatic descending thud + distorted crash
+      const g=c.createGain();g.connect(m);_env(g,t,.001,.88,.5);
+      const o=c.createOscillator();o.type='sine';o.frequency.setValueAtTime(115,t);o.frequency.exponentialRampToValueAtTime(26,t+.55);
+      o.connect(g);o.start(t);o.stop(t+.65);
+      const g2=c.createGain();g2.connect(m);_env(g2,t+.04,.01,.42,.38);_tone(c,'sawtooth',65,g2,t+.04,t+.48);
+      const g3=c.createGain();g3.connect(m);_env(g3,t,.001,.28,.18);_tone(c,'square',82.41,g3,t,t+.25);
+    });},
+  };
+})();
+
+// Pick a random empty cell whose solution value is in the current unplaced hand.
+// For bombs, only picks cells in 3x3 boxes that already have ≥2 player-placed relics.
+function dpChallengeGetCell(type){
+  if(!DP||DP.gameOver||DP.completed)return null;
+  const available=[];
+  for(let i=0;i<81;i++){
+    if(DP.board[i]!==0||DP.puzzle[i]!==0)continue;
+    if(!DP.hand.some((v,si)=>!DP.handPlaced[si]&&v===DP.solution[i]))continue;
+    if(DP.challenges.some(c=>c.idx===i))continue; // don't stack two challenges on same cell
+    if(type==='bomb'){
+      // Count player-placed relics in this cell's 3x3 box
+      const br=Math.floor(Math.floor(i/9)/3)*3,bc=Math.floor((i%9)/3)*3;
+      let placed=0;
+      for(let r=br;r<br+3;r++)for(let c=bc;c<bc+3;c++){
+        const ci=r*9+c;
+        if(DP.puzzle[ci]===0&&DP.board[ci]!==0)placed++;
+      }
+      if(placed<2)continue; // bomb needs at least 2 relics to destroy
+    }
+    available.push(i);
+  }
+  if(!available.length)return null;
+  return available[Math.floor(Math.random()*available.length)];
+}
+// Schedule the next challenge — type-aware; short delay if a popup slot is already open
+function dpChallengeScheduleNext(delay){
+  clearTimeout(DP.challengeScheduleId);DP.challengeScheduleId=null;
+  if(!DP||DP.gameOver||DP.completed||!DP.challengeQueue.length)return;
+  const next=DP.challengeQueue[0];
+  let auto;
+  if(next==='bomb'){
+    auto=20000+Math.floor(Math.random()*10000);
+  } else {
+    // If a popup is already showing and second slot is open, fire next popup quickly
+    const hasPopup=DP.challenges.some(c=>c.type==='popup');
+    auto=(hasPopup&&DP.challenges.length<2)?(3000+Math.floor(Math.random()*3000)):(10000+Math.floor(Math.random()*5000));
+  }
+  const d=delay!==undefined?delay:auto;
+  DP.challengeScheduleId=setTimeout(()=>{if(DP&&!DP.gameOver&&!DP.completed)dpChallengeTrigger(DP.challengeQueue[0]);},d);
+}
+// Fire a challenge of the given type — supports up to 2 concurrent popups
+function dpChallengeTrigger(type){
+  if(!DP||DP.gameOver||DP.completed)return;
+  if(type==='bomb'&&DP.challenges.length>0)return; // bomb needs a clear board
+  if(DP.challenges.length>=2)return;               // already at max concurrency
+  const idx=dpChallengeGetCell(type);
+  if(idx===null){DP.challengeScheduleId=setTimeout(()=>dpChallengeTrigger(type),9000);return;}
+  const totalTime=type==='bomb'?15:10;
+  const ch={type,idx,solution:DP.solution[idx],timeLeft:totalTime,totalTime,bonusPoints:type==='bomb'?300:150,countdownId:null};
+  DP.challenges.push(ch);
+  dpRenderBoard();
+  if(type==='bomb'){CSOUNDS.bombAppear();showToast('💣 BOMB! Place the correct relic before it explodes!',3000);}
+  else{CSOUNDS.popupAppear();showToast('💰 Treasure chest! Place the matching relic for bonus points!',3000);}
+  ch.countdownId=setInterval(()=>{
+    if(!DP.challenges.includes(ch))return;
+    ch.timeLeft--;
+    dpChallengeUpdateTimerDisplay();
+    if(ch.timeLeft<=0)dpChallengeExpire(ch);
+  },1000);
+  // After the first popup fires, immediately re-schedule — so if there's a second popup
+  // slot open, dpChallengeScheduleNext will fire it in 3-6s instead of 10-15s
+  if(type==='popup'&&DP.challenges.length===1)dpChallengeScheduleNext();
+}
+// Update countdown numbers in place for all active challenges (no full board re-render)
+function dpChallengeUpdateTimerDisplay(){
+  if(!DP.challenges||!DP.challenges.length)return;
+  DP.challenges.forEach(ch=>{
+    const cell=document.querySelector(`#dp-board .cell[data-idx="${ch.idx}"]`);
+    if(!cell)return;
+    const tv=cell.querySelector('.ch-time');
+    if(tv){tv.textContent=ch.timeLeft;tv.className='ch-time'+(ch.timeLeft<=5?' ch-urgent':'');}
+  });
+}
+// Correct relic placed in a challenge cell — award bonus
+function dpChallengeSuccess(ch){
+  if(!ch)return;
+  const{type,bonusPoints}=ch;
+  clearInterval(ch.countdownId);
+  DP.challenges=DP.challenges.filter(c=>c!==ch);
+  DP.score+=bonusPoints;dpUpdateHUD();
+  CSOUNDS.solved();
+  showAchievement(type==='bomb'?`💣 Defused! +${bonusPoints} pts`:`⭐ Bonus! +${bonusPoints} pts`);
+  DP.challengeQueue.shift();
+  dpChallengeScheduleNext();
+}
+// Core bomb explosion — randomly destroys 2–4 relics in the 3x3, then animates
+function dpBombDetonate(idx){
+  const row=Math.floor(idx/9),col=idx%9;
+  const br=Math.floor(row/3)*3,bc=Math.floor(col/3)*3;
+  const blastCells=[];
+  // Step 1: collect all cells and find player-placed relics
+  const removable=[];
+  for(let r=br;r<br+3;r++){for(let c=bc;c<bc+3;c++){
+    const ci=r*9+c;blastCells.push(ci);
+    if(DP.puzzle[ci]===0&&DP.board[ci]!==0)removable.push(ci);
+  }}
+  // Step 2: randomly pick 2 – min(total,4) relics to destroy
+  const shuffled=shuffle([...removable]);
+  const maxRemove=Math.min(shuffled.length,4);
+  const count=removable.length>=2?2+Math.floor(Math.random()*Math.max(1,maxRemove-1)):shuffled.length;
+  const toRemove=shuffled.slice(0,count);
+  // Step 3: clear selected relics and return them to hand
+  let cleared=0;
+  toRemove.forEach(ci=>{
+    const n=DP.board[ci];
+    DP.board[ci]=0;DP.notes[ci]=new Set();
+    const hIdx=DP.hand.findIndex((h,j)=>h===n&&DP.handPlaced[j]);
+    if(hIdx>=0)DP.handPlaced[hIdx]=false;
+    cleared++;
+  });
+  CSOUNDS.bombFail();
+  showToast(cleared>0?`💥 BOOM! ${cleared} relic${cleared===1?'':'s'} destroyed — replace them!`:'💥 BOOM! The bomb exploded!',2800);
+  // Step 4: re-render with cleared data so board is correct before animations
+  dpRenderBoard();dpRenderHand();
+  // Step 5: add blast animations on now-empty cells (after render so they stick)
+  blastCells.forEach((ci,i)=>{
+    setTimeout(()=>{
+      const cell=document.querySelector(`#dp-board .cell[data-idx="${ci}"]`);
+      if(!cell)return;
+      const cls=ci===idx?'bomb-explode':'cell-blast';
+      cell.classList.add(cls);
+      setTimeout(()=>cell&&cell.classList.remove(cls),900);
+    },ci===idx?0:40+i*40);
+  });
+  DP.challengeQueue.shift();
+  dpChallengeScheduleNext();
+}
+// Wrong relic on a bomb cell — detonate the 3×3
+function dpChallengeBombWrong(ch){
+  if(!ch||ch.type!=='bomb')return;
+  clearInterval(ch.countdownId);
+  DP.challenges=DP.challenges.filter(c=>c!==ch);
+  dpBombDetonate(ch.idx);
+}
+// Timer expired — window closed
+function dpChallengeExpire(ch){
+  if(!ch)return;
+  const{type,idx}=ch;
+  clearInterval(ch.countdownId);
+  DP.challenges=DP.challenges.filter(c=>c!==ch);
+  if(type==='bomb'){
+    showToast('⏰ Too slow! 💥 The bomb detonated!',2000);
+    dpBombDetonate(idx);return; // dpBombDetonate handles queue.shift + scheduleNext
+  } else {
+    showToast('💰 Treasure window expired — keep going!',2000);
+  }
+  dpRenderBoard();
+  DP.challengeQueue.shift();
+  dpChallengeScheduleNext();
+}
+// Stop all challenge timers (win, game over, back button)
+function dpChallengeStop(){
+  if(!DP)return;
+  clearTimeout(DP.challengeScheduleId);DP.challengeScheduleId=null;
+  if(DP.challenges){DP.challenges.forEach(ch=>clearInterval(ch.countdownId));DP.challenges=[];}
+  if(DP.challengeQueue)DP.challengeQueue=[];
+}
+// Set up the challenge queue and schedule the first challenge for a new daily puzzle
+function dpChallengeInit(){
+  DP.challenges=[];DP.challengeQueue=[];DP.challengeScheduleId=null;
+  DP.challengeQueue=shuffle(['popup','popup','popup','popup','popup','popup','popup','popup','popup','popup','bomb','bomb','bomb','bomb','bomb']);
+  dpChallengeScheduleNext(10000+Math.floor(Math.random()*5000));
+}
 
 /* ── HAND RENDER ── */
 function dpRenderHand(){
@@ -2864,7 +3550,7 @@ function dpRenderHand(){
     const card=document.createElement('div');
     card.className='dp-hand-card'+(placed?' placed':'')+(isActive?' active-card':'');
     const ico=document.createElement('div');ico.className='dp-card-icon';ico.innerHTML=ARTIFACTS.svg(val);
-    const lbl=document.createElement('div');lbl.className='dp-card-label';lbl.textContent=ARTIFACTS.names[val].split(' ')[0];
+    const lbl=document.createElement('div');lbl.className='dp-card-label';lbl.textContent=ARTIFACTS.labels[val];
     card.appendChild(ico);card.appendChild(lbl);
     if(!placed){
       card.addEventListener('click',()=>{
@@ -2998,15 +3684,51 @@ function dpErase(){
 /* ── WIN / GAME OVER ── */
 function dpCheckWin(){
   if(!DP.board.every((v,i)=>v!==0&&v===DP.solution[i]))return;
-  DP.completed=true;clearInterval(DP.timerInterval);
-  DP.score+=2000;dpUpdateHUD();
-  GAME_STATS.dailyWins++;GAME_STATS.dailyTotalScore+=DP.score;
+  DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();
+  dpClearAllFog();
+
+  // ── LEGENDARY WIN ──
+  if(DP.isLegendary){
+    DP.score*=2; // 2× multiplier
+    dpUpdateHUD();
+    GAME_STATS.dailyTotalScore+=DP.score;
+    const earnedIdx=((GAME_STATS.legendaryArtifacts.length)%5)+1;
+    if(!GAME_STATS.legendaryArtifacts.includes(earnedIdx))
+      GAME_STATS.legendaryArtifacts.push(earnedIdx);
+    GAME_STATS.legendaryUnlockPending=false;
+    saveState();updateMenuState();
+    spawnWinCoins();
+    showAchievement('⚡ LEGENDARY COMPLETE! 2× BONUS!');
+    setTimeout(()=>showLegendaryReveal(earnedIdx),1500);
+    return;
+  }
+
+  DP.score+=2000;
+  // Time bonus — awarded on top of the completion bonus
+  const t=DP.elapsed;
+  let timeBonus=0,timeBonusLabel='';
+  if(t<30)      {timeBonus=2000;timeBonusLabel='⚡ Under 30s! +2000 pts';}
+  else if(t<60) {timeBonus=1500;timeBonusLabel='🚀 Under 1 min! +1500 pts';}
+  else if(t<120){timeBonus=1000;timeBonusLabel='⏱ Under 2 min! +1000 pts';}
+  else if(t<180){timeBonus=500; timeBonusLabel='⌛ Under 3 min! +500 pts';}
+  else if(t<240){timeBonus=250; timeBonusLabel='🕐 Under 4 min! +250 pts';}
+  else if(t<300){timeBonus=100; timeBonusLabel='🕑 Under 5 min! +100 pts';}
+  DP.score+=timeBonus;DP.timeBonus=timeBonus;
+  dpUpdateHUD();
+  // Track best score for this date
+  const _prev=DAILY_SCORES[DP.dateStr];
+  const _isNewBest=!_prev||DP.score>_prev.score;
+  if(_isNewBest) DAILY_SCORES[DP.dateStr]={score:DP.score,time:DP.elapsed,mistakes:5-DP.lives};
+  if(!DP.isReplay){dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;}
+  GAME_STATS.dailyTotalScore+=DP.score;
   saveState();spawnWinCoins();
-  showAchievement('🏆 PUZZLE COMPLETE! +2000!');
+  showAchievement(DP.isReplay?'🔄 REPLAY COMPLETE!':'🏆 PUZZLE COMPLETE! +2000!');
+  if(DP.isReplay&&_isNewBest)setTimeout(()=>showAchievement('📈 New Best Score!'),1400);
+  if(timeBonus>0)setTimeout(()=>showAchievement(timeBonusLabel),1200);
   setTimeout(()=>dpShowWin(),800);
 }
 function dpGameOver(){
-  DP.gameOver=true;clearInterval(DP.timerInterval);
+  DP.gameOver=true;clearInterval(DP.timerInterval);dpChallengeStop();
   setTimeout(()=>{
     document.getElementById('df-diff-label').textContent=DP.diff?`${DP.diff.emoji} ${DP.diff.name} Difficulty`:'';
     document.getElementById('df-score').textContent=DP.score;
@@ -3279,6 +4001,7 @@ function renderVault(){
     slot.appendChild(iw);slot.appendChild(lbl);slot.title=cnt>0?ARTIFACTS.names[n]:'???';
     ac.appendChild(slot);
   }
+  renderLegendaryVault();
 }
 
 /* ══════════════════════════════════════════════════════
@@ -3302,16 +4025,18 @@ function renderVault(){
    EVENT LISTENERS
 ══════════════════════════════════════════════════════ */
 // Menu
-document.getElementById('menu-daily').addEventListener('click',()=>{menuTransitionTo('screen-daily',()=>dpStart());});
+document.getElementById('menu-daily').addEventListener('click',()=>{menuTransitionTo('screen-daily-hub',()=>renderDailyHub());});
 document.getElementById('menu-puzzle').addEventListener('click',()=>{menuTransitionTo('screen-puzzle',()=>showDiffPicker(diff=>pzStart(diff)));});
 document.getElementById('menu-vault').addEventListener('click',()=>{menuTransitionTo('screen-vault',()=>renderVault());});
 document.getElementById('menu-settings').addEventListener('click',()=>{menuTransitionTo('screen-settings');});
+document.getElementById('menu-legendary').addEventListener('click',startLegendaryPuzzle);
 
 // Back buttons
-document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);showScreen('screen-menu');});
+document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();showScreen('screen-menu');});
 document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);showScreen('screen-menu');});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
+document.getElementById('hub-back').addEventListener('click',()=>showScreen('screen-menu'));
 
 // Puzzle mode actions
 document.getElementById('pz-undo').addEventListener('click',pzUndo);
@@ -3376,6 +4101,9 @@ document.getElementById('df-menu').addEventListener('click',()=>{document.getEle
 document.getElementById('dw-leaderboard').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';openLeaderboard();});
 document.getElementById('dw-menu').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';showScreen('screen-menu');});
 
+// Artifact picker — close when clicking outside
+document.getElementById('artifact-picker').addEventListener('click',function(e){if(e.target===this){this.style.display='none';}});
+
 // Leaderboard
 document.getElementById('lb-close').addEventListener('click',()=>{document.getElementById('leaderboard-overlay').style.display='none';});
 document.getElementById('lb-submit-btn').addEventListener('click',()=>{
@@ -3430,6 +4158,266 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   GAME_STATS.puzzleWins=0;GAME_STATS.dailyWins=0;GAME_STATS.dailyTotalScore=0;GAME_STATS.artifactCounts.fill(0);
   saveState();showToast('Records reset!');
 });
+updateMenuState(); // Show/hide legendary button on load
+
+/* ══════════════════════════════════════════════════════
+   FOG OF WAR
+══════════════════════════════════════════════════════ */
+function dpInitFog(){
+  DP.fogCells=new Set();
+  for(let i=0;i<81;i++){if(DP.puzzle[i]===0)DP.fogCells.add(i);}
+}
+
+function dpClearAllFog(){
+  if(!DP.fogCells||DP.fogCells.size===0)return;
+  const remaining=[...DP.fogCells];
+  DP.fogCells.clear();
+  remaining.forEach((idx,k)=>{
+    setTimeout(()=>{
+      const fc=document.querySelector(`#dp-board .cell[data-idx="${idx}"]`);
+      if(fc){
+        fc.classList.add('fog-cell','fog-clearing');
+        setTimeout(()=>{fc&&fc.classList.remove('fog-cell','fog-clearing');},650);
+      }
+    },k*35);
+  });
+}
+
+/* ══════════════════════════════════════════════════════
+   MAP PIECE & LEGENDARY UNLOCK
+══════════════════════════════════════════════════════ */
+function dpMapPieceEarned(dateStr){
+  if(!dateStr)return;
+  if(GAME_STATS.completedDates.includes(dateStr))return;
+  GAME_STATS.completedDates.push(dateStr);
+  GAME_STATS.mapPieces++;
+  saveState();
+  const cycle=((GAME_STATS.mapPieces-1)%15)+1;
+  showToast(`🗺️ Map piece ${cycle}/15 collected!`,2500);
+  if(GAME_STATS.mapPieces%15===0){
+    GAME_STATS.legendaryUnlockPending=true;
+    saveState();
+    setTimeout(()=>triggerLegendaryUnlock(),2200);
+  }
+}
+
+function triggerLegendaryUnlock(){
+  updateMenuState();
+  const overlay=document.getElementById('legendary-unlock-overlay');
+  document.getElementById('luo-name').textContent='Legendary Quest Unlocked!';
+  document.getElementById('luo-icon').innerHTML='<div style="font-size:64px;line-height:1.1;text-align:center;">🔮</div>';
+  document.getElementById('luo-desc').textContent='You have collected 15 map pieces. A Legendary Quest awaits — find the 🔮 button in the main menu!';
+  overlay.style.display='flex';
+  document.getElementById('luo-close').onclick=()=>{overlay.style.display='none';showScreen('screen-menu');};
+}
+
+function startLegendaryPuzzle(){
+  menuTransitionTo('screen-daily',()=>dpStart(true));
+}
+
+/* ══════════════════════════════════════════════════════
+   LEGENDARY ARTIFACT REVEAL
+══════════════════════════════════════════════════════ */
+function showLegendaryReveal(idx){
+  const art=LEGENDARY_ARTIFACTS[idx];
+  if(!art)return;
+  const overlay=document.getElementById('legendary-unlock-overlay');
+  document.getElementById('luo-name').textContent=art.name;
+  document.getElementById('luo-icon').innerHTML=`<div style="width:80px;height:80px;margin:0 auto;filter:drop-shadow(0 0 22px ${art.glow})">${art.svg}</div>`;
+  document.getElementById('luo-desc').textContent='A legendary relic added to your Treasure Vault!';
+  overlay.style.display='flex';
+  document.getElementById('luo-close').onclick=()=>{overlay.style.display='none';showScreen('screen-menu');};
+}
+
+/* ══════════════════════════════════════════════════════
+   LEGENDARY VAULT DISPLAY
+══════════════════════════════════════════════════════ */
+function renderLegendaryVault(){
+  // Map progress bar
+  const fillEl=document.getElementById('vault-map-fill');
+  const labelEl=document.getElementById('vault-map-label');
+  if(fillEl&&labelEl){
+    const pieces=GAME_STATS.mapPieces||0;
+    const cycleProgress=(pieces%15)||((pieces>0)?15:0);
+    const pct=(cycleProgress/15)*100;
+    fillEl.style.width=pct+'%';
+    labelEl.textContent=`${cycleProgress} / 15 pieces`;
+  }
+  // Legendary artifact slots
+  const container=document.getElementById('vault-legendary');
+  if(!container)return;
+  container.innerHTML='';
+  for(let i=1;i<=5;i++){
+    const earned=GAME_STATS.legendaryArtifacts.includes(i);
+    const slot=document.createElement('div');
+    slot.className='leg-slot'+(earned?' earned':' locked');
+    if(earned){
+      const art=LEGENDARY_ARTIFACTS[i];
+      slot.innerHTML=`<div class="leg-slot-icon" style="filter:drop-shadow(0 0 12px ${art.glow})">${art.svg}</div><div class="leg-slot-name">${art.label}</div>`;
+      slot.title=art.name;
+    } else {
+      slot.innerHTML=`<div class="leg-slot-icon" style="font-size:28px;line-height:1;">🔒</div><div class="leg-slot-name">???</div>`;
+      slot.title='Complete 15 daily puzzles to unlock';
+    }
+    container.appendChild(slot);
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   MENU STATE
+══════════════════════════════════════════════════════ */
+function updateMenuState(){
+  const legBtn=document.getElementById('menu-legendary');
+  if(legBtn)legBtn.style.display=GAME_STATS.legendaryUnlockPending?'flex':'none';
+}
+
+/* ══════════════════════════════════════════════════════
+   ARTIFACT PICKER
+══════════════════════════════════════════════════════ */
+function showArtifactPicker(diff){
+  const picker=document.getElementById('artifact-picker');
+  const grid=document.getElementById('ap-grid');
+  const countEl=document.getElementById('ap-count');
+  const confirm=document.getElementById('ap-confirm');
+  const reset=document.getElementById('ap-reset');
+  grid.innerHTML='';
+  // Available slots: standard 1-9 + earned legendaries (mapped to slots 10-14)
+  const available=[];
+  for(let i=1;i<=9;i++)available.push(i);
+  GAME_STATS.legendaryArtifacts.forEach(idx=>available.push(idx+9));
+  let selected=[...SETTINGS.customArtifacts];
+  function updateCount(){
+    countEl.textContent=`${selected.length} / 9 selected`;
+    confirm.disabled=selected.length!==9;
+  }
+  available.forEach(slot=>{
+    const el=document.createElement('div');
+    el.className='ap-slot'+(slot>=10?' legendary-slot':'');
+    el.innerHTML=`<div class="ap-slot-icon">${getArtifactSvg(slot)}</div><div class="ap-slot-label">${getArtifactLabel(slot)}</div>`;
+    el.title=slot>=10?LEGENDARY_ARTIFACTS[slot-9].name:(ARTIFACTS.names[slot]||'');
+    if(selected.includes(slot))el.classList.add('selected');
+    el.addEventListener('click',()=>{
+      const idx=selected.indexOf(slot);
+      if(idx>=0){selected.splice(idx,1);el.classList.remove('selected');}
+      else if(selected.length<9){selected.push(slot);el.classList.add('selected');}
+      else{showToast('You can only select 9 relics!',1500);}
+      updateCount();
+    });
+    grid.appendChild(el);
+  });
+  reset.onclick=()=>{
+    selected=[1,2,3,4,5,6,7,8,9];
+    grid.querySelectorAll('.ap-slot').forEach((el,i)=>{
+      el.classList.toggle('selected',selected.includes(available[i]));
+    });
+    updateCount();
+  };
+  confirm.onclick=()=>{
+    if(selected.length!==9){showToast('Select exactly 9 relics!',1500);return;}
+    SETTINGS.customArtifacts=[...selected];
+    saveState();
+    picker.style.display='none';
+    showScreen('screen-puzzle');
+    pzStart(diff);
+  };
+  updateCount();
+  picker.style.display='flex';
+}
+
+function renderDailyHub(){
+  const todayStr=dpGetTodayStr();
+  const todayWrap=document.getElementById('dh-today-wrap');
+  const archiveList=document.getElementById('dh-archive-list');
+  todayWrap.innerHTML='';archiveList.innerHTML='';
+
+  // Helper: difficulty pill HTML
+  function diffPill(diff){
+    const col=diff?.color||'rgba(200,160,100,.7)';
+    return`<span style="color:${col};font-weight:700;">${diff?.emoji||''}${diff?.name||'?'}</span>`;
+  }
+
+  // Today card
+  const todayPuz=generateDailyPuzzle(todayStr);
+  const todayDone=GAME_STATS.completedDates.includes(todayStr);
+  const todayBest=DAILY_SCORES[todayStr];
+  const todayCard=document.createElement('div');
+  todayCard.className='dh-today-card';
+  const todayDateObj=new Date();
+  todayCard.innerHTML=`
+    <div class="dh-today-tag">Today's Puzzle</div>
+    <div class="dh-today-date">${todayDateObj.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</div>
+    <div class="dh-today-diff">${diffPill(todayPuz.diff)}</div>
+    ${todayBest?`<div class="dh-today-best">✓ Best: ${todayBest.score.toLocaleString()} pts · ${Math.floor(todayBest.time/60)}:${String(todayBest.time%60).padStart(2,'0')} · ${todayBest.mistakes} mistake${todayBest.mistakes!==1?'s':''}</div>`:''}
+  `;
+  const todayBtn=document.createElement('button');
+  todayBtn.className='dh-play-btn'+(todayDone?' replay':'');
+  todayBtn.textContent=todayDone?'🔄 Play Again':'▶ Play Today';
+  todayBtn.addEventListener('click',()=>{
+    showScreen('screen-daily');
+    dpStart(false, todayDone?todayStr:null);
+  });
+  todayCard.appendChild(todayBtn);
+  todayWrap.appendChild(todayCard);
+
+  // Past 6 days (offset -1 through -6)
+  for(let offset=-1;offset>=-6;offset--){
+    const dateStr=dpGetDateStrOffset(offset);
+    const puz=generateDailyPuzzle(dateStr);
+    const done=GAME_STATS.completedDates.includes(dateStr);
+    const best=DAILY_SCORES[dateStr];
+
+    const[_y,_m,_d]=dateStr.split('-').map(Number);
+    const dateObj=new Date(_y,_m-1,_d);
+    const dayName=dateObj.toLocaleDateString(undefined,{weekday:'long'});
+    const dateLabel=dateObj.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+
+    const card=document.createElement('div');
+    card.className='dh-day-card'+(done?' done':'');
+
+    const infoEl=document.createElement('div');infoEl.className='dh-day-info';
+    infoEl.innerHTML=`<div class="dh-day-name">${dayName} <span style="opacity:.6;font-size:10px">${dateLabel}</span></div><div class="dh-day-diff">${diffPill(puz.diff)}</div>`;
+
+    const rightEl=document.createElement('div');rightEl.className='dh-day-right';
+    if(done&&best){
+      rightEl.innerHTML=`<div class="dh-day-score">${best.score.toLocaleString()} pts</div><div class="dh-day-action">✓ Replay</div>`;
+    } else if(done){
+      rightEl.innerHTML=`<div class="dh-day-action">✓ Done</div>`;
+    } else {
+      rightEl.innerHTML=`<div class="dh-day-action">Play →</div>`;
+    }
+
+    card.appendChild(infoEl);card.appendChild(rightEl);
+    card.addEventListener('click',()=>{
+      showScreen('screen-daily');
+      dpStart(false, dateStr);
+    });
+    archiveList.appendChild(card);
+  }
+}
 </script>
+
+<!-- ═══════════════ LEGENDARY UNLOCK OVERLAY ═══════════════ -->
+<div id="legendary-unlock-overlay">
+  <div class="luo-panel">
+    <div class="luo-stars">⭐✨⭐</div>
+    <div class="luo-pre">Legendary Artifact Unlocked</div>
+    <div class="luo-name" id="luo-name"></div>
+    <div class="luo-icon" id="luo-icon"></div>
+    <div class="luo-desc" id="luo-desc"></div>
+    <button class="luo-close" id="luo-close">Added to Vault ✦</button>
+  </div>
+</div>
+
+<!-- ═══════════════ ARTIFACT PICKER MODAL ═══════════════ -->
+<div id="artifact-picker">
+  <div class="ap-panel">
+    <div class="ap-title">⚗️ Choose Your 9 Relics</div>
+    <div class="ap-sub">Select exactly 9 artifacts for this puzzle</div>
+    <div class="ap-grid" id="ap-grid"></div>
+    <div class="ap-count" id="ap-count">0 / 9 selected</div>
+    <button class="ap-confirm" id="ap-confirm" disabled>Begin Puzzle →</button>
+    <button class="ap-reset" id="ap-reset">Reset to Default</button>
+  </div>
+</div>
 </body>
 </html>
