@@ -2724,11 +2724,13 @@ const DAILY_DIFFS=[
   {name:'Hard',   emoji:'💀', removes:50, color:'#ff8060'},
 ];
 function getDailyDiff(dateStr){
-  // Derive a second seed from the date for difficulty selection
-  const seed=dateStr.split('-').reduce((h,v)=>h*37+parseInt(v),17)%100;
-  // Easy 0-39, Medium 40-79, Hard 80-99
-  if(seed<40)return 0;
-  if(seed<80)return 1;
+  // Knuth multiplicative hash — scrambles consecutive days into a well-distributed spread
+  const [y,m,d]=dateStr.split('-').map(Number);
+  const doy=(y-2020)*366+m*31+d;
+  const pct=(Math.imul(doy,2654435761)>>>0)%100;
+  // Easy 40%, Medium 35%, Hard 25%
+  if(pct<40)return 0;
+  if(pct<75)return 1;
   return 2;
 }
 function generateDailyPuzzle(dateStr){
