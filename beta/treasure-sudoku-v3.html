@@ -2233,8 +2233,9 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 @keyframes xSlotPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(255,50,50,.7))}50%{filter:drop-shadow(0 0 18px rgba(255,60,60,1)) drop-shadow(0 0 32px rgba(220,20,20,.5))}}
 .mapv-tray-label{font-size:8px;letter-spacing:.22em;color:var(--stone-light);font-family:'Crimson Pro',serif;text-transform:uppercase;margin-bottom:6px;text-align:center;flex-shrink:0;}
 .mapv-tray{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;padding:8px 6px;max-width:360px;flex-shrink:0;}
-.mapv-piece{width:52px;height:52px;background-color:rgba(20,10,2,.75);cursor:pointer;transition:filter .18s,transform .18s;overflow:hidden;position:relative;flex-shrink:0;border-radius:4px;border:1.5px solid rgba(160,110,40,.35);}
-.mapv-piece.selected{outline:2px solid var(--gold);transform:scale(1.12);filter:brightness(1.15);}
+.mapv-piece{cursor:pointer;flex-shrink:0;position:relative;}
+.mapv-piece svg{display:block;overflow:visible;transition:filter .2s,transform .2s;}
+.mapv-piece.selected svg{filter:drop-shadow(0 0 9px rgba(245,200,66,.95)) brightness(1.2);transform:scale(1.14);}
 .mapv-piece.placed{opacity:.28;pointer-events:none;filter:grayscale(.65);}
 .mapv-piece.unearned{opacity:.15;pointer-events:none;filter:grayscale(1);}
 /* Map chest overlay */
@@ -4699,11 +4700,27 @@ function renderMapPuzzle(){
     item.className='mapv-piece'+(isPlaced?' placed':(!isEarned?' unearned':''));
     item.dataset.pieceId=id;
     item.title=MAP_PIECE_LABELS[id]||'';
-    const tImg=document.createElement('img');
-    tImg.src=TREASURE_MAP_URI;
-    tImg.style.cssText=`position:absolute;width:${T*COLS}px;height:${T*ROWS}px;left:${-col*T}px;top:${-row*T}px;pointer-events:none;`;
-    tImg.draggable=false;
-    item.appendChild(tImg);
+
+    // SVG thumbnail: jigsaw-shaped, showing the correct map region
+    const psvg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    psvg.setAttribute('viewBox',`0 0 ${T} ${T}`);
+    psvg.setAttribute('width',T);psvg.setAttribute('height',T);
+    psvg.style.cssText='display:block;overflow:visible;';
+    const pdefs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+    const pcp=document.createElementNS('http://www.w3.org/2000/svg','clipPath');
+    pcp.id=`tcp_${id}`;
+    const ppe=document.createElementNS('http://www.w3.org/2000/svg','path');
+    ppe.setAttribute('d',jigsawPathSVG(0,0,T,PIECE_EDGES[id]));
+    pcp.appendChild(ppe);pdefs.appendChild(pcp);psvg.appendChild(pdefs);
+    const pg=document.createElementNS('http://www.w3.org/2000/svg','g');
+    pg.setAttribute('clip-path',`url(#tcp_${id})`);
+    const pimg=document.createElementNS('http://www.w3.org/2000/svg','image');
+    pimg.setAttribute('href',TREASURE_MAP_URI);
+    pimg.setAttribute('x',-col*T);pimg.setAttribute('y',-row*T);
+    pimg.setAttribute('width',T*COLS);pimg.setAttribute('height',T*ROWS);
+    pimg.setAttribute('preserveAspectRatio','none');
+    pg.appendChild(pimg);psvg.appendChild(pg);
+    item.appendChild(psvg);
     item.addEventListener('click',()=>mapSelectPiece(id));
     tray.appendChild(item);
   }
