@@ -3888,42 +3888,51 @@ async function lbLoadAndRank(){
   }
 }
 
-async function lbSubmitScore(name){
+function lbGenerateFictional(dateStr, playerScore){
+  // Generate deterministic fictional competitors using the date as seed
+  const names=['Blackbeard Jr','Iron Paw','Saltwater Sam','The Kraken','Mad Molly',
+    'Captain Bones','Stormrider','Tidebreaker','Gold Tooth','Siren\'s Curse',
+    'Plunder Pete','Coral Quinn','Starfish Rex','Rusty Hook','The Wanderer',
+    'Deep Tide','Silver Wake','Fog & Fury','Pearl Diver','Deadman\'s Cove',
+    'Sea Witch','Parrot Jones','One-Eye Drake','Lady Tempest','Barnacle Bob'];
+  const rng=seededRng(Math.abs(dateStr.split('-').reduce((h,v)=>h*41+parseInt(v),23)));
+  const shuffled=[...names].sort(()=>rng()-.5);
+  const entries=[];
+  for(let i=0;i<14;i++){
+    const n=shuffled[i%shuffled.length];
+    const score=Math.max(500,Math.min(9999,Math.round(playerScore*(0.45+rng()*1.2)/50)*50));
+    const time=Math.round(80+rng()*600);
+    const mistakes=Math.floor(rng()*5);
+    entries.push({name:n,score,time,mistakes,isMe:false,ts:Date.now()-Math.floor(rng()*7200000)});
+  }
+  return entries;
+}
+
+function lbSubmitScore(name){
   if(!name.trim()){document.getElementById('lb-submit-msg').textContent='Please enter your name.';return;}
+  // Remember name for next time
+  localStorage.setItem('ts_lb_name',name.trim());
   const data=lbLoad();
   const key=lbGetTodayKey();
   if(!data[key])data[key]=[];
 
-  // Remove old entry from this user
+  // Remove any previous entry from this user
   data[key]=data[key].filter(e=>!e.isMe);
 
-  // Add new entry
-  const entry={
+  // Add player entry
+  data[key].push({
     name:name.trim().slice(0,20),
     score:DP.score,
     time:DP.elapsed,
     mistakes:5-DP.lives,
     isMe:true,
     ts:Date.now()
-  };
-  data[key].push(entry);
+  });
 
-  // If we have <20 entries, generate fictional ones via Claude API
-  if(data[key].length<15){
-    document.getElementById('lb-submit-msg').textContent='⚗️ Consulting the oracle...';
-    try{
-      const resp=await fetch('https://api.anthropic.com/v1/messages',{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          model:'claude-sonnet-4-20250514',max_tokens:600,
-          messages:[{role:'user',content:`Generate ${15-data[key].length} fictional leaderboard entries for a daily treasure sudoku puzzle game. Today's date: ${dpGetTodayStr()}. The puzzle has a score range of 500-8000 (higher is better), time in seconds (lower is better, range 120-900), and mistakes 0-5. Return ONLY valid JSON array, no markdown, no explanation: [{"name":"...","score":...,"time":...,"mistakes":...},...]. Use creative pirate/treasure-themed names. Vary scores realistically around the top player's score of ${DP.score}.`}]
-        })
-      });
-      const result=await resp.json();
-      const txt=result.content.find(c=>c.type==='text')?.text||'[]';
-      const generated=JSON.parse(txt.replace(/```json|```/g,'').trim());
-      if(Array.isArray(generated)){data[key].push(...generated.map(g=>({...g,isMe:false,ts:Date.now()-Math.random()*3600000})));}
-    }catch(e){console.log('Claude API fill skipped');}
+  // Fill leaderboard with fictional adventurers if needed (instant, no API)
+  if(data[key].filter(e=>!e.isMe).length<14){
+    data[key]=data[key].filter(e=>e.isMe);
+    data[key].push(...lbGenerateFictional(dpGetTodayStr(),DP.score));
   }
 
   lbSave(data);
@@ -3971,6 +3980,9 @@ function openLeaderboard(){
   document.getElementById('lb-list').innerHTML='';
   document.getElementById('lb-your-rank').style.display='none';
   document.getElementById('lb-submit-msg').textContent='';
+  // Pre-fill saved name
+  const savedName=localStorage.getItem('ts_lb_name')||'';
+  if(savedName)document.getElementById('lb-name-input').value=savedName;
   const overlay=document.getElementById('leaderboard-overlay');
   overlay.style.display='flex';
   lbRenderBoard();
