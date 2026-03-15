@@ -2209,34 +2209,102 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
 /* ── Daily Hub ── */
 #screen-daily-hub{overflow-y:auto;}
-.dh-panel{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;margin:0 auto;padding:60px 16px 40px;gap:0;}
+.dh-panel{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;margin:0 auto;padding:50px 16px 24px;gap:0;min-height:calc(100vh - 32px);}
 .dh-title{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-align:center;margin-bottom:4px;}
 .dh-subtitle{font-family:'Crimson Pro',serif;font-size:13px;color:rgba(200,160,100,.7);letter-spacing:.1em;text-align:center;margin-bottom:20px;}
-/* Today card */
-.dh-today-card{width:100%;border:2px solid var(--gold);border-radius:14px;background:rgba(40,25,8,.85);padding:16px 18px 14px;box-shadow:0 0 18px rgba(245,200,66,.18);margin-bottom:6px;}
-.dh-today-tag{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:4px;}
-.dh-today-date{font-family:'Crimson Pro',serif;font-size:16px;color:var(--gold-light);margin-bottom:4px;}
-.dh-today-diff{font-size:11px;letter-spacing:.1em;color:rgba(200,160,100,.7);margin-bottom:8px;}
-.dh-today-best{font-size:10px;color:rgba(150,210,150,.85);letter-spacing:.08em;margin-bottom:10px;}
-/* Archive list */
-.dh-section-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.22em;color:rgba(180,130,60,.6);text-transform:uppercase;margin:14px 0 8px;align-self:flex-start;}
-.dh-day-card{width:100%;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(160,110,40,.3);border-radius:10px;background:rgba(25,14,4,.7);padding:11px 14px;margin-bottom:6px;cursor:pointer;transition:border-color .2s,background .2s;}
+/* Today card — larger, more prominent */
+.dh-today-card{width:100%;border:2px solid var(--gold);border-radius:18px;background:rgba(40,25,8,.92);padding:24px 22px 20px;box-shadow:0 0 32px rgba(245,200,66,.28),0 6px 24px rgba(0,0,0,.45);margin-bottom:18px;}
+.dh-today-tag{font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.dh-today-date{font-family:'Crimson Pro',serif;font-size:22px;font-weight:600;color:var(--gold-light);margin-bottom:6px;}
+.dh-today-diff{font-size:13px;letter-spacing:.1em;color:rgba(200,160,100,.75);margin-bottom:10px;}
+.dh-today-best{font-size:11px;color:rgba(150,210,150,.9);letter-spacing:.08em;margin-bottom:14px;}
+/* Archive list — pushed to bottom of screen */
+.dh-section-label{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.22em;color:rgba(180,130,60,.6);text-transform:uppercase;margin-top:auto;margin-bottom:8px;align-self:flex-start;}
+#dh-archive-list{display:flex;flex-direction:row;flex-wrap:wrap;gap:6px;width:100%;}
+.dh-day-card{flex:1 1 calc(33.33% - 5px);min-width:76px;display:flex;flex-direction:column;align-items:flex-start;border:1px solid rgba(160,110,40,.3);border-radius:9px;background:rgba(25,14,4,.7);padding:7px 8px 6px;margin-bottom:0;cursor:pointer;transition:border-color .2s,background .2s;}
 .dh-day-card:hover{border-color:rgba(245,200,66,.4);background:rgba(40,25,8,.85);}
 .dh-day-card.done{border-color:rgba(80,160,80,.4);background:rgba(20,35,20,.7);}
 .dh-day-card.done:hover{border-color:rgba(80,180,80,.6);}
-.dh-day-info{display:flex;flex-direction:column;gap:3px;}
-.dh-day-name{font-family:'Cinzel',serif;font-size:12px;color:var(--gold-light);letter-spacing:.06em;}
-.dh-day-diff{font-size:10px;color:rgba(200,160,100,.6);letter-spacing:.08em;}
-.dh-day-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
-.dh-day-score{font-size:10px;color:rgba(150,210,150,.85);letter-spacing:.06em;}
-.dh-day-action{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.15em;color:rgba(200,160,100,.7);text-transform:uppercase;}
+.dh-day-info{display:flex;flex-direction:column;gap:1px;width:100%;}
+.dh-day-name{font-family:'Cinzel',serif;font-size:9px;color:var(--gold-light);letter-spacing:.04em;}
+.dh-day-date{font-size:8px;color:rgba(200,160,100,.55);letter-spacing:.04em;margin-bottom:2px;}
+.dh-day-diff{font-size:8px;color:rgba(200,160,100,.6);letter-spacing:.06em;margin-top:1px;}
+.dh-day-right{display:flex;flex-direction:column;align-items:flex-start;gap:1px;margin-top:5px;width:100%;}
+.dh-day-score{font-size:8px;color:rgba(150,210,150,.85);letter-spacing:.04em;}
+.dh-day-action{font-family:'Cinzel',serif;font-size:7px;font-weight:700;letter-spacing:.1em;color:rgba(200,160,100,.7);text-transform:uppercase;}
 .dh-day-card.done .dh-day-action{color:rgba(100,200,100,.8);}
 /* Play buttons */
-.dh-play-btn{width:100%;padding:12px;border-radius:12px;background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(160,110,20,.95));border:1px solid var(--gold);color:var(--gold-light);font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.15em;cursor:pointer;transition:all .2s;margin-top:4px;}
-.dh-play-btn:hover{box-shadow:0 0 22px rgba(245,200,66,.35);}
+.dh-play-btn{width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(160,110,20,.95));border:1px solid var(--gold);color:var(--gold-light);font-family:'Cinzel',serif;font-size:13px;font-weight:700;letter-spacing:.15em;cursor:pointer;transition:all .2s;margin-top:2px;}
+.dh-play-btn:hover{box-shadow:0 0 26px rgba(245,200,66,.4);}
 .dh-play-btn.replay{background:rgba(30,20,8,.8);border-color:rgba(160,110,40,.5);color:rgba(200,160,100,.75);}
 .dh-play-btn.replay:hover{border-color:rgba(200,160,80,.6);color:rgba(220,180,120,.9);}
+
+/* ── Daily Rules Overlay ── */
+#dp-rules-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(8,4,1,.88);backdrop-filter:blur(6px);align-items:center;justify-content:center;}
+.dp-rules-panel{background:linear-gradient(160deg,rgba(35,20,5,.97),rgba(20,10,2,.99));border:2px solid var(--gold);border-radius:20px;padding:22px 28px 22px;max-width:520px;width:94%;text-align:center;box-shadow:0 0 40px rgba(245,200,66,.22),0 8px 32px rgba(0,0,0,.6);}
+.dp-rules-eyebrow{font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:.25em;color:rgba(180,130,60,.7);text-transform:uppercase;margin-bottom:3px;}
+.dp-rules-date{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;color:var(--gold-light);margin-bottom:3px;}
+.dp-rules-diff{font-size:12px;letter-spacing:.1em;font-weight:700;margin-bottom:6px;}
+.dp-rules-tagline{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:rgba(200,160,100,.6);margin-bottom:12px;}
+.dp-rules-divider{width:55%;height:1px;background:linear-gradient(90deg,transparent,rgba(200,150,50,.4),transparent);margin:0 auto 12px;}
+.dp-rules-list{list-style:none;padding:0;margin:0 0 16px;text-align:left;display:flex;flex-direction:column;gap:9px;}
+.dp-rules-list li{font-family:'Crimson Pro',serif;font-size:14px;color:rgba(215,178,120,.9);line-height:1.38;display:flex;align-items:flex-start;gap:11px;}
+.dp-rules-list li .ri{font-size:17px;flex-shrink:0;margin-top:2px;}
+.dp-rules-list li strong{color:rgba(245,200,66,.95);}
+.dp-rules-list li em{color:rgba(160,220,160,.9);font-style:normal;}
+.dp-rules-btns{display:flex;gap:10px;margin-top:0;}
+.dp-rules-back{flex:1;padding:13px;border-radius:14px;background:transparent;border:1px solid rgba(160,110,40,.45);color:rgba(200,160,100,.7);font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.15em;cursor:pointer;transition:all .2s;}
+.dp-rules-back:hover{border-color:rgba(200,160,80,.7);color:rgba(220,180,120,.9);}
+.dp-rules-start{flex:2;padding:13px;border-radius:14px;background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(160,110,20,.95));border:1px solid var(--gold);color:var(--gold-light);font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.18em;cursor:pointer;transition:all .2s;}
+.dp-rules-start:hover{box-shadow:0 0 28px rgba(245,200,66,.4);}
 </style>
+
+<!-- ═══════════════ DAILY RULES OVERLAY ═══════════════ -->
+<div id="dp-rules-overlay">
+  <div class="dp-rules-panel">
+    <div class="dp-rules-eyebrow">Today's Puzzle</div>
+    <div class="dp-rules-date" id="dp-rules-date"></div>
+    <div class="dp-rules-diff" id="dp-rules-diff"></div>
+    <div class="dp-rules-tagline">A relic-hunting twist on classic Sudoku</div>
+    <div class="dp-rules-divider"></div>
+    <ul class="dp-rules-list">
+      <li><span class="ri">🎯</span><span><strong>Fill the grid</strong> — Every row, column &amp; 3×3 box must contain all 9 relics <strong>exactly once</strong>. No repeats allowed anywhere!</span></li>
+      <li><span class="ri">🃏</span><span><strong>Play from your hand</strong> — You hold 5 relics at a time. Tap one to select it, then tap an empty cell to place it. Hit <em>Draw New</em> when you're stuck.</span></li>
+      <li><span class="ri">🔍</span><span><strong>Use the clues</strong> — Pre-filled cells are your hints. If a relic already exists in a row, column, or box, it can't go there again.</span></li>
+      <li><span class="ri">💀</span><span><strong>Guard your 5 lives</strong> — Each wrong placement costs one life. Lose all 5 and the quest fails — tap <em>Hint</em> if you're unsure!</span></li>
+      <li><span class="ri">⚡</span><span><strong>Challenges appear mid-game</strong> — <strong>Treasure bags</strong> give bonus points for quick placements. <strong>Bombs</strong> destroy relics if you don't defuse them by filling in the correct relic in time!</span></li>
+      <li><span class="ri">⏱️</span><span><strong>Race for glory</strong> — Your timer starts the moment you tap Begin. Finish fast with few mistakes for the highest score!</span></li>
+    </ul>
+    <div class="dp-rules-btns">
+      <button class="dp-rules-back" id="dp-rules-back">← Menu</button>
+      <button class="dp-rules-start" id="dp-rules-start">▶ Begin Quest</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LEGENDARY UNLOCK OVERLAY ═══════════════ -->
+<div id="legendary-unlock-overlay">
+  <div class="luo-panel">
+    <div class="luo-stars">⭐✨⭐</div>
+    <div class="luo-pre">Legendary Artifact Unlocked</div>
+    <div class="luo-name" id="luo-name"></div>
+    <div class="luo-icon" id="luo-icon"></div>
+    <div class="luo-desc" id="luo-desc"></div>
+    <button class="luo-close" id="luo-close">Added to Vault ✦</button>
+  </div>
+</div>
+
+<!-- ═══════════════ ARTIFACT PICKER MODAL ═══════════════ -->
+<div id="artifact-picker">
+  <div class="ap-panel">
+    <div class="ap-title">⚗️ Choose Your 9 Relics</div>
+    <div class="ap-sub">Select exactly 9 artifacts for this puzzle</div>
+    <div class="ap-grid" id="ap-grid"></div>
+    <div class="ap-count" id="ap-count">0 / 9 selected</div>
+    <button class="ap-confirm" id="ap-confirm" disabled>Begin Puzzle →</button>
+    <button class="ap-reset" id="ap-reset">Reset to Default</button>
+  </div>
+</div>
 
 <script>
 /* ══════════════════════════════════════════════════════
@@ -2714,14 +2782,14 @@ function generatePuzzle(diff){
 }
 /* ── DAILY DIFFICULTY SCHEDULE ──
    Seeded from date: deterministic but varies each day.
-   Weights: Easy 40% · Medium 40% · Hard 20%
-   Removes: Easy=28, Medium=38, Hard=50
+   Weights: Easy 40% · Intermediate 40% · Advanced 20%
+   Removes: Easy=28, Intermediate=38, Advanced=50
    Returns {puzzle, solution, diff, removes}
 */
 const DAILY_DIFFS=[
-  {name:'Easy',   emoji:'⛵', removes:28, color:'#50d890'},
-  {name:'Medium', emoji:'⚓', removes:38, color:'#f5c842'},
-  {name:'Hard',   emoji:'💀', removes:50, color:'#ff8060'},
+  {name:'Easy',         emoji:'⛵', removes:28, color:'#50d890'},
+  {name:'Intermediate', emoji:'⚓', removes:38, color:'#f5c842'},
+  {name:'Advanced',     emoji:'💀', removes:50, color:'#ff8060'},
 ];
 function getDailyDiff(dateStr){
   // Knuth multiplicative hash — scrambles consecutive days into a well-distributed spread
@@ -3140,7 +3208,22 @@ function dpStart(isLegendary=false, replayDateStr=null){
   // Update HUD
   dpUpdateHUD();
 
-  // Start timer
+  // Today's puzzle: always show rules first (even on replay) — timer starts on Begin tap
+  if(!isLegendary && dateStr===dpGetTodayStr()){
+    const[ry,rm,rd]=dateStr.split('-').map(Number);
+    const rDate=new Date(ry,rm-1,rd);
+    document.getElementById('dp-rules-date').textContent=rDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+    const rdiff=document.getElementById('dp-rules-diff');
+    rdiff.textContent=`${diff.emoji} ${diff.name}`;
+    rdiff.style.color=diff.color;
+    document.getElementById('dp-rules-overlay').style.display='flex';
+  } else {
+    dpBegin();
+  }
+}
+
+function dpBegin(){
+  document.getElementById('dp-rules-overlay').style.display='none';
   DP.startTime=Date.now();
   DP.timerInterval=setInterval(()=>{
     // Midnight reset check — only for today's puzzle (not replays or legendary)
@@ -3410,7 +3493,9 @@ function dpChallengeScheduleNext(delay){
   const next=DP.challengeQueue[0];
   let auto;
   if(next==='bomb'){
-    auto=20000+Math.floor(Math.random()*10000);
+    // Easy: 25–30s  |  Intermediate/Advanced/Legendary: 30–45s
+    auto=DP.diffIdx===0 ? 25000+Math.floor(Math.random()*5000)
+                        : 30000+Math.floor(Math.random()*15000);
   } else {
     // If a popup is already showing and second slot is open, fire next popup quickly
     const hasPopup=DP.challenges.some(c=>c.type==='popup');
@@ -3431,7 +3516,7 @@ function dpChallengeTrigger(type){
   DP.challenges.push(ch);
   dpRenderBoard();
   if(type==='bomb'){CSOUNDS.bombAppear();showToast('💣 BOMB! Place the correct relic before it explodes!',3000);}
-  else{CSOUNDS.popupAppear();showToast('💰 Treasure chest! Place the matching relic for bonus points!',3000);}
+  else{showToast('💰 Treasure bag! Place the matching relic for bonus points!',3000);}
   ch.countdownId=setInterval(()=>{
     if(!DP.challenges.includes(ch))return;
     ch.timeLeft--;
@@ -3539,7 +3624,8 @@ function dpChallengeStop(){
 // Set up the challenge queue and schedule the first challenge for a new daily puzzle
 function dpChallengeInit(){
   DP.challenges=[];DP.challengeQueue=[];DP.challengeScheduleId=null;
-  DP.challengeQueue=shuffle(['popup','popup','popup','popup','popup','popup','popup','popup','popup','popup','bomb','bomb','bomb','bomb','bomb']);
+  // 7 bombs max; remaining slots are treasure chests. Queue stops naturally when puzzle completes.
+  DP.challengeQueue=shuffle(['popup','popup','popup','popup','popup','popup','popup','popup','bomb','bomb','bomb','bomb','bomb','bomb','bomb']);
   dpChallengeScheduleNext(10000+Math.floor(Math.random()*5000));
 }
 
@@ -3993,11 +4079,12 @@ function openLeaderboard(){
 ══════════════════════════════════════════════════════ */
 function renderVault(){
   const vr=document.getElementById('vault-records');vr.innerHTML='';
+  const DIFF_LABELS={easy:'EASY',medium:'INTERMEDIATE',hard:'ADVANCED',expert:'EXPERT'};
   ['easy','medium','hard','expert'].forEach(d=>{
     const rec=BEST_TIMES[d];const div=document.createElement('div');div.className='vault-record';
     const timeStr=rec?fmtTime(rec.time):'--';
     const mistakesStr=rec?(rec.mistakes===0?'Perfect run':`${rec.mistakes} mistake${rec.mistakes===1?'':'s'}`):'';
-    div.innerHTML=`<div class="vr-diff">${d.toUpperCase()}</div><div class="vr-time">${timeStr}</div>${rec?`<div class="vr-mistakes">${mistakesStr}</div>`:''}<div class="vr-wins">${GAME_STATS.puzzleWins} puzzles solved</div>`;
+    div.innerHTML=`<div class="vr-diff">${DIFF_LABELS[d]}</div><div class="vr-time">${timeStr}</div>${rec?`<div class="vr-mistakes">${mistakesStr}</div>`:''}<div class="vr-wins">${GAME_STATS.puzzleWins} puzzles solved</div>`;
     vr.appendChild(div);
   });
   const bs=document.getElementById('vault-daily-stats');bs.innerHTML='';
@@ -4046,7 +4133,7 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
 document.getElementById('menu-legendary').addEventListener('click',startLegendaryPuzzle);
 
 // Back buttons
-document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();showScreen('screen-menu');});
+document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';showScreen('screen-menu');});
 document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);showScreen('screen-menu');});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
@@ -4117,6 +4204,13 @@ document.getElementById('dw-menu').addEventListener('click',()=>{document.getEle
 
 // Artifact picker — close when clicking outside
 document.getElementById('artifact-picker').addEventListener('click',function(e){if(e.target===this){this.style.display='none';}});
+
+// Daily rules overlay — Begin Quest button starts the timer
+document.getElementById('dp-rules-start').addEventListener('click',()=>dpBegin());
+document.getElementById('dp-rules-back').addEventListener('click',()=>{
+  document.getElementById('dp-rules-overlay').style.display='none';
+  showScreen('screen-menu');
+});
 
 // Leaderboard
 document.getElementById('lb-close').addEventListener('click',()=>{document.getElementById('leaderboard-overlay').style.display='none';});
@@ -4373,8 +4467,8 @@ function renderDailyHub(){
   todayCard.appendChild(todayBtn);
   todayWrap.appendChild(todayCard);
 
-  // Past 6 days (offset -1 through -6)
-  for(let offset=-1;offset>=-6;offset--){
+  // Past 6 days (offset -6 through -1, oldest→newest = left→right)
+  for(let offset=-6;offset<=-1;offset++){
     const dateStr=dpGetDateStrOffset(offset);
     const puz=generateDailyPuzzle(dateStr);
     const done=GAME_STATS.completedDates.includes(dateStr);
@@ -4389,7 +4483,7 @@ function renderDailyHub(){
     card.className='dh-day-card'+(done?' done':'');
 
     const infoEl=document.createElement('div');infoEl.className='dh-day-info';
-    infoEl.innerHTML=`<div class="dh-day-name">${dayName} <span style="opacity:.6;font-size:10px">${dateLabel}</span></div><div class="dh-day-diff">${diffPill(puz.diff)}</div>`;
+    infoEl.innerHTML=`<div class="dh-day-name">${dayName}</div><div class="dh-day-date">${dateLabel}</div><div class="dh-day-diff">${diffPill(puz.diff)}</div>`;
 
     const rightEl=document.createElement('div');rightEl.className='dh-day-right';
     if(done&&best){
@@ -4409,29 +4503,5 @@ function renderDailyHub(){
   }
 }
 </script>
-
-<!-- ═══════════════ LEGENDARY UNLOCK OVERLAY ═══════════════ -->
-<div id="legendary-unlock-overlay">
-  <div class="luo-panel">
-    <div class="luo-stars">⭐✨⭐</div>
-    <div class="luo-pre">Legendary Artifact Unlocked</div>
-    <div class="luo-name" id="luo-name"></div>
-    <div class="luo-icon" id="luo-icon"></div>
-    <div class="luo-desc" id="luo-desc"></div>
-    <button class="luo-close" id="luo-close">Added to Vault ✦</button>
-  </div>
-</div>
-
-<!-- ═══════════════ ARTIFACT PICKER MODAL ═══════════════ -->
-<div id="artifact-picker">
-  <div class="ap-panel">
-    <div class="ap-title">⚗️ Choose Your 9 Relics</div>
-    <div class="ap-sub">Select exactly 9 artifacts for this puzzle</div>
-    <div class="ap-grid" id="ap-grid"></div>
-    <div class="ap-count" id="ap-count">0 / 9 selected</div>
-    <button class="ap-confirm" id="ap-confirm" disabled>Begin Puzzle →</button>
-    <button class="ap-reset" id="ap-reset">Reset to Default</button>
-  </div>
-</div>
 </body>
 </html>
