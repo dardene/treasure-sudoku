@@ -522,7 +522,21 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .deck-counter{font-size:9px;font-family:'Crimson Pro',serif;color:var(--stone-light);letter-spacing:.12em;text-align:center;}
 
 /* ══════════════ TREASURE VAULT ══════════════ */
-#screen-vault{padding:14px;}
+#screen-vault{padding:14px;overflow-y:auto;scroll-behavior:smooth;}
+/* Vault scroll buttons */
+.vault-scroll-btn{
+  position:fixed;right:10px;z-index:50;width:38px;height:38px;border-radius:50%;
+  background:rgba(18,10,3,.88);border:1px solid rgba(200,155,55,.55);
+  color:var(--gold);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 14px rgba(0,0,0,.55),0 0 8px rgba(200,150,40,.15);
+  opacity:0;pointer-events:none;transition:opacity .25s,background .15s,transform .12s;
+  -webkit-tap-highlight-color:transparent;line-height:1;
+}
+#vault-scroll-up{top:56px;}
+#vault-scroll-dn{bottom:16px;}
+#vault-scroll-up.vis,#vault-scroll-dn.vis{opacity:1;pointer-events:auto;}
+.vault-scroll-btn:active{background:rgba(200,155,55,.22);transform:scale(.93);}
 .vault-panel{
   width:min(90vw,500px);padding:22px 20px;
   background:linear-gradient(170deg,rgba(22,12,4,.97) 0%,rgba(14,8,2,.98) 60%,rgba(18,10,3,.97) 100%);
@@ -1789,6 +1803,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ SCREEN: VAULT ═══════════════ -->
 <div class="screen" id="screen-vault">
   <button class="ghost-btn back-btn" id="vault-back">← Menu</button>
+  <button class="vault-scroll-btn" id="vault-scroll-up" aria-label="Scroll up">▲</button>
+  <button class="vault-scroll-btn" id="vault-scroll-dn" aria-label="Scroll down">▼</button>
   <div class="vault-panel panel" style="margin-top:40px;">
     <div class="vault-title">⚜ TREASURE VAULT ⚜</div>
     <div class="vault-sub">Your legendary achievements</div>
@@ -4867,6 +4883,7 @@ function openLeaderboard(){
    VAULT
 ══════════════════════════════════════════════════════ */
 function renderVault(){
+  if(window._vaultScrollReset)_vaultScrollReset();
   const vr=document.getElementById('vault-records');vr.innerHTML='';
   // Header row
   const hdr=document.createElement('div');hdr.className='vr-header-row';
@@ -5778,6 +5795,23 @@ document.getElementById('menu-map').addEventListener('click',()=>{menuTransition
 document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';showScreen('screen-menu');});
 document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);showScreen('screen-menu');});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
+// Vault scroll buttons
+(function(){
+  const sc=document.getElementById('screen-vault');
+  const up=document.getElementById('vault-scroll-up');
+  const dn=document.getElementById('vault-scroll-dn');
+  function upd(){
+    const canUp=sc.scrollTop>10;
+    const canDn=sc.scrollTop<sc.scrollHeight-sc.clientHeight-10;
+    up.classList.toggle('vis',canUp);
+    dn.classList.toggle('vis',canDn);
+  }
+  sc.addEventListener('scroll',upd,{passive:true});
+  up.addEventListener('click',()=>{sc.scrollBy({top:-220,behavior:'smooth'});});
+  dn.addEventListener('click',()=>{sc.scrollBy({top:220,behavior:'smooth'});});
+  window._vaultScrollReset=()=>{sc.scrollTo(0,0);setTimeout(upd,60);};
+  window._vaultScrollUpd=upd;
+})();
 document.getElementById('mapview-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('hub-back').addEventListener('click',()=>showScreen('screen-menu'));
