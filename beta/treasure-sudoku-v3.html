@@ -349,6 +349,12 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .menu-btn-vault:hover{box-shadow:0 0 24px rgba(160,80,220,.5),0 4px 15px rgba(0,0,0,.5);}
 .menu-btn-settings{background:linear-gradient(135deg,rgba(20,30,20,.95),rgba(30,45,30,.95));border:1px solid rgba(100,180,80,.5);color:#90cc70;}
 .menu-btn-settings:hover{box-shadow:0 0 24px rgba(100,200,80,.4),0 4px 15px rgba(0,0,0,.5);}
+.menu-btn-map{background:linear-gradient(135deg,rgba(55,32,8,.95),rgba(88,54,12,.95));border:1px solid rgba(180,130,50,.65);color:rgba(240,200,100,.95);}
+.menu-btn-map:hover{box-shadow:0 0 24px rgba(200,140,40,.45),0 4px 15px rgba(0,0,0,.5);}
+.mb-map-bar-wrap{margin-top:5px;display:flex;align-items:center;gap:8px;}
+.mb-map-bar{flex:1;height:4px;background:rgba(255,255,255,.09);border-radius:2px;overflow:hidden;}
+.mb-map-bar-fill{height:100%;background:linear-gradient(90deg,rgba(180,130,40,.8),rgba(245,200,66,.95));border-radius:2px;transition:width .5s ease;}
+.mb-map-bar-label{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(200,160,70,.85);letter-spacing:.06em;flex-shrink:0;white-space:nowrap;}
 .menu-runes{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
 .version-tag{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(180,140,60,.5);letter-spacing:.2em;margin-top:12px;text-align:center;}
 
@@ -536,21 +542,25 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 }
 .vault-section-title::before{content:'';flex:none;width:3px;height:14px;background:linear-gradient(180deg,var(--gold),rgba(180,120,20,.3));border-radius:2px;}
 .vault-section-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(180,140,60,.3),transparent);}
-.vault-records{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vault-records{width:100%;border-radius:8px;overflow:hidden;border:1px solid rgba(200,155,55,.22);}
 .vault-record{
   background:linear-gradient(145deg,rgba(36,20,6,.95),rgba(22,12,3,.95));
   border:1px solid rgba(160,110,40,.28);border-radius:12px;padding:12px;text-align:center;
   box-shadow:inset 0 1px 0 rgba(255,230,120,.04),0 2px 8px rgba(0,0,0,.4);
   transition:border-color .2s,box-shadow .2s;position:relative;overflow:hidden;
 }
-.vault-record::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,150,40,.06),transparent 70%);pointer-events:none;}
-.vault-record.has-record{border-color:rgba(200,155,55,.5);box-shadow:inset 0 1px 0 rgba(255,230,120,.07),0 0 16px rgba(180,130,30,.18),0 2px 8px rgba(0,0,0,.4);}
-.vr-diff{font-size:8px;letter-spacing:.22em;color:rgba(180,145,75,.75);font-family:'Crimson Pro',serif;text-transform:uppercase;margin-bottom:4px;}
-.vr-time{font-size:22px;font-weight:700;color:var(--gold);text-shadow:0 0 12px var(--glow-gold);line-height:1;}
-.vr-time.no-record{font-size:18px;color:rgba(140,105,50,.45);text-shadow:none;}
-.vr-mistakes{font-size:8px;color:rgba(200,160,100,.6);font-family:'Crimson Pro',serif;margin-top:3px;}
-.vr-mistakes.perfect{color:rgba(100,220,140,.7);}
-.vr-wins{font-size:8px;color:rgba(160,130,70,.55);font-family:'Crimson Pro',serif;margin-top:2px;}
+.vr-header-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:7px 12px;background:rgba(200,155,55,.1);border-bottom:1px solid rgba(200,155,55,.2);}
+.vr-col-head{font-size:7px;letter-spacing:.2em;color:rgba(200,160,70,.75);font-family:'Cinzel',serif;text-transform:uppercase;text-align:center;}
+.vr-col-head:first-child{text-align:left;}
+.vr-row{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;padding:10px 12px;border-bottom:1px solid rgba(200,155,55,.08);align-items:center;transition:background .15s;}
+.vr-row:last-child{border-bottom:none;}
+.vr-row:nth-child(even){background:rgba(255,255,255,.025);}
+.vr-row:hover{background:rgba(200,155,55,.06);}
+.vr-diff-label{font-size:10px;letter-spacing:.08em;color:rgba(220,185,100,.95);font-family:'Cinzel',serif;}
+.vr-cell{font-size:14px;font-weight:700;color:var(--gold);text-align:center;line-height:1;text-shadow:0 0 8px var(--glow-gold);}
+.vr-cell.no-record{font-size:12px;font-weight:400;color:rgba(140,105,50,.38);text-shadow:none;}
+.vr-cell.perfect{color:rgba(100,220,140,.9);text-shadow:0 0 8px rgba(80,200,100,.4);}
+.vr-cell.count{font-size:13px;color:rgba(200,170,100,.8);text-shadow:none;font-weight:600;}
 .battle-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .bs-stat{
   background:linear-gradient(145deg,rgba(36,20,6,.95),rgba(22,12,3,.95));
@@ -1610,6 +1620,16 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
         <span class="mb-title">TREASURE VAULT</span>
       </span>
     </button>
+    <button class="menu-btn menu-btn-map ghost-btn" id="menu-map">
+      <span class="mb-icon">🗺️</span>
+      <span class="mb-text">
+        <span class="mb-title">TREASURE MAP</span>
+        <div class="mb-map-bar-wrap">
+          <div class="mb-map-bar"><div class="mb-map-bar-fill" id="menu-map-fill" style="width:0%"></div></div>
+          <span class="mb-map-bar-label" id="menu-map-label">0 / 15</span>
+        </div>
+      </span>
+    </button>
     <button class="menu-btn menu-btn-settings ghost-btn" id="menu-settings">
       <span class="mb-icon">⚙️</span>
       <span class="mb-text">
@@ -1756,20 +1776,12 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
     <div class="vault-sub">Your legendary achievements</div>
     <div class="vault-ornament">◆ ─────────────────── ◆</div>
     <div class="vault-section">
-      <div class="vault-section-title">📜 Puzzle Mode Records</div>
-      <div class="vault-records" id="vault-records"></div>
-    </div>
-    <div class="vault-section">
       <div class="vault-section-title">📅 Daily Puzzle Stats</div>
       <div class="battle-stats" id="vault-daily-stats"></div>
     </div>
-    <div class="vault-section" id="vault-map-section">
-      <div class="vault-section-title">🗺️ Treasure Map Progress</div>
-      <div class="map-progress-wrap">
-        <div class="map-progress-bar"><div class="map-progress-fill" id="vault-map-fill" style="width:0%"></div></div>
-        <div class="map-progress-label" id="vault-map-label">0 / 15 pieces</div>
-      </div>
-      <button class="ghost-btn" id="vault-map-btn" style="width:100%;margin-top:12px;padding:11px;font-size:11px;letter-spacing:.14em;">🗺️ OPEN TREASURE MAP</button>
+    <div class="vault-section">
+      <div class="vault-section-title">📜 Puzzle Mode Records</div>
+      <div class="vault-records" id="vault-records"></div>
     </div>
     <div class="vault-section">
       <div class="vault-section-title">⚡ Legendary Artifacts</div>
@@ -2090,67 +2102,157 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   <!-- ── Phase 1: Treasure chest to tap ── -->
   <div id="win-phase1">
     <div id="win-chest-wrap">
-      <svg width="178" height="162" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
-        <defs>
-          <linearGradient id="wcw" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7a4820"/><stop offset="45%" stop-color="#5c3410"/><stop offset="100%" stop-color="#3e2008"/></linearGradient>
-          <linearGradient id="wcl" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8c5428"/><stop offset="100%" stop-color="#5a3010"/></linearGradient>
-          <linearGradient id="wcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="30%" stop-color="#f8d840"/><stop offset="70%" stop-color="#e0a820"/><stop offset="100%" stop-color="#c48010"/></linearGradient>
-          <radialGradient id="wci" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="rgba(255,225,90,.95)"/><stop offset="55%" stop-color="rgba(255,165,25,.6)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient>
-          <radialGradient id="wcc" cx="50%" cy="38%" r="58%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="50%" stop-color="#e8c030"/><stop offset="100%" stop-color="#a07008"/></radialGradient>
-        </defs>
-        <!-- Shadow -->
-        <ellipse cx="100" cy="180" rx="84" ry="8" fill="rgba(0,0,0,.38)"/>
+      <svg width="178" height="162" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><defs><linearGradient id="wcw" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8b5e2a"/><stop offset="18%" stop-color="#7a4f20"/><stop offset="40%" stop-color="#6b4218"/><stop offset="65%" stop-color="#5a3610"/><stop offset="100%" stop-color="#3e2408"/></linearGradient><linearGradient id="wcl" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#9a6430"/><stop offset="35%" stop-color="#7a4e20"/><stop offset="70%" stop-color="#5c3a12"/><stop offset="100%" stop-color="#4a2e0c"/></linearGradient><linearGradient id="wcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="12%" stop-color="#fde96a"/><stop offset="45%" stop-color="#f0c030"/><stop offset="75%" stop-color="#d49018"/><stop offset="100%" stop-color="#b07010"/></linearGradient><radialGradient id="wci" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="rgba(255,230,100,.98)"/><stop offset="45%" stop-color="rgba(255,170,30,.65)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient><radialGradient id="wcc" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="40%" stop-color="#f0d040"/><stop offset="100%" stop-color="#9a6808"/></radialGradient><linearGradient id="wcmetal" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6a6a72"/><stop offset="18%" stop-color="#a0a0ac"/><stop offset="40%" stop-color="#484850"/><stop offset="72%" stop-color="#38383e"/><stop offset="100%" stop-color="#28282e"/></linearGradient><radialGradient id="wcrivet" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#d0d0d8"/><stop offset="45%" stop-color="#787880"/><stop offset="100%" stop-color="#303038"/></radialGradient><radialGradient id="wcknob" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#fffbe0"/><stop offset="38%" stop-color="#f0c830"/><stop offset="100%" stop-color="#8a5808"/></radialGradient><linearGradient id="wcwv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,.22)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient><linearGradient id="wclv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,.18)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs>
+        <!-- Drop shadow -->
+        <ellipse cx="100" cy="181" rx="88" ry="9" fill="rgba(0,0,0,.45)"/>
         <!-- Inner glow (shows on open) -->
-        <ellipse id="wc-inner-glow" cx="100" cy="100" rx="78" ry="46" fill="url(#wci)"/>
-        <!-- ── Body ── -->
-        <rect x="8" y="100" width="184" height="76" rx="9" fill="url(#wcw)"/>
-        <rect x="8" y="100" width="184" height="76" rx="9" fill="none" stroke="#2a1404" stroke-width="2.5"/>
-        <line x1="38" y1="100" x2="38" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-        <line x1="68" y1="100" x2="68" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-        <line x1="132" y1="100" x2="132" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-        <line x1="162" y1="100" x2="162" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-        <line x1="8" y1="127" x2="192" y2="127" stroke="#3a1c08" stroke-width="1" opacity=".28"/>
-        <line x1="8" y1="153" x2="192" y2="153" stroke="#3a1c08" stroke-width="1" opacity=".28"/>
-        <!-- Gold band 1 -->
-        <rect x="6" y="118" width="188" height="9" rx="2.5" fill="url(#wcg)"/>
-        <circle cx="36" cy="122.5" r="4.2" fill="#d82090"/><circle cx="36" cy="122.5" r="2" fill="rgba(255,140,215,.7)"/>
-        <circle cx="76" cy="122.5" r="4.2" fill="#20a8d8"/><circle cx="76" cy="122.5" r="2" fill="rgba(140,225,255,.7)"/>
-        <circle cx="124" cy="122.5" r="4.2" fill="#28cc68"/><circle cx="124" cy="122.5" r="2" fill="rgba(140,255,195,.7)"/>
-        <circle cx="164" cy="122.5" r="4.2" fill="#d84820"/><circle cx="164" cy="122.5" r="2" fill="rgba(255,165,125,.7)"/>
-        <!-- Gold band 2 -->
-        <rect x="6" y="145" width="188" height="8" rx="2.5" fill="url(#wcg)"/>
-        <circle cx="54" cy="149" r="3.8" fill="#9820d8"/><circle cx="54" cy="149" r="1.9" fill="rgba(205,145,255,.7)"/>
-        <circle cx="100" cy="149" r="3.8" fill="#e8c030"/><circle cx="100" cy="149" r="1.9" fill="rgba(255,242,155,.75)"/>
-        <circle cx="146" cy="149" r="3.8" fill="#20d8a8"/><circle cx="146" cy="149" r="1.9" fill="rgba(140,255,225,.7)"/>
-        <!-- Foot studs -->
-        <circle cx="26" cy="170" r="5.5" fill="url(#wcg)" stroke="#8a5a08" stroke-width="1.2"/>
-        <circle cx="174" cy="170" r="5.5" fill="url(#wcg)" stroke="#8a5a08" stroke-width="1.2"/>
-        <!-- Clasp -->
-        <rect x="84" y="93" width="32" height="22" rx="6" fill="url(#wcg)" stroke="#7a5008" stroke-width="1.8"/>
-        <rect x="88" y="97" width="24" height="14" rx="3.5" fill="rgba(120,76,0,.55)"/>
-        <circle cx="100" cy="104" r="5" fill="url(#wcc)" stroke="#7a5008" stroke-width="1.2"/>
-        <circle cx="100" cy="104" r="2.2" fill="rgba(255,248,180,.72)"/>
-        <!-- ── Lid group (animates open) ── -->
+        <ellipse id="wc-inner-glow" cx="100" cy="104" rx="80" ry="44" fill="url(#wci)"/>
+        <!-- ── BODY ── -->
+        <!-- Main body wood -->
+        <rect x="8" y="100" width="184" height="76" rx="7" fill="url(#wcw)"/>
+        <!-- Horizontal plank dividers -->
+        <line x1="9" y1="125" x2="191" y2="125" stroke="#2e1608" stroke-width="1.8" opacity=".55"/>
+        <line x1="9" y1="150" x2="191" y2="150" stroke="#2e1608" stroke-width="1.8" opacity=".55"/>
+        <!-- Vertical grain lines -->
+        <line x1="40" y1="101" x2="40" y2="175" stroke="#2a1406" stroke-width="1" opacity=".35"/>
+        <line x1="66" y1="101" x2="66" y2="175" stroke="#2a1406" stroke-width="1" opacity=".3"/>
+        <line x1="100" y1="101" x2="100" y2="175" stroke="#2a1406" stroke-width="1" opacity=".22"/>
+        <line x1="134" y1="101" x2="134" y2="175" stroke="#2a1406" stroke-width="1" opacity=".3"/>
+        <line x1="160" y1="101" x2="160" y2="175" stroke="#2a1406" stroke-width="1" opacity=".35"/>
+        <!-- Top sheen overlay on body -->
+        <rect x="8" y="100" width="184" height="22" rx="7" fill="url(#wcwv)"/>
+        <!-- Body border -->
+        <rect x="8" y="100" width="184" height="76" rx="7" fill="none" stroke="#1e0c04" stroke-width="2.8"/>
+        <!-- ── IRON BANDING ── -->
+        <!-- Band 1 -->
+        <rect x="5" y="111" width="190" height="12" rx="2" fill="url(#wcmetal)"/>
+        <rect x="5" y="111" width="190" height="3" rx="2" fill="rgba(180,180,192,.28)"/>
+        <rect x="5" y="111" width="190" height="12" rx="2" fill="none" stroke="#1a1a20" stroke-width="1.2"/>
+        <!-- Band 1 rivets -->
+        <circle cx="22" cy="117" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="22" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="52" cy="117" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="52" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="85" cy="117" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="85" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="115" cy="117" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="115" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="148" cy="117" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="148" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="178" cy="117" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="178" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <!-- Band 2 -->
+        <rect x="5" y="137" width="190" height="12" rx="2" fill="url(#wcmetal)"/>
+        <rect x="5" y="137" width="190" height="3" rx="2" fill="rgba(180,180,192,.28)"/>
+        <rect x="5" y="137" width="190" height="12" rx="2" fill="none" stroke="#1a1a20" stroke-width="1.2"/>
+        <!-- Band 2 rivets -->
+        <circle cx="22" cy="143" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="22" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="52" cy="143" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="52" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="85" cy="143" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="85" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="115" cy="143" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="115" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="148" cy="143" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="148" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <circle cx="178" cy="143" r="4.2" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="178" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/>
+        <!-- Band 3 (lower) -->
+        <rect x="5" y="161" width="190" height="11" rx="2" fill="url(#wcmetal)"/>
+        <rect x="5" y="161" width="190" height="3" rx="2" fill="rgba(180,180,192,.28)"/>
+        <rect x="5" y="161" width="190" height="11" rx="2" fill="none" stroke="#1a1a20" stroke-width="1.2"/>
+        <!-- Band 3 rivets -->
+        <circle cx="32" cy="166.5" r="4" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="32" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/>
+        <circle cx="72" cy="166.5" r="4" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="72" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/>
+        <circle cx="128" cy="166.5" r="4" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="128" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/>
+        <circle cx="168" cy="166.5" r="4" fill="url(#wcrivet)" stroke="#18181e" stroke-width=".8"/>
+        <circle cx="168" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/>
+        <!-- ── BOTTOM FOOT RAIL ── -->
+        <rect x="6" y="171" width="188" height="7" rx="2" fill="url(#wcmetal)" stroke="#16161c" stroke-width="1"/>
+        <!-- Corner foot knobs -->
+        <circle cx="20" cy="174.5" r="6.5" fill="url(#wcknob)" stroke="#7a5008" stroke-width="1.5"/>
+        <circle cx="20" cy="174.5" r="2.5" fill="rgba(255,248,200,.6)"/>
+        <circle cx="180" cy="174.5" r="6.5" fill="url(#wcknob)" stroke="#7a5008" stroke-width="1.5"/>
+        <circle cx="180" cy="174.5" r="2.5" fill="rgba(255,248,200,.6)"/>
+        <!-- ── CORNER IRON BRACKETS (bottom front) ── -->
+        <!-- Left bracket -->
+        <path d="M8 176 L8 152 L18 152 L18 158 L14 158 L14 176Z" fill="url(#wcmetal)" stroke="#16161c" stroke-width="1"/>
+        <circle cx="13" cy="155" r="3" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+        <circle cx="13" cy="155" r="1.1" fill="rgba(220,222,230,.55)"/>
+        <circle cx="13" cy="173" r="3" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+        <circle cx="13" cy="173" r="1.1" fill="rgba(220,222,230,.55)"/>
+        <!-- Right bracket -->
+        <path d="M192 176 L192 152 L182 152 L182 158 L186 158 L186 176Z" fill="url(#wcmetal)" stroke="#16161c" stroke-width="1"/>
+        <circle cx="187" cy="155" r="3" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+        <circle cx="187" cy="155" r="1.1" fill="rgba(220,222,230,.55)"/>
+        <circle cx="187" cy="173" r="3" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+        <circle cx="187" cy="173" r="1.1" fill="rgba(220,222,230,.55)"/>
+        <!-- ── CLASP / LOCK PLATE ── -->
+        <rect x="82" y="91" width="36" height="24" rx="5" fill="url(#wcg)" stroke="#7a5008" stroke-width="2"/>
+        <rect x="84" y="93" width="32" height="20" rx="4" fill="rgba(110,72,0,.4)"/>
+        <!-- Keyhole: circle top + tapered stem -->
+        <circle cx="100" cy="100" r="5.5" fill="#2a1606" stroke="#7a5008" stroke-width="1"/>
+        <circle cx="100" cy="100" r="2.2" fill="rgba(255,230,120,.18)"/>
+        <path d="M97 104 L97.8 112 L102.2 112 L103 104Z" fill="#2a1606"/>
+        <!-- Clasp highlight -->
+        <rect x="82" y="91" width="36" height="7" rx="5" fill="rgba(255,255,200,.18)"/>
+        <!-- ── LID GROUP (animates open) ── -->
         <g class="win-lid-group">
+          <!-- Lid wood -->
           <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="url(#wcl)"/>
-          <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="none" stroke="#2a1404" stroke-width="2.5"/>
-          <path d="M16 100 Q16 52 100 48 Q184 52 184 100Z" fill="#1e0c04"/>
-          <line x1="44" y1="96" x2="58" y2="53" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
-          <line x1="70" y1="99" x2="78" y2="51" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
-          <line x1="130" y1="99" x2="122" y2="51" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
-          <line x1="156" y1="96" x2="142" y2="53" stroke="#3a1c08" stroke-width="1.2" opacity=".4"/>
-          <!-- Lid gold arch band -->
-          <path d="M8 78 Q8 44 100 38 Q192 44 192 78" fill="none" stroke="url(#wcg)" stroke-width="9" stroke-linecap="round"/>
-          <!-- Filigree -->
-          <path d="M30 74 Q58 54 100 50 Q142 54 170 74" fill="none" stroke="rgba(255,220,80,.38)" stroke-width="2"/>
-          <path d="M52 89 Q70 71 100 67 Q130 71 148 89" fill="none" stroke="rgba(255,220,80,.26)" stroke-width="1.5"/>
-          <!-- Center star emblem -->
-          <circle cx="100" cy="68" r="10" fill="url(#wcg)" stroke="rgba(160,110,0,.5)" stroke-width="1.3"/>
-          <path d="M100 60 L102.4 66.2 L109 66.2 L103.8 70 L105.8 76.2 L100 72.5 L94.2 76.2 L96.2 70 L91 66.2 L97.6 66.2Z" fill="#2a1404"/>
-          <circle cx="100" cy="68" r="3.4" fill="rgba(255,250,180,.52)"/>
-          <!-- Corner scrollwork -->
-          <path d="M22 96 Q19 87 26 80 Q33 74 37 79" fill="none" stroke="rgba(255,200,50,.42)" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M178 96 Q181 87 174 80 Q167 74 163 79" fill="none" stroke="rgba(255,200,50,.42)" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- Inner shadow curve -->
+          <path d="M14 100 Q14 50 100 46 Q186 50 186 100Z" fill="#1c0c04"/>
+          <!-- Lid plank lines (arching) -->
+          <path d="M14 100 Q14 50 100 46 Q186 50 186 100" fill="none" stroke="#2e1406" stroke-width="1.4" opacity=".5"/>
+          <path d="M22 100 Q22 56 100 52 Q178 56 178 100" fill="none" stroke="#2e1406" stroke-width="1.2" opacity=".4"/>
+          <path d="M35 100 Q35 63 100 59 Q165 63 165 100" fill="none" stroke="#2e1406" stroke-width="1" opacity=".35"/>
+          <path d="M52 100 Q52 72 100 69 Q148 72 148 100" fill="none" stroke="#2e1406" stroke-width="1" opacity=".3"/>
+          <!-- Vertical grain on lid -->
+          <line x1="55" y1="95" x2="62" y2="55" stroke="#2a1406" stroke-width="1" opacity=".32"/>
+          <line x1="78" y1="99" x2="82" y2="52" stroke="#2a1406" stroke-width="1" opacity=".28"/>
+          <line x1="122" y1="99" x2="118" y2="52" stroke="#2a1406" stroke-width="1" opacity=".28"/>
+          <line x1="145" y1="95" x2="138" y2="55" stroke="#2a1406" stroke-width="1" opacity=".32"/>
+          <!-- Lid top sheen -->
+          <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="url(#wclv)"/>
+          <!-- Lid border -->
+          <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="none" stroke="#1e0c04" stroke-width="2.8"/>
+          <!-- ── LID IRON ARCH BAND ── -->
+          <path d="M8 80 Q8 44 100 38 Q192 44 192 80" fill="none" stroke="url(#wcmetal)" stroke-width="11" stroke-linecap="round"/>
+          <path d="M8 80 Q8 44 100 38 Q192 44 192 80" fill="none" stroke="rgba(160,162,172,.3)" stroke-width="3" stroke-linecap="round"/>
+          <!-- Arch band rivets -->
+          <circle cx="18" cy="80" r="4.5" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="18" cy="80" r="1.6" fill="rgba(220,222,230,.55)"/>
+          <circle cx="52" cy="57" r="4.5" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="52" cy="57" r="1.6" fill="rgba(220,222,230,.55)"/>
+          <circle cx="100" cy="45" r="4.5" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="100" cy="45" r="1.6" fill="rgba(220,222,230,.55)"/>
+          <circle cx="148" cy="57" r="4.5" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="148" cy="57" r="1.6" fill="rgba(220,222,230,.55)"/>
+          <circle cx="182" cy="80" r="4.5" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="182" cy="80" r="1.6" fill="rgba(220,222,230,.55)"/>
+          <!-- Small side bracket plates on lid -->
+          <rect x="8" y="82" width="14" height="16" rx="2" fill="url(#wcmetal)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="15" cy="86" r="2.8" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+          <circle cx="15" cy="86" r="1" fill="rgba(220,222,230,.5)"/>
+          <circle cx="15" cy="94" r="2.8" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+          <circle cx="15" cy="94" r="1" fill="rgba(220,222,230,.5)"/>
+          <rect x="178" y="82" width="14" height="16" rx="2" fill="url(#wcmetal)" stroke="#16161c" stroke-width=".9"/>
+          <circle cx="185" cy="86" r="2.8" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+          <circle cx="185" cy="86" r="1" fill="rgba(220,222,230,.5)"/>
+          <circle cx="185" cy="94" r="2.8" fill="url(#wcrivet)" stroke="#16161c" stroke-width=".7"/>
+          <circle cx="185" cy="94" r="1" fill="rgba(220,222,230,.5)"/>
+          <!-- Filigree curves -->
+          <path d="M32 76 Q60 56 100 52 Q140 56 168 76" fill="none" stroke="rgba(255,220,80,.42)" stroke-width="2.2"/>
+          <path d="M48 90 Q68 74 100 70 Q132 74 152 90" fill="none" stroke="rgba(255,220,80,.28)" stroke-width="1.6"/>
+          <!-- ── STAR MEDALLION ── -->
+          <circle cx="100" cy="68" r="13" fill="url(#wcg)" stroke="#6a4808" stroke-width="1.8"/>
+          <circle cx="100" cy="68" r="11" fill="rgba(100,64,0,.35)"/>
+          <path d="M100 57 L102.9 65.2 L111.7 65.2 L104.4 70.3 L107.3 78.5 L100 73.4 L92.7 78.5 L95.6 70.3 L88.3 65.2 L97.1 65.2Z" fill="#1e0e02"/>
+          <circle cx="100" cy="68" r="4" fill="rgba(255,248,180,.55)"/>
         </g>
       </svg>
     </div>
@@ -2173,8 +2275,11 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 <!-- ═══════════════ DAILY FAIL OVERLAY ═══════════════ -->
 <div id="daily-fail-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(2,1,0,.9);backdrop-filter:blur(10px);align-items:center;justify-content:center;">
   <div class="win-panel" style="max-width:340px;width:90%;padding:32px 28px;text-align:center;">
-    <div style="font-size:52px;margin-bottom:10px;filter:drop-shadow(0 0 12px rgba(255,60,60,.5));">💔</div>
-    <div style="font-family:'Cinzel',serif;font-size:20px;font-weight:900;color:#e06060;letter-spacing:.12em;margin-bottom:8px;text-shadow:0 0 20px rgba(255,60,60,.4);">QUEST FAILED</div>
+    <!-- Locked chest — sealed vault visual -->
+    <div style="margin-bottom:10px;display:flex;justify-content:center;filter:drop-shadow(0 0 18px rgba(180,30,30,.55));">
+      <svg width="96" height="87" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><defs><linearGradient id="flw" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#2e2438"/><stop offset="22%" stop-color="#221a2e"/><stop offset="55%" stop-color="#18101e"/><stop offset="100%" stop-color="#0e0814"/></linearGradient><linearGradient id="fll" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#342840"/><stop offset="45%" stop-color="#241a30"/><stop offset="100%" stop-color="#160e22"/></linearGradient><linearGradient id="flg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#847060"/><stop offset="20%" stop-color="#6a5e50"/><stop offset="55%" stop-color="#504438"/><stop offset="100%" stop-color="#382e24"/></linearGradient><linearGradient id="flmetal" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#484450"/><stop offset="18%" stop-color="#6e6a78"/><stop offset="40%" stop-color="#303038"/><stop offset="80%" stop-color="#222228"/><stop offset="100%" stop-color="#181820"/></linearGradient><radialGradient id="flrivet" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#8a8898"/><stop offset="45%" stop-color="#484450"/><stop offset="100%" stop-color="#1c1c22"/></radialGradient></defs><ellipse cx="100" cy="181" rx="88" ry="9" fill="rgba(0,0,0,.55)"/><rect x="8" y="100" width="184" height="76" rx="7" fill="url(#flw)"/><line x1="9" y1="125" x2="191" y2="125" stroke="#0e0818" stroke-width="1.8" opacity=".6"/><line x1="9" y1="150" x2="191" y2="150" stroke="#0e0818" stroke-width="1.8" opacity=".6"/><line x1="40" y1="101" x2="40" y2="175" stroke="#0e0818" stroke-width="1" opacity=".38"/><line x1="66" y1="101" x2="66" y2="175" stroke="#0e0818" stroke-width="1" opacity=".32"/><line x1="100" y1="101" x2="100" y2="175" stroke="#0e0818" stroke-width="1" opacity=".25"/><line x1="134" y1="101" x2="134" y2="175" stroke="#0e0818" stroke-width="1" opacity=".32"/><line x1="160" y1="101" x2="160" y2="175" stroke="#0e0818" stroke-width="1" opacity=".38"/><rect x="8" y="100" width="184" height="76" rx="7" fill="none" stroke="#080610" stroke-width="2.8"/><rect x="5" y="111" width="190" height="12" rx="2" fill="url(#flmetal)"/><rect x="5" y="111" width="190" height="3" rx="2" fill="rgba(120,116,130,.2)"/><rect x="5" y="111" width="190" height="12" rx="2" fill="none" stroke="#101018" stroke-width="1.2"/><circle cx="22" cy="117" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="22" cy="117" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="52" cy="117" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="52" cy="117" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="85" cy="117" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="85" cy="117" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="115" cy="117" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="115" cy="117" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="148" cy="117" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="148" cy="117" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="178" cy="117" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="178" cy="117" r="1.5" fill="rgba(140,138,150,.45)"/><rect x="5" y="137" width="190" height="12" rx="2" fill="url(#flmetal)"/><rect x="5" y="137" width="190" height="3" rx="2" fill="rgba(120,116,130,.2)"/><rect x="5" y="137" width="190" height="12" rx="2" fill="none" stroke="#101018" stroke-width="1.2"/><circle cx="22" cy="143" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="22" cy="143" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="52" cy="143" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="52" cy="143" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="85" cy="143" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="85" cy="143" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="115" cy="143" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="115" cy="143" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="148" cy="143" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="148" cy="143" r="1.5" fill="rgba(140,138,150,.45)"/><circle cx="178" cy="143" r="4.2" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="178" cy="143" r="1.5" fill="rgba(140,138,150,.45)"/><rect x="5" y="161" width="190" height="11" rx="2" fill="url(#flmetal)"/><rect x="5" y="161" width="190" height="3" rx="2" fill="rgba(120,116,130,.2)"/><rect x="5" y="161" width="190" height="11" rx="2" fill="none" stroke="#101018" stroke-width="1.2"/><circle cx="32" cy="166.5" r="4" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="32" cy="166.5" r="1.4" fill="rgba(140,138,150,.45)"/><circle cx="72" cy="166.5" r="4" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="72" cy="166.5" r="1.4" fill="rgba(140,138,150,.45)"/><circle cx="128" cy="166.5" r="4" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="128" cy="166.5" r="1.4" fill="rgba(140,138,150,.45)"/><circle cx="168" cy="166.5" r="4" fill="url(#flrivet)" stroke="#101018" stroke-width=".8"/><circle cx="168" cy="166.5" r="1.4" fill="rgba(140,138,150,.45)"/><rect x="6" y="171" width="188" height="7" rx="2" fill="url(#flmetal)" stroke="#0e0e16" stroke-width="1"/><circle cx="20" cy="174.5" r="6.5" fill="url(#flg)" stroke="#302820" stroke-width="1.5"/><circle cx="20" cy="174.5" r="2.5" fill="rgba(160,148,120,.4)"/><circle cx="180" cy="174.5" r="6.5" fill="url(#flg)" stroke="#302820" stroke-width="1.5"/><circle cx="180" cy="174.5" r="2.5" fill="rgba(160,148,120,.4)"/><path d="M8 176 L8 152 L18 152 L18 158 L14 158 L14 176Z" fill="url(#flmetal)" stroke="#0e0e16" stroke-width="1"/><circle cx="13" cy="155" r="3" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><circle cx="13" cy="173" r="3" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><path d="M192 176 L192 152 L182 152 L182 158 L186 158 L186 176Z" fill="url(#flmetal)" stroke="#0e0e16" stroke-width="1"/><circle cx="187" cy="155" r="3" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><circle cx="187" cy="173" r="3" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="url(#fll)"/><path d="M14 100 Q14 50 100 46 Q186 50 186 100Z" fill="#100818"/><path d="M14 100 Q14 50 100 46 Q186 50 186 100" fill="none" stroke="#0e0818" stroke-width="1.4" opacity=".55"/><path d="M22 100 Q22 56 100 52 Q178 56 178 100" fill="none" stroke="#0e0818" stroke-width="1.2" opacity=".45"/><path d="M35 100 Q35 63 100 59 Q165 63 165 100" fill="none" stroke="#0e0818" stroke-width="1" opacity=".38"/><path d="M52 100 Q52 72 100 69 Q148 72 148 100" fill="none" stroke="#0e0818" stroke-width="1" opacity=".3"/><path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="none" stroke="#080610" stroke-width="2.8"/><path d="M8 80 Q8 44 100 38 Q192 44 192 80" fill="none" stroke="url(#flmetal)" stroke-width="11" stroke-linecap="round"/><path d="M8 80 Q8 44 100 38 Q192 44 192 80" fill="none" stroke="rgba(100,98,110,.25)" stroke-width="3" stroke-linecap="round"/><circle cx="18" cy="80" r="4.5" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".9"/><circle cx="52" cy="57" r="4.5" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".9"/><circle cx="100" cy="45" r="4.5" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".9"/><circle cx="148" cy="57" r="4.5" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".9"/><circle cx="182" cy="80" r="4.5" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".9"/><rect x="8" y="82" width="14" height="16" rx="2" fill="url(#flmetal)" stroke="#0e0e16" stroke-width=".9"/><circle cx="15" cy="86" r="2.8" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><circle cx="15" cy="94" r="2.8" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><rect x="178" y="82" width="14" height="16" rx="2" fill="url(#flmetal)" stroke="#0e0e16" stroke-width=".9"/><circle cx="185" cy="86" r="2.8" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><circle cx="185" cy="94" r="2.8" fill="url(#flrivet)" stroke="#0e0e16" stroke-width=".7"/><path d="M32 76 Q60 56 100 52 Q140 56 168 76" fill="none" stroke="rgba(160,140,100,.22)" stroke-width="1.8"/><circle cx="100" cy="68" r="13" fill="url(#flg)" stroke="#302820" stroke-width="1.8"/><circle cx="100" cy="68" r="11" fill="rgba(20,12,30,.55)"/><path d="M100 57 L102.9 65.2 L111.7 65.2 L104.4 70.3 L107.3 78.5 L100 73.4 L92.7 78.5 L95.6 70.3 L88.3 65.2 L97.1 65.2Z" fill="rgba(20,12,30,.7)"/><circle cx="100" cy="68" r="4" fill="rgba(160,140,100,.28)"/><rect x="84" y="91" width="32" height="22" rx="5" fill="url(#flg)" stroke="#302820" stroke-width="1.8"/><rect x="86" y="93" width="28" height="18" rx="4" fill="rgba(16,10,24,.45)"/><path d="M93.5 100 Q93.5 87.5 100 87.5 Q106.5 87.5 106.5 100" fill="none" stroke="#cc2828" stroke-width="4" stroke-linecap="round"/><rect x="89" y="99" width="22" height="16" rx="4" fill="#bb2222" stroke="#7a0c0c" stroke-width="1.8"/><rect x="89" y="99" width="22" height="5" rx="4" fill="rgba(255,80,80,.25)"/><circle cx="100" cy="107" r="3.8" fill="#700808"/><path d="M98.2 108.5 L98.6 114.5 L101.4 114.5 L101.8 108.5Z" fill="#700808"/></svg>
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:18px;font-weight:900;color:#e06060;letter-spacing:.12em;margin-bottom:8px;text-shadow:0 0 20px rgba(255,60,60,.4);">VAULT SEALED</div>
     <div id="df-diff-label" style="font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.15em;margin-bottom:16px;opacity:.7;"></div>
     <div style="background:rgba(30,10,10,.8);border:1px solid rgba(200,60,60,.25);border-radius:12px;padding:14px 16px;margin-bottom:20px;">
       <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:12px;color:var(--stone-light);line-height:1.6;opacity:.8;">The vault remains sealed. Return tomorrow with renewed courage — a fresh puzzle awaits at midnight.</div>
@@ -2200,7 +2305,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
     <!-- Chest SVG with glow particles -->
     <div id="chest-icon-wrap" style="position:relative;display:inline-block;width:140px;height:140px;">
       <div id="chest-particles-wrap" style="position:absolute;inset:-30px;pointer-events:none;overflow:visible;"></div>
-      <div id="chest-icon" style="font-size:100px;line-height:140px;text-align:center;animation:chestWait 2.2s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(245,200,66,.7)) drop-shadow(0 0 56px rgba(245,200,66,.3));">🎁</div>
+      <div id="chest-icon" style="display:block;animation:chestWait 2.2s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(245,200,66,.7)) drop-shadow(0 0 56px rgba(245,200,66,.3));"><svg width="130" height="118" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="display:block;overflow:visible"><defs><linearGradient id="dcw" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8b5e2a"/><stop offset="18%" stop-color="#7a4f20"/><stop offset="40%" stop-color="#6b4218"/><stop offset="65%" stop-color="#5a3610"/><stop offset="100%" stop-color="#3e2408"/></linearGradient><linearGradient id="dcl" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#9a6430"/><stop offset="35%" stop-color="#7a4e20"/><stop offset="70%" stop-color="#5c3a12"/><stop offset="100%" stop-color="#4a2e0c"/></linearGradient><linearGradient id="dcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="12%" stop-color="#fde96a"/><stop offset="45%" stop-color="#f0c030"/><stop offset="75%" stop-color="#d49018"/><stop offset="100%" stop-color="#b07010"/></linearGradient><radialGradient id="dcc" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="40%" stop-color="#f0d040"/><stop offset="100%" stop-color="#9a6808"/></radialGradient><linearGradient id="dcmetal" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6a6a72"/><stop offset="18%" stop-color="#a0a0ac"/><stop offset="40%" stop-color="#484850"/><stop offset="72%" stop-color="#38383e"/><stop offset="100%" stop-color="#28282e"/></linearGradient><radialGradient id="dcrivet" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#d0d0d8"/><stop offset="45%" stop-color="#787880"/><stop offset="100%" stop-color="#303038"/></radialGradient><radialGradient id="dcknob" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#fffbe0"/><stop offset="38%" stop-color="#f0c830"/><stop offset="100%" stop-color="#8a5808"/></radialGradient></defs><ellipse cx="100" cy="181" rx="88" ry="9" fill="rgba(0,0,0,.45)"/><rect x="8" y="100" width="184" height="76" rx="7" fill="url(#dcw)"/><line x1="9" y1="125" x2="191" y2="125" stroke="#2e1608" stroke-width="1.8" opacity=".55"/><line x1="9" y1="150" x2="191" y2="150" stroke="#2e1608" stroke-width="1.8" opacity=".55"/><line x1="40" y1="101" x2="40" y2="175" stroke="#2a1406" stroke-width="1" opacity=".35"/><line x1="66" y1="101" x2="66" y2="175" stroke="#2a1406" stroke-width="1" opacity=".3"/><line x1="100" y1="101" x2="100" y2="175" stroke="#2a1406" stroke-width="1" opacity=".22"/><line x1="134" y1="101" x2="134" y2="175" stroke="#2a1406" stroke-width="1" opacity=".3"/><line x1="160" y1="101" x2="160" y2="175" stroke="#2a1406" stroke-width="1" opacity=".35"/><rect x="8" y="100" width="184" height="76" rx="7" fill="none" stroke="#1e0c04" stroke-width="2.8"/><rect x="5" y="111" width="190" height="12" rx="2" fill="url(#dcmetal)"/><rect x="5" y="111" width="190" height="3" rx="2" fill="rgba(180,180,192,.28)"/><rect x="5" y="111" width="190" height="12" rx="2" fill="none" stroke="#1a1a20" stroke-width="1.2"/><circle cx="22" cy="117" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="22" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="52" cy="117" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="52" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="85" cy="117" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="85" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="115" cy="117" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="115" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="148" cy="117" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="148" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="178" cy="117" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="178" cy="117" r="1.5" fill="rgba(220,222,230,.55)"/><rect x="5" y="137" width="190" height="12" rx="2" fill="url(#dcmetal)"/><rect x="5" y="137" width="190" height="3" rx="2" fill="rgba(180,180,192,.28)"/><rect x="5" y="137" width="190" height="12" rx="2" fill="none" stroke="#1a1a20" stroke-width="1.2"/><circle cx="22" cy="143" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="22" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="52" cy="143" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="52" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="85" cy="143" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="85" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="115" cy="143" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="115" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="148" cy="143" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="148" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/><circle cx="178" cy="143" r="4.2" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="178" cy="143" r="1.5" fill="rgba(220,222,230,.55)"/><rect x="5" y="161" width="190" height="11" rx="2" fill="url(#dcmetal)"/><rect x="5" y="161" width="190" height="3" rx="2" fill="rgba(180,180,192,.28)"/><rect x="5" y="161" width="190" height="11" rx="2" fill="none" stroke="#1a1a20" stroke-width="1.2"/><circle cx="32" cy="166.5" r="4" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="32" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/><circle cx="72" cy="166.5" r="4" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="72" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/><circle cx="128" cy="166.5" r="4" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="128" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/><circle cx="168" cy="166.5" r="4" fill="url(#dcrivet)" stroke="#18181e" stroke-width=".8"/><circle cx="168" cy="166.5" r="1.4" fill="rgba(220,222,230,.55)"/><rect x="6" y="171" width="188" height="7" rx="2" fill="url(#dcmetal)" stroke="#16161c" stroke-width="1"/><circle cx="20" cy="174.5" r="6.5" fill="url(#dcknob)" stroke="#7a5008" stroke-width="1.5"/><circle cx="20" cy="174.5" r="2.5" fill="rgba(255,248,200,.6)"/><circle cx="180" cy="174.5" r="6.5" fill="url(#dcknob)" stroke="#7a5008" stroke-width="1.5"/><circle cx="180" cy="174.5" r="2.5" fill="rgba(255,248,200,.6)"/><path d="M8 176 L8 152 L18 152 L18 158 L14 158 L14 176Z" fill="url(#dcmetal)" stroke="#16161c" stroke-width="1"/><circle cx="13" cy="155" r="3" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="13" cy="155" r="1.1" fill="rgba(220,222,230,.55)"/><circle cx="13" cy="173" r="3" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="13" cy="173" r="1.1" fill="rgba(220,222,230,.55)"/><path d="M192 176 L192 152 L182 152 L182 158 L186 158 L186 176Z" fill="url(#dcmetal)" stroke="#16161c" stroke-width="1"/><circle cx="187" cy="155" r="3" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="187" cy="155" r="1.1" fill="rgba(220,222,230,.55)"/><circle cx="187" cy="173" r="3" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="187" cy="173" r="1.1" fill="rgba(220,222,230,.55)"/><rect x="82" y="91" width="36" height="24" rx="5" fill="url(#dcg)" stroke="#7a5008" stroke-width="2"/><rect x="84" y="93" width="32" height="20" rx="4" fill="rgba(110,72,0,.4)"/><circle cx="100" cy="100" r="5.5" fill="#2a1606" stroke="#7a5008" stroke-width="1"/><circle cx="100" cy="100" r="2.2" fill="rgba(255,230,120,.18)"/><path d="M97 104 L97.8 112 L102.2 112 L103 104Z" fill="#2a1606"/><rect x="82" y="91" width="36" height="7" rx="5" fill="rgba(255,255,200,.18)"/><path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="url(#dcl)"/><path d="M14 100 Q14 50 100 46 Q186 50 186 100Z" fill="#1c0c04"/><path d="M14 100 Q14 50 100 46 Q186 50 186 100" fill="none" stroke="#2e1406" stroke-width="1.4" opacity=".5"/><path d="M22 100 Q22 56 100 52 Q178 56 178 100" fill="none" stroke="#2e1406" stroke-width="1.2" opacity=".4"/><path d="M35 100 Q35 63 100 59 Q165 63 165 100" fill="none" stroke="#2e1406" stroke-width="1" opacity=".35"/><path d="M52 100 Q52 72 100 69 Q148 72 148 100" fill="none" stroke="#2e1406" stroke-width="1" opacity=".3"/><line x1="55" y1="95" x2="62" y2="55" stroke="#2a1406" stroke-width="1" opacity=".32"/><line x1="78" y1="99" x2="82" y2="52" stroke="#2a1406" stroke-width="1" opacity=".28"/><line x1="122" y1="99" x2="118" y2="52" stroke="#2a1406" stroke-width="1" opacity=".28"/><line x1="145" y1="95" x2="138" y2="55" stroke="#2a1406" stroke-width="1" opacity=".32"/><path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="none" stroke="#1e0c04" stroke-width="2.8"/><path d="M8 80 Q8 44 100 38 Q192 44 192 80" fill="none" stroke="url(#dcmetal)" stroke-width="11" stroke-linecap="round"/><path d="M8 80 Q8 44 100 38 Q192 44 192 80" fill="none" stroke="rgba(160,162,172,.3)" stroke-width="3" stroke-linecap="round"/><circle cx="18" cy="80" r="4.5" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".9"/><circle cx="18" cy="80" r="1.6" fill="rgba(220,222,230,.55)"/><circle cx="52" cy="57" r="4.5" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".9"/><circle cx="52" cy="57" r="1.6" fill="rgba(220,222,230,.55)"/><circle cx="100" cy="45" r="4.5" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".9"/><circle cx="100" cy="45" r="1.6" fill="rgba(220,222,230,.55)"/><circle cx="148" cy="57" r="4.5" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".9"/><circle cx="148" cy="57" r="1.6" fill="rgba(220,222,230,.55)"/><circle cx="182" cy="80" r="4.5" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".9"/><circle cx="182" cy="80" r="1.6" fill="rgba(220,222,230,.55)"/><rect x="8" y="82" width="14" height="16" rx="2" fill="url(#dcmetal)" stroke="#16161c" stroke-width=".9"/><circle cx="15" cy="86" r="2.8" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="15" cy="86" r="1" fill="rgba(220,222,230,.5)"/><circle cx="15" cy="94" r="2.8" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="15" cy="94" r="1" fill="rgba(220,222,230,.5)"/><rect x="178" y="82" width="14" height="16" rx="2" fill="url(#dcmetal)" stroke="#16161c" stroke-width=".9"/><circle cx="185" cy="86" r="2.8" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="185" cy="86" r="1" fill="rgba(220,222,230,.5)"/><circle cx="185" cy="94" r="2.8" fill="url(#dcrivet)" stroke="#16161c" stroke-width=".7"/><circle cx="185" cy="94" r="1" fill="rgba(220,222,230,.5)"/><path d="M32 76 Q60 56 100 52 Q140 56 168 76" fill="none" stroke="rgba(255,220,80,.42)" stroke-width="2.2"/><path d="M48 90 Q68 74 100 70 Q132 74 152 90" fill="none" stroke="rgba(255,220,80,.28)" stroke-width="1.6"/><circle cx="100" cy="68" r="13" fill="url(#dcg)" stroke="#6a4808" stroke-width="1.8"/><circle cx="100" cy="68" r="11" fill="rgba(100,64,0,.35)"/><path d="M100 57 L102.9 65.2 L111.7 65.2 L104.4 70.3 L107.3 78.5 L100 73.4 L92.7 78.5 L95.6 70.3 L88.3 65.2 L97.1 65.2Z" fill="#1e0e02"/><circle cx="100" cy="68" r="4" fill="rgba(255,248,180,.55)"/></svg></div>
     </div>
     <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--stone-light);margin-top:20px;opacity:.7;animation:chestLabelPulse 2.2s ease-in-out infinite .4s;">Tap to claim your reward</div>
   </div>
@@ -2243,6 +2348,15 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
     <div style="background:linear-gradient(135deg,rgba(50,32,8,.9),rgba(75,48,10,.95));border:1px solid rgba(180,140,60,.45);border-radius:10px;padding:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:10px;">
       <div style="font-size:9px;letter-spacing:.18em;color:var(--stone-light);font-family:'Cinzel',serif;">🏆 GLOBAL RANK</div>
       <div id="dw-rank-badge" style="font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 16px var(--glow-gold);font-family:'Cinzel',serif;">—</div>
+    </div>
+
+    <!-- Map piece earned badge — shown on first-time daily win -->
+    <div id="dw-map-badge" style="display:none;opacity:0;background:linear-gradient(135deg,rgba(20,40,20,.95),rgba(30,55,25,.98));border:1px solid rgba(80,180,80,.45);border-radius:12px;padding:11px 16px;margin-bottom:12px;align-items:center;justify-content:center;gap:12px;">
+      <div id="dw-map-piece-art" style="width:52px;height:52px;flex-shrink:0;overflow:visible;display:flex;align-items:center;justify-content:center;"></div>
+      <div style="text-align:left;">
+        <div style="font-family:'Cinzel',serif;font-size:8px;color:#80e880;letter-spacing:.22em;margin-bottom:2px;">MAP PIECE EARNED</div>
+        <div id="dw-map-badge-text" style="font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);line-height:1.4;"></div>
+      </div>
     </div>
 
     <!-- Quote block — the earned reward -->
@@ -2464,7 +2578,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .mapv-grid svg{overflow:visible;}
 @keyframes mapShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 @keyframes mapSlotPulse{0%,100%{opacity:1}50%{opacity:.6}}
-@keyframes xSlotPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(255,50,50,.7))}50%{filter:drop-shadow(0 0 18px rgba(255,60,60,1)) drop-shadow(0 0 32px rgba(220,20,20,.5))}}
+@keyframes xSlotPulse{0%,100%{filter:drop-shadow(0 0 8px rgba(255,40,40,.8)) brightness(1.05)}50%{filter:drop-shadow(0 0 28px rgba(255,60,60,1)) drop-shadow(0 0 52px rgba(220,20,20,.65)) brightness(1.25)}}
 .mapv-tray-label{font-size:8px;letter-spacing:.22em;color:var(--stone-light);font-family:'Crimson Pro',serif;text-transform:uppercase;margin-bottom:6px;text-align:center;flex-shrink:0;}
 .mapv-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:18px 10px 28px;max-width:420px;flex-shrink:0;overflow:visible;}
 .mapv-piece{cursor:pointer;flex-shrink:0;position:relative;}
@@ -2786,6 +2900,41 @@ const SOUNDS=(()=>{
   };
 })();
 
+/* ══ WIN CHIME ══ */
+// Ascending C-major arpeggio (C4→E4→G4→C5→E5→G5) + sustained chord bloom
+function playWinChime(){
+  if(!SETTINGS.sound)return;
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)();
+    if(c.state==='suspended')c.resume();
+    const m=c.createGain();m.gain.value=0.16;m.connect(c.destination);
+    const notes=[261.63,329.63,392.00,523.25,659.26,783.99];
+    notes.forEach((f,i)=>{
+      const t=c.currentTime+i*0.11;
+      const g=c.createGain();g.connect(m);
+      g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(.65-.06*i,t+.012);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+.52);
+      const o=c.createOscillator();o.type='sine';o.frequency.value=f;
+      o.connect(g);o.start(t);o.stop(t+.55);
+      // Shimmer harmonic
+      const g2=c.createGain();g2.connect(m);
+      g2.gain.setValueAtTime(0.0001,t);g2.gain.linearRampToValueAtTime(.18-.02*i,t+.012);
+      g2.gain.exponentialRampToValueAtTime(0.0001,t+.32);
+      const o2=c.createOscillator();o2.type='triangle';o2.frequency.value=f*2.01;
+      o2.connect(g2);o2.start(t);o2.stop(t+.36);
+    });
+    // Final chord bloom — C major chord sustained
+    const bloom=c.currentTime+notes.length*0.11+.06;
+    [523.25,659.26,783.99,1046.5].forEach((f,i)=>{
+      const g=c.createGain();g.connect(m);
+      g.gain.setValueAtTime(0.0001,bloom);g.gain.linearRampToValueAtTime(.22,bloom+.025);
+      g.gain.exponentialRampToValueAtTime(0.0001,bloom+1.4);
+      const o=c.createOscillator();o.type='sine';o.frequency.value=f;
+      o.connect(g);o.start(bloom);o.stop(bloom+1.5);
+    });
+  }catch(e){}
+}
+
 /* ══ BACKGROUND MUSIC ══ */
 const MUSIC=(()=>{
   let _ctx=null,_master=null,_padBus=null,_harpBus=null,_ambBus=null,_magBus=null;
@@ -2964,7 +3113,7 @@ function loadState(){
     }
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,legendaryArtifacts:[],legendaryUnlockPending:false,completedDates:[],placedMapPieces:[],currentMapCycle:0};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,legendaryArtifacts:[],legendaryUnlockPending:false,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0}};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -3342,7 +3491,9 @@ function pzBuildNumpad(){
 }
 function pzCheckWin(){
   if(!PZ.board.every((v,i)=>v!==0&&v===PZ.solution[i]))return;
+  playWinChime();
   clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;
+  if(GAME_STATS.puzzleWinsByDiff)GAME_STATS.puzzleWinsByDiff[PZ.diff]=(GAME_STATS.puzzleWinsByDiff[PZ.diff]||0)+1;
   const t=PZ.elapsed,m=PZ.mistakes,prev=BEST_TIMES[PZ.diff];
   const isRecord=!prev||t<prev.time;
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
@@ -3690,7 +3841,11 @@ function dpPlace(num){
     setTimeout(()=>cell.classList.remove('correct-flash'),800);
 
     DP.score+=100;DP.streak++;
-    showAchievement('✦ +100 pts');
+    let _sb=0;
+    if(DP.streak>=11)_sb=200;else if(DP.streak>=8)_sb=150;
+    else if(DP.streak>=5)_sb=100;else if(DP.streak>=3)_sb=50;
+    if(_sb>0){DP.score+=_sb;showAchievement(`🔥 Streak ×${DP.streak}! +${100+_sb}`);}
+    else{showAchievement('✦ +100 pts');}
     const r=cell.getBoundingClientRect();
     spawnParticles(r.left+r.width/2,r.top+r.height/2,num,8);
     floatText(r.left+r.width/2-20,r.top-12,'+100');
@@ -3712,7 +3867,7 @@ function dpPlace(num){
     const _isPopup=_wrongCh&&_wrongCh.type==='popup';
     const _isBomb=_wrongCh&&_wrongCh.type==='bomb';
     // Popup + bomb squares: no life penalty — bomb triggers explosion instead
-    if(!_isPopup&&!_isBomb){DP.lives--;dpUpdateHUD();if(DP.lives<=0){DP.gameOver=true;clearInterval(DP.timerInterval);}}
+    if(!_isPopup&&!_isBomb){DP.lives--;DP.score=Math.max(0,DP.score-200);dpUpdateHUD();floatText(window.innerWidth/2-30,window.innerHeight*.4,'−200');if(DP.lives<=0){DP.gameOver=true;clearInterval(DP.timerInterval);}}
     const cell=document.querySelector(`#dp-board .cell[data-idx="${placedIdx}"]`);
     cell.innerHTML='';cell.appendChild(makeCellIcon(num,false));cell.classList.add('wrong-placement');
     setTimeout(()=>{
@@ -3806,28 +3961,40 @@ function dpChallengeScheduleNext(delay){
   clearTimeout(DP.challengeScheduleId);DP.challengeScheduleId=null;
   if(!DP||DP.gameOver||DP.completed||!DP.challengeQueue.length)return;
   const next=DP.challengeQueue[0];
+  const di=Math.min(DP.diffIdx||0,3);
   let auto;
   if(next==='bomb'){
-    // Easy: 25–30s  |  Intermediate/Advanced/Legendary: 30–45s
-    auto=DP.diffIdx===0 ? 25000+Math.floor(Math.random()*5000)
-                        : 30000+Math.floor(Math.random()*15000);
+    // Per-difficulty spacing: Easy 50-70s | Int 35-50s | Adv 25-35s | Expert 18-28s
+    const bombBase=[50000,35000,25000,18000];
+    const bombJit= [20000,15000,10000,10000];
+    auto=bombBase[di]+Math.floor(Math.random()*bombJit[di]);
   } else {
-    // If a popup is already showing and second slot is open, fire next popup quickly
+    // Bags: spacing is shorter; if a popup is already active, fire quickly to fill 2nd slot
     const hasPopup=DP.challenges.some(c=>c.type==='popup');
-    auto=(hasPopup&&DP.challenges.length<2)?(3000+Math.floor(Math.random()*3000)):(10000+Math.floor(Math.random()*5000));
+    const bagBase=[18000,12000,8000,5000];
+    const bagJit= [ 8000, 6000,5000,4000];
+    auto=hasPopup&&DP.challenges.length<2
+      ? 3000+Math.floor(Math.random()*3000)
+      : bagBase[di]+Math.floor(Math.random()*bagJit[di]);
   }
   const d=delay!==undefined?delay:auto;
   DP.challengeScheduleId=setTimeout(()=>{if(DP&&!DP.gameOver&&!DP.completed)dpChallengeTrigger(DP.challengeQueue[0]);},d);
 }
-// Fire a challenge of the given type — supports up to 2 concurrent popups
+// Fire a challenge of the given type — concurrency + timers vary by difficulty
 function dpChallengeTrigger(type){
   if(!DP||DP.gameOver||DP.completed)return;
-  if(type==='bomb'&&DP.challenges.length>0)return; // bomb needs a clear board
-  if(DP.challenges.length>=2)return;               // already at max concurrency
+  const di=Math.min(DP.diffIdx||0,3);
+  // Easy: max 1 concurrent challenge; all others: max 2
+  const maxConcurrent=di===0?1:2;
+  if(type==='bomb'&&DP.challenges.length>0)return; // bomb always needs a clear board
+  if(DP.challenges.length>=maxConcurrent)return;
   const idx=dpChallengeGetCell(type);
   if(idx===null){DP.challengeScheduleId=setTimeout(()=>dpChallengeTrigger(type),9000);return;}
-  const totalTime=type==='bomb'?15:10;
-  const ch={type,idx,solution:DP.solution[idx],timeLeft:totalTime,totalTime,bonusPoints:type==='bomb'?300:150,countdownId:null};
+  // Per-difficulty timers — bomb: 20/17/15/12s | bag: 15/12/10/8s
+  const bombTimes=[20,17,15,12];
+  const bagTimes =[15,12,10, 8];
+  const totalTime=type==='bomb'?bombTimes[di]:bagTimes[di];
+  const ch={type,idx,solution:DP.solution[idx],timeLeft:totalTime,totalTime,bonusPoints:type==='bomb'?800:400,countdownId:null};
   DP.challenges.push(ch);
   dpRenderBoard();
   if(type==='bomb'){CSOUNDS.bombAppear();showToast('💣 BOMB! Place the correct relic before it explodes!',3000);}
@@ -3866,6 +4033,8 @@ function dpChallengeSuccess(ch){
 }
 // Core bomb explosion — randomly destroys 2–4 relics in the 3x3, then animates
 function dpBombDetonate(idx){
+  DP.score=Math.max(0,DP.score-300);dpUpdateHUD();
+  floatText(window.innerWidth/2-40,window.innerHeight*.4,'💥 -300');
   const row=Math.floor(idx/9),col=idx%9;
   const br=Math.floor(row/3)*3,bc=Math.floor(col/3)*3;
   const blastCells=[];
@@ -3939,9 +4108,23 @@ function dpChallengeStop(){
 // Set up the challenge queue and schedule the first challenge for a new daily puzzle
 function dpChallengeInit(){
   DP.challenges=[];DP.challengeQueue=[];DP.challengeScheduleId=null;
-  // 7 bombs max; remaining slots are treasure chests. Queue stops naturally when puzzle completes.
-  DP.challengeQueue=shuffle(['popup','popup','popup','popup','popup','popup','popup','popup','bomb','bomb','bomb','bomb','bomb','bomb','bomb']);
-  dpChallengeScheduleNext(10000+Math.floor(Math.random()*5000));
+  const di=Math.min(DP.diffIdx||0,3);
+  // Per-difficulty queue: [Easy, Intermediate, Advanced, Expert]
+  const queues=[
+    // Easy — 4 bags, 2 bombs
+    ['popup','popup','popup','popup','bomb','bomb'],
+    // Intermediate — 5 bags, 4 bombs
+    ['popup','popup','popup','popup','popup','bomb','bomb','bomb','bomb'],
+    // Advanced — 5 bags, 6 bombs
+    ['popup','popup','popup','popup','popup','bomb','bomb','bomb','bomb','bomb','bomb'],
+    // Expert — 4 bags, 9 bombs
+    ['popup','popup','popup','popup','bomb','bomb','bomb','bomb','bomb','bomb','bomb','bomb','bomb'],
+  ];
+  // First event delay (ms): Easy 30–40s | Int 18–25s | Adv 12–18s | Expert 8–12s
+  const firstMin= [30000,18000,12000,8000];
+  const firstJit= [10000, 7000, 6000,4000];
+  DP.challengeQueue=shuffle(queues[di]);
+  dpChallengeScheduleNext(firstMin[di]+Math.floor(Math.random()*firstJit[di]));
 }
 
 /* ── HAND RENDER ── */
@@ -3984,10 +4167,10 @@ function dpCheckHandBonus(){
   if(!DP.handPlaced.every(p=>p))return; // not all 5 placed yet
   if(DP.bonusAvailable){
     // All 5 placed without early draw — award bonus
-    DP.score+=500;dpUpdateHUD();
+    DP.score+=1000;dpUpdateHUD();
     spawnWinCoins();
-    showAchievement('🎉 Perfect Set! +500 bonus!');
-    floatText(window.innerWidth/2-50,window.innerHeight*.4,'+500 BONUS!');
+    showAchievement('🎉 Perfect Set! +1000 bonus!');
+    floatText(window.innerWidth/2-50,window.innerHeight*.4,'+1000 BONUS!');
   } else {
     showToast('Set complete — draw early penalty was in effect.',2000);
   }
@@ -4002,22 +4185,22 @@ function dpCheckCompletions(lastIdx){
   // Row
   if(!DP.completedRows.has(row)){
     if(DP.board.slice(row*9,(row+1)*9).every(v=>v!==0)){
-      DP.completedRows.add(row);DP.score+=400;dpUpdateHUD();
-      showAchievement('⭐ Row Complete! +400');
-      floatText(window.innerWidth*.5-30,window.innerHeight*.35,'+400 ROW!');
+      DP.completedRows.add(row);DP.score+=500;dpUpdateHUD();
+      showAchievement('⭐ Row Complete! +500');
+      floatText(window.innerWidth*.5-30,window.innerHeight*.35,'+500 ROW!');
       dpFlashGroup('row',row,-1,-1);
     }
   }
   // Col
   if(!DP.completedCols.has(col)){
     let full=true;for(let r=0;r<9;r++)if(DP.board[r*9+col]===0){full=false;break;}
-    if(full){DP.completedCols.add(col);DP.score+=400;dpUpdateHUD();showAchievement('⭐ Column Complete! +400');floatText(window.innerWidth*.5-30,window.innerHeight*.35,'+400 COL!');dpFlashGroup('col',-1,col,-1);}
+    if(full){DP.completedCols.add(col);DP.score+=500;dpUpdateHUD();showAchievement('⭐ Column Complete! +500');floatText(window.innerWidth*.5-30,window.innerHeight*.35,'+500 COL!');dpFlashGroup('col',-1,col,-1);}
   }
   // Box
   const boxKey=boxR*3+boxC;
   if(!DP.completedBoxes.has(boxKey)){
     let full=true;for(let r=0;r<3;r++)for(let c=0;c<3;c++)if(DP.board[(boxR*3+r)*9+(boxC*3+c)]===0){full=false;break;}
-    if(full){DP.completedBoxes.add(boxKey);DP.score+=300;dpUpdateHUD();showAchievement('🌟 Box Complete! +300');floatText(window.innerWidth*.5-30,window.innerHeight*.35,'+300 BOX!');dpFlashGroup('box',row,col,-1);}
+    if(full){DP.completedBoxes.add(boxKey);DP.score+=400;dpUpdateHUD();showAchievement('🌟 Box Complete! +400');floatText(window.innerWidth*.5-30,window.innerHeight*.35,'+400 BOX!');dpFlashGroup('box',row,col,-1);}
   }
 }
 function dpFlashGroup(type,row,col,_){
@@ -4087,6 +4270,7 @@ function dpErase(){
 /* ── WIN / GAME OVER ── */
 function dpCheckWin(){
   if(!DP.board.every((v,i)=>v!==0&&v===DP.solution[i]))return;
+  playWinChime();
   DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();
   dpClearAllFog();
 
@@ -4106,17 +4290,20 @@ function dpCheckWin(){
     return;
   }
 
-  DP.score+=2000;
+  DP.score+=1500;
   // Time bonus — awarded on top of the completion bonus
   const t=DP.elapsed;
   let timeBonus=0,timeBonusLabel='';
-  if(t<30)      {timeBonus=2000;timeBonusLabel='⚡ Under 30s! +2000 pts';}
-  else if(t<60) {timeBonus=1500;timeBonusLabel='🚀 Under 1 min! +1500 pts';}
-  else if(t<120){timeBonus=1000;timeBonusLabel='⏱ Under 2 min! +1000 pts';}
-  else if(t<180){timeBonus=500; timeBonusLabel='⌛ Under 3 min! +500 pts';}
-  else if(t<240){timeBonus=250; timeBonusLabel='🕐 Under 4 min! +250 pts';}
-  else if(t<300){timeBonus=100; timeBonusLabel='🕑 Under 5 min! +100 pts';}
+  if(t<30)      {timeBonus=3000;timeBonusLabel='⚡ Under 30s! +3000 pts';}
+  else if(t<60) {timeBonus=2000;timeBonusLabel='🚀 Under 1 min! +2000 pts';}
+  else if(t<120){timeBonus=1500;timeBonusLabel='⏱ Under 2 min! +1500 pts';}
+  else if(t<180){timeBonus=1000;timeBonusLabel='⌛ Under 3 min! +1000 pts';}
+  else if(t<240){timeBonus=500; timeBonusLabel='🕐 Under 4 min! +500 pts';}
+  else if(t<300){timeBonus=200; timeBonusLabel='🕑 Under 5 min! +200 pts';}
   DP.score+=timeBonus;DP.timeBonus=timeBonus;
+  // Lives remaining bonus — +250 per life left
+  const livesBonus=DP.lives*250;
+  if(livesBonus>0){DP.score+=livesBonus;}
   dpUpdateHUD();
   // Track best score for this date
   const _prev=DAILY_SCORES[DP.dateStr];
@@ -4125,9 +4312,10 @@ function dpCheckWin(){
   if(!DP.isReplay){dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;}
   GAME_STATS.dailyTotalScore+=DP.score;
   saveState();spawnWinCoins();
-  showAchievement(DP.isReplay?'🔄 REPLAY COMPLETE!':'🏆 PUZZLE COMPLETE! +2000!');
+  showAchievement(DP.isReplay?'🔄 REPLAY COMPLETE!':'🏆 PUZZLE COMPLETE! +1500!');
   if(DP.isReplay&&_isNewBest)setTimeout(()=>showAchievement('📈 New Best Score!'),1400);
   if(timeBonus>0)setTimeout(()=>showAchievement(timeBonusLabel),1200);
+  if(livesBonus>0)setTimeout(()=>showAchievement(`❤️ ${DP.lives} ${DP.lives===1?'life':'lives'} remaining! +${livesBonus} pts`),2000);
   setTimeout(()=>dpShowWin(),800);
 }
 function dpGameOver(){
@@ -4240,6 +4428,54 @@ function dpShowRewardPanel(){
   // Rank
   const rankEl=document.getElementById('dw-rank-badge');
   rankEl.textContent=_winDataCache.rank?`#${_winDataCache.rank}`:'—';
+
+  // Map piece badge — show only on first-time daily win (not replay)
+  const mapBadge=document.getElementById('dw-map-badge');
+  const mapBadgeText=document.getElementById('dw-map-badge-text');
+  const mapPieceArt=document.getElementById('dw-map-piece-art');
+  if(!DP.isReplay&&mapBadge&&mapBadgeText){
+    const total=GAME_STATS.mapPieces||0;
+    const inCycle=((total-1)%15)+1;
+    mapBadgeText.textContent=`Piece ${inCycle} of 15 collected`;
+    // Render the actual jigsaw piece thumbnail
+    if(mapPieceArt&&typeof jigsawPathSVG==='function'&&PIECE_EDGES&&_curMap){
+      const T=52,COLS=5,ROWS=3;
+      const pcol=(inCycle-1)%COLS,prow=Math.floor((inCycle-1)/COLS);
+      const ns='http://www.w3.org/2000/svg';
+      const psvg=document.createElementNS(ns,'svg');
+      psvg.setAttribute('viewBox',`0 0 ${T} ${T}`);
+      psvg.setAttribute('width',T);psvg.setAttribute('height',T);
+      psvg.style.cssText='display:block;overflow:visible;';
+      const pdefs=document.createElementNS(ns,'defs');
+      const pcp=document.createElementNS(ns,'clipPath');pcp.id='dw_pcp';
+      const ppe=document.createElementNS(ns,'path');
+      ppe.setAttribute('d',jigsawPathSVG(0,0,T,PIECE_EDGES[inCycle]));
+      pcp.appendChild(ppe);pdefs.appendChild(pcp);psvg.appendChild(pdefs);
+      const pg=document.createElementNS(ns,'g');
+      pg.setAttribute('clip-path','url(#dw_pcp)');
+      const pimg=document.createElementNS(ns,'image');
+      pimg.setAttribute('href',_curMap().uri);
+      pimg.setAttribute('x',-pcol*T);pimg.setAttribute('y',-prow*T);
+      pimg.setAttribute('width',T*COLS);pimg.setAttribute('height',T*ROWS);
+      pimg.setAttribute('preserveAspectRatio','none');
+      pimg.style.filter='brightness(1.6) saturate(1.2)';
+      pg.appendChild(pimg);psvg.appendChild(pg);
+      const outline=document.createElementNS(ns,'path');
+      outline.setAttribute('d',jigsawPathSVG(0,0,T,PIECE_EDGES[inCycle]));
+      outline.setAttribute('fill','none');
+      outline.setAttribute('stroke','rgba(200,160,55,.9)');
+      outline.setAttribute('stroke-width','2');
+      outline.setAttribute('stroke-linejoin','round');
+      psvg.appendChild(outline);
+      mapPieceArt.innerHTML='';mapPieceArt.appendChild(psvg);
+    }
+    mapBadge.style.display='flex';
+    setTimeout(()=>{mapBadge.style.transition='opacity .6s ease';mapBadge.style.opacity='1';},600);
+  } else if(mapBadge){
+    mapBadge.style.opacity='0';
+    mapBadge.style.transition='';
+    mapBadge.style.display='none';
+  }
 
   // Show panel
   document.getElementById('daily-win-overlay').style.display='flex';
@@ -4394,20 +4630,38 @@ function openLeaderboard(){
 ══════════════════════════════════════════════════════ */
 function renderVault(){
   const vr=document.getElementById('vault-records');vr.innerHTML='';
-  const DIFF_LABELS={easy:'EASY',medium:'INTERMEDIATE',hard:'ADVANCED',expert:'EXPERT'};
+  // Header row
+  const hdr=document.createElement('div');hdr.className='vr-header-row';
+  hdr.innerHTML='<div class="vr-col-head">Difficulty</div><div class="vr-col-head">Best Time</div><div class="vr-col-head">Mistakes</div><div class="vr-col-head">Solved</div>';
+  vr.appendChild(hdr);
+  const DIFF_LABELS={easy:'Easy',medium:'Intermediate',hard:'Advanced',expert:'Expert'};
+  const winsByDiff=GAME_STATS.puzzleWinsByDiff||{};
   ['easy','medium','hard','expert'].forEach(d=>{
-    const rec=BEST_TIMES[d];const div=document.createElement('div');
-    div.className='vault-record'+(rec?' has-record':'');
-    const timeStr=rec?fmtTime(rec.time):'--';
-    const mistakesStr=rec?(rec.mistakes===0?'Perfect run':`${rec.mistakes} mistake${rec.mistakes===1?'':'s'}`):'';
+    const rec=BEST_TIMES[d];
+    const row=document.createElement('div');row.className='vr-row';
+    const timeStr=rec?fmtTime(rec.time):'—';
     const isPerfect=rec&&rec.mistakes===0;
-    div.innerHTML=`<div class="vr-diff">${DIFF_LABELS[d]}</div><div class="vr-time${rec?'':' no-record'}">${timeStr}</div>${rec?`<div class="vr-mistakes${isPerfect?' perfect':''}">${mistakesStr}</div>`:''}<div class="vr-wins">${GAME_STATS.puzzleWins} puzzles solved</div>`;
-    vr.appendChild(div);
+    const mistakesStr=rec?(isPerfect?'✦ 0':''+rec.mistakes):'—';
+    const solved=winsByDiff[d]||0;
+    row.innerHTML=
+      `<div class="vr-diff-label">${DIFF_LABELS[d]}</div>`+
+      `<div class="vr-cell${rec?'':' no-record'}">${timeStr}</div>`+
+      `<div class="vr-cell${rec?(isPerfect?' perfect':''):' no-record'}">${mistakesStr}</div>`+
+      `<div class="vr-cell count">${solved>0?solved:'—'}</div>`;
+    vr.appendChild(row);
   });
   const bs=document.getElementById('vault-daily-stats');bs.innerHTML='';
-  [{v:GAME_STATS.dailyWins,l:'Daily Wins'},{v:GAME_STATS.dailyTotalScore,l:'Total Score'},{v:GAME_STATS.puzzleWins,l:'Puzzles Won'}].forEach(({v,l})=>{
+  // Find best score + its date across all DAILY_SCORES entries
+  let bestDScore=0,bestDDate='—';
+  Object.entries(DAILY_SCORES).forEach(([ds,data])=>{if((data.score||0)>bestDScore){bestDScore=data.score;bestDDate=ds;}});
+  const _fmtDd=s=>{if(s==='—')return '—';const[,m,d]=s.split('-').map(Number);return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][m-1]+' '+d;};
+  [
+    {v:_fmtDd(bestDDate), l:'Best Score Date', sm:true},
+    {v:bestDScore>0?bestDScore.toLocaleString():'—', l:'Best Score'},
+    {v:GAME_STATS.dailyWins, l:'Puzzles Played'}
+  ].forEach(({v,l,sm})=>{
     const div=document.createElement('div');div.className='bs-stat';
-    div.innerHTML=`<div class="bs-val">${v}</div><div class="bs-label">${l}</div>`;
+    div.innerHTML=`<div class="bs-val"${sm?' style="font-size:17px;letter-spacing:.02em;"':''}>${v}</div><div class="bs-label">${l}</div>`;
     bs.appendChild(div);
   });
   renderLegendaryVault();
@@ -5073,7 +5327,8 @@ function renderMapPuzzle(){
       g.appendChild(p);
     }
     if(id===_curMap().xSlot&&allPlaced){
-      g.style.filter='drop-shadow(0 0 10px rgba(255,50,50,.9))';
+      g.style.animation='xSlotPulse 1.0s ease-in-out infinite';
+      g.style.cursor='pointer';
       g.addEventListener('click',mapRevealChest,{once:true});
     } else {
       g.addEventListener('click',()=>mapPlaceOnSlot(id));
@@ -5133,8 +5388,8 @@ function renderMapPuzzle(){
   sub.textContent=allPlaced?'Map complete! Tap the ✕ to claim your reward!':`${placed.size} / 15 pieces placed — ${earned} earned`;
   const titleEl=document.getElementById('mapv-title');
   if(titleEl){const m=_curMap();titleEl.textContent=`⚜ ${m.name.toUpperCase()} ⚜`;}
-  const vBtn=document.getElementById('vault-map-btn');
-  if(vBtn)vBtn.disabled=(earned===0);
+  const menuMapBtn=document.getElementById('menu-map');
+  if(menuMapBtn)menuMapBtn.disabled=(earned===0);
 }
 
 function mapSelectPiece(id){
@@ -5170,8 +5425,13 @@ function mapSelectPiece(id){
         path.setAttribute('fill','rgba(48,28,8,.52)');
         path.setAttribute('stroke','rgba(110,72,22,.85)');
       }
-      el.style.filter=sid===_curMap().xSlot&&allPlaced?'drop-shadow(0 0 10px rgba(255,50,50,.9))':'';
-      el.style.animation='';
+      if(sid===_curMap().xSlot&&allPlaced){
+        el.style.filter='';
+        el.style.animation='xSlotPulse 1.0s ease-in-out infinite';
+      } else {
+        el.style.filter='';
+        el.style.animation='';
+      }
     }
   });
 }
@@ -5186,7 +5446,10 @@ function mapPlaceOnSlot(slotId){
     MAP_SELECTED_PIECE=null;
     const allDone=(GAME_STATS.placedMapPieces.length===15);
     renderMapPuzzle();
-    if(allDone)setTimeout(mapRevealChest,800);
+    if(allDone){
+      playWinChime();
+      setTimeout(()=>showAchievement('✕ MAP COMPLETE — Tap the X to claim your treasure!'),700);
+    }
   } else {
     // Wrong slot — shake the SVG group
     const g=document.querySelector(`#mapv-svg g[data-slot-id="${slotId}"]`);
@@ -5198,20 +5461,19 @@ function mapPlaceOnSlot(slotId){
 function mapRevealChest(){
   const overlay=document.getElementById('map-chest-overlay');
   if(overlay.classList.contains('show'))return;
-  overlay.classList.add('show');
-  // X stage visible by default; on tap transition to chest
+  // Skip X-mark stage — go straight to the chest
   const xStage=document.getElementById('mco-x-stage');
   const chestStage=document.getElementById('mco-chest-stage');
-  const xMark=document.getElementById('mco-x-mark');
-  // Reset chest state
-  document.getElementById('mc-chest-wrap').classList.remove('opened');
-  xStage.style.display='';
-  chestStage.style.display='none';
-  xMark.onclick=function(){
-    xStage.style.display='none';
-    chestStage.style.display='block';
-  };
-  document.getElementById('mc-chest-wrap').onclick=function(){
+  xStage.style.display='none';
+  chestStage.style.display='block';
+  document.getElementById('mco-title').textContent='YOUR TREASURE AWAITS!';
+  document.getElementById('mco-sub').textContent='Tap the chest to open it';
+  // Reset chest animation state cleanly
+  const chest=document.getElementById('mc-chest-wrap');
+  chest.classList.remove('opened');
+  chest.style.animation='none';chest.offsetHeight;chest.style.animation='';
+  overlay.classList.add('show');
+  chest.onclick=function(){
     if(this.classList.contains('opened'))return;
     this.classList.add('opened');
     const r=this.getBoundingClientRect();
@@ -5232,8 +5494,28 @@ function mapChestOpened(){
   GAME_STATS.placedMapPieces=[];
   saveState();
   renderLegendaryVault();
+  // — Big celebration —
+  playWinChime();
+  // Gold screen flash
+  const flash=document.createElement('div');
+  flash.style.cssText='position:fixed;inset:0;z-index:510;background:rgba(245,200,66,.38);pointer-events:none;animation:flashFade .75s ease forwards;';
+  document.body.appendChild(flash);setTimeout(()=>flash.remove(),900);
+  // Three waves of coins
   spawnWinCoins();
-  setTimeout(()=>showLegendaryReveal(earnedIdx),400);
+  setTimeout(()=>spawnWinCoins(),800);
+  setTimeout(()=>spawnWinCoins(),1500);
+  // Six bursts of rune/artifact particles scattered across screen
+  for(let i=0;i<6;i++){
+    setTimeout(()=>{
+      spawnParticles(
+        window.innerWidth*.15+Math.random()*window.innerWidth*.7,
+        window.innerHeight*.1+Math.random()*window.innerHeight*.55,
+        Math.ceil(Math.random()*9)
+      );
+    },i*200);
+  }
+  // Reveal the legendary relic after the celebration settles
+  setTimeout(()=>showLegendaryReveal(earnedIdx),2600);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -5244,13 +5526,13 @@ document.getElementById('menu-daily').addEventListener('click',()=>{menuTransiti
 document.getElementById('menu-puzzle').addEventListener('click',()=>{menuTransitionTo('screen-puzzle',()=>showDiffPicker(diff=>pzStart(diff)));});
 document.getElementById('menu-vault').addEventListener('click',()=>{menuTransitionTo('screen-vault',()=>renderVault());});
 document.getElementById('menu-settings').addEventListener('click',()=>{menuTransitionTo('screen-settings');});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>renderMapPuzzle());});
 
 // Back buttons
 document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';showScreen('screen-menu');});
 document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);showScreen('screen-menu');});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
-document.getElementById('vault-map-btn').addEventListener('click',()=>{showScreen('screen-mapview');renderMapPuzzle();});
-document.getElementById('mapview-back').addEventListener('click',()=>{showScreen('screen-vault');renderVault();});
+document.getElementById('mapview-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('hub-back').addEventListener('click',()=>showScreen('screen-menu'));
 
@@ -5379,9 +5661,11 @@ loadState(); // Restore best times, stats, and settings from previous sessions
 document.getElementById('reset-records').addEventListener('click',()=>{
   Object.keys(BEST_TIMES).forEach(k=>BEST_TIMES[k]=null);
   GAME_STATS.puzzleWins=0;GAME_STATS.dailyWins=0;GAME_STATS.dailyTotalScore=0;GAME_STATS.artifactCounts.fill(0);
+  if(GAME_STATS.puzzleWinsByDiff)Object.keys(GAME_STATS.puzzleWinsByDiff).forEach(k=>GAME_STATS.puzzleWinsByDiff[k]=0);
   saveState();showToast('Records reset!');
 });
 updateMenuState(); // Show/hide legendary button on load
+renderLegendaryVault(); // Populate menu map progress bar on load
 
 /* ══════════════════════════════════════════════════════
    FOG OF WAR
@@ -5437,15 +5721,15 @@ function showLegendaryReveal(idx){
    LEGENDARY VAULT DISPLAY
 ══════════════════════════════════════════════════════ */
 function renderLegendaryVault(){
-  // Map progress bar
-  const fillEl=document.getElementById('vault-map-fill');
-  const labelEl=document.getElementById('vault-map-label');
+  // Menu map progress bar
+  const fillEl=document.getElementById('menu-map-fill');
+  const labelEl=document.getElementById('menu-map-label');
   if(fillEl&&labelEl){
     const pieces=GAME_STATS.mapPieces||0;
     const cycleProgress=(pieces%15)||((pieces>0)?15:0);
     const pct=(cycleProgress/15)*100;
     fillEl.style.width=pct+'%';
-    labelEl.textContent=`${cycleProgress} / 15 pieces`;
+    labelEl.textContent=`${cycleProgress} / 15`;
   }
   // Legendary artifact slots
   const container=document.getElementById('vault-legendary');
