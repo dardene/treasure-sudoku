@@ -1818,11 +1818,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="vault-records" id="vault-records"></div>
     </div>
     <div class="vault-section">
-      <div class="vault-section-title">⚡ Legendary Artifacts</div>
-      <div class="legendary-collection" id="vault-legendary"></div>
-    </div>
-    <div class="vault-section">
-      <div class="vault-section-title">🗺️ Jigsaw Relics <span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
+      <div class="vault-section-title">⚡ Jigsaw Relics <span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
       <div class="jigsaw-collection" id="vault-jigsaw"></div>
     </div>
   </div>
@@ -2418,10 +2414,45 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div id="dw-quote-author" style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold);margin-top:7px;opacity:.65;"></div>
     </div>
 
+    <button id="dw-share" class="ghost-btn" style="width:100%;padding:10px;font-size:10px;letter-spacing:.14em;margin-bottom:10px;border-color:rgba(200,155,55,.5);color:var(--gold);">⬆ SHARE RESULTS</button>
     <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
       <button class="gold-btn" id="dw-leaderboard" style="padding:9px 20px;font-size:10px;">🏆 Leaderboard</button>
       <button class="ghost-btn" id="dw-menu" style="padding:9px 20px;font-size:10px;">← Main Menu</button>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SHARE SHEET ═══════════════ -->
+<div id="share-sheet" style="display:none;position:fixed;inset:0;z-index:600;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);">
+  <div class="ss-panel">
+    <div class="ss-handle"></div>
+    <div style="display:flex;align-items:center;margin-bottom:14px;">
+      <button id="ss-back" style="background:none;border:none;color:rgba(200,160,100,.7);font-family:'Crimson Pro',serif;font-size:13px;letter-spacing:.06em;cursor:pointer;padding:0;flex-shrink:0;">← Back</button>
+      <div class="ss-title" style="flex:1;margin-bottom:0;">SHARE YOUR RESULTS</div>
+      <div style="width:40px;flex-shrink:0;"></div>
+    </div>
+    <!-- Preview text -->
+    <div id="ss-preview" style="background:rgba(10,6,2,.7);border:1px solid rgba(160,110,40,.25);border-radius:10px;padding:11px 14px;margin-bottom:18px;font-family:'Crimson Pro',serif;font-size:12px;color:rgba(220,185,120,.85);line-height:1.7;white-space:pre-wrap;text-align:left;"></div>
+    <!-- Option buttons -->
+    <div class="ss-options">
+      <button class="ss-btn" id="ss-sms">
+        <div class="ss-btn-icon">💬</div>
+        <div class="ss-btn-label">TEXT</div>
+      </button>
+      <button class="ss-btn" id="ss-fb">
+        <div class="ss-btn-icon">📘</div>
+        <div class="ss-btn-label">FACEBOOK</div>
+      </button>
+      <button class="ss-btn" id="ss-ig">
+        <div class="ss-btn-icon">📸</div>
+        <div class="ss-btn-label">INSTAGRAM</div>
+      </button>
+      <button class="ss-btn" id="ss-copy">
+        <div class="ss-btn-icon">📋</div>
+        <div class="ss-btn-label">COPY</div>
+      </button>
+    </div>
+    <button class="ss-cancel" id="ss-cancel">Cancel</button>
   </div>
 </div>
 
@@ -2598,18 +2629,6 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .map-progress-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#b8860b,#f5c842,#ffe17a);transition:width .6s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 8px rgba(245,200,66,.6);}
 .map-progress-label{font-size:9px;color:rgba(200,160,100,.7);letter-spacing:.18em;font-family:'Crimson Pro',serif;text-align:center;}
 
-/* ══ LEGENDARY VAULT SLOTS ══ */
-.legendary-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
-.leg-slot{border-radius:10px;padding:10px 6px;text-align:center;border:1px solid rgba(180,80,255,.25);background:rgba(25,5,40,.6);cursor:default;transition:all .3s;}
-.leg-slot.earned{border-color:rgba(200,80,255,.7);background:rgba(60,10,90,.85);box-shadow:0 0 14px rgba(200,80,255,.35);}
-.leg-slot.earned:hover{box-shadow:0 0 22px rgba(220,100,255,.55);}
-.leg-slot-icon{font-size:26px;line-height:1;margin-bottom:4px;}
-.leg-slot-icon svg{width:32px;height:32px;filter:drop-shadow(0 0 6px rgba(200,80,255,.8)) drop-shadow(0 0 12px rgba(160,40,220,.5));}
-.leg-slot-name{font-size:7px;letter-spacing:.12em;color:rgba(220,160,255,.85);font-family:'Crimson Pro',serif;margin-top:2px;}
-.leg-slot.locked .leg-slot-icon{filter:grayscale(1);opacity:.35;}
-.leg-slot.locked .leg-slot-name{color:rgba(120,80,160,.5);}
-@keyframes legEarned{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
-.leg-slot.earned{animation:legEarned .6s cubic-bezier(.34,1.56,.64,1);}
 
 /* ══ LEGENDARY PUZZLE MODE ══ */
 .legendary-mode #pz-board{box-shadow:0 0 30px rgba(180,80,255,.35),0 0 60px rgba(140,40,200,.2);}
@@ -2676,11 +2695,11 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .ap-slot{border-radius:10px;padding:8px 4px;text-align:center;border:1.5px solid rgba(160,110,40,.3);background:rgba(25,15,5,.7);cursor:pointer;transition:all .18s;position:relative;}
 .ap-slot:hover{border-color:rgba(245,200,66,.5);}
 .ap-slot.selected{border-color:var(--gold);background:rgba(80,55,10,.85);box-shadow:0 0 12px rgba(245,200,66,.4);}
-.ap-slot.legendary-slot{border-color:rgba(180,80,255,.4);background:rgba(40,8,60,.7);}
-.ap-slot.legendary-slot.selected{border-color:#c840ff;background:rgba(70,15,110,.9);box-shadow:0 0 12px rgba(200,80,255,.45);}
+.ap-slot.jigsaw-slot{border-color:rgba(200,155,40,.55);background:rgba(30,20,5,.8);}
+.ap-slot.jigsaw-slot.selected{border-color:var(--gold);background:rgba(70,50,5,.9);box-shadow:0 0 14px rgba(245,200,66,.5);}
 .ap-slot svg{width:28px;height:28px;}
 .ap-slot-label{font-size:6px;color:rgba(200,160,100,.7);letter-spacing:.08em;margin-top:3px;font-family:'Crimson Pro',serif;}
-.ap-slot.legendary-slot .ap-slot-label{color:rgba(210,140,255,.8);}
+.ap-slot.jigsaw-slot .ap-slot-label{color:rgba(240,210,120,.9);}
 .ap-count{font-size:10px;font-weight:900;color:var(--gold);text-align:center;letter-spacing:.18em;margin-bottom:10px;}
 .ap-count.ready{color:#90ee90;}
 .ap-confirm{width:100%;padding:11px;border-radius:12px;background:linear-gradient(135deg,rgba(100,68,15,.95),rgba(150,100,20,.95));border:1px solid var(--gold);color:var(--gold-light);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;cursor:pointer;margin-bottom:7px;transition:all .2s;}
@@ -2688,6 +2707,21 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .ap-confirm:not(:disabled):hover{box-shadow:0 0 20px rgba(245,200,66,.4);}
 .ap-reset{width:100%;padding:8px;border-radius:10px;background:transparent;border:1px solid rgba(160,110,40,.35);color:rgba(200,160,100,.6);font-family:'Crimson Pro',serif;font-size:10px;letter-spacing:.12em;cursor:pointer;}
 .ap-reset:hover{border-color:rgba(200,160,100,.5);color:rgba(220,180,120,.8);}
+
+/* ══ SHARE SHEET ══ */
+#share-sheet{display:none;position:fixed;inset:0;z-index:600;align-items:flex-end;justify-content:center;}
+#share-sheet.show{display:flex;}
+.ss-panel{background:linear-gradient(160deg,rgba(20,12,5,.99),rgba(36,22,8,.99));border:1px solid rgba(180,140,60,.45);border-top:2px solid rgba(200,155,55,.65);border-radius:22px 22px 0 0;padding:14px 20px 40px;width:100%;max-width:420px;animation:ssSlideUp .28s cubic-bezier(.34,1.2,.64,1) both;}
+@keyframes ssSlideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.ss-handle{width:36px;height:4px;border-radius:2px;background:rgba(200,155,55,.35);margin:0 auto 16px;}
+.ss-title{font-size:9px;letter-spacing:.3em;color:var(--gold);font-family:'Cinzel',serif;text-align:center;margin-bottom:14px;}
+.ss-options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.ss-btn{display:flex;flex-direction:column;align-items:center;gap:7px;padding:14px 6px 12px;border-radius:14px;border:1px solid rgba(160,110,40,.3);background:rgba(30,18,6,.85);cursor:pointer;transition:all .18s;}
+.ss-btn:hover,.ss-btn:active{border-color:rgba(245,200,66,.6);background:rgba(55,34,8,.95);box-shadow:0 0 14px rgba(245,200,66,.2);}
+.ss-btn-icon{font-size:26px;line-height:1;}
+.ss-btn-label{font-size:7px;letter-spacing:.14em;color:rgba(200,160,100,.75);font-family:'Cinzel',serif;}
+.ss-cancel{width:100%;padding:11px;border-radius:12px;background:transparent;border:1px solid rgba(160,110,40,.3);color:rgba(200,160,100,.55);font-family:'Crimson Pro',serif;font-size:11px;letter-spacing:.12em;cursor:pointer;transition:all .15s;}
+.ss-cancel:hover{border-color:rgba(200,160,100,.45);color:rgba(220,180,120,.75);}
 
 /* ── Daily Hub ── */
 #screen-daily-hub{overflow-y:auto;}
@@ -2837,15 +2871,6 @@ const ARTIFACTS = {
   }
 };
 
-/* ══ LEGENDARY ARTIFACT DEFINITIONS (indices 1-5, accessed as slot 10-14) ══ */
-const LEGENDARY_ARTIFACTS=[
-  null, // 0 unused
-  {name:'Fire Opal',label:'Fire Opal',glow:'rgba(255,100,30,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="phg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff0a0"/><stop offset="45%" stop-color="#ff8020"/><stop offset="100%" stop-color="#c01010"/></linearGradient></defs><path d="M20,36 Q8,28 8,16 Q8,8 16,6 Q20,5 22,8 Q24,5 28,6 Q36,9 32,18 Q28,28 20,36Z" fill="url(#phg)" stroke="#ff6030" stroke-width="1"/><path d="M20,36 Q14,26 13,18 Q12,11 16,8" stroke="rgba(255,220,80,.6)" stroke-width="1.2" fill="none"/><path d="M20,36 Q26,26 27,18 Q28,11 26,8" stroke="rgba(255,180,60,.4)" stroke-width="1" fill="none"/><circle cx="20" cy="10" r="3" fill="#fff0a0" stroke="#ffd060" stroke-width="0.8"/><path d="M18,34 Q12,24 11,16" stroke="rgba(255,100,30,.5)" stroke-width="0.7" fill="none"/></svg>`},
-  {name:'Jade Dragon',label:'Jade Dragon',glow:'rgba(40,220,140,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="jdg" cx="40%" cy="35%" r="62%"><stop offset="0%" stop-color="#b0ffd0"/><stop offset="50%" stop-color="#0ea840"/><stop offset="100%" stop-color="#062418"/></radialGradient></defs><path d="M5,20 Q5,9 14,6 Q23,3 30,9 Q37,15 35,23 Q33,31 24,33 Q15,35 9,28 Q5,24 5,20Z" fill="url(#jdg)" stroke="#20d850" stroke-width="1.2"/><path d="M30,10 Q36,10 38,15 Q39,19 36,21 Q33,21 30,18" fill="#062418" stroke="#1ac040" stroke-width="0.8"/><path d="M37,14 Q40,9 38,7" stroke="#ff8020" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M37,15 Q40,12 39,9" stroke="#ffcc00" stroke-width="1.3" fill="none" stroke-linecap="round"/><ellipse cx="25" cy="14" rx="4" ry="3.5" fill="#f0e030" stroke="#a09010" stroke-width="0.8"/><ellipse cx="25.5" cy="14.5" rx="1.6" ry="2.6" fill="#0a0400"/><circle cx="24.5" cy="13" r="1" fill="rgba(255,255,200,.7)"/><circle cx="36" cy="19" r="1.3" fill="#062418"/><path d="M21,5 L18,0" stroke="#1acc40" stroke-width="2.8" stroke-linecap="round"/><path d="M16,6 L13,2" stroke="#18b040" stroke-width="2" stroke-linecap="round"/><path d="M9,18 L4,12 L8,16 M9,22 L4,28 L8,24" stroke="#18b040" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M14,18 Q16,15 18,18 M20,13 Q22,10 24,13 M23,22 Q25,19 27,22 M13,23 Q15,20 17,23" stroke="rgba(120,255,150,.42)" stroke-width="0.65" fill="none"/></svg>`},
-  {name:'Sea Sapphire',label:'Sea Sapphire',glow:'rgba(40,190,255,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="mtg" cx="40%" cy="30%" r="60%"><stop offset="0%" stop-color="#d0f8ff"/><stop offset="45%" stop-color="#18a8e8"/><stop offset="100%" stop-color="#003880"/></radialGradient></defs><path d="M20,5 Q28,18 28,26 Q28,34 20,36 Q12,34 12,26 Q12,18 20,5Z" fill="url(#mtg)" stroke="#50ccff" stroke-width="1.2"/><path d="M20,5 Q24,18 24,26" stroke="rgba(200,240,255,.45)" stroke-width="1" fill="none"/><ellipse cx="16" cy="17" rx="3" ry="2" fill="rgba(255,255,255,.35)" transform="rotate(-30,16,17)"/><circle cx="20" cy="27" r="2.5" fill="rgba(180,240,255,.4)"/></svg>`},
-  {name:'Starfall Crystal',label:'Starfall',glow:'rgba(180,80,255,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sfg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0d8ff"/><stop offset="50%" stop-color="#b040f0"/><stop offset="100%" stop-color="#400080"/></linearGradient></defs><polygon points="20,4 23,16 35,16 25,24 29,36 20,29 11,36 15,24 5,16 17,16" fill="url(#sfg)" stroke="#cc60ff" stroke-width="1"/><polygon points="20,4 23,16 20,14 17,16" fill="rgba(255,220,255,.4)"/><circle cx="20" cy="20" r="3" fill="rgba(255,240,255,.8)" stroke="#e080ff" stroke-width=".8"/><circle cx="14" cy="12" r="1.2" fill="rgba(220,180,255,.65)"/></svg>`},
-  {name:'Eclipse Medallion',label:'Eclipse',glow:'rgba(255,215,0,1)',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="emg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff0a0"/><stop offset="50%" stop-color="#d4a010"/><stop offset="100%" stop-color="#5a3800"/></radialGradient></defs><circle cx="20" cy="20" r="17" fill="url(#emg)" stroke="#c89020" stroke-width="1.2"/><circle cx="20" cy="20" r="12" fill="#0a0800" stroke="#c89020" stroke-width="0.8"/><circle cx="15" cy="15" r="8" fill="#1a1200" stroke="rgba(200,140,20,.4)" stroke-width=".6"/><path d="M20,4 L21.5,12 L20,11 L18.5,12Z M20,36 L21.5,28 L20,29 L18.5,28Z M4,20 L12,21.5 L11,20 L12,18.5Z M36,20 L28,21.5 L29,20 L28,18.5Z" fill="#f5c842"/><circle cx="20" cy="20" r="4" fill="#f5c842" opacity=".15"/></svg>`},
-];
 
 /* ══ JIGSAW ARTIFACTS — 25 special relics earned by completing the Treasure Map ══
    Rarity tiers: Rare (1-10) · Epic (11-19) · Legendary (20-25)
@@ -2881,10 +2906,10 @@ const JIGSAW_ARTIFACTS=[
   {name:'Void Codex',label:'Void Codex',rarity:'Legendary',rune:'ᛒ',glow:'rgba(60,120,255,1)',desc:"A grimoire written in a dead star's light — its runes glow electric blue and its pages turn themselves at midnight.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j24g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0818a0"/><stop offset="100%" stop-color="#000808"/></linearGradient></defs><path d="M8,4 Q6,4 6,6 L6,34 Q6,36 8,36 L22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="url(#j24g)" stroke="#2040e0" stroke-width="1"/><path d="M22,4 Q30,4 34,6 L34,34 Q30,36 22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="#04080a" stroke="#1030c0" stroke-width=".9"/><line x1="9" y1="10" x2="19" y2="10" stroke="#3060ff" stroke-width="1.1"/><line x1="9" y1="14" x2="18" y2="14" stroke="#2050e0" stroke-width=".9"/><line x1="10" y1="18" x2="17" y2="18" stroke="#1840c0" stroke-width=".8"/><line x1="24" y1="12" x2="32" y2="12" stroke="rgba(100,160,255,.7)" stroke-width="1.1"/><line x1="24" y1="16" x2="31" y2="16" stroke="rgba(80,140,255,.6)" stroke-width=".9"/><line x1="25" y1="20" x2="31" y2="20" stroke="rgba(60,120,255,.55)" stroke-width=".8"/><line x1="24" y1="24" x2="31" y2="24" stroke="rgba(40,100,220,.5)" stroke-width=".8"/><circle cx="16" cy="24" r="4" fill="none" stroke="#4080ff" stroke-width="1.2"/><line x1="16" y1="20" x2="16" y2="28" stroke="#4080ff" stroke-width=".9"/><line x1="12" y1="24" x2="20" y2="24" stroke="#4080ff" stroke-width=".9"/><circle cx="16" cy="24" r="1.5" fill="#2060d0"/></svg>`},
   {name:"Leviathan's Fang",label:'Leviathan Fang',rarity:'Legendary',rune:null,glow:'rgba(20,200,180,1)',desc:"A fang torn from the Leviathan of the Drowned Deep — its surface shimmers with captured bioluminescence.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j25g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0fff8"/><stop offset="35%" stop-color="#18c0b8"/><stop offset="75%" stop-color="#048080"/><stop offset="100%" stop-color="#001a18"/></linearGradient><linearGradient id="j25s" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(100,255,240,.5)"/><stop offset="100%" stop-color="rgba(20,180,160,0)"/></linearGradient></defs><path d="M22,3 Q30,10 34,20 Q36,28 32,34 Q28,38 24,36 Q18,34 16,26 Q12,18 14,10 Z" fill="url(#j25g)" stroke="#10a0a0" stroke-width="1"/><path d="M22,3 Q28,10 32,20" stroke="url(#j25s)" stroke-width="1.5" fill="none"/><path d="M14,10 Q16,16 18,22" stroke="rgba(80,240,220,.3)" stroke-width="1" fill="none"/><path d="M32,34 Q30,36 28,36 Q26,36 24,35" stroke="rgba(0,180,160,.5)" stroke-width="1.2" fill="none"/><circle cx="24.5" cy="10" r="2.5" fill="rgba(160,255,240,.5)"/><circle cx="19.5" cy="20" r="2" fill="rgba(100,220,210,.4)"/><circle cx="27" cy="25" r="1.8" fill="rgba(80,200,190,.5)"/><circle cx="23" cy="32" r="1.5" fill="rgba(60,180,170,.4)"/></svg>`},
 ];
-/* ── ARTIFACT HELPERS (support both standard + legendary slots) ── */
-function getArtifactSvg(slot){return slot>=10?LEGENDARY_ARTIFACTS[slot-9]?.svg||'':ARTIFACTS.svg(slot);}
-function getArtifactLabel(slot){return slot>=10?LEGENDARY_ARTIFACTS[slot-9]?.label||'?':ARTIFACTS.labels[slot];}
-function getArtifactGlow(slot){return slot>=10?LEGENDARY_ARTIFACTS[slot-9]?.glow||'rgba(255,215,0,.8)':ARTIFACTS.glowColors[slot];}
+/* ── ARTIFACT HELPERS (support both standard + jigsaw slots) ── */
+function getArtifactSvg(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.svg||'':ARTIFACTS.svg(slot);}
+function getArtifactLabel(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.label||'?':ARTIFACTS.labels[slot];}
+function getArtifactGlow(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.glow||'rgba(255,215,0,.8)':ARTIFACTS.glowColors[slot];}
 
 /* ══ ARTIFACT SOUND EFFECTS ══ */
 const SOUNDS=(()=>{
@@ -3367,7 +3392,7 @@ function loadState(){
     }
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,legendaryArtifacts:[],legendaryUnlockPending:false,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[]};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[]};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -3412,8 +3437,8 @@ function showDiffPicker(onSelect){
       picker.classList.remove('show');
       const chosen=this.dataset.diff;
       setTimeout(()=>{
-        // If player has earned legendaries, show artifact picker before starting puzzle
-        if(GAME_STATS.legendaryArtifacts.length>0){
+        // If player has earned jigsaw relics, show artifact picker before starting puzzle
+        if(GAME_STATS.jigsawArtifacts.length>0){
           showArtifactPicker(chosen);
         } else {
           onSelect(chosen);
@@ -4528,22 +4553,6 @@ function dpCheckWin(){
   DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();
   dpClearAllFog();
 
-  // ── LEGENDARY WIN ──
-  if(DP.isLegendary){
-    DP.score*=2; // 2× multiplier
-    dpUpdateHUD();
-    GAME_STATS.dailyTotalScore+=DP.score;
-    const earnedIdx=((GAME_STATS.legendaryArtifacts.length)%5)+1;
-    if(!GAME_STATS.legendaryArtifacts.includes(earnedIdx))
-      GAME_STATS.legendaryArtifacts.push(earnedIdx);
-    GAME_STATS.legendaryUnlockPending=false;
-    saveState();updateMenuState();
-    spawnWinCoins();
-    showAchievement('⚡ LEGENDARY COMPLETE! 2× BONUS!');
-    setTimeout(()=>showLegendaryReveal(earnedIdx),1500);
-    return;
-  }
-
   DP.score+=1500;
   // Time bonus — awarded on top of the completion bonus
   const t=DP.elapsed;
@@ -4756,6 +4765,62 @@ function dpShowRewardPanel(){
 }
 
 /* ══════════════════════════════════════════════════════
+   SHARE RESULTS
+══════════════════════════════════════════════════════ */
+function _buildShareText(){
+  const score=DP.score.toLocaleString();
+  const time=fmtTime(DP.elapsed);
+  const mistakes=5-DP.lives;
+  const diff=DP.diff?`${DP.diff.emoji} ${DP.diff.name}`:'Daily';
+  const [,m,d]=DP.dateStr.split('-').map(Number);
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dateLabel=`${months[m-1]} ${d}`;
+  const mistakeEmoji=mistakes===0?'✨':mistakes<=2?'⚔️':'💀';
+  return `⚗️ Treasure Sudoku — Daily Challenge\n📅 ${dateLabel}  ·  ${diff}\n\n🏆 Score: ${score}\n⏱ Time: ${time}\n${mistakeEmoji} Mistakes: ${mistakes}\n\n#TreasureSudoku`;
+}
+function _copyText(text,msg){
+  navigator.clipboard.writeText(text).then(()=>{showToast(msg||'📋 Copied!',2200);}).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:-9999px;';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');showToast(msg||'📋 Copied!',2200);}catch(e){showToast('Could not copy — try again',2000);}
+    ta.remove();
+  });
+}
+function shareDailyResults(){
+  const text=_buildShareText();
+  // Populate preview in share sheet
+  document.getElementById('ss-preview').textContent=text;
+  // Show the sheet
+  const sheet=document.getElementById('share-sheet');
+  sheet.classList.add('show');
+  // ── Text / SMS ──
+  document.getElementById('ss-sms').onclick=()=>{
+    sheet.classList.remove('show');
+    window.open(`sms:?body=${encodeURIComponent(text)}`,'_self');
+  };
+  // ── Facebook ──
+  document.getElementById('ss-fb').onclick=()=>{
+    sheet.classList.remove('show');
+    const url='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgithub.com%2Fdardene%2Ftreasure-sudoku&quote='+encodeURIComponent(text);
+    window.open(url,'_blank','noopener,noreferrer');
+  };
+  // ── Instagram — copy + instructions ──
+  document.getElementById('ss-ig').onclick=()=>{
+    sheet.classList.remove('show');
+    _copyText(text,'📋 Copied! Open Instagram → paste in a new story or post.');
+  };
+  // ── Copy to clipboard ──
+  document.getElementById('ss-copy').onclick=()=>{
+    sheet.classList.remove('show');
+    _copyText(text,'📋 Results copied to clipboard!');
+  };
+  // ── Back / Cancel / backdrop ──
+  document.getElementById('ss-back').onclick=()=>sheet.classList.remove('show');
+  document.getElementById('ss-cancel').onclick=()=>sheet.classList.remove('show');
+  sheet.onclick=(e)=>{if(e.target===sheet)sheet.classList.remove('show');};
+}
+
+/* ══════════════════════════════════════════════════════
    LEADERBOARD (Claude AI powered)
 ══════════════════════════════════════════════════════ */
 // Leaderboard is stored in-memory for this session + localStorage for persistence
@@ -4919,7 +4984,7 @@ function renderVault(){
     div.innerHTML=`<div class="bs-val"${sm?' style="font-size:17px;letter-spacing:.02em;"':''}>${v}</div><div class="bs-label">${l}</div>`;
     bs.appendChild(div);
   });
-  renderLegendaryVault();
+  updateMapProgressBar();
   renderJigsawVault();
 }
 
@@ -5744,10 +5809,6 @@ function mapRevealChest(){
 }
 
 function mapChestOpened(){
-  // Award legendary artifact (existing cycle 1-5)
-  const legIdx=((GAME_STATS.legendaryArtifacts.length)%5)+1;
-  if(!GAME_STATS.legendaryArtifacts.includes(legIdx))
-    GAME_STATS.legendaryArtifacts.push(legIdx);
   // Award jigsaw artifact (sequential 1-25, then cycle)
   const jswTotal=JIGSAW_ARTIFACTS.length-1; // 25
   const jswIdx=((GAME_STATS.jigsawArtifacts.length)%jswTotal)+1;
@@ -5756,7 +5817,7 @@ function mapChestOpened(){
   GAME_STATS.currentMapCycle=(GAME_STATS.currentMapCycle||0)+1;
   GAME_STATS.placedMapPieces=[];
   saveState();
-  renderLegendaryVault();
+  updateMapProgressBar();
   // — Big celebration —
   playWinChime();
   // Gold screen flash
@@ -5878,6 +5939,7 @@ document.getElementById('df-menu').addEventListener('click',()=>{document.getEle
 // Daily win overlay
 document.getElementById('dw-leaderboard').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';openLeaderboard();});
 document.getElementById('dw-menu').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';showScreen('screen-menu');});
+document.getElementById('dw-share').addEventListener('click',shareDailyResults);
 
 // Artifact picker — close when clicking outside
 document.getElementById('artifact-picker').addEventListener('click',function(e){if(e.target===this){this.style.display='none';}});
@@ -5977,7 +6039,7 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   saveState();showToast('Records reset!');
 });
 updateMenuState(); // Show/hide legendary button on load
-renderLegendaryVault(); // Populate menu map progress bar on load
+updateMapProgressBar(); // Populate menu map progress bar on load
 
 // BGM + BCLICK — init players, then start BGM on first user interaction
 BGM.init();BCLICK.init();
@@ -6038,24 +6100,6 @@ function dpMapPieceEarned(dateStr){
   showToast(`🗺️ Map piece ${cycle}/15 collected!`,2500);
 }
 
-/* ══════════════════════════════════════════════════════
-   LEGENDARY ARTIFACT REVEAL
-══════════════════════════════════════════════════════ */
-function showLegendaryReveal(idx){
-  const art=LEGENDARY_ARTIFACTS[idx];
-  if(!art)return;
-  const overlay=document.getElementById('legendary-unlock-overlay');
-  document.getElementById('luo-stars').textContent='⭐✨⭐';
-  document.getElementById('luo-pre').textContent='Legendary Artifact Unlocked';
-  const rarEl=document.getElementById('luo-rarity');
-  rarEl.textContent='';rarEl.className='luo-rarity';
-  document.getElementById('luo-name').textContent=art.name;
-  document.getElementById('luo-icon').innerHTML=`<div style="width:80px;height:80px;margin:0 auto;filter:drop-shadow(0 0 22px ${art.glow})">${art.svg}</div>`;
-  document.getElementById('luo-desc').textContent='A legendary relic added to your Treasure Vault!';
-  overlay.style.display='flex';
-  document.getElementById('luo-close').onclick=()=>{overlay.style.display='none';showScreen('screen-menu');};
-}
-
 function showJigsawReveal(idx){
   const art=JIGSAW_ARTIFACTS[idx];
   if(!art)return;
@@ -6079,10 +6123,9 @@ function showJigsawReveal(idx){
 }
 
 /* ══════════════════════════════════════════════════════
-   LEGENDARY VAULT DISPLAY
+   MAP PROGRESS BAR
 ══════════════════════════════════════════════════════ */
-function renderLegendaryVault(){
-  // Menu map progress bar
+function updateMapProgressBar(){
   const fillEl=document.getElementById('menu-map-fill');
   const labelEl=document.getElementById('menu-map-label');
   if(fillEl&&labelEl){
@@ -6091,24 +6134,6 @@ function renderLegendaryVault(){
     const pct=(cycleProgress/15)*100;
     fillEl.style.width=pct+'%';
     labelEl.textContent=`${cycleProgress} / 15`;
-  }
-  // Legendary artifact slots
-  const container=document.getElementById('vault-legendary');
-  if(!container)return;
-  container.innerHTML='';
-  for(let i=1;i<=5;i++){
-    const earned=GAME_STATS.legendaryArtifacts.includes(i);
-    const slot=document.createElement('div');
-    slot.className='leg-slot'+(earned?' earned':' locked');
-    if(earned){
-      const art=LEGENDARY_ARTIFACTS[i];
-      slot.innerHTML=`<div class="leg-slot-icon" style="filter:drop-shadow(0 0 12px ${art.glow})">${art.svg}</div><div class="leg-slot-name">${art.label}</div>`;
-      slot.title=art.name;
-    } else {
-      slot.innerHTML=`<div class="leg-slot-icon" style="font-size:28px;line-height:1;">🔒</div><div class="leg-slot-name">???</div>`;
-      slot.title='Complete 15 daily puzzles to unlock';
-    }
-    container.appendChild(slot);
   }
 }
 
@@ -6154,10 +6179,10 @@ function showArtifactPicker(diff){
   const confirm=document.getElementById('ap-confirm');
   const reset=document.getElementById('ap-reset');
   grid.innerHTML='';
-  // Available slots: standard 1-9 + earned legendaries (mapped to slots 10-14)
+  // Available slots: standard 1-9 + earned jigsaw relics (mapped to slots 10+)
   const available=[];
   for(let i=1;i<=9;i++)available.push(i);
-  GAME_STATS.legendaryArtifacts.forEach(idx=>available.push(idx+9));
+  GAME_STATS.jigsawArtifacts.forEach((_,i)=>available.push(i+10));
   let selected=[];
   function updateCount(){
     countEl.textContent=`${selected.length} / 9 selected`;
@@ -6165,9 +6190,9 @@ function showArtifactPicker(diff){
   }
   available.forEach(slot=>{
     const el=document.createElement('div');
-    el.className='ap-slot'+(slot>=10?' legendary-slot':'');
+    el.className='ap-slot'+(slot>=10?' jigsaw-slot':'');
     el.innerHTML=`<div class="ap-slot-icon">${getArtifactSvg(slot)}</div><div class="ap-slot-label">${getArtifactLabel(slot)}</div>`;
-    el.title=slot>=10?LEGENDARY_ARTIFACTS[slot-9].name:(ARTIFACTS.names[slot]||'');
+    el.title=slot>=10?(JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.name||'Jigsaw Relic'):(ARTIFACTS.names[slot]||'');
     if(selected.includes(slot))el.classList.add('selected');
     el.addEventListener('click',()=>{
       const idx=selected.indexOf(slot);
