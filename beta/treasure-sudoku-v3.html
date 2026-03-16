@@ -3094,113 +3094,95 @@ const MUSIC=(()=>{
 })();
 
 /* ══ BGM PLAYER (MP3 background music) ══
-   Loop analysis: RMS profile shows 160s is the quietest point (1759 RMS / 37% avg)
-   — clear section break, both ends naturally quiet for a seamless crossfade.
-   0s→160s = 2 min 40 sec main loop. */
+   Uses AudioBufferSourceNode for sample-accurate seamless looping.
+   The Web Audio API handles loopStart/loopEnd internally — zero gap, zero click.
+   Loop point: 160s (37% avg RMS — quietest section break in the track).
+   0s → 160s = 2 min 40 sec, repeats perfectly indefinitely. */
 const BGM=(()=>{
-  const LOOP_START=0;    // Play from the very beginning — song opens with gentle intro
-  const LOOP_END=160;    // Loop back here — major section break (1759 RMS / 37% of avg)
-  const FADE_DUR=2.2;    // Crossfade duration in seconds
-  let _el=null,_ctx=null,_gain=null,_src=null,_started=false,_fading=false;
+  const LOOP_START=0;
+  const LOOP_END=160;
+  let _ctx=null,_gain=null,_src=null,_buf=null,_started=false;
+  let _muted=false,_preMuteVol=40;
 
-  function _setup(){
-    if(_src)return;
-    try{
-      _ctx=new(window.AudioContext||window.webkitAudioContext)();
-      _src=_ctx.createMediaElementSource(_el);
-      _gain=_ctx.createGain();
-      _src.connect(_gain);_gain.connect(_ctx.destination);
-    }catch(e){console.warn('BGM setup:',e);}
+  function _ac(){
+    if(!_ctx)_ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(_ctx.state==='suspended')_ctx.resume();
+    return _ctx;
   }
-
   function _targetGain(){return(SETTINGS.musicVolume||0)/100*0.38;}
 
-  function init(){
-    _el=document.getElementById('bg-music');
-    if(!_el)return;
-    _el.volume=1.0; // gain node controls volume, not el.volume
-    _el.addEventListener('timeupdate',()=>{
-      if(!_el||_el.paused||!_gain||!_ctx)return;
-      // Begin crossfade-out 2.5s before loop end
-      if(_el.currentTime>=LOOP_END-2.5&&!_fading){
-        _fading=true;
-        const now=_ctx.currentTime;
-        _gain.gain.setValueAtTime(_gain.gain.value,now);
-        _gain.gain.linearRampToValueAtTime(0,now+FADE_DUR);
-      }
-      // Jump back to loop start at loop end point
-      if(_el.currentTime>=LOOP_END){
-        _fading=false;
-        _el.currentTime=LOOP_START;
-        if(_gain&&_ctx){
-          const now=_ctx.currentTime,tgt=_targetGain();
-          _gain.gain.setValueAtTime(0,now);
-          _gain.gain.linearRampToValueAtTime(tgt,now+FADE_DUR);
-        }
-      }
-    });
-    _el.addEventListener('ended',()=>{
-      // Safety fallback — shouldn't normally fire
-      _el.currentTime=LOOP_START;_el.play().catch(()=>{});
-    });
+  // Load MP3 into AudioBuffer via XHR (works on HTTP and file:// URLs)
+  function _load(cb){
+    if(_buf){cb(_buf);return;}
+    const xhr=new XMLHttpRequest();
+    xhr.open('GET','Sudoku.mp3',true);
+    xhr.responseType='arraybuffer';
+    xhr.onload=()=>{
+      try{_ac().decodeAudioData(xhr.response,buf=>{_buf=buf;cb(buf);},()=>cb(null));}
+      catch(e){cb(null);}
+    };
+    xhr.onerror=()=>cb(null);
+    xhr.send();
   }
 
+  function _attach(buf){
+    const ctx=_ac();
+    if(!_gain){_gain=ctx.createGain();_gain.gain.value=0;_gain.connect(ctx.destination);}
+    if(_src){try{_src.stop();}catch(e){}_src=null;}
+    _src=ctx.createBufferSource();
+    _src.buffer=buf;
+    _src.loop=true;
+    _src.loopStart=LOOP_START;
+    _src.loopEnd=LOOP_END;   // ← Web Audio loops here sample-accurately, no fade needed
+    _src.connect(_gain);
+    _src.start(0,LOOP_START);
+  }
+
+  function init(){_load(()=>{});}  // Pre-load buffer so first tap starts instantly
+
   function start(){
-    if(_started||!_el)return;
+    if(_started)return;
     const vol=SETTINGS.musicVolume||0;
     if(vol<=0)return;
     _started=true;
-    _setup();
-    if(_ctx&&_ctx.state==='suspended')_ctx.resume();
-    _el.currentTime=LOOP_START;
-    if(_gain&&_ctx){
-      _gain.gain.value=0;
-      _gain.gain.linearRampToValueAtTime(_targetGain(),_ctx.currentTime+3.5);
-    }
-    _el.play().catch(()=>{_started=false;});
+    _load(buf=>{
+      if(!buf)return;
+      _attach(buf);
+      const ctx=_ac(),now=ctx.currentTime;
+      _gain.gain.setValueAtTime(0,now);
+      _gain.gain.linearRampToValueAtTime(_targetGain(),now+3.5); // gentle 3.5s fade-in
+    });
   }
 
   function setVolume(pct){
     SETTINGS.musicVolume=pct;
-    if(_gain&&_ctx&&!_fading){
-      const now=_ctx.currentTime,tgt=_targetGain();
+    if(_gain&&_ctx&&!_muted){
+      const now=_ctx.currentTime;
       _gain.gain.setValueAtTime(_gain.gain.value,now);
-      _gain.gain.linearRampToValueAtTime(tgt,now+0.35);
-      if(pct>0&&_el&&_el.paused&&_started){
-        if(_ctx.state==='suspended')_ctx.resume();
-        _el.play().catch(()=>{});
-      }
+      _gain.gain.linearRampToValueAtTime(_targetGain(),now+0.35);
     }
     if(pct>0&&!_started)start();
   }
 
-  let _muted=false,_preMuteVol=40;
   function toggleMute(){
     const btn=document.getElementById('music-toggle-btn');
     if(!_muted){
-      // Mute — save current volume, fade to 0
-      _preMuteVol=SETTINGS.musicVolume||40;
-      _muted=true;
+      _preMuteVol=SETTINGS.musicVolume||40;_muted=true;
       if(_gain&&_ctx){
         const now=_ctx.currentTime;
         _gain.gain.setValueAtTime(_gain.gain.value,now);
         _gain.gain.linearRampToValueAtTime(0,now+0.5);
       }
       if(btn){btn.textContent='🔇';btn.classList.add('muted');}
-    } else {
-      // Unmute — restore previous volume
-      _muted=false;
-      const vol=_preMuteVol||40;
-      SETTINGS.musicVolume=vol;
+    }else{
+      _muted=false;const vol=_preMuteVol||40;SETTINGS.musicVolume=vol;
       if(!_started){start();}
       else if(_gain&&_ctx){
-        const now=_ctx.currentTime,tgt=(vol/100)*0.38;
+        const now=_ctx.currentTime;
         _gain.gain.setValueAtTime(_gain.gain.value,now);
-        _gain.gain.linearRampToValueAtTime(tgt,now+0.5);
-        if(_el&&_el.paused){if(_ctx.state==='suspended')_ctx.resume();_el.play().catch(()=>{});}
+        _gain.gain.linearRampToValueAtTime((vol/100)*0.38,now+0.5);
       }
       if(btn){btn.textContent='🎵';btn.classList.remove('muted');}
-      // Sync slider display
       const ms=document.getElementById('music-vol-slider'),mp=document.getElementById('music-vol-pct');
       if(ms){ms.value=vol;ms.style.setProperty('--val',vol+'%');}
       if(mp)mp.textContent=vol+'%';
