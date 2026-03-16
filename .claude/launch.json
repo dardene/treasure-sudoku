@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "prototype",
-      "runtimeExecutable": "/usr/bin/env",
-      "runtimeArgs": ["-S", "PATH=/opt/homebrew/bin:/usr/bin:/bin", "npx", "serve", "-l", "5500", "beta"],
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "5500", "--directory", "/Users/elizabethdarden/Lauren-Claude/games/treasure-sudoku/beta"],
       "port": 5500
     }
   ]
