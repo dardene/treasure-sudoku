@@ -6095,10 +6095,10 @@ function renderJigsawVault(){
     const rarityClass=art?art.rarity.toLowerCase():'';
     slot.className='jsw-slot'+(isEarned?' '+rarityClass:' locked');
     if(isEarned){
-      slot.innerHTML=`<div class="jsw-icon" style="filter:drop-shadow(0 0 8px ${art.glow})">${art.svg}</div><div class="jsw-name">${art.label}</div><div class="jsw-rarity-pip"></div>`;
+      slot.innerHTML=`<div class="jsw-slot-icon" style="filter:drop-shadow(0 0 8px ${art.glow})">${art.svg}</div><div class="jsw-slot-name">${art.label}</div><div class="jsw-rarity-pip"></div>`;
       slot.title=art.name+'\n'+art.rarity+(art.rune?' · '+art.rune:'')+'\n'+art.desc;
     } else {
-      slot.innerHTML=`<div class="jsw-icon" style="font-size:20px;line-height:3;opacity:.35;">🔒</div><div class="jsw-name" style="opacity:.3;">???</div>`;
+      slot.innerHTML=`<div class="jsw-slot-icon" style="font-size:20px;line-height:3;opacity:.35;">🔒</div><div class="jsw-slot-name" style="opacity:.3;">???</div>`;
       slot.title='Complete the treasure map to unlock';
     }
     container.appendChild(slot);
