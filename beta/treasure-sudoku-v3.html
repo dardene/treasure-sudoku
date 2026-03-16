@@ -3192,6 +3192,37 @@ const BGM=(()=>{
   return{init,start,setVolume,toggleMute};
 })();
 
+/* ══ BUTTON CLICK SOUND ══
+   Quiet ching played on every button press. Loaded once into an AudioBuffer,
+   then a new BufferSourceNode is spawned per click (cheap, correct, no cutoff). */
+const BCLICK=(()=>{
+  let _buf=null,_ctx=null,_gain=null;
+  function _ac(){
+    if(!_ctx)_ctx=new(window.AudioContext||window.webkitAudioContext)();
+    if(_ctx.state==='suspended')_ctx.resume();
+    return _ctx;
+  }
+  function init(){
+    const xhr=new XMLHttpRequest();
+    xhr.open('GET','btn.mp3',true);xhr.responseType='arraybuffer';
+    xhr.onload=()=>{
+      try{_ac().decodeAudioData(xhr.response,buf=>{_buf=buf;},()=>{});}catch(e){}
+    };
+    xhr.send();
+  }
+  function play(){
+    if(!SETTINGS.sound||!_buf)return;
+    try{
+      const ctx=_ac();
+      if(!_gain){_gain=ctx.createGain();_gain.connect(ctx.destination);}
+      _gain.gain.value=0.13*(SETTINGS.sfxVolume/100); // quiet & subtle, scales with SFX slider
+      const src=ctx.createBufferSource();
+      src.buffer=_buf;src.connect(_gain);src.start();
+    }catch(e){}
+  }
+  return{init,play};
+})();
+
 /* ══════════════════════════════════════════════════════
    STAR GENERATION
 ══════════════════════════════════════════════════════ */
@@ -5836,12 +5867,11 @@ document.getElementById('reset-records').addEventListener('click',()=>{
 updateMenuState(); // Show/hide legendary button on load
 renderLegendaryVault(); // Populate menu map progress bar on load
 
-// BGM — init player, then start on first user interaction (browsers require gesture)
-BGM.init();
+// BGM + BCLICK — init players, then start BGM on first user interaction
+BGM.init();BCLICK.init();
 (function(){
   let _kicked=false;
   function _kick(e){
-    // Don't let the toggle button itself count as the "first interaction start"
     if(e.target.id==='music-toggle-btn')return;
     if(_kicked)return;_kicked=true;
     BGM.start();
@@ -5851,6 +5881,11 @@ BGM.init();
 })();
 // Music toggle button
 document.getElementById('music-toggle-btn')?.addEventListener('click',()=>BGM.toggleMute());
+// Button click sound — fires on every button press across the whole game (capture phase for instant response)
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('button');
+  if(btn&&!btn.disabled)BCLICK.play();
+},true);
 
 /* ══════════════════════════════════════════════════════
    FOG OF WAR
