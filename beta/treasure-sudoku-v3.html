@@ -582,6 +582,14 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .setting-row:last-child{border-bottom:none;}
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
+/* Volume sliders */
+.vol-row{padding:12px 0;border-bottom:1px solid rgba(180,140,60,.15);}
+.vol-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+.vol-pct{font-size:11px;font-family:'Cinzel',serif;color:var(--gold);min-width:36px;text-align:right;letter-spacing:.05em;}
+input[type=range].vol-slider{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:linear-gradient(to right,rgba(200,155,55,.7) var(--val,40%),rgba(255,255,255,.1) var(--val,40%));outline:none;cursor:pointer;margin:0;}
+input[type=range].vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(255,220,80,1),rgba(200,140,40,1));box-shadow:0 0 10px rgba(245,200,66,.6);cursor:pointer;border:2px solid rgba(255,255,255,.25);transition:box-shadow .15s;}
+input[type=range].vol-slider::-webkit-slider-thumb:hover{box-shadow:0 0 18px rgba(245,200,66,.95);}
+input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-radius:2px;}
 .toggle-btn{width:44px;height:24px;border-radius:12px;border:1px solid rgba(160,115,40,.4);background:rgba(30,18,6,.9);cursor:pointer;position:relative;transition:all .25s;}
 .toggle-btn.on{background:linear-gradient(135deg,rgba(80,55,10,.9),rgba(120,85,15,.9));border-color:var(--gold);box-shadow:0 0 10px rgba(245,200,66,.35);}
 .toggle-btn::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:rgba(180,140,60,.6);transition:all .25s;}
@@ -592,6 +600,9 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 </style>
 </head>
 <body>
+
+<!-- Hidden background music player -->
+<audio id="bg-music" src="Sudoku.mp3" preload="auto"></audio>
 
 <!-- ═══════════════ ENVIRONMENT — Tropical Beach ═══════════════ -->
 <div id="env">
@@ -2073,8 +2084,22 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
   <button class="ghost-btn back-btn" id="settings-back">← Menu</button>
   <div class="settings-panel panel" style="margin-top:50px;">
     <div class="settings-title">⚙ SETTINGS</div>
+    <div class="vol-row">
+      <div class="vol-row-head">
+        <div><div class="sr-label">🎵 Music Volume</div><div class="sr-sub">Background treasure soundtrack</div></div>
+        <span class="vol-pct" id="music-vol-pct">40%</span>
+      </div>
+      <input type="range" class="vol-slider" id="music-vol-slider" min="0" max="100" value="40" style="--val:40%">
+    </div>
+    <div class="vol-row">
+      <div class="vol-row-head">
+        <div><div class="sr-label">🔊 SFX Volume</div><div class="sr-sub">Artifact chimes & challenge sounds</div></div>
+        <span class="vol-pct" id="sfx-vol-pct">100%</span>
+      </div>
+      <input type="range" class="vol-slider" id="sfx-vol-slider" min="0" max="100" value="100" style="--val:100%">
+    </div>
     <div class="setting-row">
-      <div><div class="sr-label">Sound Effects</div><div class="sr-sub">Artifact chimes & ambient sounds</div></div>
+      <div><div class="sr-label">Sound Effects</div><div class="sr-sub">Quick mute all sounds</div></div>
       <button class="toggle-btn on" id="set-sound"></button>
     </div>
     <div class="setting-row">
@@ -2895,7 +2920,7 @@ const SOUNDS=(()=>{
   return{
     play(n){
       if(!SETTINGS.sound||n<1||n>9)return;
-      try{const c=ac(),t=c.currentTime,m=c.createGain();m.gain.value=0.15;m.connect(c.destination);FNS[n](c,t,m);}catch(e){}
+      try{const c=ac(),t=c.currentTime,m=c.createGain();m.gain.value=0.15*(SETTINGS.sfxVolume/100);m.connect(c.destination);FNS[n](c,t,m);}catch(e){}
     }
   };
 })();
@@ -2907,7 +2932,7 @@ function playWinChime(){
   try{
     const c=new(window.AudioContext||window.webkitAudioContext)();
     if(c.state==='suspended')c.resume();
-    const m=c.createGain();m.gain.value=0.16;m.connect(c.destination);
+    const m=c.createGain();m.gain.value=0.16*(SETTINGS.sfxVolume/100);m.connect(c.destination);
     const notes=[261.63,329.63,392.00,523.25,659.26,783.99];
     notes.forEach((f,i)=>{
       const t=c.currentTime+i*0.11;
@@ -3061,6 +3086,89 @@ const MUSIC=(()=>{
   };
 })();
 
+/* ══ BGM PLAYER (MP3 background music) ══
+   Loop analysis: RMS profile shows 202s is the quietest point after 20s (26% avg)
+   — perfect seamless crossfade loop target. 20s→202s = 3 min 2 sec main loop. */
+const BGM=(()=>{
+  const LOOP_START=20;   // Start at 20s (user preference — intro before this)
+  const LOOP_END=202;    // Loop back here — quietest section (1314 RMS / 26% of avg)
+  const FADE_DUR=2.2;    // Crossfade duration in seconds
+  let _el=null,_ctx=null,_gain=null,_src=null,_started=false,_fading=false;
+
+  function _setup(){
+    if(_src)return;
+    try{
+      _ctx=new(window.AudioContext||window.webkitAudioContext)();
+      _src=_ctx.createMediaElementSource(_el);
+      _gain=_ctx.createGain();
+      _src.connect(_gain);_gain.connect(_ctx.destination);
+    }catch(e){console.warn('BGM setup:',e);}
+  }
+
+  function _targetGain(){return(SETTINGS.musicVolume||0)/100*0.38;}
+
+  function init(){
+    _el=document.getElementById('bg-music');
+    if(!_el)return;
+    _el.volume=1.0; // gain node controls volume, not el.volume
+    _el.addEventListener('timeupdate',()=>{
+      if(!_el||_el.paused||!_gain||!_ctx)return;
+      // Begin crossfade-out 2.5s before loop end
+      if(_el.currentTime>=LOOP_END-2.5&&!_fading){
+        _fading=true;
+        const now=_ctx.currentTime;
+        _gain.gain.setValueAtTime(_gain.gain.value,now);
+        _gain.gain.linearRampToValueAtTime(0,now+FADE_DUR);
+      }
+      // Jump back to loop start at loop end point
+      if(_el.currentTime>=LOOP_END){
+        _fading=false;
+        _el.currentTime=LOOP_START;
+        if(_gain&&_ctx){
+          const now=_ctx.currentTime,tgt=_targetGain();
+          _gain.gain.setValueAtTime(0,now);
+          _gain.gain.linearRampToValueAtTime(tgt,now+FADE_DUR);
+        }
+      }
+    });
+    _el.addEventListener('ended',()=>{
+      // Safety fallback — shouldn't normally fire
+      _el.currentTime=LOOP_START;_el.play().catch(()=>{});
+    });
+  }
+
+  function start(){
+    if(_started||!_el)return;
+    const vol=SETTINGS.musicVolume||0;
+    if(vol<=0)return;
+    _started=true;
+    _setup();
+    if(_ctx&&_ctx.state==='suspended')_ctx.resume();
+    _el.currentTime=LOOP_START;
+    if(_gain&&_ctx){
+      _gain.gain.value=0;
+      _gain.gain.linearRampToValueAtTime(_targetGain(),_ctx.currentTime+3.5);
+    }
+    _el.play().catch(()=>{_started=false;});
+  }
+
+  function setVolume(pct){
+    SETTINGS.musicVolume=pct;
+    if(_gain&&_ctx&&!_fading){
+      const now=_ctx.currentTime,tgt=_targetGain();
+      _gain.gain.setValueAtTime(_gain.gain.value,now);
+      _gain.gain.linearRampToValueAtTime(tgt,now+0.35);
+      if(pct>0&&_el&&_el.paused&&_started){
+        if(_ctx.state==='suspended')_ctx.resume();
+        _el.play().catch(()=>{});
+      }
+    }
+    if(pct>0&&!_started)start();
+  }
+
+  return{init,start,setVolume};
+})();
+
 /* ══════════════════════════════════════════════════════
    STAR GENERATION
 ══════════════════════════════════════════════════════ */
@@ -3078,7 +3186,7 @@ const MUSIC=(()=>{
 /* ══════════════════════════════════════════════════════
    STATE
 ══════════════════════════════════════════════════════ */
-const SETTINGS={sound:true,particles:true,highlight:true,showErrors:true,customArtifacts:[1,2,3,4,5,6,7,8,9]};
+const SETTINGS={sound:true,particles:true,highlight:true,showErrors:true,customArtifacts:[1,2,3,4,5,6,7,8,9],musicVolume:40,sfxVolume:100};
 let ACTIVE_MODE='daily'; // 'daily' | 'puzzle' | 'legendary'
 
 /* ── PERSISTENT STORAGE ── */
@@ -3110,6 +3218,12 @@ function loadState(){
         }[id];
         document.getElementById(id)?.classList.toggle('on',SETTINGS[key]);
       });
+      // Sync volume sliders
+      const mv=SETTINGS.musicVolume??40,sv=SETTINGS.sfxVolume??100;
+      const ms=document.getElementById('music-vol-slider'),mp=document.getElementById('music-vol-pct');
+      if(ms){ms.value=mv;ms.style.setProperty('--val',mv+'%');if(mp)mp.textContent=mv+'%';}
+      const ss=document.getElementById('sfx-vol-slider'),sp=document.getElementById('sfx-vol-pct');
+      if(ss){ss.value=sv;ss.style.setProperty('--val',sv+'%');if(sp)sp.textContent=sv+'%';}
     }
   }catch(e){console.warn('Load failed:',e);}
 }
@@ -3897,7 +4011,7 @@ const CSOUNDS=(()=>{
   function _ac(){if(!_ctx)_ctx=new(window.AudioContext||window.webkitAudioContext)();if(_ctx.state==='suspended')_ctx.resume();return _ctx;}
   function _env(g,t,att,pk,dec){g.gain.setValueAtTime(0.0001,t);g.gain.linearRampToValueAtTime(pk,t+att);g.gain.exponentialRampToValueAtTime(0.0001,t+att+dec);}
   function _tone(c,type,freq,dest,t0,t1){const o=c.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t0);o.connect(dest);o.start(t0);o.stop(t1);}
-  function _play(fn){if(!SETTINGS.sound)return;try{const c=_ac(),m=c.createGain();m.gain.value=0.18;m.connect(c.destination);fn(c,c.currentTime,m);}catch(e){}}
+  function _play(fn){if(!SETTINGS.sound)return;try{const c=_ac(),m=c.createGain();m.gain.value=0.18*(SETTINGS.sfxVolume/100);m.connect(c.destination);fn(c,c.currentTime,m);}catch(e){}}
   return{
     popupAppear(){_play((c,t,m)=>{
       // Warm ascending two-note chime
@@ -5657,6 +5771,38 @@ document.querySelectorAll('.toggle-btn').forEach(btn=>{
   });
 });
 document.getElementById('settings-done').addEventListener('click',()=>showScreen('screen-menu'));
+
+// Volume slider — Music
+(function(){
+  const slider=document.getElementById('music-vol-slider');
+  const pctEl=document.getElementById('music-vol-pct');
+  if(!slider)return;
+  slider.addEventListener('input',function(){
+    const v=parseInt(this.value);
+    this.style.setProperty('--val',v+'%');
+    if(pctEl)pctEl.textContent=v+'%';
+    BGM.setVolume(v);
+    saveState();
+  });
+})();
+
+// Volume slider — SFX
+(function(){
+  const slider=document.getElementById('sfx-vol-slider');
+  const pctEl=document.getElementById('sfx-vol-pct');
+  if(!slider)return;
+  slider.addEventListener('input',function(){
+    const v=parseInt(this.value);
+    this.style.setProperty('--val',v+'%');
+    if(pctEl)pctEl.textContent=v+'%';
+    SETTINGS.sfxVolume=v;
+    // Sync sound toggle: if sfx goes to 0, treat as muted
+    if(v===0){SETTINGS.sound=false;document.getElementById('set-sound')?.classList.remove('on');}
+    else if(!SETTINGS.sound){SETTINGS.sound=true;document.getElementById('set-sound')?.classList.add('on');}
+    saveState();
+  });
+})();
+
 loadState(); // Restore best times, stats, and settings from previous sessions
 document.getElementById('reset-records').addEventListener('click',()=>{
   Object.keys(BEST_TIMES).forEach(k=>BEST_TIMES[k]=null);
@@ -5666,6 +5812,14 @@ document.getElementById('reset-records').addEventListener('click',()=>{
 });
 updateMenuState(); // Show/hide legendary button on load
 renderLegendaryVault(); // Populate menu map progress bar on load
+
+// BGM — init player, then start on first user interaction (browsers require gesture)
+BGM.init();
+(function(){
+  function _kick(){BGM.start();}
+  document.addEventListener('click',_kick,{once:true});
+  document.addEventListener('touchstart',_kick,{once:true});
+})();
 
 /* ══════════════════════════════════════════════════════
    FOG OF WAR
