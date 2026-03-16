@@ -3094,11 +3094,12 @@ const MUSIC=(()=>{
 })();
 
 /* ══ BGM PLAYER (MP3 background music) ══
-   Loop analysis: RMS profile shows 202s is the quietest point after 20s (26% avg)
-   — perfect seamless crossfade loop target. 20s→202s = 3 min 2 sec main loop. */
+   Loop analysis: RMS profile shows 160s is the quietest point (1759 RMS / 37% avg)
+   — clear section break, both ends naturally quiet for a seamless crossfade.
+   0s→160s = 2 min 40 sec main loop. */
 const BGM=(()=>{
-  const LOOP_START=20;   // Start at 20s (user preference — intro before this)
-  const LOOP_END=202;    // Loop back here — quietest section (1314 RMS / 26% of avg)
+  const LOOP_START=0;    // Play from the very beginning — song opens with gentle intro
+  const LOOP_END=160;    // Loop back here — major section break (1759 RMS / 37% of avg)
   const FADE_DUR=2.2;    // Crossfade duration in seconds
   let _el=null,_ctx=null,_gain=null,_src=null,_started=false,_fading=false;
 
