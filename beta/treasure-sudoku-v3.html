@@ -582,6 +582,10 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .setting-row:last-child{border-bottom:none;}
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
+/* Music toggle button (fixed top-right) */
+#music-toggle-btn{position:fixed;top:12px;right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.72);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+#music-toggle-btn:hover{background:rgba(60,38,10,.88);box-shadow:0 0 12px rgba(200,140,40,.45);}
+#music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
 .vol-row{padding:12px 0;border-bottom:1px solid rgba(180,140,60,.15);}
 .vol-row-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
@@ -603,6 +607,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 <!-- Hidden background music player -->
 <audio id="bg-music" src="Sudoku.mp3" preload="auto"></audio>
+
+<!-- Music toggle button — always visible top-right -->
+<button id="music-toggle-btn" title="Toggle music">🎵</button>
 
 <!-- ═══════════════ ENVIRONMENT — Tropical Beach ═══════════════ -->
 <div id="env">
@@ -3166,7 +3173,40 @@ const BGM=(()=>{
     if(pct>0&&!_started)start();
   }
 
-  return{init,start,setVolume};
+  let _muted=false,_preMuteVol=40;
+  function toggleMute(){
+    const btn=document.getElementById('music-toggle-btn');
+    if(!_muted){
+      // Mute — save current volume, fade to 0
+      _preMuteVol=SETTINGS.musicVolume||40;
+      _muted=true;
+      if(_gain&&_ctx){
+        const now=_ctx.currentTime;
+        _gain.gain.setValueAtTime(_gain.gain.value,now);
+        _gain.gain.linearRampToValueAtTime(0,now+0.5);
+      }
+      if(btn){btn.textContent='🔇';btn.classList.add('muted');}
+    } else {
+      // Unmute — restore previous volume
+      _muted=false;
+      const vol=_preMuteVol||40;
+      SETTINGS.musicVolume=vol;
+      if(!_started){start();}
+      else if(_gain&&_ctx){
+        const now=_ctx.currentTime,tgt=(vol/100)*0.38;
+        _gain.gain.setValueAtTime(_gain.gain.value,now);
+        _gain.gain.linearRampToValueAtTime(tgt,now+0.5);
+        if(_el&&_el.paused){if(_ctx.state==='suspended')_ctx.resume();_el.play().catch(()=>{});}
+      }
+      if(btn){btn.textContent='🎵';btn.classList.remove('muted');}
+      // Sync slider display
+      const ms=document.getElementById('music-vol-slider'),mp=document.getElementById('music-vol-pct');
+      if(ms){ms.value=vol;ms.style.setProperty('--val',vol+'%');}
+      if(mp)mp.textContent=vol+'%';
+    }
+  }
+
+  return{init,start,setVolume,toggleMute};
 })();
 
 /* ══════════════════════════════════════════════════════
@@ -5816,10 +5856,18 @@ renderLegendaryVault(); // Populate menu map progress bar on load
 // BGM — init player, then start on first user interaction (browsers require gesture)
 BGM.init();
 (function(){
-  function _kick(){BGM.start();}
-  document.addEventListener('click',_kick,{once:true});
-  document.addEventListener('touchstart',_kick,{once:true});
+  let _kicked=false;
+  function _kick(e){
+    // Don't let the toggle button itself count as the "first interaction start"
+    if(e.target.id==='music-toggle-btn')return;
+    if(_kicked)return;_kicked=true;
+    BGM.start();
+  }
+  document.addEventListener('click',_kick);
+  document.addEventListener('touchstart',_kick);
 })();
+// Music toggle button
+document.getElementById('music-toggle-btn')?.addEventListener('click',()=>BGM.toggleMute());
 
 /* ══════════════════════════════════════════════════════
    FOG OF WAR
