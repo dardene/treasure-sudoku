@@ -296,9 +296,12 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .lr-close:hover{box-shadow:0 0 20px rgba(200,80,255,.5);}
 
 /* ══════════════ MAIN MENU ══════════════ */
-#screen-menu{justify-content:center;padding-top:22%;padding-bottom:4%;}
-/* ══ MENU SCREEN — legibility over bright tropical bg ══ */
-#screen-menu{background:linear-gradient(180deg,rgba(0,20,40,.1) 0%,rgba(0,10,20,.28) 100%);}
+#screen-menu{justify-content:center;padding-top:22%;padding-bottom:4%;background:url('menu-bg.png') center center/cover no-repeat;}
+/* ══ MENU SCREEN — hide old SVG scene, keep UI elements ══ */
+#screen-menu #sky,#screen-menu #stars,#screen-menu #water,#screen-menu #shore,
+#screen-menu #island,#screen-menu #ship,#screen-menu #sandcastle,
+#screen-menu #treasure-chest,#screen-menu #palms,
+#screen-menu #magic-sparkles,#screen-menu #env-overlay{display:none!important;}
 
 /* Sky title — floats above the sand castle in the upper sky */
 .menu-sky-title{
