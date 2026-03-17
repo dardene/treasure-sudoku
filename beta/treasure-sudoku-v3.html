@@ -4097,34 +4097,10 @@ async function fetchDailyQuote(dateStr,diff){
   // Check cache first
   const cached=loadCachedQuote(dateStr);
   if(cached)return cached;
-  // Generate via Claude API
-  const themes=['positivity','perseverance','adventure','wisdom','creativity','courage','discovery','patience'];
-  const seed=Math.abs(dateStr.split('-').reduce((h,v)=>h*37+parseInt(v),0));
-  const theme=themes[seed%themes.length];
-  const prompt=`Generate one short, beautiful inspirational quote for a treasure adventure puzzle game. 
-Theme: ${theme}. Difficulty today: ${diff.name}.
-The quote should feel ancient, wise, and adventurous — fitting for a treasure hunter who just solved a ${diff.name} puzzle.
-Return ONLY valid JSON, no markdown: {"text":"...","author":"..."}
-The author should be a fictional ancient explorer, cartographer, or sage. Keep the quote under 20 words.`;
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:120,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const result=await resp.json();
-    const txt=result.content?.find(c=>c.type==='text')?.text||'';
-    const q=JSON.parse(txt.replace(/```json|```/g,'').trim());
-    if(q.text&&q.author){
-      saveCachedQuote(dateStr,q);
-      return q;
-    }
-  }catch(e){}
-  // Fallback
-  return getFallbackQuote(dateStr);
+  // Use fallback quotes (API removed for public demo)
+  const q=getFallbackQuote(dateStr);
+  saveCachedQuote(dateStr,q);
+  return q;
 }
 
 let DP={
