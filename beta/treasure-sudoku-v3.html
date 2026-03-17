@@ -119,7 +119,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .screen:not(.active) *{animation-play-state:paused!important;}
 
 /* ══════════════ SHARED PANEL STYLE ══════════════ */
-.panel{background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,220,100,.1);backdrop-filter:blur(10px);}
+.panel{background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,220,100,.1);}
 .gold-btn{background:linear-gradient(135deg,#c8a420,#f5c842,#c8a420);border:none;color:#1a0d00;font-family:'Cinzel',serif;font-weight:700;letter-spacing:.1em;cursor:pointer;border-radius:12px;box-shadow:0 0 20px rgba(245,200,66,.5),0 4px 15px rgba(0,0,0,.5);transition:all .22s ease;}
 .gold-btn:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(245,200,66,.75),0 6px 20px rgba(0,0,0,.5);}
 .gold-btn:active{transform:translateY(1px) scale(.97);}
@@ -141,7 +141,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
 /* ══════════════ SUDOKU BOARD CELLS ══════════════ */
 .sudoku-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:0;border:2px solid var(--gold-dark);border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.8),inset 0 0 20px rgba(0,0,0,.4);}
-.cell{position:relative;background:radial-gradient(ellipse at 50% 30%,rgba(70,50,24,.75),rgba(32,20,8,.92));border:1px solid rgba(100,72,28,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s,box-shadow .18s;overflow:hidden;aspect-ratio:1;}
+.cell{position:relative;background:radial-gradient(ellipse at 50% 30%,rgba(70,50,24,.75),rgba(32,20,8,.92));border:1px solid rgba(100,72,28,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .18s,box-shadow .18s;overflow:hidden;aspect-ratio:1;will-change:transform;}
 .cell::before{content:'';position:absolute;inset:0;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E") repeat;opacity:.6;}
 .cell::after{content:'';position:absolute;inset:3px;border-radius:4px;border:1px solid rgba(80,55,18,.4);box-shadow:inset 0 1px 3px rgba(0,0,0,.5);pointer-events:none;}
 .cell[data-col="2"],.cell[data-col="5"]{border-right:2px solid var(--gold-dark);}
@@ -363,7 +363,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 /* ══════════════ PUZZLE MODE ══════════════ */
 #screen-puzzle{padding:10px 14px;}
 .puzzle-header{width:100%;max-width:520px;display:flex;justify-content:center;align-items:center;gap:18px;padding:6px 0 10px;}
-.stat-panel{background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;padding:7px 12px;min-width:76px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,220,100,.1);backdrop-filter:blur(8px);}
+.stat-panel{background:var(--panel-bg);border:1px solid var(--panel-border);border-radius:12px;padding:7px 12px;min-width:76px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,220,100,.1);}
 .stat-label{font-size:7px;color:var(--stone-light);letter-spacing:.2em;text-transform:uppercase;font-family:'Crimson Pro',serif;}
 .stat-value{font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 10px var(--glow-gold);line-height:1.2;}
 .stat-best{font-size:8px;color:var(--stone-light);font-family:'Crimson Pro',serif;margin-top:1px;}
@@ -599,7 +599,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
 /* Music toggle button (fixed top-right) */
-#music-toggle-btn{position:fixed;top:12px;right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.72);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+#music-toggle-btn{position:fixed;top:12px;right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.88);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
 #music-toggle-btn:hover{background:rgba(60,38,10,.88);box-shadow:0 0 12px rgba(200,140,40,.45);}
 #music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
@@ -1109,7 +1109,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
   <!-- Palm fronds — LEFT foreground (tall, realistic coconut palm) -->
   <div id="palms">
-    <svg style="position:absolute;bottom:19%;left:-1%;width:25%;height:auto;pointer-events:none;z-index:2;overflow:visible;transform-origin:30% 100%;transform:scaleY(1.22);filter:saturate(1.2) brightness(1.08) drop-shadow(3px 6px 12px rgba(0,0,0,.45))" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
+    <svg style="position:absolute;bottom:19%;left:-1%;width:25%;height:auto;pointer-events:none;z-index:2;overflow:visible;transform-origin:30% 100%;transform:scaleY(1.22)" viewBox="0 0 400 520" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
       <defs>
         <linearGradient id="trk-l" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#3d2008"/>
@@ -1283,7 +1283,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     </svg>
 
     <!-- RIGHT foreground palm — leans slightly inward -->
-    <svg style="position:absolute;bottom:17%;right:-1%;width:31%;height:auto;pointer-events:none;z-index:2;transform-origin:86% 100%;transform:rotate(11deg) scaleY(1.22);filter:saturate(1.2) brightness(1.08) drop-shadow(3px 6px 12px rgba(0,0,0,.45))" viewBox="0 -100 380 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
+    <svg style="position:absolute;bottom:17%;right:-1%;width:31%;height:auto;pointer-events:none;z-index:2;transform-origin:86% 100%;transform:rotate(11deg) scaleY(1.22)" viewBox="0 -100 380 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMin meet">
       <defs>
         <linearGradient id="trk-r" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#4a2a10"/>
@@ -4748,7 +4748,7 @@ function dpSpawnChestParticles(){
   if(!wrap)return;
   _chestParticleInterval=setInterval(()=>{
     if(document.getElementById('daily-chest-overlay').style.display==='none'){clearInterval(_chestParticleInterval);return;}
-    for(let i=0;i<3;i++){
+    for(let i=0;i<2;i++){
       const p=document.createElement('div');
       const angle=Math.random()*360;
       const dist=50+Math.random()*50;
@@ -4760,7 +4760,7 @@ function dpSpawnChestParticles(){
         animation:chestParticleFloat ${0.8+Math.random()*0.8}s ease-out forwards;`;
       wrap.appendChild(p);setTimeout(()=>p.remove(),1600);
     }
-  },120);
+  },300);
 }
 // Particle float keyframe injected once
 (function(){
