@@ -521,7 +521,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 /* Deck counter */
 .deck-counter{font-size:9px;font-family:'Crimson Pro',serif;color:var(--stone-light);letter-spacing:.12em;text-align:center;}
 
-/* ══════════════ VAULT OF ACHIEVEMENTS ══════════════ */
+/* ══════════════ ACHIEVEMENT VAULT ══════════════ */
 #screen-vault{padding:14px;overflow-y:auto;scroll-behavior:smooth;}
 /* Vault scroll buttons */
 .vault-scroll-btn{
@@ -1603,53 +1603,57 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       </span>
     </button>
     <button class="menu-btn menu-btn-vault ghost-btn" id="menu-vault">
-      <span class="mb-icon"><svg width="30" height="28" viewBox="0 0 48 42" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
+      <span class="mb-icon"><svg width="30" height="28" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
         <defs>
-          <linearGradient id="tcm-wood" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#a06030"/>
-            <stop offset="50%" stop-color="#6c3c18"/>
-            <stop offset="100%" stop-color="#4a2808"/>
+          <linearGradient id="vlt-frame" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#8a8a9a"/>
+            <stop offset="50%" stop-color="#4a4a5a"/>
+            <stop offset="100%" stop-color="#2a2a36"/>
           </linearGradient>
-          <linearGradient id="tcm-lid" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#c07838"/>
-            <stop offset="100%" stop-color="#7a4820"/>
-          </linearGradient>
-          <linearGradient id="tcm-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <radialGradient id="vlt-door" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stop-color="#6a6a7a"/>
+            <stop offset="100%" stop-color="#2e2e3c"/>
+          </radialGradient>
+          <linearGradient id="vlt-gold" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#ffe060"/>
             <stop offset="100%" stop-color="#c88820"/>
           </linearGradient>
-          <radialGradient id="tcm-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="rgba(255,220,80,.5)"/>
+          <radialGradient id="vlt-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,210,60,.45)"/>
             <stop offset="100%" stop-color="rgba(255,160,0,0)"/>
           </radialGradient>
         </defs>
-        <!-- Glow -->
-        <ellipse cx="24" cy="38" rx="18" ry="5" fill="url(#tcm-glow)"/>
-        <!-- Chest body -->
-        <rect x="4" y="22" width="40" height="18" rx="2" fill="url(#tcm-wood)"/>
-        <!-- Body gold band -->
-        <rect x="4" y="26" width="40" height="4" fill="url(#tcm-gold)" rx="0"/>
-        <!-- Body planks -->
-        <line x1="15" y1="22" x2="15" y2="40" stroke="rgba(0,0,0,.25)" stroke-width="1"/>
-        <line x1="33" y1="22" x2="33" y2="40" stroke="rgba(0,0,0,.25)" stroke-width="1"/>
-        <!-- Lid -->
-        <path d="M4,22 Q4,8 24,8 Q44,8 44,22 Z" fill="url(#tcm-lid)"/>
-        <!-- Lid top highlight -->
-        <path d="M8,18 Q16,10 32,10 Q40,14 42,18" stroke="rgba(220,160,80,.4)" stroke-width="1.5" fill="none"/>
-        <!-- Lid gold trim -->
-        <path d="M4,22 Q4,8 24,8 Q44,8 44,22" fill="none" stroke="url(#tcm-gold)" stroke-width="1.8"/>
-        <!-- Hinges -->
-        <rect x="10" y="20" width="5" height="4" rx="1" fill="url(#tcm-gold)"/>
-        <rect x="33" y="20" width="5" height="4" rx="1" fill="url(#tcm-gold)"/>
-        <!-- Latch -->
-        <rect x="19" y="25" width="10" height="7" rx="2" fill="url(#tcm-gold)"/>
-        <circle cx="24" cy="28" r="2.5" fill="#7a4808"/>
-        <circle cx="24" cy="28" r="1.2" fill="#ffd840"/>
-        <!-- Sparkle on lid -->
-        <path d="M24,13 L24.5,15 L26,15 L24.8,16 L25.3,18 L24,17 L22.7,18 L23.2,16 L22,15 L23.5,15 Z" fill="rgba(255,240,160,.8)" opacity=".9"/>
+        <!-- Outer glow -->
+        <circle cx="24" cy="24" r="20" fill="url(#vlt-glow)"/>
+        <!-- Vault frame (outer ring) -->
+        <circle cx="24" cy="24" r="19" fill="url(#vlt-frame)"/>
+        <!-- Vault door (inner circle) -->
+        <circle cx="24" cy="24" r="15" fill="url(#vlt-door)"/>
+        <!-- Door inner ring -->
+        <circle cx="24" cy="24" r="15" fill="none" stroke="url(#vlt-gold)" stroke-width="1.4"/>
+        <!-- Frame bolts -->
+        <circle cx="24" cy="6" r="2.2" fill="url(#vlt-gold)"/>
+        <circle cx="24" cy="42" r="2.2" fill="url(#vlt-gold)"/>
+        <circle cx="6" cy="24" r="2.2" fill="url(#vlt-gold)"/>
+        <circle cx="42" cy="24" r="2.2" fill="url(#vlt-gold)"/>
+        <!-- Lock bars (cross) -->
+        <rect x="22.5" y="11" width="3" height="10" rx="1.5" fill="url(#vlt-gold)" opacity=".85"/>
+        <rect x="22.5" y="27" width="3" height="10" rx="1.5" fill="url(#vlt-gold)" opacity=".85"/>
+        <rect x="11" y="22.5" width="10" height="3" rx="1.5" fill="url(#vlt-gold)" opacity=".85"/>
+        <rect x="27" y="22.5" width="10" height="3" rx="1.5" fill="url(#vlt-gold)" opacity=".85"/>
+        <!-- Spin wheel hub -->
+        <circle cx="24" cy="24" r="5.5" fill="url(#vlt-frame)" stroke="url(#vlt-gold)" stroke-width="1.3"/>
+        <!-- Wheel spokes -->
+        <line x1="24" y1="19" x2="24" y2="29" stroke="url(#vlt-gold)" stroke-width="1.2"/>
+        <line x1="19" y1="24" x2="29" y2="24" stroke="url(#vlt-gold)" stroke-width="1.2"/>
+        <line x1="20.5" y1="20.5" x2="27.5" y2="27.5" stroke="url(#vlt-gold)" stroke-width="1"/>
+        <line x1="27.5" y1="20.5" x2="20.5" y2="27.5" stroke="url(#vlt-gold)" stroke-width="1"/>
+        <!-- Center knob -->
+        <circle cx="24" cy="24" r="2.5" fill="url(#vlt-gold)"/>
+        <circle cx="24" cy="24" r="1" fill="#fff" opacity=".5"/>
       </svg></span>
       <span class="mb-text">
-        <span class="mb-title">VAULT OF ACHIEVEMENTS</span>
+        <span class="mb-title">ACHIEVEMENT VAULT</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-map ghost-btn" id="menu-map">
@@ -1806,7 +1810,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <button class="vault-scroll-btn" id="vault-scroll-up" aria-label="Scroll up">▲</button>
   <button class="vault-scroll-btn" id="vault-scroll-dn" aria-label="Scroll down">▼</button>
   <div class="vault-panel panel" style="margin-top:40px;">
-    <div class="vault-title">⚜ VAULT OF ACHIEVEMENTS ⚜</div>
+    <div class="vault-title">⚜ ACHIEVEMENT VAULT ⚜</div>
     <div class="vault-sub">Your legendary achievements</div>
     <div class="vault-ornament">◆ ─────────────────── ◆</div>
     <div class="vault-section">
@@ -1818,7 +1822,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="vault-records" id="vault-records"></div>
     </div>
     <div class="vault-section">
-      <div class="vault-section-title">⚡ Jigsaw Relics <span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
+      <div class="vault-section-title">⚡ Legendary Relics<span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
       <div class="jigsaw-collection" id="vault-jigsaw"></div>
     </div>
   </div>
