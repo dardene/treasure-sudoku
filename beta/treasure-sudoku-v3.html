@@ -3372,7 +3372,7 @@ const MUSIC=(()=>{
 const BGM=(()=>{
   const LOOP_START=0;
   const LOOP_END=160;
-  let _ctx=null,_gain=null,_src=null,_buf=null,_started=false;
+  let _ctx=null,_gain=null,_src=null,_buf=null,_raw=null,_started=false;
   let _muted=false,_preMuteVol=40;
 
   function _ac(){
@@ -3382,18 +3382,33 @@ const BGM=(()=>{
   }
   function _targetGain(){return(SETTINGS.musicVolume||0)/100*0.38;}
 
-  // Load MP3 into AudioBuffer via XHR (works on HTTP and file:// URLs)
-  function _load(cb){
-    if(_buf){cb(_buf);return;}
+  // Pre-fetch raw bytes only — no AudioContext created yet (safe on iOS)
+  function init(){
     const xhr=new XMLHttpRequest();
     xhr.open('GET','Sudoku.mp3',true);
     xhr.responseType='arraybuffer';
-    xhr.onload=()=>{
-      try{_ac().decodeAudioData(xhr.response,buf=>{_buf=buf;cb(buf);},()=>cb(null));}
-      catch(e){cb(null);}
-    };
-    xhr.onerror=()=>cb(null);
+    xhr.onload=()=>{if(xhr.status>=200&&xhr.status<300)_raw=xhr.response;};
     xhr.send();
+  }
+
+  // Decode raw bytes using the (gesture-unlocked) AudioContext, then call cb
+  function _load(cb){
+    if(_buf){cb(_buf);return;}
+    function _decode(){
+      const ctx=_ac();
+      // slice so the arraybuffer isn't neutered on repeated calls
+      ctx.decodeAudioData(_raw.slice(0),buf=>{_buf=buf;cb(buf);},()=>cb(null));
+    }
+    if(_raw){_decode();}
+    else{
+      // Fallback: fetch inside gesture if pre-fetch hasn't landed yet
+      const xhr=new XMLHttpRequest();
+      xhr.open('GET','Sudoku.mp3',true);
+      xhr.responseType='arraybuffer';
+      xhr.onload=()=>{_raw=xhr.response;_decode();};
+      xhr.onerror=()=>cb(null);
+      xhr.send();
+    }
   }
 
   function _attach(buf){
@@ -3404,12 +3419,10 @@ const BGM=(()=>{
     _src.buffer=buf;
     _src.loop=true;
     _src.loopStart=LOOP_START;
-    _src.loopEnd=LOOP_END;   // ← Web Audio loops here sample-accurately, no fade needed
+    _src.loopEnd=LOOP_END;
     _src.connect(_gain);
     _src.start(0,LOOP_START);
   }
-
-  function init(){_load(()=>{});}  // Pre-load buffer so first tap starts instantly
 
   function start(){
     if(_started)return;
