@@ -18,7 +18,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;overflow:hidden;}
-body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:hidden;user-select:none;}
+body{font-family:'Cinzel',serif;background:url('menu-bg.png') center center/cover no-repeat #080402;height:100%;overflow:hidden;user-select:none;}
 
 /* ══════════════ ENVIRONMENT — Tropical Beach ══════════════ */
 #env{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
@@ -305,7 +305,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 
 /* Sky title — floats above the sand castle in the upper sky */
 .menu-sky-title{
-  position:fixed;top:13%;left:50%;transform:translateX(-50%);
+  position:fixed;top:8%;left:50%;transform:translateX(-50%);
   text-align:center;z-index:11;pointer-events:none;
   animation:skyTitleFloat 7s ease-in-out infinite;
 }
@@ -373,7 +373,7 @@ body{font-family:'Cinzel',serif;background:var(--deep-bg);height:100%;overflow:h
 .stat-value{font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 10px var(--glow-gold);line-height:1.2;}
 .stat-best{font-size:8px;color:var(--stone-light);font-family:'Crimson Pro',serif;margin-top:1px;}
 /* ══ DIFFICULTY PICKER MODAL ══ */
-#diff-picker{position:fixed;inset:0;z-index:350;background:rgba(4,2,0,.86);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+#diff-picker{position:fixed;inset:0;z-index:350;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('puzzle-bg1.png') center center/cover no-repeat;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}
 #diff-picker.show{opacity:1;pointer-events:auto;}
 .diff-pick-btn{width:100%;padding:14px 18px;border-radius:13px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;cursor:pointer;transition:all .2s;display:grid;grid-template-columns:20px 1fr auto;align-items:center;column-gap:5px;text-align:left;background:linear-gradient(135deg,rgba(18,10,4,.95),rgba(32,20,7,.95));border:1px solid;}
 .diff-pick-btn:hover{transform:translateX(4px);filter:brightness(1.2);box-shadow:0 4px 22px rgba(0,0,0,.7);}
