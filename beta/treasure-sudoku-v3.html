@@ -339,12 +339,12 @@ body{font-family:'Cinzel',serif;background:url('menu-bg.png') center center/cove
 }
 
 .version-tag{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(255,230,140,.7);letter-spacing:.2em;margin-top:8px;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.8);}
-.menu-panel{padding:18px 24px;width:min(88vw,340px);display:flex;flex-direction:column;gap:8px;}
-.menu-btn{width:100%;padding:8px 14px;border-radius:14px;font-size:12px;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden;}
-.menu-btn .mb-icon{font-size:24px;flex-shrink:0;width:34px;text-align:center;}
+.menu-panel{padding:12px 16px;width:min(86vw,310px);display:flex;flex-direction:column;gap:5px;}
+.menu-btn{width:100%;padding:6px 10px;border-radius:11px;font-size:11px;display:flex;align-items:center;gap:8px;position:relative;overflow:hidden;}
+.menu-btn .mb-icon{font-size:19px;flex-shrink:0;width:26px;text-align:center;}
 .menu-btn .mb-text{text-align:left;flex:1;}
-.menu-btn .mb-title{display:block;font-size:13px;font-weight:700;letter-spacing:.08em;}
-.menu-btn .mb-sub{display:block;font-size:9px;font-family:'Crimson Pro',serif;letter-spacing:.15em;margin-top:1px;opacity:.75;}
+.menu-btn .mb-title{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;}
+.menu-btn .mb-sub{display:block;font-size:8px;font-family:'Crimson Pro',serif;letter-spacing:.15em;margin-top:1px;opacity:.75;}
 .menu-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,220,100,.1),transparent 60%);pointer-events:none;}
 /* Sunset / golden hour palette */
 .menu-btn-primary{background:linear-gradient(135deg,rgba(200,140,20,.92),rgba(240,185,35,.92));border:1px solid rgba(255,215,70,.65);color:#fff8e0;text-shadow:0 1px 3px rgba(80,40,0,.5);}
@@ -664,7 +664,61 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .profile-signout-btn{width:100%;padding:11px;border-radius:12px;background:none;border:1px solid rgba(180,60,60,.4);color:rgba(220,100,100,.7);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;cursor:pointer;transition:all .2s;margin-top:4px;}
 .profile-signout-btn:hover{border-color:rgba(220,80,80,.6);color:rgba(255,120,120,.9);}
 /* Profile menu button */
+.menu-btn-howto{background:linear-gradient(135deg,rgba(80,50,120,.92),rgba(110,70,160,.92));border:1px solid rgba(170,130,220,.45);color:#e8d8ff;text-shadow:0 1px 3px rgba(30,10,60,.5);}
+.menu-btn-howto:hover{background:linear-gradient(135deg,rgba(95,62,140,.96),rgba(128,85,182,.96));box-shadow:0 0 22px rgba(130,90,200,.5),0 4px 15px rgba(0,0,0,.4);}
+/* Small corner auth button on main menu */
+.menu-auth-corner-btn{position:absolute;bottom:22px;left:18px;background:rgba(8,5,1,.65);border:1px solid rgba(160,110,40,.35);border-radius:20px;color:rgba(200,160,100,.7);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;padding:7px 14px;cursor:pointer;transition:all .2s;z-index:20;}
+.menu-auth-corner-btn:hover{border-color:rgba(220,170,60,.55);color:var(--gold);background:rgba(15,9,2,.8);}
 .menu-btn-profile{background:linear-gradient(135deg,rgba(30,60,120,.92),rgba(45,85,160,.92));border:1px solid rgba(80,140,240,.45);color:#c0d8ff;}
+/* ── How To Play Tutorial Overlay ── */
+#howto-overlay{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+#howto-overlay.show{display:flex;}
+.howto-panel{position:relative;width:min(92vw,420px);background:linear-gradient(160deg,rgba(18,10,3,.98),rgba(32,20,6,.98));border:1px solid rgba(180,140,60,.5);border-radius:24px;padding:32px 28px 28px;box-shadow:0 0 80px rgba(0,0,0,.9),0 0 40px rgba(140,100,20,.15);overflow:hidden;}
+.howto-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,150,30,.08),transparent 70%);pointer-events:none;}
+.howto-skip{position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(180,140,70,.45);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;cursor:pointer;padding:4px 8px;}
+.howto-skip:hover{color:rgba(200,160,90,.75);}
+.howto-slide{display:none;flex-direction:column;align-items:center;text-align:center;}
+.howto-slide.active{display:flex;}
+.howto-slide-icon{font-size:54px;margin-bottom:14px;line-height:1;}
+.howto-slide-title{font-family:'Cinzel',serif;font-size:18px;font-weight:900;color:var(--gold-light);letter-spacing:.15em;margin-bottom:10px;text-shadow:0 0 20px rgba(255,210,70,.3);}
+.howto-slide-body{font-family:'Crimson Pro',serif;font-size:15px;color:rgba(220,190,140,.85);line-height:1.65;max-width:340px;}
+.howto-slide-body strong{color:var(--gold);font-weight:700;}
+/* Mini grid visual for rules slide */
+.howto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:16px auto 4px;width:138px;}
+.howto-cell{width:42px;height:42px;border-radius:7px;background:rgba(10,6,2,.7);border:1px solid rgba(160,110,40,.3);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.howto-cell.filled{background:rgba(40,28,8,.8);border-color:rgba(200,155,40,.5);}
+.howto-cell.highlight{background:rgba(60,42,8,.9);border-color:rgba(245,200,66,.7);box-shadow:0 0 10px rgba(245,200,66,.25);}
+/* Feature pills for daily slide */
+.howto-pills{display:flex;flex-direction:column;gap:8px;margin-top:14px;width:100%;}
+.howto-pill{display:flex;align-items:center;gap:10px;background:rgba(10,6,2,.6);border:1px solid rgba(160,110,40,.25);border-radius:10px;padding:10px 14px;text-align:left;}
+.howto-pill-icon{font-size:22px;flex-shrink:0;}
+.howto-pill-text{font-family:'Crimson Pro',serif;font-size:13px;color:rgba(220,190,140,.8);line-height:1.4;}
+.howto-pill-text strong{color:var(--gold);}
+/* Navigation */
+.howto-nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px;width:100%;}
+.howto-nav-btn{background:none;border:1px solid rgba(160,110,40,.4);border-radius:10px;color:rgba(200,160,100,.7);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;padding:9px 16px;cursor:pointer;transition:all .2s;}
+.howto-nav-btn:hover{border-color:rgba(220,170,50,.6);color:var(--gold);}
+.howto-nav-btn:disabled{opacity:.2;pointer-events:none;}
+.howto-dots{display:flex;gap:7px;align-items:center;}
+.howto-dot{width:7px;height:7px;border-radius:50%;background:rgba(160,110,40,.3);transition:all .3s;cursor:pointer;}
+.howto-dot.active{background:var(--gold);box-shadow:0 0 8px rgba(245,200,66,.5);width:20px;border-radius:4px;}
+.howto-start-btn{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,rgba(200,140,20,.92),rgba(240,185,35,.92));border:1px solid rgba(255,215,70,.65);color:#fff8e0;font-family:'Cinzel',serif;font-size:14px;font-weight:900;letter-spacing:.18em;cursor:pointer;margin-top:20px;box-shadow:0 0 24px rgba(245,200,66,.25);transition:all .2s;}
+.howto-start-btn:hover{box-shadow:0 0 36px rgba(245,200,66,.45);transform:translateY(-2px);}
+/* Story intro cinematic */
+#story-intro-overlay{display:none;position:fixed;inset:0;z-index:9500;background:#000;align-items:center;justify-content:center;flex-direction:column;padding:40px;}
+#story-intro-overlay.show{display:flex;}
+.story-line{font-family:'Cinzel',serif;letter-spacing:.2em;text-align:center;opacity:0;transform:translateY(12px);transition:opacity .9s ease,transform .9s ease;margin-bottom:18px;}
+.story-line.visible{opacity:1;transform:translateY(0);}
+.story-line-1{font-size:13px;color:rgba(200,155,45,.8);}
+.story-line-2{font-size:28px;font-weight:900;color:var(--gold-light);text-shadow:0 0 30px rgba(255,210,70,.5);}
+.story-line-3{font-size:13px;color:rgba(200,155,45,.8);}
+.story-line-4{font-size:13px;color:rgba(180,140,100,.6);letter-spacing:.35em;}
+.story-line-5{font-size:15px;color:rgba(220,185,120,.85);font-style:italic;font-family:'Crimson Pro',serif;line-height:1.7;}
+/* Chamber name & story win */
+.dh-today-chamber{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(200,160,100,.65);letter-spacing:.1em;font-style:italic;margin-top:4px;}
+#dp-chamber-name{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(200,160,100,.6);letter-spacing:.15em;font-style:italic;text-align:center;margin-top:2px;}
+/* Relic lore */
+.relic-lore{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(180,140,80,.6);font-style:italic;line-height:1.45;margin-top:3px;text-align:center;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -1594,11 +1648,18 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 <!-- ═══════════════ SCREEN: MAIN MENU ═══════════════ -->
 <div class="screen active" id="screen-menu">
+  <button class="menu-auth-corner-btn" id="menu-auth-corner-btn">LOG IN</button>
   <div class="menu-sky-title">
     <div class="menu-title">TREASURE SUDOKU</div>
     <div class="menu-subtitle">The Lost Relics of Solara</div>
   </div>
   <div class="menu-panel panel">
+    <button class="menu-btn menu-btn-howto ghost-btn" id="menu-howto">
+      <span class="mb-icon">📖</span>
+      <span class="mb-text">
+        <span class="mb-title">HOW TO PLAY</span>
+      </span>
+    </button>
     <button class="menu-btn menu-btn-primary ghost-btn" id="menu-daily">
       <span class="mb-icon">📅</span>
       <span class="mb-text">
@@ -1723,13 +1784,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <span class="mb-title">SETTINGS</span>
       </span>
     </button>
-    <button class="menu-btn menu-btn-profile ghost-btn" id="menu-profile">
-      <span class="mb-icon">👤</span>
-      <span class="mb-text">
-        <span class="mb-title">SIGN IN</span>
-        <span class="mb-sub">SAVE YOUR PROGRESS</span>
-      </span>
-    </button>
+  <!-- profile btn removed — use LOG IN corner btn instead -->
+  <button id="menu-profile" style="display:none"></button>
   </div>
 </div>
 
@@ -1818,6 +1874,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div style="font-size:clamp(11px,2.5vw,15px);font-weight:900;color:var(--gold-light);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;">📅 DAILY QUEST</div>
       <div style="font-family:'Crimson Pro',serif;font-size:9px;color:var(--stone-light);letter-spacing:.2em;" id="dp-date-label">Loading...</div>
       <div id="dp-diff-badge" style="display:inline-block;margin-top:2px;padding:2px 10px;border-radius:8px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.15em;font-weight:700;border:1px solid currentColor;"></div>
+      <div id="dp-chamber-name"></div>
     </div>
     <div style="text-align:center;">
       <div class="stat-label">✦ SCORE</div>
@@ -2422,6 +2479,114 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </div>
 </div>
 
+<!-- ═══════════════ HOW TO PLAY TUTORIAL ═══════════════ -->
+<div id="howto-overlay">
+  <div class="howto-panel">
+    <button class="howto-skip" id="howto-skip">SKIP ✕</button>
+
+    <!-- Slide 1: Welcome -->
+    <div class="howto-slide active" id="howto-slide-0">
+      <div class="howto-slide-icon">🏴‍☠️</div>
+      <div class="howto-slide-title">WELCOME, EXPLORER</div>
+      <div class="howto-slide-body">
+        You've discovered <strong>Treasure Sudoku</strong> — an ancient puzzle of lost relics hiding in the ruins of Solara.<br><br>
+        Your mission: fill every row, column, and box with the sacred relics to unlock the treasure vault.
+      </div>
+    </div>
+
+    <!-- Slide 2: The Rules -->
+    <div class="howto-slide" id="howto-slide-1">
+      <div class="howto-slide-icon">📜</div>
+      <div class="howto-slide-title">THE RULES</div>
+      <div class="howto-slide-body">
+        Each <strong>relic</strong> must appear <strong>exactly once</strong> in every row, column, and 3×3 box.
+      </div>
+      <div class="howto-grid">
+        <div class="howto-cell filled">👑</div>
+        <div class="howto-cell highlight">💎</div>
+        <div class="howto-cell filled">🗝️</div>
+        <div class="howto-cell filled">🗝️</div>
+        <div class="howto-cell filled">👑</div>
+        <div class="howto-cell highlight">💎</div>
+        <div class="howto-cell highlight">💎</div>
+        <div class="howto-cell filled">🗝️</div>
+        <div class="howto-cell filled">👑</div>
+      </div>
+      <div class="howto-slide-body" style="font-size:13px;margin-top:10px;opacity:.75;">Each relic appears once per row, column & box — no repeats!</div>
+    </div>
+
+    <!-- Slide 3: How to Play -->
+    <div class="howto-slide" id="howto-slide-2">
+      <div class="howto-slide-icon">👆</div>
+      <div class="howto-slide-title">HOW TO PLAY</div>
+      <div class="howto-pills">
+        <div class="howto-pill">
+          <div class="howto-pill-icon">1️⃣</div>
+          <div class="howto-pill-text"><strong>Tap an empty cell</strong> on the board to select it</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">2️⃣</div>
+          <div class="howto-pill-text"><strong>Tap a relic</strong> from the bar at the bottom to place it</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">✎</div>
+          <div class="howto-pill-text"><strong>NOTES mode</strong> — mark possible relics in a cell without committing</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">💡</div>
+          <div class="howto-pill-text"><strong>HINT</strong> — reveals one cell. You get 3 hints per game</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Daily Puzzle -->
+    <div class="howto-slide" id="howto-slide-3">
+      <div class="howto-slide-icon">📅</div>
+      <div class="howto-slide-title">DAILY PUZZLE</div>
+      <div class="howto-slide-body">A brand-new challenge drops <strong>every day</strong>. Race the clock and climb the leaderboard!</div>
+      <div class="howto-pills" style="margin-top:12px;">
+        <div class="howto-pill">
+          <div class="howto-pill-icon">💣</div>
+          <div class="howto-pill-text"><strong>Bombs</strong> — place the correct relic before it explodes or lose a life!</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">💰</div>
+          <div class="howto-pill-text"><strong>Treasure bags</strong> — solve them fast for <strong>bonus points</strong></div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">❤️</div>
+          <div class="howto-pill-text">You start with <strong>5 lives</strong> — wrong answers cost you one</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Ready -->
+    <div class="howto-slide" id="howto-slide-4">
+      <div class="howto-slide-icon">⚔️</div>
+      <div class="howto-slide-title">YOUR QUEST BEGINS</div>
+      <div class="howto-slide-body">
+        You're ready to explore the ruins of Solara and claim the lost relics.<br><br>
+        Choose <strong>Daily Puzzle</strong> for a fresh challenge every day, or <strong>Relic Puzzle</strong> to play anytime at your own pace.<br><br>
+        <strong>Good luck, explorer! 🏆</strong>
+      </div>
+      <button class="howto-start-btn" id="howto-start-btn">⚔ START PLAYING</button>
+    </div>
+
+    <!-- Nav -->
+    <div class="howto-nav" id="howto-nav">
+      <button class="howto-nav-btn" id="howto-prev" disabled>← BACK</button>
+      <div class="howto-dots" id="howto-dots"></div>
+      <button class="howto-nav-btn" id="howto-next">NEXT →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ STORY INTRO CINEMATIC ═══════════════ -->
+<div id="story-intro-overlay" style="display:none;position:fixed;inset:0;z-index:9500;background:#000;align-items:center;justify-content:center;flex-direction:column;padding:40px;">
+  <div id="story-intro-lines" style="text-align:center;max-width:340px;"></div>
+  <button id="story-intro-btn" style="display:none;margin-top:40px;padding:14px 40px;border-radius:14px;background:linear-gradient(135deg,rgba(200,140,20,.92),rgba(240,185,35,.92));border:1px solid rgba(255,215,70,.65);color:#fff8e0;font-family:'Cinzel',serif;font-size:14px;font-weight:900;letter-spacing:.18em;cursor:pointer;box-shadow:0 0 28px rgba(245,200,66,.3);">BEGIN YOUR QUEST ⚔</button>
+</div>
+
 <!-- ═══════════════ PAUSE OVERLAY ═══════════════ -->
 <div id="pause-overlay">
   <div class="pause-title">⏸ PAUSED</div>
@@ -2682,6 +2847,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div style="font-size:9px;letter-spacing:.18em;color:var(--stone-light);font-family:'Cinzel',serif;">🏆 GLOBAL RANK</div>
       <div id="dw-rank-badge" style="font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 16px var(--glow-gold);font-family:'Cinzel',serif;">—</div>
     </div>
+
+    <!-- Story-flavored win message -->
+    <div id="dw-story-msg" style="font-family:'Crimson Pro',serif;font-size:15px;color:rgba(220,185,130,.85);font-style:italic;text-align:center;line-height:1.65;margin:12px 0;padding:12px 16px;border-top:1px solid rgba(160,110,40,.25);border-bottom:1px solid rgba(160,110,40,.25);"></div>
 
     <!-- Map piece earned badge — shown on first-time daily win -->
     <div id="dw-map-badge" style="display:none;opacity:0;background:linear-gradient(135deg,rgba(20,40,20,.95),rgba(30,55,25,.98));border:1px solid rgba(80,180,80,.45);border-radius:12px;padding:11px 16px;margin-bottom:12px;align-items:center;justify-content:center;gap:12px;">
@@ -3294,6 +3462,18 @@ function _updateProfileMenuBtn(){
     sub.textContent='SAVE YOUR PROGRESS';
     btn.querySelector('.mb-icon').textContent='👤';
   }
+  _updateCornerAuthBtn();
+}
+
+function _updateCornerAuthBtn(){
+  const btn=document.getElementById('menu-auth-corner-btn');if(!btn)return;
+  if(AUTH_STATE.user){
+    btn.textContent='LOG OUT';
+    btn.onclick=()=>sbSignOut();
+  }else{
+    btn.textContent='LOG IN';
+    btn.onclick=()=>showScreen('screen-auth');
+  }
 }
 
 function renderProfileScreen(){
@@ -3368,39 +3548,65 @@ function initAuthScreen(){
   });
 }
 
+// ── Chamber name system ──
+const CHAMBER_NAMES=[
+  'Chamber of the Crimson Tide','The Obsidian Vault','Hall of Echoing Relics',
+  'The Sapphire Sanctum','Chamber of the Golden Serpent','The Moonlit Crypt',
+  'Hall of Forgotten Kings','The Amber Ruins','Chamber of the Storm Compass',
+  'The Pearl Grotto','Sanctum of the Ancient Flame','The Jade Labyrinth',
+  'Chamber of Whispered Secrets','The Bronze Colosseum','Hall of the Wandering Stars',
+  'The Ruby Depths','Chamber of the Iron Compass','The Silver Tide Gate',
+  'Hall of Sunken Crowns','The Emerald Shrine','Chamber of the Lost Navigator',
+  'The Crystal Cavern','Hall of the Desert Wind','The Onyx Temple',
+  'Chamber of the Burning Sands','The Ivory Watchtower','Hall of Ancient Mariners',
+  'The Topaz Catacomb','Chamber of the Broken Crown','The Coral Basilica',
+  'Hall of Drifting Shadows','The Gilded Sepulchre','Chamber of the Midnight Compass',
+  'The Amethyst Labyrinth','Hall of the Fallen Titan','The Obsidian Watchtower',
+  'The Golden Sanctum','Hall of Eternal Tides','The Diamond Vault',
+  'Chamber of the Undying Flame','The Moonstone Ruins','Hall of the Crimson Navigator',
+  'The Sapphire Catacombs','Chamber of the Storm Queen','The Bronze Labyrinth',
+  'Hall of Ancient Crowns','The Pearl Sanctum','Chamber of the Jade Serpent',
+  'The Ruby Shrine','Chamber of the Celestial Key',
+];
+function getChamberName(dateStr){
+  const[y,m,d]=dateStr.split('-').map(Number);
+  const seed=(y*366+m*31+d)%CHAMBER_NAMES.length;
+  return CHAMBER_NAMES[seed];
+}
+
 /* ══ JIGSAW ARTIFACTS — 25 special relics earned by completing the Treasure Map ══
    Rarity tiers: Rare (1-10) · Epic (11-19) · Legendary (20-25)
    Each has: name, label, rarity, glow, rune (or null), desc, svg                 */
 const JIGSAW_ARTIFACTS=[
   null, // 0 unused
   // ── RARE (1-10) ──
-  {name:'Moonstone Amulet',label:'Moonstone',rarity:'Rare',rune:'ᚱ',glow:'rgba(200,180,255,.9)',desc:'A silver crescent carved from moonstone, etched with the Raidho rune — a relic carried by ancient wayfarers.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j1g" cx="35%" cy="30%" r="62%"><stop offset="0%" stop-color="#f8f4ff"/><stop offset="55%" stop-color="#c0b8e8"/><stop offset="100%" stop-color="#6858a8"/></radialGradient><radialGradient id="j1s" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(210,190,255,.5)"/><stop offset="100%" stop-color="rgba(90,70,160,0)"/></radialGradient></defs><line x1="20" y1="3" x2="20" y2="8" stroke="#a898d8" stroke-width="1.8" stroke-linecap="round"/><circle cx="20" cy="8" r="1.5" fill="#c0b8e8"/><path d="M20,11 A9,9 0 1,0 20,29 A6.5,6.5 0 1,1 20,11 Z" fill="url(#j1g)" stroke="#b0a8d8" stroke-width=".8"/><ellipse cx="15.5" cy="17" rx="4.5" ry="3.5" fill="url(#j1s)"/><line x1="16" y1="21" x2="16" y2="26" stroke="rgba(130,110,200,.55)" stroke-width="1.1"/><line x1="14" y1="23" x2="18" y2="23" stroke="rgba(130,110,200,.55)" stroke-width="1.1"/><line x1="13" y1="21" x2="15" y2="23" stroke="rgba(130,110,200,.45)" stroke-width="1"/></svg>`},
-  {name:'Bronze War Horn',label:'War Horn',rarity:'Rare',rune:null,glow:'rgba(200,130,40,.9)',desc:'An ancient battle horn with warrior runes carved into its bell — blow it and distant doors of stone swing open.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0b850"/><stop offset="50%" stop-color="#b87828"/><stop offset="100%" stop-color="#7a4808"/></linearGradient></defs><path d="M6,28 Q8,22 14,16 Q20,10 30,8 Q34,8 36,10 Q37,12 35,14 Q32,15 30,12 Q22,14 16,20 Q10,26 10,32 Q12,36 9,36 Q6,36 6,34 Z" fill="url(#j2g)" stroke="#9a6018" stroke-width=".9"/><ellipse cx="9" cy="33" rx="3.5" ry="2.5" fill="#b87828" stroke="#7a4808" stroke-width=".7"/><path d="M35,11 Q36.5,13 36,15" stroke="#ffd080" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M16,20 Q18,18 20,20 M20,18 Q22,16 24,18 M24,16 Q26,14 28,16" stroke="rgba(255,210,120,.55)" stroke-width=".9" fill="none"/></svg>`},
-  {name:'Amber Rune Tablet',label:'Rune Tablet',rarity:'Rare',rune:'ᚠᚢᚦ',glow:'rgba(220,140,30,.9)',desc:'A fragment of amber stone inscribed with Elder Futhark runes — a master key to deciphering hidden treasure maps.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j3g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe080"/><stop offset="55%" stop-color="#e89820"/><stop offset="100%" stop-color="#8a5408"/></linearGradient></defs><rect x="6" y="5" width="28" height="32" rx="3" fill="url(#j3g)" stroke="#a06818" stroke-width="1"/><rect x="6" y="5" width="28" height="32" rx="3" fill="none" stroke="rgba(255,240,160,.35)" stroke-width=".7"/><line x1="11" y1="12" x2="11" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="11" y1="12" x2="14" y2="15" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="11" y1="15" x2="14" y2="15" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="16" y1="12" x2="16" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="16" y1="12" x2="20" y2="15" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="21" y1="12" x2="21" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="19" y1="14" x2="23" y2="14" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="25" y1="12" x2="25" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="23" y1="12" x2="27" y2="12" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="23" y1="19" x2="27" y2="19" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="10" y1="24" x2="10" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="10" y1="27" x2="13" y2="24" stroke="rgba(80,40,0,.55)" stroke-width="1"/><line x1="15" y1="24" x2="18" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="15" y1="31" x2="15" y2="27" stroke="rgba(80,40,0,.5)" stroke-width=".9"/><line x1="22" y1="24" x2="22" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="22" y1="27" x2="26" y2="24" stroke="rgba(80,40,0,.55)" stroke-width="1"/><line x1="22" y1="27" x2="26" y2="31" stroke="rgba(80,40,0,.55)" stroke-width="1"/></svg>`},
-  {name:'Copper Ouroboros',label:'Ouroboros',rarity:'Rare',rune:null,glow:'rgba(160,110,40,.9)',desc:'A serpent devouring its own tail — cast in aged copper, the eternal symbol of fortune and ruin.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j4g" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#d4a858"/><stop offset="55%" stop-color="#8a6028"/><stop offset="100%" stop-color="#3a6040"/></radialGradient></defs><circle cx="20" cy="20" r="13" fill="none" stroke="url(#j4g)" stroke-width="5"/><circle cx="20" cy="7.2" r="4.5" fill="#b08038" stroke="#8a6028" stroke-width=".7"/><circle cx="17.5" cy="5.8" r="1.2" fill="#0a0400"/><circle cx="22.5" cy="5.8" r="1.2" fill="#0a0400"/><path d="M18,8.5 Q20,9.5 22,8.5" stroke="#3a3000" stroke-width=".8" fill="none"/><line x1="19" y1="10" x2="21" y2="10" stroke="#40a060" stroke-width="1.2" stroke-linecap="round"/><path d="M18,31 Q20,33 22,31" stroke="#8a6028" stroke-width="1.5" fill="none"/></svg>`},
-  {name:'Ivory Burial Mask',label:'Burial Mask',rarity:'Rare',rune:null,glow:'rgba(230,210,170,.9)',desc:'A ceremonial mask carved from elephant ivory — worn by ancient priest-kings to commune with the dead.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j5g" cx="40%" cy="30%" r="62%"><stop offset="0%" stop-color="#fffaee"/><stop offset="55%" stop-color="#e8d8b0"/><stop offset="100%" stop-color="#b09060"/></radialGradient></defs><path d="M10,10 Q10,4 20,4 Q30,4 30,10 L32,28 Q30,36 20,36 Q10,36 8,28 Z" fill="url(#j5g)" stroke="#c0a060" stroke-width="1"/><ellipse cx="14" cy="18" rx="3.5" ry="4.5" fill="#080400"/><ellipse cx="26" cy="18" rx="3.5" ry="4.5" fill="#080400"/><ellipse cx="14" cy="17" rx="2" ry="2" fill="rgba(255,240,200,.4)"/><ellipse cx="26" cy="17" rx="2" ry="2" fill="rgba(255,240,200,.4)"/><path d="M14,27 Q20,30 26,27" stroke="#c0a060" stroke-width="1.2" fill="none"/><line x1="20" y1="4" x2="20" y2="7" stroke="#d0b070" stroke-width="1.5"/><ellipse cx="20" cy="8" rx="3" ry="1.2" fill="#d0b070" stroke="#a07040" stroke-width=".5"/><path d="M12,11 Q11,10 9,11 M28,11 Q29,10 31,11" stroke="#c0a060" stroke-width="1" fill="none"/></svg>`},
-  {name:'Obsidian Shard Blade',label:'Obsidian Blade',rarity:'Rare',rune:null,glow:'rgba(160,160,200,.9)',desc:'Knapped from volcanic obsidian by ancient shamans — its edge sharper than steel, its darkness absolute.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j6g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0c8e8"/><stop offset="35%" stop-color="#404050"/><stop offset="100%" stop-color="#060608"/></linearGradient><linearGradient id="j6e" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,210,255,.7)"/><stop offset="100%" stop-color="rgba(180,200,255,0)"/></linearGradient></defs><path d="M20,3 L25,18 Q24,22 20,35 Q16,22 15,18 Z" fill="url(#j6g)" stroke="#8080a0" stroke-width=".8"/><path d="M20,3 L25,18" stroke="url(#j6e)" stroke-width="1.2" fill="none"/><path d="M15,18 L25,18 L22,22 L18,22 Z" fill="#1a1a28" stroke="#6060a0" stroke-width=".6"/><line x1="19" y1="4" x2="21" y2="12" stroke="rgba(180,200,255,.3)" stroke-width=".6"/></svg>`},
-  {name:'Storm Glass Orb',label:'Storm Orb',rarity:'Rare',rune:null,glow:'rgba(100,160,255,.9)',desc:'A crystal sphere that churns with eternal storm-clouds — sailors pay fortunes to read its prophecies.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j7g" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#e0f0ff"/><stop offset="45%" stop-color="#7090c0"/><stop offset="100%" stop-color="#0a1830"/></radialGradient><radialGradient id="j7s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,255,255,.55)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(#j7g)" stroke="#4060a0" stroke-width=".9"/><path d="M10,22 Q14,18 18,22 Q22,26 26,20 Q28,16 30,18" stroke="rgba(180,220,255,.5)" stroke-width="1.2" fill="none"/><path d="M14,26 Q18,23 22,26" stroke="rgba(150,200,255,.4)" stroke-width="1" fill="none"/><path d="M19,14 L21,19 L18,19 L22,26" stroke="#f0f8ff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="14" cy="13" rx="5" ry="3.5" fill="url(#j7s)"/><rect x="8" y="34" width="24" height="3" rx="1.5" fill="#2040a0" stroke="#103080" stroke-width=".5"/></svg>`},
-  {name:'Carnelian Scarab',label:'Scarab',rarity:'Rare',rune:null,glow:'rgba(220,100,40,.9)',desc:'A sacred scarab carved from blood-red carnelian — symbol of resurrection, worn by pharaohs and gods alike.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j8g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#ffb880"/><stop offset="50%" stop-color="#d05820"/><stop offset="100%" stop-color="#7a2008"/></radialGradient></defs><ellipse cx="20" cy="22" rx="10" ry="12" fill="url(#j8g)" stroke="#c04818" stroke-width="1"/><ellipse cx="12" cy="18" rx="7" ry="9" fill="url(#j8g)" stroke="#c04818" stroke-width=".8" transform="rotate(-25,12,18)"/><ellipse cx="28" cy="18" rx="7" ry="9" fill="url(#j8g)" stroke="#c04818" stroke-width=".8" transform="rotate(25,28,18)"/><ellipse cx="20" cy="20" rx="8" ry="10" fill="#d06028" stroke="none"/><line x1="20" y1="12" x2="20" y2="32" stroke="#a03810" stroke-width=".9"/><line x1="13" y1="20" x2="27" y2="20" stroke="#a03810" stroke-width=".8"/><ellipse cx="20" cy="14" rx="5" ry="3.5" fill="#b04820"/><circle cx="17" cy="13" r="1.5" fill="#040000"/><circle cx="23" cy="13" r="1.5" fill="#040000"/><line x1="14" y1="12" x2="10" y2="8" stroke="#a03810" stroke-width="1.2" stroke-linecap="round"/><line x1="16" y1="11" x2="13" y2="7" stroke="#a03810" stroke-width="1" stroke-linecap="round"/><line x1="26" y1="12" x2="30" y2="8" stroke="#a03810" stroke-width="1.2" stroke-linecap="round"/><line x1="24" y1="11" x2="27" y2="7" stroke="#a03810" stroke-width="1" stroke-linecap="round"/></svg>`},
-  {name:'Celestial Lodestone',label:'Lodestone',rarity:'Rare',rune:null,glow:'rgba(180,200,255,.9)',desc:'A magnetized star-iron etched with the night sky — it always points toward the nearest hidden treasure.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j9g" cx="42%" cy="38%" r="60%"><stop offset="0%" stop-color="#a8b8d8"/><stop offset="50%" stop-color="#404858"/><stop offset="100%" stop-color="#0c0c18"/></radialGradient></defs><path d="M8,8 L14,8 L14,32 L8,32 L4,20 Z M32,8 L26,8 L26,32 L32,32 L36,20 Z" fill="url(#j9g)" stroke="#606880" stroke-width=".8"/><rect x="14" y="8" width="12" height="24" fill="url(#j9g)" stroke="#606880" stroke-width=".8"/><circle cx="17" cy="14" r="1.2" fill="#e0e8ff" opacity=".9"/><circle cx="23" cy="18" r="1" fill="#e0e8ff" opacity=".85"/><circle cx="19" cy="23" r="1.4" fill="#e0e8ff" opacity=".95"/><circle cx="25" cy="13" r=".8" fill="#e0e8ff" opacity=".8"/><circle cx="15" cy="28" r="1" fill="#e0e8ff" opacity=".75"/><path d="M19,23 L23,18 L17,14 L25,13" stroke="rgba(200,220,255,.25)" stroke-width=".6" fill="none"/><line x1="20" y1="2" x2="20" y2="6" stroke="#8898c8" stroke-width="1.5" stroke-linecap="round"/><rect x="17" y="5" width="6" height="3" rx="1" fill="#5060a0"/></svg>`},
-  {name:'Golden Beetle Clasp',label:'Beetle Clasp',rarity:'Rare',rune:null,glow:'rgba(240,190,50,.9)',desc:'An ornate golden brooch in the likeness of a sacred beetle — a mark of imperial favor from the Solar Throne.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j10g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#fff8a0"/><stop offset="48%" stop-color="#f0b820"/><stop offset="100%" stop-color="#7a5000"/></radialGradient></defs><ellipse cx="20" cy="23" rx="9" ry="11" fill="url(#j10g)" stroke="#c08010" stroke-width="1.2"/><ellipse cx="12" cy="17" rx="6" ry="9" fill="url(#j10g)" stroke="#c08010" stroke-width=".9" transform="rotate(-22,12,17)"/><ellipse cx="28" cy="17" rx="6" ry="9" fill="url(#j10g)" stroke="#c08010" stroke-width=".9" transform="rotate(22,28,17)"/><ellipse cx="20" cy="22" rx="7" ry="8.5" fill="#e8a010"/><line x1="20" y1="14" x2="20" y2="32" stroke="#a07008" stroke-width="1"/><line x1="13" y1="22" x2="27" y2="22" stroke="#a07008" stroke-width=".8"/><ellipse cx="20" cy="15" rx="4.5" ry="3" fill="#d09018" stroke="#a07008" stroke-width=".6"/><circle cx="17.5" cy="14" r="1.3" fill="#0a0600"/><circle cx="22.5" cy="14" r="1.3" fill="#0a0600"/><circle cx="14.5" cy="12.5" r="1.5" fill="#ffe050" stroke="#a07008" stroke-width=".5"/><circle cx="25.5" cy="12.5" r="1.5" fill="#ffe050" stroke="#a07008" stroke-width=".5"/><line x1="14" y1="12" x2="10" y2="8" stroke="#c08010" stroke-width="1.3" stroke-linecap="round"/><line x1="26" y1="12" x2="30" y2="8" stroke="#c08010" stroke-width="1.3" stroke-linecap="round"/></svg>`},
+  {name:'Moonstone Amulet',label:'Moonstone',rarity:'Rare',rune:'ᚱ',glow:'rgba(200,180,255,.9)',desc:'A silver crescent carved from moonstone, etched with the Raidho rune — a relic carried by ancient wayfarers.',lore:'Worn by the navigators of Solara to guide them through moonless nights. It grows warm whenever treasure lies within a league.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j1g" cx="35%" cy="30%" r="62%"><stop offset="0%" stop-color="#f8f4ff"/><stop offset="55%" stop-color="#c0b8e8"/><stop offset="100%" stop-color="#6858a8"/></radialGradient><radialGradient id="j1s" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(210,190,255,.5)"/><stop offset="100%" stop-color="rgba(90,70,160,0)"/></radialGradient></defs><line x1="20" y1="3" x2="20" y2="8" stroke="#a898d8" stroke-width="1.8" stroke-linecap="round"/><circle cx="20" cy="8" r="1.5" fill="#c0b8e8"/><path d="M20,11 A9,9 0 1,0 20,29 A6.5,6.5 0 1,1 20,11 Z" fill="url(#j1g)" stroke="#b0a8d8" stroke-width=".8"/><ellipse cx="15.5" cy="17" rx="4.5" ry="3.5" fill="url(#j1s)"/><line x1="16" y1="21" x2="16" y2="26" stroke="rgba(130,110,200,.55)" stroke-width="1.1"/><line x1="14" y1="23" x2="18" y2="23" stroke="rgba(130,110,200,.55)" stroke-width="1.1"/><line x1="13" y1="21" x2="15" y2="23" stroke="rgba(130,110,200,.45)" stroke-width="1"/></svg>`},
+  {name:'Bronze War Horn',label:'War Horn',rarity:'Rare',rune:null,glow:'rgba(200,130,40,.9)',desc:'An ancient battle horn with warrior runes carved into its bell — blow it and distant doors of stone swing open.',lore:'Said to have sounded the call that opened the gates of Solara\'s inner sanctum. Blow it once — the ruins still echo.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j2g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f0b850"/><stop offset="50%" stop-color="#b87828"/><stop offset="100%" stop-color="#7a4808"/></linearGradient></defs><path d="M6,28 Q8,22 14,16 Q20,10 30,8 Q34,8 36,10 Q37,12 35,14 Q32,15 30,12 Q22,14 16,20 Q10,26 10,32 Q12,36 9,36 Q6,36 6,34 Z" fill="url(#j2g)" stroke="#9a6018" stroke-width=".9"/><ellipse cx="9" cy="33" rx="3.5" ry="2.5" fill="#b87828" stroke="#7a4808" stroke-width=".7"/><path d="M35,11 Q36.5,13 36,15" stroke="#ffd080" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M16,20 Q18,18 20,20 M20,18 Q22,16 24,18 M24,16 Q26,14 28,16" stroke="rgba(255,210,120,.55)" stroke-width=".9" fill="none"/></svg>`},
+  {name:'Amber Rune Tablet',label:'Rune Tablet',rarity:'Rare',rune:'ᚠᚢᚦ',glow:'rgba(220,140,30,.9)',desc:'A fragment of amber stone inscribed with Elder Futhark runes — a master key to deciphering hidden treasure maps.',lore:'Each rune on this tablet corresponds to a chamber in Solara. Three have been translated. The rest remain a mystery.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j3g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe080"/><stop offset="55%" stop-color="#e89820"/><stop offset="100%" stop-color="#8a5408"/></linearGradient></defs><rect x="6" y="5" width="28" height="32" rx="3" fill="url(#j3g)" stroke="#a06818" stroke-width="1"/><rect x="6" y="5" width="28" height="32" rx="3" fill="none" stroke="rgba(255,240,160,.35)" stroke-width=".7"/><line x1="11" y1="12" x2="11" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="11" y1="12" x2="14" y2="15" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="11" y1="15" x2="14" y2="15" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="16" y1="12" x2="16" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="16" y1="12" x2="20" y2="15" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="21" y1="12" x2="21" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="19" y1="14" x2="23" y2="14" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="25" y1="12" x2="25" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="23" y1="12" x2="27" y2="12" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="23" y1="19" x2="27" y2="19" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="10" y1="24" x2="10" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="10" y1="27" x2="13" y2="24" stroke="rgba(80,40,0,.55)" stroke-width="1"/><line x1="15" y1="24" x2="18" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="15" y1="31" x2="15" y2="27" stroke="rgba(80,40,0,.5)" stroke-width=".9"/><line x1="22" y1="24" x2="22" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="22" y1="27" x2="26" y2="24" stroke="rgba(80,40,0,.55)" stroke-width="1"/><line x1="22" y1="27" x2="26" y2="31" stroke="rgba(80,40,0,.55)" stroke-width="1"/></svg>`},
+  {name:'Copper Ouroboros',label:'Ouroboros',rarity:'Rare',rune:null,glow:'rgba(160,110,40,.9)',desc:'A serpent devouring its own tail — cast in aged copper, the eternal symbol of fortune and ruin.',lore:'Those who carry the Ouroboros are said to find what they have lost. Those who lose it are said to find nothing ever again.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j4g" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#d4a858"/><stop offset="55%" stop-color="#8a6028"/><stop offset="100%" stop-color="#3a6040"/></radialGradient></defs><circle cx="20" cy="20" r="13" fill="none" stroke="url(#j4g)" stroke-width="5"/><circle cx="20" cy="7.2" r="4.5" fill="#b08038" stroke="#8a6028" stroke-width=".7"/><circle cx="17.5" cy="5.8" r="1.2" fill="#0a0400"/><circle cx="22.5" cy="5.8" r="1.2" fill="#0a0400"/><path d="M18,8.5 Q20,9.5 22,8.5" stroke="#3a3000" stroke-width=".8" fill="none"/><line x1="19" y1="10" x2="21" y2="10" stroke="#40a060" stroke-width="1.2" stroke-linecap="round"/><path d="M18,31 Q20,33 22,31" stroke="#8a6028" stroke-width="1.5" fill="none"/></svg>`},
+  {name:'Ivory Burial Mask',label:'Burial Mask',rarity:'Rare',rune:null,glow:'rgba(230,210,170,.9)',desc:'A ceremonial mask carved from elephant ivory — worn by ancient priest-kings to commune with the dead.',lore:'Recovered from the deepest burial chamber of Solara. The priest-king who wore it last was never found — only the mask.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j5g" cx="40%" cy="30%" r="62%"><stop offset="0%" stop-color="#fffaee"/><stop offset="55%" stop-color="#e8d8b0"/><stop offset="100%" stop-color="#b09060"/></radialGradient></defs><path d="M10,10 Q10,4 20,4 Q30,4 30,10 L32,28 Q30,36 20,36 Q10,36 8,28 Z" fill="url(#j5g)" stroke="#c0a060" stroke-width="1"/><ellipse cx="14" cy="18" rx="3.5" ry="4.5" fill="#080400"/><ellipse cx="26" cy="18" rx="3.5" ry="4.5" fill="#080400"/><ellipse cx="14" cy="17" rx="2" ry="2" fill="rgba(255,240,200,.4)"/><ellipse cx="26" cy="17" rx="2" ry="2" fill="rgba(255,240,200,.4)"/><path d="M14,27 Q20,30 26,27" stroke="#c0a060" stroke-width="1.2" fill="none"/><line x1="20" y1="4" x2="20" y2="7" stroke="#d0b070" stroke-width="1.5"/><ellipse cx="20" cy="8" rx="3" ry="1.2" fill="#d0b070" stroke="#a07040" stroke-width=".5"/><path d="M12,11 Q11,10 9,11 M28,11 Q29,10 31,11" stroke="#c0a060" stroke-width="1" fill="none"/></svg>`},
+  {name:'Obsidian Shard Blade',label:'Obsidian Blade',rarity:'Rare',rune:null,glow:'rgba(160,160,200,.9)',desc:'Knapped from volcanic obsidian by ancient shamans — its edge sharper than steel, its darkness absolute.',lore:'Cut from the heart of a volcano that no longer exists. It has never dulled, and it has never missed.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j6g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0c8e8"/><stop offset="35%" stop-color="#404050"/><stop offset="100%" stop-color="#060608"/></linearGradient><linearGradient id="j6e" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,210,255,.7)"/><stop offset="100%" stop-color="rgba(180,200,255,0)"/></linearGradient></defs><path d="M20,3 L25,18 Q24,22 20,35 Q16,22 15,18 Z" fill="url(#j6g)" stroke="#8080a0" stroke-width=".8"/><path d="M20,3 L25,18" stroke="url(#j6e)" stroke-width="1.2" fill="none"/><path d="M15,18 L25,18 L22,22 L18,22 Z" fill="#1a1a28" stroke="#6060a0" stroke-width=".6"/><line x1="19" y1="4" x2="21" y2="12" stroke="rgba(180,200,255,.3)" stroke-width=".6"/></svg>`},
+  {name:'Storm Glass Orb',label:'Storm Orb',rarity:'Rare',rune:null,glow:'rgba(100,160,255,.9)',desc:'A crystal sphere that churns with eternal storm-clouds — sailors pay fortunes to read its prophecies.',lore:'Burns without oil or flame. Found at the bottom of the deepest chamber, still lit. The storm inside has never stopped.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j7g" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#e0f0ff"/><stop offset="45%" stop-color="#7090c0"/><stop offset="100%" stop-color="#0a1830"/></radialGradient><radialGradient id="j7s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,255,255,.55)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(#j7g)" stroke="#4060a0" stroke-width=".9"/><path d="M10,22 Q14,18 18,22 Q22,26 26,20 Q28,16 30,18" stroke="rgba(180,220,255,.5)" stroke-width="1.2" fill="none"/><path d="M14,26 Q18,23 22,26" stroke="rgba(150,200,255,.4)" stroke-width="1" fill="none"/><path d="M19,14 L21,19 L18,19 L22,26" stroke="#f0f8ff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="14" cy="13" rx="5" ry="3.5" fill="url(#j7s)"/><rect x="8" y="34" width="24" height="3" rx="1.5" fill="#2040a0" stroke="#103080" stroke-width=".5"/></svg>`},
+  {name:'Carnelian Scarab',label:'Scarab',rarity:'Rare',rune:null,glow:'rgba(220,100,40,.9)',desc:'A sacred scarab carved from blood-red carnelian — symbol of resurrection, worn by pharaohs and gods alike.',lore:'The scarab was placed over the hearts of Solara\'s honored dead. This one still beats, faintly, if you press it to your ear.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j8g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#ffb880"/><stop offset="50%" stop-color="#d05820"/><stop offset="100%" stop-color="#7a2008"/></radialGradient></defs><ellipse cx="20" cy="22" rx="10" ry="12" fill="url(#j8g)" stroke="#c04818" stroke-width="1"/><ellipse cx="12" cy="18" rx="7" ry="9" fill="url(#j8g)" stroke="#c04818" stroke-width=".8" transform="rotate(-25,12,18)"/><ellipse cx="28" cy="18" rx="7" ry="9" fill="url(#j8g)" stroke="#c04818" stroke-width=".8" transform="rotate(25,28,18)"/><ellipse cx="20" cy="20" rx="8" ry="10" fill="#d06028" stroke="none"/><line x1="20" y1="12" x2="20" y2="32" stroke="#a03810" stroke-width=".9"/><line x1="13" y1="20" x2="27" y2="20" stroke="#a03810" stroke-width=".8"/><ellipse cx="20" cy="14" rx="5" ry="3.5" fill="#b04820"/><circle cx="17" cy="13" r="1.5" fill="#040000"/><circle cx="23" cy="13" r="1.5" fill="#040000"/><line x1="14" y1="12" x2="10" y2="8" stroke="#a03810" stroke-width="1.2" stroke-linecap="round"/><line x1="16" y1="11" x2="13" y2="7" stroke="#a03810" stroke-width="1" stroke-linecap="round"/><line x1="26" y1="12" x2="30" y2="8" stroke="#a03810" stroke-width="1.2" stroke-linecap="round"/><line x1="24" y1="11" x2="27" y2="7" stroke="#a03810" stroke-width="1" stroke-linecap="round"/></svg>`},
+  {name:'Celestial Lodestone',label:'Lodestone',rarity:'Rare',rune:null,glow:'rgba(180,200,255,.9)',desc:'A magnetized star-iron etched with the night sky — it always points toward the nearest hidden treasure.',lore:'Carved from the bones of a great sea beast. Sailors claimed it always pointed toward treasure, never north.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j9g" cx="42%" cy="38%" r="60%"><stop offset="0%" stop-color="#a8b8d8"/><stop offset="50%" stop-color="#404858"/><stop offset="100%" stop-color="#0c0c18"/></radialGradient></defs><path d="M8,8 L14,8 L14,32 L8,32 L4,20 Z M32,8 L26,8 L26,32 L32,32 L36,20 Z" fill="url(#j9g)" stroke="#606880" stroke-width=".8"/><rect x="14" y="8" width="12" height="24" fill="url(#j9g)" stroke="#606880" stroke-width=".8"/><circle cx="17" cy="14" r="1.2" fill="#e0e8ff" opacity=".9"/><circle cx="23" cy="18" r="1" fill="#e0e8ff" opacity=".85"/><circle cx="19" cy="23" r="1.4" fill="#e0e8ff" opacity=".95"/><circle cx="25" cy="13" r=".8" fill="#e0e8ff" opacity=".8"/><circle cx="15" cy="28" r="1" fill="#e0e8ff" opacity=".75"/><path d="M19,23 L23,18 L17,14 L25,13" stroke="rgba(200,220,255,.25)" stroke-width=".6" fill="none"/><line x1="20" y1="2" x2="20" y2="6" stroke="#8898c8" stroke-width="1.5" stroke-linecap="round"/><rect x="17" y="5" width="6" height="3" rx="1" fill="#5060a0"/></svg>`},
+  {name:'Golden Beetle Clasp',label:'Beetle Clasp',rarity:'Rare',rune:null,glow:'rgba(240,190,50,.9)',desc:'An ornate golden brooch in the likeness of a sacred beetle — a mark of imperial favor from the Solar Throne.',lore:'Only the twelve High Consuls of Solara could wear this clasp. Eleven were accounted for. This one was not.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j10g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#fff8a0"/><stop offset="48%" stop-color="#f0b820"/><stop offset="100%" stop-color="#7a5000"/></radialGradient></defs><ellipse cx="20" cy="23" rx="9" ry="11" fill="url(#j10g)" stroke="#c08010" stroke-width="1.2"/><ellipse cx="12" cy="17" rx="6" ry="9" fill="url(#j10g)" stroke="#c08010" stroke-width=".9" transform="rotate(-22,12,17)"/><ellipse cx="28" cy="17" rx="6" ry="9" fill="url(#j10g)" stroke="#c08010" stroke-width=".9" transform="rotate(22,28,17)"/><ellipse cx="20" cy="22" rx="7" ry="8.5" fill="#e8a010"/><line x1="20" y1="14" x2="20" y2="32" stroke="#a07008" stroke-width="1"/><line x1="13" y1="22" x2="27" y2="22" stroke="#a07008" stroke-width=".8"/><ellipse cx="20" cy="15" rx="4.5" ry="3" fill="#d09018" stroke="#a07008" stroke-width=".6"/><circle cx="17.5" cy="14" r="1.3" fill="#0a0600"/><circle cx="22.5" cy="14" r="1.3" fill="#0a0600"/><circle cx="14.5" cy="12.5" r="1.5" fill="#ffe050" stroke="#a07008" stroke-width=".5"/><circle cx="25.5" cy="12.5" r="1.5" fill="#ffe050" stroke="#a07008" stroke-width=".5"/><line x1="14" y1="12" x2="10" y2="8" stroke="#c08010" stroke-width="1.3" stroke-linecap="round"/><line x1="26" y1="12" x2="30" y2="8" stroke="#c08010" stroke-width="1.3" stroke-linecap="round"/></svg>`},
   // ── EPIC (11-19) ──
-  {name:'Voidstone Pendant',label:'Voidstone',rarity:'Epic',rune:null,glow:'rgba(160,80,255,.9)',desc:'Carved from Voidstone — mined at the edge of reality. Stars within it shift and drift as you watch.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j11g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#d8a0ff"/><stop offset="45%" stop-color="#5010a0"/><stop offset="100%" stop-color="#080010"/></radialGradient><radialGradient id="j11s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,230,255,.4)"/><stop offset="100%" stop-color="rgba(200,150,255,0)"/></radialGradient></defs><line x1="20" y1="2" x2="20" y2="7" stroke="#9060c0" stroke-width="1.8" stroke-linecap="round"/><path d="M14,7 L26,7 L30,16 L20,36 L10,16 Z" fill="url(#j11g)" stroke="#a070e0" stroke-width=".9"/><ellipse cx="16" cy="14" rx="5" ry="4" fill="url(#j11s)"/><circle cx="15" cy="16" r="1" fill="rgba(255,255,255,.9)"/><circle cx="22" cy="20" r=".8" fill="rgba(255,255,255,.85)"/><circle cx="18" cy="26" r=".6" fill="rgba(255,255,255,.8)"/><circle cx="25" cy="13" r=".5" fill="rgba(255,255,255,.75)"/><circle cx="13" cy="22" r=".5" fill="rgba(255,255,255,.7)"/></svg>`},
-  {name:'Runic War Shield',label:'Rune Shield',rarity:'Epic',rune:'ᚷ',glow:'rgba(180,170,80,.9)',desc:'A buckler engraved with the Gifu rune — a gift of unbreakable protection from a warlord of the Northern Reaches.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j12g" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#e8e0c0"/><stop offset="50%" stop-color="#9a8850"/><stop offset="100%" stop-color="#2a2010"/></radialGradient><linearGradient id="j12m" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0b880"/><stop offset="100%" stop-color="#7a7030"/></linearGradient></defs><path d="M20,4 L34,10 L34,24 Q34,34 20,38 Q6,34 6,24 L6,10 Z" fill="url(#j12g)" stroke="#7a7030" stroke-width="1.2"/><path d="M20,4 L34,10 L34,24 Q34,34 20,38 Q6,34 6,24 L6,10 Z" fill="none" stroke="rgba(255,240,160,.3)" stroke-width=".6"/><circle cx="20" cy="20" r="8" fill="none" stroke="url(#j12m)" stroke-width="1.5"/><line x1="20" y1="12" x2="20" y2="28" stroke="#c0a840" stroke-width="1.3"/><line x1="14" y1="16" x2="26" y2="16" stroke="#c0a840" stroke-width="1.1"/><line x1="14" y1="24" x2="26" y2="24" stroke="#c0a840" stroke-width="1.1"/><circle cx="20" cy="20" r="3" fill="url(#j12m)" stroke="#a09030" stroke-width=".7"/></svg>`},
-  {name:'Blood Amber Hourglass',label:'Hourglass',rarity:'Epic',rune:null,glow:'rgba(200,60,30,.9)',desc:'An hourglass sealed with blood amber — the crimson sand within never fully empties, as if time refuses to end.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j13f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffd070"/><stop offset="100%" stop-color="#c08020"/></linearGradient><radialGradient id="j13s" cx="50%" cy="20%" r="60%"><stop offset="0%" stop-color="#ff4020"/><stop offset="60%" stop-color="#c01010"/><stop offset="100%" stop-color="#400010"/></radialGradient></defs><rect x="8" y="4" width="24" height="4" rx="2" fill="url(#j13f)" stroke="#a07018" stroke-width=".7"/><rect x="8" y="34" width="24" height="4" rx="2" fill="url(#j13f)" stroke="#a07018" stroke-width=".7"/><path d="M10,8 L30,8 L22,20 L30,32 L10,32 L18,20 Z" fill="rgba(20,10,0,.7)" stroke="#c09020" stroke-width=".9"/><path d="M10,8 L30,8 L22,20 L17,20 Z" fill="url(#j13s)" opacity=".9"/><path d="M18,20 L22,20 L20,26 Z" fill="#ff2010" opacity=".85"/><line x1="8" y1="4" x2="8" y2="36" stroke="#c09020" stroke-width=".7"/><line x1="32" y1="4" x2="32" y2="36" stroke="#c09020" stroke-width=".7"/></svg>`},
-  {name:'Malachite Sphinx',label:'Sphinx',rarity:'Epic',rune:null,glow:'rgba(30,200,120,.9)',desc:'A miniature sphinx carved from imperial malachite — it sits with the patience of eternity, guarding an eternal riddle.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j14g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#90ffb8"/><stop offset="50%" stop-color="#18a840"/><stop offset="100%" stop-color="#043818"/></radialGradient></defs><ellipse cx="20" cy="35" rx="14" ry="4" fill="#043818" opacity=".5"/><rect x="8" y="24" width="24" height="10" rx="3" fill="url(#j14g)" stroke="#16a038" stroke-width=".9"/><path d="M10,24 Q10,14 16,12 Q20,10 24,12 Q30,14 30,24 Z" fill="url(#j14g)" stroke="#16a038" stroke-width=".9"/><ellipse cx="14" cy="19" rx="2.5" ry="3" fill="#042810"/><ellipse cx="26" cy="19" rx="2.5" ry="3" fill="#042810"/><ellipse cx="14" cy="18" rx="1.2" ry="1.5" fill="rgba(200,255,200,.5)"/><ellipse cx="26" cy="18" rx="1.2" ry="1.5" fill="rgba(200,255,200,.5)"/><path d="M16,26 Q20,29 24,26" stroke="#16a038" stroke-width="1.2" fill="none"/><path d="M12,12 Q10,8 12,7 Q14,6 16,9" stroke="#16a038" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M28,12 Q30,8 28,7 Q26,6 24,9" stroke="#16a038" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`},
-  {name:'Silver Wraith Crown',label:'Wraith Crown',rarity:'Epic',rune:null,glow:'rgba(200,200,255,.9)',desc:'Worn by the Ghost Queen of Vaelas — it appears solid to the touch, yet passes through lesser souls.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j15g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8f6ff"/><stop offset="50%" stop-color="#c0b8e0"/><stop offset="100%" stop-color="#5850a0"/></linearGradient></defs><path d="M4,28 L4,18 L10,24 L16,6 L20,16 L24,6 L30,24 L36,18 L36,28 Z" fill="url(#j15g)" stroke="#a098d0" stroke-width="1"/><line x1="4" y1="28" x2="36" y2="28" stroke="#8078c0" stroke-width="1.5"/><circle cx="16" cy="6" r="2.8" fill="#e8e0ff" stroke="#a098d0" stroke-width=".7"/><circle cx="20" cy="16" r="2.2" fill="#d0c8f0" stroke="#a098d0" stroke-width=".6"/><circle cx="24" cy="6" r="2.8" fill="#e8e0ff" stroke="#a098d0" stroke-width=".7"/><path d="M8,20 Q6,28 8,33" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/><path d="M20,17 Q18,28 20,35" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/><path d="M32,20 Q34,28 32,33" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/></svg>`},
-  {name:'Azure Phoenix Feather',label:'Phoenix Feather',rarity:'Epic',rune:null,glow:'rgba(40,180,255,.9)',desc:'A feather shed by the undying Phoenix of Solara — it burns cold in your hand, a ward against death itself.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j16a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff0b0"/><stop offset="30%" stop-color="#ff8020"/><stop offset="70%" stop-color="#2080e0"/><stop offset="100%" stop-color="#0040a0"/></linearGradient><linearGradient id="j16b" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,200,100,.5)"/><stop offset="100%" stop-color="rgba(100,180,255,.5)"/></linearGradient></defs><path d="M20,36 Q14,26 12,18 Q10,12 14,6" stroke="url(#j16a)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M20,36 Q26,26 28,18 Q30,12 26,6" stroke="url(#j16b)" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M14,6 Q17,16 20,36 Q23,16 26,6" fill="url(#j16a)" opacity=".35"/><path d="M14,16 Q17,18 20,24" stroke="rgba(255,240,160,.45)" stroke-width=".9" fill="none"/><path d="M24,16 Q22,18 20,24" stroke="rgba(100,200,255,.4)" stroke-width=".9" fill="none"/><path d="M13,6 L15,4 L14,7 M27,6 L25,4 L26,7" stroke="#ff9030" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>`},
-  {name:'Gilt Grimoire',label:'Gilt Grimoire',rarity:'Epic',rune:'⊕',glow:'rgba(200,160,40,.9)',desc:'A spellbook bound in black dragonhide and gold — its runes shift when no one is looking, rewriting themselves.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j17a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a08030"/><stop offset="100%" stop-color="#181008"/></linearGradient><linearGradient id="j17b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8e868"/><stop offset="100%" stop-color="#c09818"/></linearGradient></defs><rect x="6" y="4" width="28" height="34" rx="3" fill="url(#j17a)" stroke="#c0a020" stroke-width="1.2"/><rect x="10" y="4" width="20" height="34" rx="2" fill="#0a0800"/><rect x="7" y="5" width="4" height="32" rx="1.5" fill="url(#j17a)"/><rect x="8" y="17" width="2" height="8" rx="1" fill="#ffd840"/><circle cx="20" cy="18" r="6.5" fill="none" stroke="url(#j17b)" stroke-width="1.2"/><line x1="14" y1="18" x2="26" y2="18" stroke="url(#j17b)" stroke-width="1"/><line x1="20" y1="12" x2="20" y2="24" stroke="url(#j17b)" stroke-width="1"/><circle cx="20" cy="18" r="2.5" fill="none" stroke="#f0d040" stroke-width=".9"/><circle cx="20" cy="18" r=".9" fill="#f0d040"/><line x1="13" y1="27" x2="27" y2="27" stroke="rgba(200,170,60,.4)" stroke-width=".7"/><line x1="13" y1="30" x2="27" y2="30" stroke="rgba(200,170,60,.35)" stroke-width=".7"/></svg>`},
-  {name:'Aquamarine Trident',label:'Trident Head',rarity:'Epic',rune:null,glow:'rgba(40,200,200,.9)',desc:"The head of the Trident of Bathys, sea deity of the Drowned Empire — it still tastes of the abyssal ocean.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j18g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c0ffee"/><stop offset="50%" stop-color="#18c0c0"/><stop offset="100%" stop-color="#084848"/></linearGradient></defs><rect x="18.5" y="8" width="3" height="28" rx="1.5" fill="url(#j18g)" stroke="#108888" stroke-width=".7"/><path d="M12,10 Q10,6 13,4 Q16,2 17,8 L15,18 Z" fill="url(#j18g)" stroke="#108888" stroke-width=".8"/><path d="M28,10 Q30,6 27,4 Q24,2 23,8 L25,18 Z" fill="url(#j18g)" stroke="#108888" stroke-width=".8"/><path d="M15,18 L25,18 L22,24 L18,24 Z" fill="#0a8080" stroke="#108888" stroke-width=".7"/><line x1="14" y1="10" x2="26" y2="10" stroke="rgba(160,255,240,.4)" stroke-width=".8"/><ellipse cx="14" cy="7" rx="1.5" ry="1" fill="rgba(200,255,248,.5)"/><ellipse cx="26" cy="7" rx="1.5" ry="1" fill="rgba(200,255,248,.5)"/></svg>`},
-  {name:'Primordial Dragon Egg',label:'Dragon Egg',rarity:'Epic',rune:null,glow:'rgba(180,100,255,.9)',desc:'A fossilized egg from an age before memory — the gold cracks across its surface pulse with ancient warmth.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j19g" cx="40%" cy="35%" r="62%"><stop offset="0%" stop-color="#d8a0ff"/><stop offset="50%" stop-color="#4a0860"/><stop offset="100%" stop-color="#100018"/></radialGradient></defs><ellipse cx="20" cy="21" rx="13" ry="16" fill="url(#j19g)" stroke="#8020c0" stroke-width="1"/><path d="M14,12 Q16,9 20,8 Q24,9 26,12" stroke="#f0c040" stroke-width="1.2" fill="none"/><path d="M11,20 Q13,16 16,14 Q13,22 11,26" stroke="#f0c040" stroke-width="1" fill="none"/><path d="M29,20 Q27,16 24,14 Q27,22 29,26" stroke="#f0c040" stroke-width="1" fill="none"/><path d="M14,28 Q16,32 20,33 Q24,32 26,28" stroke="#f0c040" stroke-width="1.1" fill="none"/><circle cx="20" cy="20" r="3.5" fill="#180028" stroke="#c050f0" stroke-width=".8"/><circle cx="18.5" cy="19" r="1.2" fill="rgba(255,220,100,.6)"/></svg>`},
+  {name:'Voidstone Pendant',label:'Voidstone',rarity:'Epic',rune:null,glow:'rgba(160,80,255,.9)',desc:'Carved from Voidstone — mined at the edge of reality. Stars within it shift and drift as you watch.',lore:'The stone was brought to Solara by a traveler who arrived from no known direction. He left the same way. The stone stayed.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j11g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#d8a0ff"/><stop offset="45%" stop-color="#5010a0"/><stop offset="100%" stop-color="#080010"/></radialGradient><radialGradient id="j11s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,230,255,.4)"/><stop offset="100%" stop-color="rgba(200,150,255,0)"/></radialGradient></defs><line x1="20" y1="2" x2="20" y2="7" stroke="#9060c0" stroke-width="1.8" stroke-linecap="round"/><path d="M14,7 L26,7 L30,16 L20,36 L10,16 Z" fill="url(#j11g)" stroke="#a070e0" stroke-width=".9"/><ellipse cx="16" cy="14" rx="5" ry="4" fill="url(#j11s)"/><circle cx="15" cy="16" r="1" fill="rgba(255,255,255,.9)"/><circle cx="22" cy="20" r=".8" fill="rgba(255,255,255,.85)"/><circle cx="18" cy="26" r=".6" fill="rgba(255,255,255,.8)"/><circle cx="25" cy="13" r=".5" fill="rgba(255,255,255,.75)"/><circle cx="13" cy="22" r=".5" fill="rgba(255,255,255,.7)"/></svg>`},
+  {name:'Runic War Shield',label:'Rune Shield',rarity:'Epic',rune:'ᚷ',glow:'rgba(180,170,80,.9)',desc:'A buckler engraved with the Gifu rune — a gift of unbreakable protection from a warlord of the Northern Reaches.',lore:'It has absorbed seventeen killing blows without a scratch. The eighteenth owner never needed to find out about the nineteenth.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j12g" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#e8e0c0"/><stop offset="50%" stop-color="#9a8850"/><stop offset="100%" stop-color="#2a2010"/></radialGradient><linearGradient id="j12m" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0b880"/><stop offset="100%" stop-color="#7a7030"/></linearGradient></defs><path d="M20,4 L34,10 L34,24 Q34,34 20,38 Q6,34 6,24 L6,10 Z" fill="url(#j12g)" stroke="#7a7030" stroke-width="1.2"/><path d="M20,4 L34,10 L34,24 Q34,34 20,38 Q6,34 6,24 L6,10 Z" fill="none" stroke="rgba(255,240,160,.3)" stroke-width=".6"/><circle cx="20" cy="20" r="8" fill="none" stroke="url(#j12m)" stroke-width="1.5"/><line x1="20" y1="12" x2="20" y2="28" stroke="#c0a840" stroke-width="1.3"/><line x1="14" y1="16" x2="26" y2="16" stroke="#c0a840" stroke-width="1.1"/><line x1="14" y1="24" x2="26" y2="24" stroke="#c0a840" stroke-width="1.1"/><circle cx="20" cy="20" r="3" fill="url(#j12m)" stroke="#a09030" stroke-width=".7"/></svg>`},
+  {name:'Blood Amber Hourglass',label:'Hourglass',rarity:'Epic',rune:null,glow:'rgba(200,60,30,.9)',desc:'An hourglass sealed with blood amber — the crimson sand within never fully empties, as if time refuses to end.',lore:'An hourglass sealed with blood amber — the crimson sand within never fully empties, as if time refuses to end here.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j13f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffd070"/><stop offset="100%" stop-color="#c08020"/></linearGradient><radialGradient id="j13s" cx="50%" cy="20%" r="60%"><stop offset="0%" stop-color="#ff4020"/><stop offset="60%" stop-color="#c01010"/><stop offset="100%" stop-color="#400010"/></radialGradient></defs><rect x="8" y="4" width="24" height="4" rx="2" fill="url(#j13f)" stroke="#a07018" stroke-width=".7"/><rect x="8" y="34" width="24" height="4" rx="2" fill="url(#j13f)" stroke="#a07018" stroke-width=".7"/><path d="M10,8 L30,8 L22,20 L30,32 L10,32 L18,20 Z" fill="rgba(20,10,0,.7)" stroke="#c09020" stroke-width=".9"/><path d="M10,8 L30,8 L22,20 L17,20 Z" fill="url(#j13s)" opacity=".9"/><path d="M18,20 L22,20 L20,26 Z" fill="#ff2010" opacity=".85"/><line x1="8" y1="4" x2="8" y2="36" stroke="#c09020" stroke-width=".7"/><line x1="32" y1="4" x2="32" y2="36" stroke="#c09020" stroke-width=".7"/></svg>`},
+  {name:'Malachite Sphinx',label:'Sphinx',rarity:'Epic',rune:null,glow:'rgba(30,200,120,.9)',desc:'A miniature sphinx carved from imperial malachite — it sits with the patience of eternity, guarding an eternal riddle.',lore:'It was placed at the entrance of every Solaran vault. The riddle it guards has only one answer — and only one person has ever given it.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j14g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#90ffb8"/><stop offset="50%" stop-color="#18a840"/><stop offset="100%" stop-color="#043818"/></radialGradient></defs><ellipse cx="20" cy="35" rx="14" ry="4" fill="#043818" opacity=".5"/><rect x="8" y="24" width="24" height="10" rx="3" fill="url(#j14g)" stroke="#16a038" stroke-width=".9"/><path d="M10,24 Q10,14 16,12 Q20,10 24,12 Q30,14 30,24 Z" fill="url(#j14g)" stroke="#16a038" stroke-width=".9"/><ellipse cx="14" cy="19" rx="2.5" ry="3" fill="#042810"/><ellipse cx="26" cy="19" rx="2.5" ry="3" fill="#042810"/><ellipse cx="14" cy="18" rx="1.2" ry="1.5" fill="rgba(200,255,200,.5)"/><ellipse cx="26" cy="18" rx="1.2" ry="1.5" fill="rgba(200,255,200,.5)"/><path d="M16,26 Q20,29 24,26" stroke="#16a038" stroke-width="1.2" fill="none"/><path d="M12,12 Q10,8 12,7 Q14,6 16,9" stroke="#16a038" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M28,12 Q30,8 28,7 Q26,6 24,9" stroke="#16a038" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`},
+  {name:'Silver Wraith Crown',label:'Wraith Crown',rarity:'Epic',rune:null,glow:'rgba(200,200,255,.9)',desc:'Worn by the Ghost Queen of Vaelas — it appears solid to the touch, yet passes through lesser souls.',lore:'The last crown of Queen Solara, buried with her greatest secret still sealed inside. The crown remains. The secret does not.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j15g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8f6ff"/><stop offset="50%" stop-color="#c0b8e0"/><stop offset="100%" stop-color="#5850a0"/></linearGradient></defs><path d="M4,28 L4,18 L10,24 L16,6 L20,16 L24,6 L30,24 L36,18 L36,28 Z" fill="url(#j15g)" stroke="#a098d0" stroke-width="1"/><line x1="4" y1="28" x2="36" y2="28" stroke="#8078c0" stroke-width="1.5"/><circle cx="16" cy="6" r="2.8" fill="#e8e0ff" stroke="#a098d0" stroke-width=".7"/><circle cx="20" cy="16" r="2.2" fill="#d0c8f0" stroke="#a098d0" stroke-width=".6"/><circle cx="24" cy="6" r="2.8" fill="#e8e0ff" stroke="#a098d0" stroke-width=".7"/><path d="M8,20 Q6,28 8,33" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/><path d="M20,17 Q18,28 20,35" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/><path d="M32,20 Q34,28 32,33" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/></svg>`},
+  {name:'Azure Phoenix Feather',label:'Phoenix Feather',rarity:'Epic',rune:null,glow:'rgba(40,180,255,.9)',desc:'A feather shed by the undying Phoenix of Solara — it burns cold in your hand, a ward against death itself.',lore:'A feather shed by the undying Phoenix of Solara. It burns cold in your hand — a ward against death itself, should you dare use it.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j16a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff0b0"/><stop offset="30%" stop-color="#ff8020"/><stop offset="70%" stop-color="#2080e0"/><stop offset="100%" stop-color="#0040a0"/></linearGradient><linearGradient id="j16b" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,200,100,.5)"/><stop offset="100%" stop-color="rgba(100,180,255,.5)"/></linearGradient></defs><path d="M20,36 Q14,26 12,18 Q10,12 14,6" stroke="url(#j16a)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M20,36 Q26,26 28,18 Q30,12 26,6" stroke="url(#j16b)" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M14,6 Q17,16 20,36 Q23,16 26,6" fill="url(#j16a)" opacity=".35"/><path d="M14,16 Q17,18 20,24" stroke="rgba(255,240,160,.45)" stroke-width=".9" fill="none"/><path d="M24,16 Q22,18 20,24" stroke="rgba(100,200,255,.4)" stroke-width=".9" fill="none"/><path d="M13,6 L15,4 L14,7 M27,6 L25,4 L26,7" stroke="#ff9030" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>`},
+  {name:'Gilt Grimoire',label:'Gilt Grimoire',rarity:'Epic',rune:'⊕',glow:'rgba(200,160,40,.9)',desc:'A spellbook bound in black dragonhide and gold — its runes shift when no one is looking, rewriting themselves.',lore:'No lock in Solara can resist the knowledge inside it — yet no one can agree on what door it was written to open.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j17a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a08030"/><stop offset="100%" stop-color="#181008"/></linearGradient><linearGradient id="j17b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8e868"/><stop offset="100%" stop-color="#c09818"/></linearGradient></defs><rect x="6" y="4" width="28" height="34" rx="3" fill="url(#j17a)" stroke="#c0a020" stroke-width="1.2"/><rect x="10" y="4" width="20" height="34" rx="2" fill="#0a0800"/><rect x="7" y="5" width="4" height="32" rx="1.5" fill="url(#j17a)"/><rect x="8" y="17" width="2" height="8" rx="1" fill="#ffd840"/><circle cx="20" cy="18" r="6.5" fill="none" stroke="url(#j17b)" stroke-width="1.2"/><line x1="14" y1="18" x2="26" y2="18" stroke="url(#j17b)" stroke-width="1"/><line x1="20" y1="12" x2="20" y2="24" stroke="url(#j17b)" stroke-width="1"/><circle cx="20" cy="18" r="2.5" fill="none" stroke="#f0d040" stroke-width=".9"/><circle cx="20" cy="18" r=".9" fill="#f0d040"/><line x1="13" y1="27" x2="27" y2="27" stroke="rgba(200,170,60,.4)" stroke-width=".7"/><line x1="13" y1="30" x2="27" y2="30" stroke="rgba(200,170,60,.35)" stroke-width=".7"/></svg>`},
+  {name:'Aquamarine Trident',label:'Trident Head',rarity:'Epic',rune:null,glow:'rgba(40,200,200,.9)',desc:"The head of the Trident of Bathys, sea deity of the Drowned Empire — it still tastes of the abyssal ocean.",lore:'The Drowned Empire sank in a single night. This trident is all that returned to the surface. The sea wants it back.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j18g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c0ffee"/><stop offset="50%" stop-color="#18c0c0"/><stop offset="100%" stop-color="#084848"/></linearGradient></defs><rect x="18.5" y="8" width="3" height="28" rx="1.5" fill="url(#j18g)" stroke="#108888" stroke-width=".7"/><path d="M12,10 Q10,6 13,4 Q16,2 17,8 L15,18 Z" fill="url(#j18g)" stroke="#108888" stroke-width=".8"/><path d="M28,10 Q30,6 27,4 Q24,2 23,8 L25,18 Z" fill="url(#j18g)" stroke="#108888" stroke-width=".8"/><path d="M15,18 L25,18 L22,24 L18,24 Z" fill="#0a8080" stroke="#108888" stroke-width=".7"/><line x1="14" y1="10" x2="26" y2="10" stroke="rgba(160,255,240,.4)" stroke-width=".8"/><ellipse cx="14" cy="7" rx="1.5" ry="1" fill="rgba(200,255,248,.5)"/><ellipse cx="26" cy="7" rx="1.5" ry="1" fill="rgba(200,255,248,.5)"/></svg>`},
+  {name:'Primordial Dragon Egg',label:'Dragon Egg',rarity:'Epic',rune:null,glow:'rgba(180,100,255,.9)',desc:'A fossilized egg from an age before memory — the gold cracks across its surface pulse with ancient warmth.',lore:'A fossilized egg from an age before memory. The gold cracks across its surface still pulse with warmth. Something is waiting.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j19g" cx="40%" cy="35%" r="62%"><stop offset="0%" stop-color="#d8a0ff"/><stop offset="50%" stop-color="#4a0860"/><stop offset="100%" stop-color="#100018"/></radialGradient></defs><ellipse cx="20" cy="21" rx="13" ry="16" fill="url(#j19g)" stroke="#8020c0" stroke-width="1"/><path d="M14,12 Q16,9 20,8 Q24,9 26,12" stroke="#f0c040" stroke-width="1.2" fill="none"/><path d="M11,20 Q13,16 16,14 Q13,22 11,26" stroke="#f0c040" stroke-width="1" fill="none"/><path d="M29,20 Q27,16 24,14 Q27,22 29,26" stroke="#f0c040" stroke-width="1" fill="none"/><path d="M14,28 Q16,32 20,33 Q24,32 26,28" stroke="#f0c040" stroke-width="1.1" fill="none"/><circle cx="20" cy="20" r="3.5" fill="#180028" stroke="#c050f0" stroke-width=".8"/><circle cx="18.5" cy="19" r="1.2" fill="rgba(255,220,100,.6)"/></svg>`},
   // ── LEGENDARY (20-25) ──
-  {name:'Obsidian Heart',label:'Obsidian Heart',rarity:'Legendary',rune:'ᛟ',glow:'rgba(255,40,40,1)',desc:'The crystallized heart of a slain war-god — it beats like distant thunder when held near power.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j20g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#c04040"/><stop offset="40%" stop-color="#280808"/><stop offset="100%" stop-color="#060000"/></radialGradient><radialGradient id="j20p" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,40,20,.7)"/><stop offset="100%" stop-color="rgba(255,0,0,0)"/></radialGradient></defs><ellipse cx="20" cy="24" rx="16" ry="14" fill="url(#j20p)" opacity=".5"/><path d="M20,34 Q8,26 7,18 Q6,10 13,9 Q17,8 20,13 Q23,8 27,9 Q34,10 33,18 Q32,26 20,34 Z" fill="url(#j20g)" stroke="#c02020" stroke-width="1"/><path d="M15,14 Q12,16 12,20 Q13,25 20,32" stroke="rgba(255,60,40,.5)" stroke-width="1.2" fill="none"/><line x1="20" y1="13" x2="16" y2="22" stroke="rgba(255,100,60,.4)" stroke-width="1"/><line x1="20" y1="13" x2="24" y2="21" stroke="rgba(255,80,40,.35)" stroke-width=".9"/><line x1="20" y1="13" x2="20" y2="30" stroke="rgba(255,60,30,.3)" stroke-width=".8"/></svg>`},
-  {name:"God's Eye Relic",label:"God's Eye",rarity:'Legendary',rune:null,glow:'rgba(255,20,20,1)',desc:"The all-seeing relic of deity Korrath — its crimson iris tracks every living thing within a league.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j21g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff4040"/><stop offset="45%" stop-color="#c01010"/><stop offset="100%" stop-color="#200000"/></radialGradient><radialGradient id="j21s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,200,200,.55)"/><stop offset="100%" stop-color="rgba(255,100,100,0)"/></radialGradient></defs><path d="M4,20 Q12,6 20,6 Q28,6 36,20 Q28,34 20,34 Q12,34 4,20 Z" fill="#080000" stroke="#c01010" stroke-width="1"/><circle cx="20" cy="20" r="10" fill="url(#j21g)" stroke="#ff2020" stroke-width=".8"/><ellipse cx="15.5" cy="16.5" rx="4" ry="3.5" fill="url(#j21s)"/><ellipse cx="20" cy="20" rx="5.5" ry="6" fill="#0a0000"/><ellipse cx="17.5" cy="17.5" rx="2.5" ry="2" fill="rgba(255,255,255,.8)"/><circle cx="20" cy="20" r="2" fill="#060000"/></svg>`},
-  {name:'Prism of Eternity',label:'Eternal Prism',rarity:'Legendary',rune:null,glow:'rgba(255,255,255,1)',desc:'A perfect crystal prism that splits light into infinite colors — and time into infinite possible futures.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j22a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#e8f0ff"/><stop offset="100%" stop-color="#c0d0f8"/></linearGradient></defs><polygon points="20,4 36,32 4,32" fill="url(#j22a)" stroke="rgba(200,220,255,.8)" stroke-width="1"/><path d="M20,4 L4,32" stroke="rgba(255,255,255,.4)" stroke-width=".8" fill="none"/><path d="M20,4 L36,32" stroke="rgba(255,255,255,.4)" stroke-width=".8" fill="none"/><ellipse cx="14" cy="16" rx="6" ry="4" fill="rgba(255,255,255,.2)" transform="rotate(-25,14,16)"/><line x1="4" y1="32" x2="0" y2="36" stroke="#ff4040" stroke-width="1.5" stroke-linecap="round"/><line x1="36" y1="32" x2="40" y2="36" stroke="#4060ff" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="32" x2="1" y2="38" stroke="#ff8c00" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="32" x2="39" y2="38" stroke="#8000ff" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="32" x2="18" y2="38" stroke="#00e000" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="32" x2="22" y2="38" stroke="#ffee00" stroke-width="1.2" stroke-linecap="round"/></svg>`},
-  {name:'Solar Sceptre of Ra',label:'Sceptre of Ra',rarity:'Legendary',rune:null,glow:'rgba(255,200,0,1)',desc:"The sun-crowned tip of Ra's divine sceptre — carried by the High Priests of the Solar Throne of Solara.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j23g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff8a0"/><stop offset="45%" stop-color="#f8c020"/><stop offset="100%" stop-color="#a05808"/></radialGradient><linearGradient id="j23s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe070"/><stop offset="100%" stop-color="#c08010"/></linearGradient></defs><circle cx="20" cy="16" r="11" fill="url(#j23g)" stroke="#c09010" stroke-width="1.2"/><circle cx="20" cy="16" r="7" fill="#a06008" stroke="#f0c020" stroke-width=".8"/><circle cx="20" cy="16" r="3.5" fill="url(#j23g)" stroke="#ffe050" stroke-width=".7"/><path d="M20,5 L20,2 M20,27 L20,30 M9,16 L6,16 M31,16 L34,16 M12.5,8.5 L10.2,6.2 M27.5,8.5 L29.8,6.2 M12.5,23.5 L10.2,25.8 M27.5,23.5 L29.8,25.8" stroke="#f0c020" stroke-width="1.8" stroke-linecap="round"/><rect x="18.5" y="27" width="3" height="12" rx="1.5" fill="url(#j23s)" stroke="#c08010" stroke-width=".7"/><line x1="14" y1="29" x2="26" y2="29" stroke="#c09010" stroke-width="1.2" stroke-linecap="round"/></svg>`},
-  {name:'Void Codex',label:'Void Codex',rarity:'Legendary',rune:'ᛒ',glow:'rgba(60,120,255,1)',desc:"A grimoire written in a dead star's light — its runes glow electric blue and its pages turn themselves at midnight.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j24g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0818a0"/><stop offset="100%" stop-color="#000808"/></linearGradient></defs><path d="M8,4 Q6,4 6,6 L6,34 Q6,36 8,36 L22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="url(#j24g)" stroke="#2040e0" stroke-width="1"/><path d="M22,4 Q30,4 34,6 L34,34 Q30,36 22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="#04080a" stroke="#1030c0" stroke-width=".9"/><line x1="9" y1="10" x2="19" y2="10" stroke="#3060ff" stroke-width="1.1"/><line x1="9" y1="14" x2="18" y2="14" stroke="#2050e0" stroke-width=".9"/><line x1="10" y1="18" x2="17" y2="18" stroke="#1840c0" stroke-width=".8"/><line x1="24" y1="12" x2="32" y2="12" stroke="rgba(100,160,255,.7)" stroke-width="1.1"/><line x1="24" y1="16" x2="31" y2="16" stroke="rgba(80,140,255,.6)" stroke-width=".9"/><line x1="25" y1="20" x2="31" y2="20" stroke="rgba(60,120,255,.55)" stroke-width=".8"/><line x1="24" y1="24" x2="31" y2="24" stroke="rgba(40,100,220,.5)" stroke-width=".8"/><circle cx="16" cy="24" r="4" fill="none" stroke="#4080ff" stroke-width="1.2"/><line x1="16" y1="20" x2="16" y2="28" stroke="#4080ff" stroke-width=".9"/><line x1="12" y1="24" x2="20" y2="24" stroke="#4080ff" stroke-width=".9"/><circle cx="16" cy="24" r="1.5" fill="#2060d0"/></svg>`},
-  {name:"Leviathan's Fang",label:'Leviathan Fang',rarity:'Legendary',rune:null,glow:'rgba(20,200,180,1)',desc:"A fang torn from the Leviathan of the Drowned Deep — its surface shimmers with captured bioluminescence.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j25g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0fff8"/><stop offset="35%" stop-color="#18c0b8"/><stop offset="75%" stop-color="#048080"/><stop offset="100%" stop-color="#001a18"/></linearGradient><linearGradient id="j25s" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(100,255,240,.5)"/><stop offset="100%" stop-color="rgba(20,180,160,0)"/></linearGradient></defs><path d="M22,3 Q30,10 34,20 Q36,28 32,34 Q28,38 24,36 Q18,34 16,26 Q12,18 14,10 Z" fill="url(#j25g)" stroke="#10a0a0" stroke-width="1"/><path d="M22,3 Q28,10 32,20" stroke="url(#j25s)" stroke-width="1.5" fill="none"/><path d="M14,10 Q16,16 18,22" stroke="rgba(80,240,220,.3)" stroke-width="1" fill="none"/><path d="M32,34 Q30,36 28,36 Q26,36 24,35" stroke="rgba(0,180,160,.5)" stroke-width="1.2" fill="none"/><circle cx="24.5" cy="10" r="2.5" fill="rgba(160,255,240,.5)"/><circle cx="19.5" cy="20" r="2" fill="rgba(100,220,210,.4)"/><circle cx="27" cy="25" r="1.8" fill="rgba(80,200,190,.5)"/><circle cx="23" cy="32" r="1.5" fill="rgba(60,180,170,.4)"/></svg>`},
+  {name:'Obsidian Heart',label:'Obsidian Heart',rarity:'Legendary',rune:'ᛟ',glow:'rgba(255,40,40,1)',desc:'The crystallized heart of a slain war-god — it beats like distant thunder when held near power.',lore:'The crystallized heart of a slain war-god. It beats like distant thunder when held near power — and it has been beating faster lately.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j20g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#c04040"/><stop offset="40%" stop-color="#280808"/><stop offset="100%" stop-color="#060000"/></radialGradient><radialGradient id="j20p" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,40,20,.7)"/><stop offset="100%" stop-color="rgba(255,0,0,0)"/></radialGradient></defs><ellipse cx="20" cy="24" rx="16" ry="14" fill="url(#j20p)" opacity=".5"/><path d="M20,34 Q8,26 7,18 Q6,10 13,9 Q17,8 20,13 Q23,8 27,9 Q34,10 33,18 Q32,26 20,34 Z" fill="url(#j20g)" stroke="#c02020" stroke-width="1"/><path d="M15,14 Q12,16 12,20 Q13,25 20,32" stroke="rgba(255,60,40,.5)" stroke-width="1.2" fill="none"/><line x1="20" y1="13" x2="16" y2="22" stroke="rgba(255,100,60,.4)" stroke-width="1"/><line x1="20" y1="13" x2="24" y2="21" stroke="rgba(255,80,40,.35)" stroke-width=".9"/><line x1="20" y1="13" x2="20" y2="30" stroke="rgba(255,60,30,.3)" stroke-width=".8"/></svg>`},
+  {name:"God's Eye Relic",label:"God's Eye",rarity:'Legendary',rune:null,glow:'rgba(255,20,20,1)',desc:"The all-seeing relic of deity Korrath — its crimson iris tracks every living thing within a league.",lore:"The all-seeing relic of deity Korrath. Its crimson iris tracks every living thing within a league. It has been watching you since the first chamber.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j21g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff4040"/><stop offset="45%" stop-color="#c01010"/><stop offset="100%" stop-color="#200000"/></radialGradient><radialGradient id="j21s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,200,200,.55)"/><stop offset="100%" stop-color="rgba(255,100,100,0)"/></radialGradient></defs><path d="M4,20 Q12,6 20,6 Q28,6 36,20 Q28,34 20,34 Q12,34 4,20 Z" fill="#080000" stroke="#c01010" stroke-width="1"/><circle cx="20" cy="20" r="10" fill="url(#j21g)" stroke="#ff2020" stroke-width=".8"/><ellipse cx="15.5" cy="16.5" rx="4" ry="3.5" fill="url(#j21s)"/><ellipse cx="20" cy="20" rx="5.5" ry="6" fill="#0a0000"/><ellipse cx="17.5" cy="17.5" rx="2.5" ry="2" fill="rgba(255,255,255,.8)"/><circle cx="20" cy="20" r="2" fill="#060000"/></svg>`},
+  {name:'Prism of Eternity',label:'Eternal Prism',rarity:'Legendary',rune:null,glow:'rgba(255,255,255,1)',desc:'A perfect crystal prism that splits light into infinite colors — and time into infinite possible futures.',lore:'A perfect crystal prism that splits light into infinite colors — and time into infinite possible futures. In one of them, Solara never fell.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j22a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#e8f0ff"/><stop offset="100%" stop-color="#c0d0f8"/></linearGradient></defs><polygon points="20,4 36,32 4,32" fill="url(#j22a)" stroke="rgba(200,220,255,.8)" stroke-width="1"/><path d="M20,4 L4,32" stroke="rgba(255,255,255,.4)" stroke-width=".8" fill="none"/><path d="M20,4 L36,32" stroke="rgba(255,255,255,.4)" stroke-width=".8" fill="none"/><ellipse cx="14" cy="16" rx="6" ry="4" fill="rgba(255,255,255,.2)" transform="rotate(-25,14,16)"/><line x1="4" y1="32" x2="0" y2="36" stroke="#ff4040" stroke-width="1.5" stroke-linecap="round"/><line x1="36" y1="32" x2="40" y2="36" stroke="#4060ff" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="32" x2="1" y2="38" stroke="#ff8c00" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="32" x2="39" y2="38" stroke="#8000ff" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="32" x2="18" y2="38" stroke="#00e000" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="32" x2="22" y2="38" stroke="#ffee00" stroke-width="1.2" stroke-linecap="round"/></svg>`},
+  {name:'Solar Sceptre of Ra',label:'Sceptre of Ra',rarity:'Legendary',rune:null,glow:'rgba(255,200,0,1)',desc:"The sun-crowned tip of Ra's divine sceptre — carried by the High Priests of the Solar Throne of Solara.",lore:"The sun-crowned tip of Ra's divine sceptre. Those who hold it in sunlight cast no shadow. Those who hold it at midnight cast two.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j23g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff8a0"/><stop offset="45%" stop-color="#f8c020"/><stop offset="100%" stop-color="#a05808"/></radialGradient><linearGradient id="j23s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe070"/><stop offset="100%" stop-color="#c08010"/></linearGradient></defs><circle cx="20" cy="16" r="11" fill="url(#j23g)" stroke="#c09010" stroke-width="1.2"/><circle cx="20" cy="16" r="7" fill="#a06008" stroke="#f0c020" stroke-width=".8"/><circle cx="20" cy="16" r="3.5" fill="url(#j23g)" stroke="#ffe050" stroke-width=".7"/><path d="M20,5 L20,2 M20,27 L20,30 M9,16 L6,16 M31,16 L34,16 M12.5,8.5 L10.2,6.2 M27.5,8.5 L29.8,6.2 M12.5,23.5 L10.2,25.8 M27.5,23.5 L29.8,25.8" stroke="#f0c020" stroke-width="1.8" stroke-linecap="round"/><rect x="18.5" y="27" width="3" height="12" rx="1.5" fill="url(#j23s)" stroke="#c08010" stroke-width=".7"/><line x1="14" y1="29" x2="26" y2="29" stroke="#c09010" stroke-width="1.2" stroke-linecap="round"/></svg>`},
+  {name:'Void Codex',label:'Void Codex',rarity:'Legendary',rune:'ᛒ',glow:'rgba(60,120,255,1)',desc:"A grimoire written in a dead star's light — its runes glow electric blue and its pages turn themselves at midnight.",lore:"A grimoire written in a dead star's light. Its pages turn themselves at midnight — always to the same page, which is always blank.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j24g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0818a0"/><stop offset="100%" stop-color="#000808"/></linearGradient></defs><path d="M8,4 Q6,4 6,6 L6,34 Q6,36 8,36 L22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="url(#j24g)" stroke="#2040e0" stroke-width="1"/><path d="M22,4 Q30,4 34,6 L34,34 Q30,36 22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="#04080a" stroke="#1030c0" stroke-width=".9"/><line x1="9" y1="10" x2="19" y2="10" stroke="#3060ff" stroke-width="1.1"/><line x1="9" y1="14" x2="18" y2="14" stroke="#2050e0" stroke-width=".9"/><line x1="10" y1="18" x2="17" y2="18" stroke="#1840c0" stroke-width=".8"/><line x1="24" y1="12" x2="32" y2="12" stroke="rgba(100,160,255,.7)" stroke-width="1.1"/><line x1="24" y1="16" x2="31" y2="16" stroke="rgba(80,140,255,.6)" stroke-width=".9"/><line x1="25" y1="20" x2="31" y2="20" stroke="rgba(60,120,255,.55)" stroke-width=".8"/><line x1="24" y1="24" x2="31" y2="24" stroke="rgba(40,100,220,.5)" stroke-width=".8"/><circle cx="16" cy="24" r="4" fill="none" stroke="#4080ff" stroke-width="1.2"/><line x1="16" y1="20" x2="16" y2="28" stroke="#4080ff" stroke-width=".9"/><line x1="12" y1="24" x2="20" y2="24" stroke="#4080ff" stroke-width=".9"/><circle cx="16" cy="24" r="1.5" fill="#2060d0"/></svg>`},
+  {name:"Leviathan's Fang",label:'Leviathan Fang',rarity:'Legendary',rune:null,glow:'rgba(20,200,180,1)',desc:"A fang torn from the Leviathan of the Drowned Deep — its surface shimmers with captured bioluminescence.",lore:"A fang torn from the Leviathan of the Drowned Deep. The beast it came from is still alive. It still has all the rest of its teeth.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j25g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0fff8"/><stop offset="35%" stop-color="#18c0b8"/><stop offset="75%" stop-color="#048080"/><stop offset="100%" stop-color="#001a18"/></linearGradient><linearGradient id="j25s" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(100,255,240,.5)"/><stop offset="100%" stop-color="rgba(20,180,160,0)"/></linearGradient></defs><path d="M22,3 Q30,10 34,20 Q36,28 32,34 Q28,38 24,36 Q18,34 16,26 Q12,18 14,10 Z" fill="url(#j25g)" stroke="#10a0a0" stroke-width="1"/><path d="M22,3 Q28,10 32,20" stroke="url(#j25s)" stroke-width="1.5" fill="none"/><path d="M14,10 Q16,16 18,22" stroke="rgba(80,240,220,.3)" stroke-width="1" fill="none"/><path d="M32,34 Q30,36 28,36 Q26,36 24,35" stroke="rgba(0,180,160,.5)" stroke-width="1.2" fill="none"/><circle cx="24.5" cy="10" r="2.5" fill="rgba(160,255,240,.5)"/><circle cx="19.5" cy="20" r="2" fill="rgba(100,220,210,.4)"/><circle cx="27" cy="25" r="1.8" fill="rgba(80,200,190,.5)"/><circle cx="23" cy="32" r="1.5" fill="rgba(60,180,170,.4)"/></svg>`},
 ];
 /* ── ARTIFACT HELPERS (support both standard + jigsaw slots) ── */
 function getArtifactSvg(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.svg||'':ARTIFACTS.svg(slot);}
@@ -4419,6 +4625,10 @@ function dpStart(isLegendary=false, replayDateStr=null){
   badge.style.borderColor=diff.color;
   badge.style.background=`${diff.color}18`;
 
+  // Chamber name
+  const chamberNameEl=document.getElementById('dp-chamber-name');
+  if(chamberNameEl)chamberNameEl.textContent=isLegendary?'⚡ Legendary Quest':getChamberName(dateStr);
+
   // Legendary mode styling
   const ds=document.getElementById('screen-daily');
   if(isLegendary){ds.classList.add('legendary-mode');}else{ds.classList.remove('legendary-mode');}
@@ -5164,6 +5374,9 @@ function dpShowRewardPanel(){
   document.getElementById('dw-score').textContent=DP.score.toLocaleString();
   document.getElementById('dw-time').textContent=fmtTime(DP.elapsed);
   document.getElementById('dw-mistakes').textContent=5-DP.lives;
+  // Story win message
+  const storyEl=document.getElementById('dw-story-msg');
+  if(storyEl)storyEl.textContent=getStoryWinMsg(DP.diff,5-DP.lives);
   // Bonus points = score minus base placements
   const basePts=(81-DP.puzzle.filter(v=>v!==0).length)*100;
   const bonus=Math.max(0,DP.score-basePts);
@@ -5244,6 +5457,77 @@ function dpShowRewardPanel(){
       },420);
     }).catch(()=>{});
   }
+}
+
+/* ══════════════════════════════════════════════════════
+   STORY INTRO CINEMATIC
+══════════════════════════════════════════════════════ */
+function showStoryIntro(){
+  if(localStorage.getItem('ts_story_seen'))return;
+  localStorage.setItem('ts_story_seen','1');
+  const overlay=document.getElementById('story-intro-overlay');
+  const linesWrap=document.getElementById('story-intro-lines');
+  const btn=document.getElementById('story-intro-btn');
+  overlay.classList.add('show');
+  const lines=[
+    {text:'THE YEAR IS 1698',cls:'story-line story-line-1'},
+    {text:'SOLARA',cls:'story-line story-line-2'},
+    {text:'A CITY LOST TO TIME',cls:'story-line story-line-3'},
+    {text:'⚜  ⚜  ⚜',cls:'story-line story-line-4'},
+    {text:'An ancient map has fallen into your hands.<br>Nine chambers. Nine puzzles.<br>One lost city waiting to be found.',cls:'story-line story-line-5'},
+  ];
+  lines.forEach(l=>{
+    const el=document.createElement('div');
+    el.className=l.cls;el.innerHTML=l.text;
+    linesWrap.appendChild(el);
+  });
+  lines.forEach((_,i)=>{
+    setTimeout(()=>{linesWrap.children[i].classList.add('visible');},600+i*900);
+  });
+  setTimeout(()=>{btn.style.display='block';btn.style.opacity='0';btn.style.transition='opacity .8s';setTimeout(()=>btn.style.opacity='1',50);},600+lines.length*900+400);
+  btn.addEventListener('click',()=>{overlay.classList.remove('show');overlay.style.display='none';});
+}
+
+/* ══════════════════════════════════════════════════════
+   STORY WIN MESSAGES
+══════════════════════════════════════════════════════ */
+const STORY_WIN_MSGS={
+  perfect:[
+    'The ancients bow before you. Not a single relic was misplaced.',
+    'A flawless run. The builders of Solara never anticipated an explorer like you.',
+    'Perfect. The chamber door swings open with a reverent silence.',
+  ],
+  easy:[
+    'The chamber yields its secrets. A fragment of the ancient map is yours.',
+    'Dust and candlelight fill the room as the last relic clicks into place.',
+    'You step through the door. Solara grows a little less lost.',
+  ],
+  intermediate:[
+    'Ancient runes fade as the door seals behind you. The city grows clearer.',
+    'The walls tremble. Another chamber of Solara has been unlocked.',
+    'Your torch flickers as the puzzle clicks into place. One step closer.',
+  ],
+  hard:[
+    'Even the builders of Solara couldn\'t keep you out. Another chamber falls.',
+    'The stone grinding of the ancient lock echoes through the ruins.',
+    'Few explorers make it this deep. You are not like the others.',
+  ],
+  expert:[
+    'The lost city trembles. No explorer has ever reached this deep.',
+    'A perfect storm of knowledge and courage. Solara has no more secrets from you.',
+    'The final relic slides into place. The vault of Solara is within reach.',
+  ],
+  legendary:[
+    'The lost city trembles. No explorer has ever reached this deep.',
+    'A perfect storm of knowledge and courage. Solara has no more secrets from you.',
+    'The final relic slides into place. The vault of Solara is within reach.',
+  ],
+};
+function getStoryWinMsg(diff,mistakes){
+  if(mistakes===0){const a=STORY_WIN_MSGS.perfect;return a[Math.floor(Math.random()*a.length)];}
+  const key=diff&&diff.name?diff.name.toLowerCase():'easy';
+  const arr=STORY_WIN_MSGS[key]||STORY_WIN_MSGS.easy;
+  return arr[Math.floor(Math.random()*arr.length)];
 }
 
 /* ══════════════════════════════════════════════════════
@@ -6490,6 +6774,56 @@ document.getElementById('menu-daily').addEventListener('click',()=>{menuTransiti
 document.getElementById('menu-puzzle').addEventListener('click',()=>{menuTransitionTo('screen-puzzle',()=>showDiffPicker(diff=>pzStart(diff)));});
 document.getElementById('menu-vault').addEventListener('click',()=>{menuTransitionTo('screen-vault',()=>renderVault());});
 document.getElementById('menu-settings').addEventListener('click',()=>{menuTransitionTo('screen-settings');});
+
+// ── How To Play Tutorial ──
+(function(){
+  const TOTAL=5;
+  let cur=0;
+  const overlay=document.getElementById('howto-overlay');
+  const dotsWrap=document.getElementById('howto-dots');
+  const prevBtn=document.getElementById('howto-prev');
+  const nextBtn=document.getElementById('howto-next');
+  const nav=document.getElementById('howto-nav');
+
+  // Build dots
+  for(let i=0;i<TOTAL;i++){
+    const d=document.createElement('div');d.className='howto-dot'+(i===0?' active':'');
+    d.addEventListener('click',()=>goTo(i));
+    dotsWrap.appendChild(d);
+  }
+
+  function goTo(n){
+    document.getElementById('howto-slide-'+cur).classList.remove('active');
+    cur=Math.max(0,Math.min(TOTAL-1,n));
+    document.getElementById('howto-slide-'+cur).classList.add('active');
+    dotsWrap.querySelectorAll('.howto-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+    prevBtn.disabled=cur===0;
+    const isLast=cur===TOTAL-1;
+    nextBtn.style.display=isLast?'none':'';
+    nav.style.justifyContent=isLast?'center':'space-between';
+    if(isLast){prevBtn.style.display='none';}else{prevBtn.style.display='';}
+  }
+
+  function openTutorial(){overlay.classList.add('show');goTo(0);}
+  function closeTutorial(){overlay.classList.remove('show');}
+
+  prevBtn.addEventListener('click',()=>goTo(cur-1));
+  nextBtn.addEventListener('click',()=>goTo(cur+1));
+  document.getElementById('howto-skip').addEventListener('click',closeTutorial);
+  document.getElementById('howto-start-btn').addEventListener('click',closeTutorial);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeTutorial();});
+
+  // Swipe support
+  let _tx=0;
+  overlay.addEventListener('touchstart',e=>{_tx=e.touches[0].clientX;},{passive:true});
+  overlay.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-_tx;
+    if(Math.abs(dx)>50){dx<0?goTo(cur+1):goTo(cur-1);}
+  },{passive:true});
+
+  // Open from menu button
+  document.getElementById('menu-howto').addEventListener('click',openTutorial);
+})();
 document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>renderMapPuzzle());});
 
 // Back buttons
@@ -6745,6 +7079,13 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   updateMenuState();
   updateMapProgressBar();
   BGM.init();BCLICK.init();
+  // Show sign-in on first open (if Supabase is configured and user not logged in)
+  if(_sbClient()&&!AUTH_STATE.user){
+    showScreen('screen-auth');
+  }
+  // Update corner auth button state
+  _updateCornerAuthBtn();
+  setTimeout(showStoryIntro, 800);
 })();
 (function(){
   let _kicked=false;
@@ -6857,7 +7198,7 @@ function renderJigsawVault(){
     const rarityClass=art?art.rarity.toLowerCase():'';
     slot.className='jsw-slot'+(isEarned?' '+rarityClass:' locked');
     if(isEarned){
-      slot.innerHTML=`<div class="jsw-slot-icon" style="filter:drop-shadow(0 0 8px ${art.glow})">${art.svg}</div><div class="jsw-slot-name">${art.label}</div><div class="jsw-rarity-pip"></div>`;
+      slot.innerHTML=`<div class="jsw-slot-icon" style="filter:drop-shadow(0 0 8px ${art.glow})">${art.svg}</div><div class="jsw-slot-name">${art.label}</div><div class="jsw-rarity-pip"></div>${art.lore?`<div class="relic-lore">${art.lore}</div>`:''}`;
       slot.title=art.name+'\n'+art.rarity+(art.rune?' · '+art.rune:'')+'\n'+art.desc;
     } else {
       slot.innerHTML=`<div class="jsw-slot-icon" style="font-size:20px;line-height:3;opacity:.35;">🔒</div><div class="jsw-slot-name" style="opacity:.3;">???</div>`;
@@ -6948,6 +7289,7 @@ function renderDailyHub(){
     <div class="dh-today-tag">Today's Puzzle</div>
     <div class="dh-today-date">${todayDateObj.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})}</div>
     <div class="dh-today-diff">${diffPill(todayPuz.diff)}</div>
+    <div class="dh-today-chamber">📍 ${getChamberName(todayStr)}</div>
     ${todayBest?`<div class="dh-today-best">✓ Best: ${todayBest.score.toLocaleString()} pts · ${Math.floor(todayBest.time/60)}:${String(todayBest.time%60).padStart(2,'0')} · ${todayBest.mistakes} mistake${todayBest.mistakes!==1?'s':''}</div>`:''}
   `;
   const todayBtn=document.createElement('button');
