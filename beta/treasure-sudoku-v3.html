@@ -4952,32 +4952,10 @@ function dpShowRewardPanel(){
 // ── Game link (update when you have a real hosted URL) ──
 const GAME_URL='https://dardene.github.io/treasure-sudoku/beta/treasure-sudoku-v3.html';
 
-function _buildShareText(includeLink, savedData){
-  // savedData: {score, time, mistakes, dateStr, diff} — used when sharing from archive
-  // Falls back to live DP state if no savedData
-  const src=savedData||{};
-  const score=(src.score!=null?src.score:(DP&&DP.score!=null?DP.score:0)).toLocaleString();
-  const rawTime=src.time!=null?src.time:(DP&&DP.elapsed!=null?DP.elapsed:0);
-  const time=fmtTime(rawTime);
-  const mistakes=src.mistakes!=null?src.mistakes:(DP?(5-DP.lives):0);
-  const dateStr=src.dateStr||(DP&&DP.dateStr?DP.dateStr:dpGetTodayStr());
-  const[,m,d]=dateStr.split('-').map(Number);
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const dateLabel=`${months[m-1]} ${d}`;
-  const perf=mistakes===0?'Perfect run — zero mistakes! 🎯':`Finished in ${time}${mistakes>0?` · ${mistakes} mistake${mistakes!==1?'s':''}`:''}`;
-  const lines=[
-    `🏺 Treasure Sudoku — Daily Challenge`,
-    `📅 ${dateLabel}`,
-    ``,
-    `🏆 Score: ${score}`,
-    `⏱ Time: ${time}`,
-    `${mistakes===0?'✨':'⚔️'} ${perf}`,
-    ``,
-    `Think you can beat me? Try it free 👇`,
-    includeLink!==false?GAME_URL:'',
-    `#TreasureSudoku #DailyPuzzle`,
-  ];
-  return lines.filter(l=>l!==undefined).join('\n').trim();
+// ── Exact share message ──
+function _buildShareMessage(scoreNum){
+  const score=(scoreNum||0).toLocaleString();
+  return `I just scored ${score} in this treasure puzzle 🏴‍☠️ Think you can beat me? ${GAME_URL}`;
 }
 
 function _copyText(text,msg){
@@ -4992,69 +4970,191 @@ function _copyFallback(text,msg){
   ta.remove();
 }
 
-function shareDailyResults(savedData){
-  const text=_buildShareText(true,savedData);
-  const textNoLink=_buildShareText(false,savedData);
+// ── Generate share image via Canvas ──
+function _generateShareImage(scoreNum){
+  return new Promise(resolve=>{
+    const W=1080,H=1080;
+    const cv=document.createElement('canvas');
+    cv.width=W;cv.height=H;
+    const ctx=cv.getContext('2d');
 
-  // ── 1. Native OS share sheet (iOS/Android) — best experience ──
-  if(navigator.share){
-    navigator.share({
-      title:'Treasure Sudoku – Daily Challenge',
-      text:textNoLink,
-      url:GAME_URL,
-    }).catch(err=>{
-      // User cancelled or share failed — silently ignore
-      if(err&&err.name!=='AbortError') console.warn('Share failed:',err);
+    // ── Background: deep dark gradient ──
+    const bg=ctx.createRadialGradient(W/2,H*0.45,60,W/2,H*0.45,W*0.72);
+    bg.addColorStop(0,'#2a1800');
+    bg.addColorStop(0.5,'#120c02');
+    bg.addColorStop(1,'#060300');
+    ctx.fillStyle=bg;
+    ctx.fillRect(0,0,W,H);
+
+    // ── Border frame ──
+    ctx.strokeStyle='rgba(200,155,40,0.55)';
+    ctx.lineWidth=6;
+    ctx.strokeRect(32,32,W-64,H-64);
+    ctx.strokeStyle='rgba(200,155,40,0.2)';
+    ctx.lineWidth=2;
+    ctx.strokeRect(44,44,W-88,H-88);
+
+    // ── Corner ornaments ──
+    const corners=[[56,56],[W-56,56],[56,H-56],[W-56,H-56]];
+    ctx.fillStyle='rgba(220,175,50,0.7)';
+    corners.forEach(([cx,cy])=>{
+      ctx.beginPath();ctx.arc(cx,cy,8,0,Math.PI*2);ctx.fill();
     });
-    return; // Native sheet handles everything — no need to show custom sheet
+
+    // ── Ambient glow behind score ──
+    const glow=ctx.createRadialGradient(W/2,H*0.42,0,W/2,H*0.42,340);
+    glow.addColorStop(0,'rgba(245,185,40,0.22)');
+    glow.addColorStop(0.5,'rgba(220,140,20,0.08)');
+    glow.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=glow;
+    ctx.fillRect(0,0,W,H);
+
+    // ── Sparkle dots ──
+    const sparkles=[
+      [160,200,3],[920,180,2.5],[80,550,2],[980,600,3.5],[200,850,2],
+      [850,820,3],[500,120,2.5],[300,900,2],[760,140,2],[600,950,2],
+      [120,720,1.8],[940,400,1.8],[440,80,2.2],[700,960,2],
+    ];
+    sparkles.forEach(([sx,sy,sr])=>{
+      const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,sr*3);
+      sg.addColorStop(0,'rgba(255,230,100,0.9)');
+      sg.addColorStop(0.4,'rgba(255,200,60,0.5)');
+      sg.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=sg;
+      ctx.beginPath();ctx.arc(sx,sy,sr*3,0,Math.PI*2);ctx.fill();
+    });
+
+    // ── Top label: game name ──
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(200,155,45,0.65)';
+    ctx.font='bold 34px serif';
+    ctx.letterSpacing='8px';
+    ctx.fillText('🏴‍☠️  TREASURE SUDOKU  🏴‍☠️',W/2,148);
+
+    // ── Divider line ──
+    const div=ctx.createLinearGradient(120,175,W-120,175);
+    div.addColorStop(0,'rgba(200,155,40,0)');
+    div.addColorStop(0.5,'rgba(200,155,40,0.6)');
+    div.addColorStop(1,'rgba(200,155,40,0)');
+    ctx.strokeStyle=div;ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(120,175);ctx.lineTo(W-120,175);ctx.stroke();
+
+    // ── "I SCORED" label ──
+    ctx.fillStyle='rgba(210,170,80,0.7)';
+    ctx.font='500 52px serif';
+    ctx.fillText('I  SCORED',W/2,290);
+
+    // ── Score — large gold glow ──
+    const scoreStr=(scoreNum||0).toLocaleString();
+    // Multi-pass glow
+    [['rgba(255,210,60,0.12)',90],['rgba(255,200,50,0.2)',55],['rgba(255,215,60,0.35)',28]].forEach(([c,b])=>{
+      ctx.shadowColor=c;ctx.shadowBlur=b;
+      ctx.fillStyle=c;
+      ctx.font=`900 ${scoreStr.length>6?168:196}px serif`;
+      ctx.fillText(scoreStr,W/2,490);
+    });
+    // Crisp gold layer
+    ctx.shadowBlur=0;
+    const scoreGrad=ctx.createLinearGradient(W/2-280,380,W/2+280,500);
+    scoreGrad.addColorStop(0,'#fff8d0');
+    scoreGrad.addColorStop(0.3,'#ffd84a');
+    scoreGrad.addColorStop(0.6,'#f5c832');
+    scoreGrad.addColorStop(1,'#d4a020');
+    ctx.fillStyle=scoreGrad;
+    ctx.font=`900 ${scoreStr.length>6?168:196}px serif`;
+    ctx.fillText(scoreStr,W/2,490);
+
+    // ── "PTS" ──
+    ctx.shadowBlur=0;
+    ctx.fillStyle='rgba(230,185,60,0.8)';
+    ctx.font='600 56px serif';
+    ctx.fillText('P T S',W/2,572);
+
+    // ── Divider ──
+    const div2=ctx.createLinearGradient(160,612,W-160,612);
+    div2.addColorStop(0,'rgba(200,155,40,0)');
+    div2.addColorStop(0.5,'rgba(200,155,40,0.45)');
+    div2.addColorStop(1,'rgba(200,155,40,0)');
+    ctx.strokeStyle=div2;ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(160,612);ctx.lineTo(W-160,612);ctx.stroke();
+
+    // ── "Think you can beat me?" ──
+    ctx.fillStyle='rgba(255,245,210,0.92)';
+    ctx.font='italic 600 62px serif';
+    ctx.fillText('Think you can beat me?',W/2,716);
+
+    // ── CTA ──
+    ctx.fillStyle='rgba(180,135,40,0.7)';
+    ctx.font='500 36px serif';
+    ctx.fillText('Play free →  ' + GAME_URL.replace('https://',''),W/2,800);
+
+    // ── Bottom ornament ──
+    ctx.fillStyle='rgba(200,155,45,0.5)';
+    ctx.font='32px serif';
+    ctx.fillText('⚜  Daily Puzzle  ⚜',W/2,940);
+
+    // Convert to PNG blob
+    cv.toBlob(blob=>resolve(blob),'image/png');
+  });
+}
+
+async function shareDailyResults(savedData){
+  const src=savedData||{};
+  const scoreNum=src.score!=null?src.score:(DP&&DP.score!=null?DP.score:0);
+  const message=_buildShareMessage(scoreNum);
+
+  // Show loading toast while generating image
+  showToast('✨ Preparing share card…',1500);
+
+  let imageFile=null;
+  try{
+    const blob=await _generateShareImage(scoreNum);
+    imageFile=new File([blob],'treasure-sudoku-score.png',{type:'image/png'});
+  }catch(e){console.warn('Image generation failed:',e);}
+
+  // ── 1. Native share with image (iOS 15+ / Android Chrome) ──
+  if(navigator.share&&imageFile&&navigator.canShare&&navigator.canShare({files:[imageFile]})){
+    try{
+      await navigator.share({files:[imageFile],text:message});
+      return;
+    }catch(e){if(e.name==='AbortError')return;}
   }
 
-  // ── 2. Fallback: custom share sheet for desktop/unsupported browsers ──
-  document.getElementById('ss-preview').textContent=text;
+  // ── 2. Native share without image (iOS 13+ / Android) ──
+  if(navigator.share){
+    try{
+      await navigator.share({title:'Treasure Sudoku',text:message,url:GAME_URL});
+      return;
+    }catch(e){if(e.name==='AbortError')return;}
+  }
+
+  // ── 3. Fallback: custom share sheet for desktop ──
+  document.getElementById('ss-preview').textContent=message;
   const sheet=document.getElementById('share-sheet');
   const closeSheet=()=>{sheet.style.display='none';};
   sheet.style.display='flex';
-  // Show native share button if available from here too
-  const nativeBtn=document.getElementById('ss-native');
-  if(navigator.share){nativeBtn.style.display='block';nativeBtn.onclick=()=>{closeSheet();navigator.share({title:'Treasure Sudoku',text:textNoLink,url:GAME_URL}).catch(()=>{});};}
-  else{nativeBtn.style.display='none';}
+  document.getElementById('ss-native').style.display='none';
 
-  // SMS / Text
+  // SMS
   document.getElementById('ss-sms').onclick=()=>{
     closeSheet();
-    // iOS: sms:&body=  Android: sms:?body=  — try both via user-agent
     const sep=/iphone|ipad|ipod/i.test(navigator.userAgent)?'&':'?';
-    window.location.href=`sms:${sep}body=${encodeURIComponent(text)}`;
+    window.location.href=`sms:${sep}body=${encodeURIComponent(message)}`;
   };
-
-  // Facebook — share dialog with URL + prefilled quote
+  // Facebook
   document.getElementById('ss-fb').onclick=()=>{
     closeSheet();
-    // Facebook's Feed Dialog (works without app review for simple link shares)
-    const fbUrl=`https://www.facebook.com/dialog/feed?app_id=&link=${encodeURIComponent(GAME_URL)}&quote=${encodeURIComponent(textNoLink)}&redirect_uri=${encodeURIComponent(GAME_URL)}`;
-    // Fallback to basic sharer if no app_id configured
-    const sharerUrl=`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(GAME_URL)}&quote=${encodeURIComponent(textNoLink)}`;
-    window.open(sharerUrl,'_blank','noopener,noreferrer,width=600,height=500');
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(GAME_URL)}&quote=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer,width=600,height=500');
   };
-
-  // Instagram — copy text then deep-link into Instagram
+  // Instagram — copy + deep-link
   document.getElementById('ss-ig').onclick=()=>{
     closeSheet();
-    _copyText(text,'📋 Copied! Pasting into Instagram…');
-    // Try Instagram deep link (works on mobile if Instagram is installed)
-    setTimeout(()=>{
-      window.location.href='instagram://';
-      // If Instagram isn't installed, nothing happens — user has the text copied
-    },600);
+    _copyText(message,'📋 Copied! Opening Instagram…');
+    setTimeout(()=>{window.location.href='instagram://';},600);
   };
-
-  // Copy to clipboard
-  document.getElementById('ss-copy').onclick=()=>{
-    _copyText(text,'📋 Results copied to clipboard!');
-    // Keep sheet open so user can see the preview
-  };
-
-  // Back / Cancel / tap backdrop
+  // Copy
+  document.getElementById('ss-copy').onclick=()=>{_copyText(message,'📋 Copied to clipboard!');};
+  // Close
   document.getElementById('ss-back').onclick=closeSheet;
   document.getElementById('ss-cancel').onclick=closeSheet;
   sheet.onclick=(e)=>{if(e.target===sheet)closeSheet();};
