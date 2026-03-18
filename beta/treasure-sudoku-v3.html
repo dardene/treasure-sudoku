@@ -415,6 +415,15 @@ body{font-family:'Cinzel',serif;background:url('menu-bg.png') center center/cove
 .action-btn:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 12px rgba(245,200,66,.3);transform:translateY(-1px);}
 .action-btn.notes-on{background:linear-gradient(145deg,rgba(40,60,100,.9),rgba(20,35,70,.95));border-color:#5099ff;color:#88bbff;}
 .action-btn.hint-used-up{opacity:.38;pointer-events:none;filter:grayscale(.6);}
+.action-btn.pause-btn{background:linear-gradient(145deg,rgba(20,40,70,.9),rgba(10,25,50,.95));border-color:rgba(80,140,220,.45);color:#a8ccff;}
+.action-btn.pause-btn:hover{border-color:#6aadff;color:#c8e4ff;box-shadow:0 0 12px rgba(80,160,255,.35);}
+/* Pause overlay */
+#pause-overlay{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+#pause-overlay.show{display:flex;}
+#pause-overlay .pause-title{font-family:'Cinzel',serif;font-size:clamp(28px,7vw,48px);color:var(--gold-light);letter-spacing:.25em;text-shadow:0 0 30px rgba(255,210,80,.6);margin-bottom:10px;}
+#pause-overlay .pause-sub{font-family:'Crimson Pro',serif;font-size:14px;color:rgba(255,240,180,.5);letter-spacing:.3em;margin-bottom:36px;}
+#pause-overlay .pause-resume-btn{font-family:'Cinzel',serif;font-size:14px;letter-spacing:.15em;padding:14px 40px;border-radius:14px;background:linear-gradient(135deg,rgba(200,140,20,.92),rgba(240,185,35,.92));border:1px solid rgba(255,215,70,.65);color:#fff8e0;cursor:pointer;box-shadow:0 0 24px rgba(245,200,66,.35);transition:all .2s;}
+#pause-overlay .pause-resume-btn:hover{box-shadow:0 0 36px rgba(245,200,66,.55);transform:translateY(-2px);}
 /* Hint reveal — pulses gold then fades */
 @keyframes hintReveal{
   0%  {box-shadow:0 0 0 0 rgba(245,200,66,0),  inset 0 0 0   rgba(245,200,66,0)}
@@ -1715,6 +1724,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <button class="action-btn" id="pz-erase"><span class="icon">✕</span>ERASE</button>
         <button class="action-btn" id="pz-notes"><span class="icon">✎</span>NOTES</button>
         <button class="action-btn" id="pz-hint"><span class="icon">💡</span>HINT <span id="pz-hint-count" style="font-size:6px;opacity:.75;">(3)</span></button>
+        <button class="action-btn pause-btn" id="pz-pause"><span class="icon">⏸</span>PAUSE</button>
         <button class="action-btn" id="pz-new"><span class="icon">⚔</span>NEW</button>
       </div>
     </div>
@@ -1807,6 +1817,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <button class="action-btn" id="dp-erase"><span class="icon">✕</span>ERASE</button>
     <button class="action-btn" id="dp-notes"><span class="icon">✎</span>NOTES</button>
     <button class="action-btn" id="dp-hint"><span class="icon">💡</span>HINT <span id="dp-hint-count" style="font-size:6px;opacity:.7;">(3)</span></button>
+    <button class="action-btn pause-btn" id="dp-pause"><span class="icon">⏸</span>PAUSE</button>
     <button class="action-btn" id="dp-leaderboard-btn"><span class="icon">🏆</span>RANKS</button>
   </div>
 </div>
@@ -2310,6 +2321,13 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </div>
 </div>
 
+<!-- ═══════════════ PAUSE OVERLAY ═══════════════ -->
+<div id="pause-overlay">
+  <div class="pause-title">⏸ PAUSED</div>
+  <div class="pause-sub">⚜ YOUR QUEST AWAITS ⚜</div>
+  <button class="pause-resume-btn" id="pause-resume-btn">▶ RESUME</button>
+</div>
+
 <!-- ═══════════════ WIN OVERLAY (Puzzle) ═══════════════ -->
 <div id="win-overlay">
 
@@ -2597,6 +2615,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="ss-title" style="flex:1;margin-bottom:0;">SHARE YOUR RESULTS</div>
       <div style="width:40px;flex-shrink:0;"></div>
     </div>
+    <!-- Native share CTA (hidden on desktop where navigator.share unavailable) -->
+    <button id="ss-native" style="display:none;width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,rgba(200,140,20,.92),rgba(240,185,35,.92));border:1px solid rgba(255,215,70,.65);color:#fff8e0;font-family:'Cinzel',serif;font-size:13px;font-weight:700;letter-spacing:.12em;cursor:pointer;margin-bottom:14px;">⬆ Share Now</button>
     <!-- Preview text -->
     <div id="ss-preview" style="background:rgba(10,6,2,.7);border:1px solid rgba(160,110,40,.25);border-radius:10px;padding:11px 14px;margin-bottom:18px;font-family:'Crimson Pro',serif;font-size:12px;color:rgba(220,185,120,.85);line-height:1.7;white-space:pre-wrap;text-align:left;"></div>
     <!-- Option buttons -->
@@ -2618,6 +2638,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <div class="ss-btn-label">COPY</div>
       </button>
     </div>
+    <div style="font-family:'Crimson Pro',serif;font-size:11px;color:rgba(200,160,100,.45);text-align:center;margin:10px 0 4px;letter-spacing:.06em;">On iPhone & Android, tap any button above or use your device's native share menu</div>
     <button class="ss-cancel" id="ss-cancel">Cancel</button>
   </div>
 </div>
@@ -2921,6 +2942,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .dh-play-btn:hover{box-shadow:0 0 26px rgba(245,200,66,.4);}
 .dh-play-btn.replay{background:rgba(30,20,8,.8);border-color:rgba(160,110,40,.5);color:rgba(200,160,100,.75);}
 .dh-play-btn.replay:hover{border-color:rgba(200,160,80,.6);color:rgba(220,180,120,.9);}
+.dh-share-btn{width:100%;padding:11px;border-radius:14px;background:linear-gradient(135deg,rgba(20,55,100,.92),rgba(30,80,145,.92));border:1px solid rgba(80,150,240,.45);color:#a8d4ff;font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.14em;cursor:pointer;transition:all .2s;margin-top:8px;}
+.dh-share-btn:hover{box-shadow:0 0 20px rgba(80,150,255,.35);border-color:rgba(100,180,255,.65);color:#c8e8ff;}
 
 /* ── Jigsaw Artifact Vault ── */
 .jigsaw-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;padding:4px 0;}
@@ -4926,55 +4949,112 @@ function dpShowRewardPanel(){
 /* ══════════════════════════════════════════════════════
    SHARE RESULTS
 ══════════════════════════════════════════════════════ */
-function _buildShareText(){
-  const score=DP.score.toLocaleString();
-  const time=fmtTime(DP.elapsed);
-  const mistakes=5-DP.lives;
-  const diff=DP.diff?`${DP.diff.emoji} ${DP.diff.name}`:'Daily';
-  const [,m,d]=DP.dateStr.split('-').map(Number);
+// ── Game link (update when you have a real hosted URL) ──
+const GAME_URL='https://dardene.github.io/treasure-sudoku/beta/treasure-sudoku-v3.html';
+
+function _buildShareText(includeLink, savedData){
+  // savedData: {score, time, mistakes, dateStr, diff} — used when sharing from archive
+  // Falls back to live DP state if no savedData
+  const src=savedData||{};
+  const score=(src.score!=null?src.score:(DP&&DP.score!=null?DP.score:0)).toLocaleString();
+  const rawTime=src.time!=null?src.time:(DP&&DP.elapsed!=null?DP.elapsed:0);
+  const time=fmtTime(rawTime);
+  const mistakes=src.mistakes!=null?src.mistakes:(DP?(5-DP.lives):0);
+  const dateStr=src.dateStr||(DP&&DP.dateStr?DP.dateStr:dpGetTodayStr());
+  const[,m,d]=dateStr.split('-').map(Number);
   const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const dateLabel=`${months[m-1]} ${d}`;
-  const mistakeEmoji=mistakes===0?'✨':mistakes<=2?'⚔️':'💀';
-  return `⚗️ Treasure Sudoku — Daily Challenge\n📅 ${dateLabel}  ·  ${diff}\n\n🏆 Score: ${score}\n⏱ Time: ${time}\n${mistakeEmoji} Mistakes: ${mistakes}\n\n#TreasureSudoku`;
+  const perf=mistakes===0?'Perfect run — zero mistakes! 🎯':`Finished in ${time}${mistakes>0?` · ${mistakes} mistake${mistakes!==1?'s':''}`:''}`;
+  const lines=[
+    `🏺 Treasure Sudoku — Daily Challenge`,
+    `📅 ${dateLabel}`,
+    ``,
+    `🏆 Score: ${score}`,
+    `⏱ Time: ${time}`,
+    `${mistakes===0?'✨':'⚔️'} ${perf}`,
+    ``,
+    `Think you can beat me? Try it free 👇`,
+    includeLink!==false?GAME_URL:'',
+    `#TreasureSudoku #DailyPuzzle`,
+  ];
+  return lines.filter(l=>l!==undefined).join('\n').trim();
 }
+
 function _copyText(text,msg){
-  navigator.clipboard.writeText(text).then(()=>{showToast(msg||'📋 Copied!',2200);}).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:-9999px;';
-    document.body.appendChild(ta);ta.select();
-    try{document.execCommand('copy');showToast(msg||'📋 Copied!',2200);}catch(e){showToast('Could not copy — try again',2000);}
-    ta.remove();
-  });
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>showToast(msg||'📋 Copied!',2200)).catch(()=>_copyFallback(text,msg));
+  } else {_copyFallback(text,msg);}
 }
-function shareDailyResults(){
-  const text=_buildShareText();
-  // Populate preview in share sheet
+function _copyFallback(text,msg){
+  const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;left:-9999px;top:-9999px;opacity:0;';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand('copy');showToast(msg||'📋 Copied!',2200);}catch(e){showToast('Tap & hold to copy',2000);}
+  ta.remove();
+}
+
+function shareDailyResults(savedData){
+  const text=_buildShareText(true,savedData);
+  const textNoLink=_buildShareText(false,savedData);
+
+  // ── 1. Native OS share sheet (iOS/Android) — best experience ──
+  if(navigator.share){
+    navigator.share({
+      title:'Treasure Sudoku – Daily Challenge',
+      text:textNoLink,
+      url:GAME_URL,
+    }).catch(err=>{
+      // User cancelled or share failed — silently ignore
+      if(err&&err.name!=='AbortError') console.warn('Share failed:',err);
+    });
+    return; // Native sheet handles everything — no need to show custom sheet
+  }
+
+  // ── 2. Fallback: custom share sheet for desktop/unsupported browsers ──
   document.getElementById('ss-preview').textContent=text;
-  // Show the sheet — set display directly so inline style doesn't block the CSS class
   const sheet=document.getElementById('share-sheet');
   const closeSheet=()=>{sheet.style.display='none';};
   sheet.style.display='flex';
-  // ── Text / SMS ──
+  // Show native share button if available from here too
+  const nativeBtn=document.getElementById('ss-native');
+  if(navigator.share){nativeBtn.style.display='block';nativeBtn.onclick=()=>{closeSheet();navigator.share({title:'Treasure Sudoku',text:textNoLink,url:GAME_URL}).catch(()=>{});};}
+  else{nativeBtn.style.display='none';}
+
+  // SMS / Text
   document.getElementById('ss-sms').onclick=()=>{
     closeSheet();
-    window.open(`sms:?body=${encodeURIComponent(text)}`,'_self');
+    // iOS: sms:&body=  Android: sms:?body=  — try both via user-agent
+    const sep=/iphone|ipad|ipod/i.test(navigator.userAgent)?'&':'?';
+    window.location.href=`sms:${sep}body=${encodeURIComponent(text)}`;
   };
-  // ── Facebook ──
+
+  // Facebook — share dialog with URL + prefilled quote
   document.getElementById('ss-fb').onclick=()=>{
     closeSheet();
-    const url='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgithub.com%2Fdardene%2Ftreasure-sudoku&quote='+encodeURIComponent(text);
-    window.open(url,'_blank','noopener,noreferrer');
+    // Facebook's Feed Dialog (works without app review for simple link shares)
+    const fbUrl=`https://www.facebook.com/dialog/feed?app_id=&link=${encodeURIComponent(GAME_URL)}&quote=${encodeURIComponent(textNoLink)}&redirect_uri=${encodeURIComponent(GAME_URL)}`;
+    // Fallback to basic sharer if no app_id configured
+    const sharerUrl=`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(GAME_URL)}&quote=${encodeURIComponent(textNoLink)}`;
+    window.open(sharerUrl,'_blank','noopener,noreferrer,width=600,height=500');
   };
-  // ── Instagram — copy + instructions ──
+
+  // Instagram — copy text then deep-link into Instagram
   document.getElementById('ss-ig').onclick=()=>{
     closeSheet();
-    _copyText(text,'📋 Copied! Open Instagram → paste in a new story or post.');
+    _copyText(text,'📋 Copied! Pasting into Instagram…');
+    // Try Instagram deep link (works on mobile if Instagram is installed)
+    setTimeout(()=>{
+      window.location.href='instagram://';
+      // If Instagram isn't installed, nothing happens — user has the text copied
+    },600);
   };
-  // ── Copy to clipboard ──
+
+  // Copy to clipboard
   document.getElementById('ss-copy').onclick=()=>{
-    closeSheet();
     _copyText(text,'📋 Results copied to clipboard!');
+    // Keep sheet open so user can see the preview
   };
-  // ── Back / Cancel / backdrop ──
+
+  // Back / Cancel / tap backdrop
   document.getElementById('ss-back').onclick=closeSheet;
   document.getElementById('ss-cancel').onclick=closeSheet;
   sheet.onclick=(e)=>{if(e.target===sheet)closeSheet();};
@@ -6013,8 +6093,8 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
 document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>renderMapPuzzle());});
 
 // Back buttons
-document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';showScreen('screen-menu');});
-document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);showScreen('screen-menu');});
+document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
+document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
 // Vault scroll buttons
 (function(){
@@ -6042,6 +6122,60 @@ document.getElementById('pz-undo').addEventListener('click',pzUndo);
 document.getElementById('pz-erase').addEventListener('click',pzErase);
 document.getElementById('pz-hint').addEventListener('click',pzHint);
 document.getElementById('pz-new').addEventListener('click',()=>showDiffPicker(diff=>pzStart(diff)));
+
+// ── Pause system ──
+let PAUSED={active:false,source:null};
+function pauseGame(source){
+  if(PAUSED.active)return;
+  PAUSED={active:true,source};
+  if(source==='pz'){
+    clearInterval(PZ.timerInterval);PZ.timerInterval=null;
+  } else {
+    // Stop main timer
+    clearInterval(DP.timerInterval);DP.timerInterval=null;
+    // Freeze next-challenge scheduler
+    clearTimeout(DP.challengeScheduleId);DP.challengeScheduleId=null;
+    // Freeze each active bomb / money-bag countdown
+    if(DP.challenges){DP.challenges.forEach(ch=>{clearInterval(ch.countdownId);ch.countdownId=null;});}
+  }
+  document.getElementById('pause-overlay').classList.add('show');
+}
+function resumeGame(){
+  if(!PAUSED.active)return;
+  const src=PAUSED.source;
+  PAUSED={active:false,source:null};
+  document.getElementById('pause-overlay').classList.remove('show');
+  if(src==='pz'){
+    PZ.startTime=Date.now()-PZ.elapsed*1000;
+    PZ.timerInterval=setInterval(()=>{PZ.elapsed=Math.floor((Date.now()-PZ.startTime)/1000);document.getElementById('pz-timer').textContent=fmtTime(PZ.elapsed);},500);
+  } else {
+    // Restart main timer
+    DP.startTime=Date.now()-DP.elapsed*1000;
+    DP.timerInterval=setInterval(()=>{
+      if(DP.gameOver||DP.completed){clearInterval(DP.timerInterval);return;}
+      DP.elapsed=Math.floor((Date.now()-DP.startTime)/1000);
+      document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);
+    },500);
+    // Resume each active bomb / money-bag countdown
+    if(DP.challenges){
+      DP.challenges.forEach(ch=>{
+        if(ch.countdownId)return;
+        ch.countdownId=setInterval(()=>{
+          if(!DP.challenges.includes(ch))return;
+          ch.timeLeft--;dpChallengeUpdateTimerDisplay();
+          if(ch.timeLeft<=0)dpChallengeExpire(ch);
+        },1000);
+      });
+    }
+    // Reschedule the next challenge after a short grace period
+    if(!DP.gameOver&&!DP.completed&&DP.challengeQueue&&DP.challengeQueue.length){
+      dpChallengeScheduleNext(6000);
+    }
+  }
+}
+document.getElementById('pz-pause').addEventListener('click',()=>pauseGame('pz'));
+document.getElementById('dp-pause').addEventListener('click',()=>pauseGame('dp'));
+document.getElementById('pause-resume-btn').addEventListener('click',resumeGame);
 document.getElementById('pz-notes').addEventListener('click',function(){
   PZ.notesMode=!PZ.notesMode;this.classList.toggle('notes-on',PZ.notesMode);
   this.querySelector('.icon').textContent=PZ.notesMode?'📝':'✎';
@@ -6415,6 +6549,21 @@ function renderDailyHub(){
     dpStart(false, todayDone?todayStr:null);
   });
   todayCard.appendChild(todayBtn);
+
+  // Share button — only show after puzzle is completed
+  if(todayDone&&todayBest){
+    const shareBtn=document.createElement('button');
+    shareBtn.className='dh-share-btn';
+    shareBtn.innerHTML='⬆ Share Results';
+    shareBtn.addEventListener('click',()=>shareDailyResults({
+      score:todayBest.score,
+      time:todayBest.time,
+      mistakes:todayBest.mistakes,
+      dateStr:todayStr,
+    }));
+    todayCard.appendChild(shareBtn);
+  }
+
   todayWrap.appendChild(todayCard);
 
   // Past 6 days (offset -6 through -1, oldest→newest = left→right)
