@@ -20,6 +20,7 @@
 html{height:100%;height:-webkit-fill-available;overflow:hidden;overscroll-behavior:none;}
 body{font-family:'Cinzel',serif;background:url('menu-bg.png') center center/cover no-repeat #080402;height:100%;height:-webkit-fill-available;overflow:hidden;user-select:none;-webkit-user-select:none;overscroll-behavior:none;touch-action:manipulation;}
 button,input,.menu-btn,.ghost-btn,.gold-btn,.cell,.num-btn,.action-btn,.hand-card,.toggle-btn,.sel-btn,.diff-pick-btn,.howto-nav-btn,.howto-dot,.auth-btn,.auth-guest-btn,.auth-tab,.menu-top-btn,.howto-start-btn,.howto-skip,.battle-btn,.profile-signout-btn,.lr-close,.dh-day-card{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.ghost-btn svg,.ghost-btn span{pointer-events:none;}
 
 /* ══════════════ ENVIRONMENT — Tropical Beach ══════════════ */
 #env{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
@@ -374,8 +375,8 @@ button,input,.menu-btn,.ghost-btn,.gold-btn,.cell,.num-btn,.action-btn,.hand-car
 .stat-value{font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 10px var(--glow-gold);line-height:1.2;}
 .stat-best{font-size:8px;color:var(--stone-light);font-family:'Crimson Pro',serif;margin-top:1px;}
 /* ══ DIFFICULTY PICKER MODAL ══ */
-#diff-picker{position:fixed;inset:0;z-index:350;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('puzzle-bg1.png') center center/cover no-repeat;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}
-#diff-picker.show{opacity:1;pointer-events:auto;}
+#diff-picker{position:fixed;inset:0;z-index:350;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('puzzle-bg1.png') center center/cover no-repeat;display:none;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+#diff-picker.show{display:flex;opacity:1;pointer-events:auto;}
 .diff-pick-btn{width:100%;padding:14px 18px;border-radius:13px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;cursor:pointer;transition:all .2s;display:grid;grid-template-columns:20px 1fr auto;align-items:center;column-gap:5px;text-align:left;background:linear-gradient(135deg,rgba(18,10,4,.95),rgba(32,20,7,.95));border:1px solid;}
 .diff-pick-btn:hover{transform:translateX(4px);filter:brightness(1.2);box-shadow:0 4px 22px rgba(0,0,0,.7);}
 .dpb-name{font-weight:900;letter-spacing:.14em;font-size:11px;}
@@ -440,8 +441,8 @@ button,input,.menu-btn,.ghost-btn,.gold-btn,.cell,.num-btn,.action-btn,.hand-car
 .back-btn{position:absolute;top:14px;left:14px;padding:7px 14px;font-size:10px;z-index:20;}
 
 /* ══════════════ WIN OVERLAY ══════════════ */
-#win-overlay{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .5s;}
-#win-overlay.show{opacity:1;pointer-events:all;}
+#win-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .5s;}
+#win-overlay.show{display:flex;opacity:1;pointer-events:all;}
 .win-panel{background:radial-gradient(ellipse at 50% 0%,rgba(80,55,15,.98),rgba(10,6,2,.98));border:2px solid var(--gold);border-radius:24px;padding:30px 36px;text-align:center;box-shadow:0 0 60px rgba(245,200,66,.4),0 30px 60px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,220,100,.2);max-width:340px;width:90%;transform:scale(.8);transition:transform .5s cubic-bezier(.34,1.56,.64,1);}
 #win-overlay.show .win-panel{transform:scale(1);}
 .win-chest{font-size:68px;animation:chestBounce .6s ease .3s both;}
@@ -733,13 +734,14 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- Debug banner (temporary) -->
 <div id="ts-debug" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:white;font-family:monospace;font-size:11px;padding:6px 8px;text-align:center;word-break:break-all;">JS loading...</div>
 <script>
+function _cn(el){try{var c=el.className;return typeof c==='string'?c.substring(0,60):(c&&c.baseVal?c.baseVal.substring(0,60):'svg');}catch(e){return '?';}}
 document.addEventListener('click',function(e){
-  var d=document.getElementById('ts-debug');
-  if(d){d.style.display='block';d.style.background='#333';d.textContent='TAP: <'+e.target.tagName+'> id='+e.target.id+' class='+e.target.className.substring(0,60)+' pe='+getComputedStyle(e.target).pointerEvents;}
+  try{var d=document.getElementById('ts-debug');
+  if(d){d.style.display='block';d.style.background='#333';d.textContent='TAP: <'+e.target.tagName+'> id='+(e.target.id||'')+' class='+_cn(e.target)+' pe='+getComputedStyle(e.target).pointerEvents;}}catch(x){}
 },true);
 document.addEventListener('touchstart',function(e){
-  var d=document.getElementById('ts-debug');
-  if(d){d.style.display='block';d.style.background='purple';d.textContent='TOUCH: <'+e.target.tagName+'> id='+e.target.id+' class='+e.target.className.substring(0,60);}
+  try{var d=document.getElementById('ts-debug');
+  if(d){d.style.display='block';d.style.background='purple';d.textContent='TOUCH: <'+e.target.tagName+'> id='+(e.target.id||'')+' class='+_cn(e.target);}}catch(x){}
 },{capture:true,passive:true});
 </script>
 
