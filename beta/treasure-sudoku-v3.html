@@ -3163,7 +3163,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
 /* ══ TREASURE MAP SCREEN ══ */
-#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:8px 12px 20px;gap:0;background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url('treasure-map-bg.jpg') center 0px/110% auto no-repeat,#1a1008;}
+#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:8px 12px 20px;gap:0;background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url('treasure-map-bg.jpg') center -30px/110% auto no-repeat,#1a1008;}
 #mapv-bg{display:none;}
 #screen-mapview > *{position:relative;z-index:2;}
 #screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
@@ -6939,16 +6939,16 @@ function renderAdventurePath(){
   // Only show first 10 locations — bottom to top, near buildings/edges
   const positions=[
     null, // 1-indexed
-    {x:170,y:410,align:'left'},   // 1 - bottom docks/boats
-    {x:100,y:370,align:'left'},   // 2 - bottom-left pyramid
-    {x:250,y:350,align:'right'},  // 3 - bottom-right buildings
-    {x:120,y:310,align:'left'},   // 4 - left temple ruins
-    {x:240,y:285,align:'right'},  // 5 - right village
-    {x:100,y:250,align:'left'},   // 6 - left coast
-    {x:200,y:225,align:'left'},   // 7 - center path buildings
-    {x:260,y:190,align:'right'},  // 8 - right structures
-    {x:120,y:160,align:'left'},   // 9 - left pyramid/cliff
-    {x:250,y:115,align:'right'},  // 10 - upper right temple
+    {x:95,y:499,align:'left'},    // 1 - bottom docks/boats
+    {x:-71,y:439,align:'left'},   // 2 - bottom-left pyramid
+    {x:-13,y:352,align:'right'},  // 3 - left ruins
+    {x:63,y:337,align:'left'},    // 4 - left temple ruins
+    {x:240,y:285,align:'right'},  // 5 - river village
+    {x:315,y:293,align:'left'},   // 6 - right coast
+    {x:156,y:225,align:'left'},   // 7 - center path buildings
+    {x:279,y:190,align:'right'},  // 8 - right structures
+    {x:228,y:108,align:'left'},   // 9 - upper mountains
+    {x:489,y:125,align:'right'},  // 10 - far right temple
   ];
 
   svg.setAttribute('viewBox','0 0 380 580');
