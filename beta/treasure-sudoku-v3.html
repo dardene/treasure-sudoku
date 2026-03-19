@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Treasure Sudoku — The Lost Relics</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
@@ -652,7 +652,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .auth-switch{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(180,140,70,.6);text-align:center;margin-top:14px;}
 .auth-switch span{color:var(--gold);cursor:pointer;text-decoration:underline;}
 /* Profile screen */
-.profile-panel{width:100%;max-width:420px;background:linear-gradient(160deg,rgba(18,10,3,.97),rgba(30,18,6,.97));border:1px solid rgba(180,140,60,.45);border-radius:22px;padding:28px 24px 24px;box-shadow:0 0 60px rgba(0,0,0,.8);margin-top:44px;overflow-y:auto;max-height:calc(100vh - 80px);}
+.profile-panel{width:100%;max-width:420px;background:linear-gradient(160deg,rgba(18,10,3,.97),rgba(30,18,6,.97));border:1px solid rgba(180,140,60,.45);border-radius:22px;padding:28px 24px 24px;box-shadow:0 0 60px rgba(0,0,0,.8);margin-top:44px;overflow-y:auto;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);}
 .profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(180,130,20,.5),rgba(100,70,10,.5));border:2px solid rgba(200,155,40,.55);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;}
 .profile-username{font-family:'Cinzel',serif;font-size:18px;font-weight:900;color:var(--gold-light);text-align:center;letter-spacing:.12em;margin-bottom:4px;}
 .profile-email{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(180,140,70,.5);text-align:center;margin-bottom:20px;}
@@ -724,7 +724,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 /* Relic lore */
 .relic-lore{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(180,140,80,.6);font-style:italic;line-height:1.45;margin-top:3px;text-align:center;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
 </head>
 <body>
 
@@ -3204,7 +3204,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .map-tabs{display:flex;gap:6px;justify-content:center;margin:8px auto 10px;padding:0 16px;max-width:340px;}
 .map-tab{flex:1;text-align:center;padding:7px 0;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:rgba(200,180,140,.55);border:1px solid rgba(200,180,140,.18);border-radius:10px;cursor:pointer;transition:all .25s;background:rgba(0,0,0,.25);}
 .map-tab.active{color:var(--gold);border-color:var(--gold);background:rgba(180,140,40,.15);text-shadow:0 0 12px var(--glow-gold);}
-.advpath-wrap{position:fixed!important;top:0;left:0;width:100vw;height:100vh;overflow:visible;padding:0;pointer-events:none;z-index:3;}
+.advpath-wrap{position:fixed!important;top:0;left:0;width:100vw;height:100vh;height:100dvh;overflow:visible;padding:0;pointer-events:none;z-index:3;}
 .advpath-wrap svg{pointer-events:all;width:100%;height:100%;}
 .advpath-wrap::-webkit-scrollbar{display:none;}
 .advpath-svg{display:block;margin:0 auto;width:100%;max-width:380px;}
@@ -3286,7 +3286,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 /* ── Daily Hub ── */
 #screen-daily-hub{overflow-y:auto;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('menu-bg.png') center center/cover no-repeat;}
-.dh-panel{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;margin:0 auto;padding:80px 16px 24px;gap:0;min-height:calc(100vh - 32px);}
+.dh-panel{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;margin:0 auto;padding:80px 16px 24px;gap:0;min-height:calc(100vh - 32px);min-height:calc(100dvh - 32px);}
 .dh-title{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-align:center;margin-bottom:4px;}
 .dh-subtitle{font-family:'Crimson Pro',serif;font-size:13px;color:rgba(200,160,100,.7);letter-spacing:.1em;text-align:center;margin-bottom:20px;}
 /* Today card — larger, more prominent */
@@ -4254,8 +4254,8 @@ let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='';});
   /* Pause SVG animations on map background when not viewing the map */
-  const mapSvg=document.querySelector('#mapv-bg svg');
-  if(mapSvg){id==='screen-map'?mapSvg.unpauseAnimations():mapSvg.pauseAnimations();}
+  try{const mapSvg=document.querySelector('#mapv-bg svg');
+  if(mapSvg&&mapSvg.pauseAnimations){id==='screen-map'?mapSvg.unpauseAnimations():mapSvg.pauseAnimations();}}catch(e){}
   requestAnimationFrame(()=>{document.getElementById(id).classList.add('active');});
 }
 
