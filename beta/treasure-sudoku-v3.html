@@ -3215,13 +3215,14 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .adv-jigsaw-overlay .back-btn{position:absolute;top:12px;left:12px;z-index:2;}
 .adv-jig-title{font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;margin-top:38px;text-align:center;}
 .adv-jig-sub{font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.15em;margin:4px 0 14px;text-align:center;}
-.adv-jig-frame{display:flex;align-items:center;justify-content:center;margin:0 auto 14px;width:100%;max-width:340px;}
+.adv-jig-frame{display:flex;align-items:center;justify-content:center;margin:0 auto 10px;width:100%;max-width:440px;padding:0 8px;box-sizing:border-box;}
 .adv-jig-frame svg{display:block;overflow:visible;max-width:100%;border-radius:6px;}
-.adv-jig-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;max-width:360px;margin:0 auto;}
-.adv-jig-piece{cursor:pointer;border-radius:4px;transition:filter .2s,transform .2s;overflow:visible;}
+.adv-jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px;max-width:440px;margin:0 auto;}
+.adv-jig-piece{cursor:grab;border-radius:4px;transition:filter .2s,transform .2s;overflow:visible;width:78px;height:78px;display:flex;align-items:center;justify-content:center;}
 .adv-jig-piece svg{display:block;overflow:visible;}
-.adv-jig-piece.selected{filter:drop-shadow(0 0 10px rgba(245,200,66,.95)) brightness(1.25);transform:scale(1.12);}
+.adv-jig-piece.selected{filter:drop-shadow(0 0 10px rgba(245,200,66,.95)) brightness(1.25);transform:scale(1.08);}
 .adv-jig-piece.placed{opacity:.22;pointer-events:none;filter:grayscale(.7);}
+.adv-jig-piece.dragging{position:fixed;z-index:600;pointer-events:none;opacity:.85;filter:drop-shadow(0 0 16px rgba(245,200,66,.9)) brightness(1.3);transform:scale(1.15);transition:none;cursor:grabbing;}
 .adv-jig-slot{cursor:pointer;transition:opacity .2s;}
 .adv-jig-slot.highlight{opacity:1;animation:mapSlotPulse .8s ease-in-out infinite;}
 @keyframes advShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
@@ -7074,8 +7075,9 @@ function advNodeClicked(locationId){
     return;
   }
   if(completed.includes(locationId)){
-    showToast(ADVENTURE_LOCATIONS[locationId].name+' — already completed!');
-    return;
+    // Allow replay — reset placed pieces for this location
+    GAME_STATS.adventurePlacedPieces[locationId]=[];
+    saveState();
   }
   openAdvJigsaw(locationId);
 }
@@ -7107,7 +7109,7 @@ function openAdvJigsaw(locationId){
 
   // Render grid
   const gridSvg=document.getElementById('adv-jig-grid');
-  const CS=64; // cell size — match Daily Map
+  const CS=56; // cell size — slightly smaller to fit screen with tray
   const gW=cols*CS,gH=rows*CS;
   const pad=CS*.3; // padding for tab overflow
   gridSvg.setAttribute('viewBox',`${-pad} ${-pad} ${gW+pad*2} ${gH+pad*2}`);
@@ -7173,7 +7175,7 @@ function openAdvJigsaw(locationId){
     [unplaced[i],unplaced[j]]=[unplaced[j],unplaced[i]];
   }
 
-  const trayCS=Math.min(55,220/cols); // smaller pieces for tray
+  const trayCS=CS; // same size as grid slots
   let trayHtml='';
   unplaced.forEach(idx=>{
     const c=(idx-1)%cols,r=Math.floor((idx-1)/cols);
@@ -7194,20 +7196,104 @@ function openAdvJigsaw(locationId){
     pSvg+=`</g>`;
     pSvg+=`<path d="${tPath}" fill="none" stroke="rgba(200,160,60,.6)" stroke-width="1.2"/>`;
     pSvg+=`</svg>`;
-    const rot=((idx*17+7)%26)-13;
-    const tx=((idx*13+3)%13)-6;
-    const ty=((idx*11+5)%11)-5;
-    trayHtml+=`<div class="adv-jig-piece" data-piece="${idx}" title="Piece ${idx}" style="transform:rotate(${rot}deg) translate(${tx}px,${ty}px)">${pSvg}</div>`;
+    trayHtml+=`<div class="adv-jig-piece" data-piece="${idx}" title="Piece ${idx}">${pSvg}</div>`;
   });
   tray.innerHTML=trayHtml;
 
-  // Add tray piece click listeners
+  // Add tray piece click + drag listeners
   tray.querySelectorAll('.adv-jig-piece').forEach(pc=>{
     pc.addEventListener('click',()=>advSelectPiece(locationId,parseInt(pc.dataset.piece)));
+    pc.addEventListener('mousedown',(e)=>_advDragStart(locationId,parseInt(pc.dataset.piece),pc,e));
+    pc.addEventListener('touchstart',(e)=>_advDragStart(locationId,parseInt(pc.dataset.piece),pc,e),{passive:false});
   });
 
   // Show overlay
   document.getElementById('adv-jigsaw-overlay').classList.add('show');
+}
+
+/* ── Drag & Drop for Adventure Jigsaw ── */
+let _advDrag={active:false,pieceIdx:null,locId:null,el:null,ghost:null,startX:0,startY:0,moved:false};
+
+function _advDragStart(locId,pieceIdx,el,e){
+  e.preventDefault();
+  const touch=e.touches?e.touches[0]:e;
+  _advDrag={active:true,pieceIdx,locId,el,ghost:null,startX:touch.clientX,startY:touch.clientY,moved:false};
+  // Create ghost after slight movement to distinguish click from drag
+  const onMove=(ev)=>{
+    const t=ev.touches?ev.touches[0]:ev;
+    const dx=t.clientX-_advDrag.startX,dy=t.clientY-_advDrag.startY;
+    if(!_advDrag.moved&&Math.abs(dx)+Math.abs(dy)>8){
+      _advDrag.moved=true;
+      // Create dragging ghost
+      const ghost=el.cloneNode(true);
+      ghost.classList.add('dragging');
+      ghost.style.width=el.offsetWidth+'px';
+      ghost.style.height=el.offsetHeight+'px';
+      ghost.style.left=(t.clientX-el.offsetWidth/2)+'px';
+      ghost.style.top=(t.clientY-el.offsetHeight/2)+'px';
+      document.body.appendChild(ghost);
+      _advDrag.ghost=ghost;
+      el.style.opacity='.3';
+    }
+    if(_advDrag.ghost){
+      _advDrag.ghost.style.left=(t.clientX-el.offsetWidth/2)+'px';
+      _advDrag.ghost.style.top=(t.clientY-el.offsetHeight/2)+'px';
+    }
+  };
+  const onEnd=(ev)=>{
+    document.removeEventListener('mousemove',onMove);
+    document.removeEventListener('mouseup',onEnd);
+    document.removeEventListener('touchmove',onMove);
+    document.removeEventListener('touchend',onEnd);
+    if(_advDrag.ghost){
+      const t=ev.changedTouches?ev.changedTouches[0]:ev;
+      _advDrag.ghost.remove();
+      el.style.opacity='';
+      // Check if dropped near a slot on the grid
+      _advDropOnGrid(locId,pieceIdx,t.clientX,t.clientY);
+    }
+    _advDrag.active=false;
+  };
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('mouseup',onEnd);
+  document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('touchend',onEnd);
+}
+
+function _advDropOnGrid(locId,pieceIdx,dropX,dropY){
+  const gridSvg=document.getElementById('adv-jig-grid');
+  const rect=gridSvg.getBoundingClientRect();
+  const loc=ADVENTURE_LOCATIONS[locId];
+  const cols=loc.gridCols,rows=loc.gridRows;
+  const CS=56;
+  const pad=CS*.3;
+  // Convert drop position to SVG coordinates
+  const svgScale=rect.width/(cols*CS+pad*2);
+  const svgX=(dropX-rect.left)/svgScale-pad;
+  const svgY=(dropY-rect.top)/svgScale-pad;
+  // Find closest slot center
+  let bestSlot=null,bestDist=Infinity;
+  const placed=GAME_STATS.adventurePlacedPieces[locId]||[];
+  for(let idx=1;idx<=cols*rows;idx++){
+    if(placed.includes(idx))continue;
+    const c=(idx-1)%cols,r=Math.floor((idx-1)/cols);
+    const cx=c*CS+CS/2,cy=r*CS+CS/2;
+    const dist=Math.sqrt((svgX-cx)**2+(svgY-cy)**2);
+    if(dist<bestDist){bestDist=dist;bestSlot=idx;}
+  }
+  // Snap threshold: within ~1 cell size
+  if(bestSlot!==null&&bestDist<CS*1.2){
+    // If correct slot, place it
+    if(bestSlot===pieceIdx){
+      _advJigState.selectedPiece=pieceIdx;
+      advPlaceOnSlot(locId,bestSlot);
+    } else {
+      // Wrong slot — shake
+      const slotEl=document.querySelector(`#adv-jig-grid .adv-jig-slot[data-slot="${bestSlot}"]`);
+      if(slotEl){slotEl.classList.add('adv-jig-shake');setTimeout(()=>slotEl.classList.remove('adv-jig-shake'),400);}
+      SOUNDS.play(7);
+    }
+  }
 }
 
 /* ── Select Piece in Tray ── */
