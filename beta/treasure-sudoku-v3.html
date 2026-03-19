@@ -7096,18 +7096,23 @@ function openAdvJigsaw(locationId){
 
   _advJigState={locId:locationId,selectedPiece:null};
 
+  const xSlot=TREASURE_MAPS[loc.sceneIdx].xSlot;
+  const allPlaced=(placed.length>=totalPieces);
+
   // Set title & subtitle
   document.getElementById('adv-jig-title').textContent=loc.icon+' '+loc.name;
-  document.getElementById('adv-jig-sub').textContent=loc.desc;
+  document.getElementById('adv-jig-sub').textContent=allPlaced
+    ? 'Map complete! Tap the \u2715 to claim your reward!'
+    : placed.length+' / '+totalPieces+' pieces placed';
 
   // Render grid
   const gridSvg=document.getElementById('adv-jig-grid');
-  const CS=Math.min(70,280/cols); // cell size
+  const CS=64; // cell size — match Daily Map
   const gW=cols*CS,gH=rows*CS;
   const pad=CS*.3; // padding for tab overflow
   gridSvg.setAttribute('viewBox',`${-pad} ${-pad} ${gW+pad*2} ${gH+pad*2}`);
-  gridSvg.setAttribute('width',Math.min(340,gW+pad*2));
-  gridSvg.setAttribute('height',gH+pad*2);
+  gridSvg.setAttribute('width','100%');
+  gridSvg.setAttribute('height','auto');
 
   let gHtml='<defs>';
   // Clip paths and image patterns for each piece
@@ -7132,13 +7137,14 @@ function openAdvJigsaw(locationId){
 
     if(placed.includes(idx)){
       // Placed piece — show scene image clipped
-      gHtml+=`<g clip-path="url(#advjcp_${locationId}_${idx})">`;
-      gHtml+=`<image href="${sceneURI}" x="0" y="0" width="${gW}" height="${gH}" preserveAspectRatio="xMidYMid slice"/>`;
+      const isXSpot=(allPlaced && idx===xSlot);
+      gHtml+=`<g clip-path="url(#advjcp_${locationId}_${idx})"${isXSpot?' class="adv-jig-xspot" data-loc="'+locationId+'" style="animation:xSlotPulse 1.0s ease-in-out infinite;cursor:pointer"':''}>`;
+      gHtml+=`<image href="${sceneURI}" x="0" y="0" width="${gW}" height="${gH}" preserveAspectRatio="xMidYMid slice" style="filter:brightness(1.35) saturate(1.15)"/>`;
       gHtml+=`</g>`;
-      gHtml+=`<path d="${pathD}" fill="none" stroke="rgba(200,160,60,.4)" stroke-width=".8"/>`;
+      gHtml+=`<path d="${pathD}" fill="none" stroke="rgba(200,160,55,.75)" stroke-width="1.8" stroke-linejoin="round"${isXSpot?' class="adv-jig-xspot" data-loc="'+locationId+'" style="animation:xSlotPulse 1.0s ease-in-out infinite;cursor:pointer"':''}/>`;
     } else {
       // Empty slot
-      gHtml+=`<path d="${pathD}" fill="rgba(20,14,6,.5)" stroke="rgba(160,120,60,.35)" stroke-width="1.2" class="adv-jig-slot" data-slot="${idx}" style="cursor:pointer"/>`;
+      gHtml+=`<path d="${pathD}" fill="rgba(48,28,8,.52)" stroke="rgba(110,72,22,.85)" stroke-width="1.8" stroke-linejoin="round" class="adv-jig-slot" data-slot="${idx}" style="cursor:pointer"/>`;
       // Piece number hint
       gHtml+=`<text x="${c*CS+CS/2}" y="${r*CS+CS/2+4}" text-anchor="middle" font-size="${Math.max(8,CS/5)}" fill="rgba(160,120,60,.2)" font-family="'Cinzel',serif">${idx}</text>`;
     }
@@ -7148,6 +7154,11 @@ function openAdvJigsaw(locationId){
   // Add slot click listeners
   gridSvg.querySelectorAll('.adv-jig-slot').forEach(slot=>{
     slot.addEventListener('click',()=>advPlaceOnSlot(locationId,parseInt(slot.dataset.slot)));
+  });
+
+  // Add X-marks-the-spot click listener when all pieces placed
+  gridSvg.querySelectorAll('.adv-jig-xspot').forEach(el=>{
+    el.addEventListener('click',()=>advMapRevealChest(parseInt(el.dataset.loc)));
   });
 
   // Render tray with unplaced pieces (shuffled)
@@ -7179,11 +7190,14 @@ function openAdvJigsaw(locationId){
     const srcX=-c*trayCS,srcY=-r*trayCS;
     const imgW=cols*trayCS,imgH=rows*trayCS;
     pSvg+=`<g clip-path="url(#advtcp_${locationId}_${idx})">`;
-    pSvg+=`<image href="${sceneURI}" x="${srcX}" y="${srcY}" width="${imgW}" height="${imgH}" preserveAspectRatio="none"/>`;
+    pSvg+=`<image href="${sceneURI}" x="${srcX}" y="${srcY}" width="${imgW}" height="${imgH}" preserveAspectRatio="none" style="filter:brightness(1.75) saturate(1.2)"/>`;
     pSvg+=`</g>`;
     pSvg+=`<path d="${tPath}" fill="none" stroke="rgba(200,160,60,.6)" stroke-width="1.2"/>`;
     pSvg+=`</svg>`;
-    trayHtml+=`<div class="adv-jig-piece" data-piece="${idx}" title="Piece ${idx}">${pSvg}</div>`;
+    const rot=((idx*17+7)%26)-13;
+    const tx=((idx*13+3)%13)-6;
+    const ty=((idx*11+5)%11)-5;
+    trayHtml+=`<div class="adv-jig-piece" data-piece="${idx}" title="Piece ${idx}" style="transform:rotate(${rot}deg) translate(${tx}px,${ty}px)">${pSvg}</div>`;
   });
   tray.innerHTML=trayHtml;
 
@@ -7236,13 +7250,42 @@ function advPlaceOnSlot(locId,slotIdx){
   const totalPieces=loc.gridCols*loc.gridRows;
   const placed=GAME_STATS.adventurePlacedPieces[locId];
 
-  // Re-render the puzzle
+  // Re-render the puzzle (will show X marks the spot if all placed)
   openAdvJigsaw(locId);
 
-  // Check completion
+  // If all pieces placed, show toast — chest flow handles completion
   if(placed.length>=totalPieces){
-    setTimeout(()=>advJigsawComplete(locId),400);
+    showToast('Map complete! Tap the \u2715 to claim your reward!');
   }
+}
+
+/* ── Adventure Map: Chest Reveal (X marks the spot) ── */
+function advMapRevealChest(locationId){
+  const overlay=document.getElementById('map-chest-overlay');
+  if(overlay.classList.contains('show'))return;
+  const xStage=document.getElementById('mco-x-stage');
+  const chestStage=document.getElementById('mco-chest-stage');
+  xStage.style.display='none';
+  chestStage.style.display='block';
+  document.getElementById('mco-title').textContent='YOUR TREASURE AWAITS!';
+  document.getElementById('mco-sub').textContent='Tap the chest to open it';
+  const chest=document.getElementById('mc-chest-wrap');
+  chest.classList.remove('opened');
+  chest.style.animation='none';chest.offsetHeight;chest.style.animation='';
+  overlay.classList.add('show');
+  chest.onclick=function(){
+    if(this.classList.contains('opened'))return;
+    this.classList.add('opened');
+    const r=this.getBoundingClientRect();
+    spawnParticles(r.left+r.width/2,r.top+r.height*.4,Math.ceil(Math.random()*9));
+    setTimeout(()=>spawnParticles(r.left+r.width/2,r.top+r.height*.3,Math.ceil(Math.random()*9)),200);
+    setTimeout(()=>{
+      overlay.classList.remove('show');
+      // Close jigsaw overlay too
+      document.getElementById('adv-jigsaw-overlay').classList.remove('show');
+      advJigsawComplete(locationId);
+    },900);
+  };
 }
 
 /* ── Jigsaw Puzzle Complete ── */
