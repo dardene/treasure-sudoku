@@ -2303,13 +2303,15 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <button class="ghost-btn back-btn" id="mapview-back">← Back</button>
   <div class="mapv-title" id="mapv-title">⚜ TREASURE MAP ⚜</div>
   <div class="mapv-sub" id="mapv-sub">Chart your course through 25 legendary locations</div>
-  <div class="map-tabs" id="map-tabs">
+  <!-- map-tabs removed: adventure path is now the only view -->
+  <div class="map-tabs" id="map-tabs" style="display:none">
     <div class="map-tab active" data-tab="adventure">ADVENTURE PATH</div>
     <div class="map-tab" data-tab="daily">DAILY MAP</div>
   </div>
   <div id="adventure-tab-content" class="advpath-wrap">
     <svg id="advpath-svg" class="advpath-svg" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
+  <!-- daily-tab-content hidden: merged into adventure path -->
   <div id="daily-tab-content" style="display:none">
     <div class="mapv-grid-wrap">
       <div class="mapv-parchment">
@@ -3709,104 +3711,35 @@ const JIGSAW_ARTIFACTS=[
 /* ══════════════════════════════════════════════════════
    ADVENTURE PATH — 25 Location Roadmap
 ══════════════════════════════════════════════════════ */
-const ADVENTURE_LOCATIONS=[null, // 1-indexed
-  // ── Coastal / Beach (2×2 = 4 pieces) ──
-  {id:1,name:'Sunlit Cove',theme:'coastal',desc:'A sheltered cove where golden waves lap at the shore.',gridCols:2,gridRows:2,sceneIdx:0,icon:'\u{1F3D6}'},
-  {id:2,name:'Coral Beach',theme:'coastal',desc:'Pink coral fragments litter the warm white sand.',gridCols:2,gridRows:2,sceneIdx:1,icon:'\u{1F41A}'},
-  {id:3,name:'Smuggler\'s Bay',theme:'coastal',desc:'A hidden bay favored by pirates and smugglers.',gridCols:2,gridRows:2,sceneIdx:2,icon:'\u2693'},
-  {id:4,name:'Tidal Pools',theme:'coastal',desc:'Shallow pools teeming with strange bioluminescent life.',gridCols:2,gridRows:2,sceneIdx:3,icon:'\u{1F30A}'},
-  {id:5,name:'Lighthouse Point',theme:'coastal',desc:'An ancient lighthouse still beams across the fog.',gridCols:2,gridRows:2,sceneIdx:4,icon:'\u{1F6E5}'},
-  // ── Forest / Cave (3×2 = 6 pieces) ──
-  {id:6,name:'Whispering Woods',theme:'forest',desc:'The trees here whisper secrets of buried treasure.',gridCols:3,gridRows:2,sceneIdx:5,icon:'\u{1F332}'},
-  {id:7,name:'Mushroom Hollow',theme:'forest',desc:'Giant mushrooms tower above the mossy trail.',gridCols:3,gridRows:2,sceneIdx:6,icon:'\u{1F344}'},
-  {id:8,name:'Crystal Cavern',theme:'cave',desc:'Geodes sparkle like stars inside this hidden grotto.',gridCols:3,gridRows:2,sceneIdx:7,icon:'\u{1F48E}'},
-  {id:9,name:'Emerald Canopy',theme:'forest',desc:'Sunlight filters through an endless green canopy.',gridCols:3,gridRows:2,sceneIdx:8,icon:'\u{1F33F}'},
-  {id:10,name:'Bat\'s Nest Cave',theme:'cave',desc:'Thousands of bats guard the entrance to deeper tunnels.',gridCols:3,gridRows:2,sceneIdx:9,icon:'\u{1F987}'},
-  // ── Desert / Mountain (3×3 = 9 pieces) ──
-  {id:11,name:'Scorpion Dunes',theme:'desert',desc:'Shifting dunes hide ancient ruins beneath the sand.',gridCols:3,gridRows:3,sceneIdx:10,icon:'\u{1F982}'},
-  {id:12,name:'Oasis Temple',theme:'desert',desc:'A crumbling temple rises from a desert oasis.',gridCols:3,gridRows:3,sceneIdx:11,icon:'\u{1F3DB}'},
-  {id:13,name:'Eagle\'s Peak',theme:'mountain',desc:'The highest peak, home to the golden eagles.',gridCols:3,gridRows:3,sceneIdx:12,icon:'\u{1F985}'},
-  {id:14,name:'Sandstorm Pass',theme:'desert',desc:'A treacherous pass battered by eternal sandstorms.',gridCols:3,gridRows:3,sceneIdx:13,icon:'\u{1F32A}'},
-  {id:15,name:'Frozen Summit',theme:'mountain',desc:'Ice and snow cloak the summit of this dead volcano.',gridCols:3,gridRows:3,sceneIdx:14,icon:'\u2744'},
-  // ── Ruins / Volcanic (4×3 = 12 pieces) ──
-  {id:16,name:'Obsidian Ruins',theme:'ruins',desc:'Black glass pillars mark a civilization lost to fire.',gridCols:4,gridRows:3,sceneIdx:15,icon:'\u{1F3DA}'},
-  {id:17,name:'Lava Fields',theme:'volcanic',desc:'Rivers of molten rock flow between charred stone.',gridCols:4,gridRows:3,sceneIdx:16,icon:'\u{1F30B}'},
-  {id:18,name:'Sunken Colosseum',theme:'ruins',desc:'Half-submerged arena from the days of Solara.',gridCols:4,gridRows:3,sceneIdx:17,icon:'\u{1F3DF}'},
-  {id:19,name:'Magma Throne',theme:'volcanic',desc:'A throne carved from cooled magma, still warm to touch.',gridCols:4,gridRows:3,sceneIdx:18,icon:'\u{1F525}'},
-  {id:20,name:'Ash Gardens',theme:'volcanic',desc:'Strange flowers bloom in the volcanic ash fields.',gridCols:4,gridRows:3,sceneIdx:19,icon:'\u{1F33A}'},
-  // ── Legendary / Mythical (5×3 = 15 pieces) ──
-  {id:21,name:'Dragon\'s Lair',theme:'mythical',desc:'The final resting place of the last dragon of Solara.',gridCols:5,gridRows:3,sceneIdx:20,icon:'\u{1F409}'},
-  {id:22,name:'Phantom Shipwreck',theme:'mythical',desc:'A ghost ship lodged in an impossible cliff face.',gridCols:5,gridRows:3,sceneIdx:21,icon:'\u{1F47B}'},
-  {id:23,name:'Celestial Bridge',theme:'mythical',desc:'A bridge of starlight connecting two floating islands.',gridCols:5,gridRows:3,sceneIdx:22,icon:'\u{1F320}'},
-  {id:24,name:'Void Temple',theme:'mythical',desc:'A temple built at the edge of reality itself.',gridCols:5,gridRows:3,sceneIdx:23,icon:'\u{1F573}'},
-  {id:25,name:'Solara\'s Heart',theme:'mythical',desc:'The legendary vault where all treasures converge.',gridCols:5,gridRows:3,sceneIdx:24,icon:'\u{1F451}'}
+const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×3 = 15 pieces)
+  {id:1, name:'The Lost Isle',     icon:'\u{1F3DD}', desc:'Complete The Lost Isle jigsaw puzzle.',         gridCols:5,gridRows:3,sceneIdx:0},
+  {id:2, name:'Desert Sands',      icon:'\u{1F3DC}', desc:'Complete the Desert Sands jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:1},
+  {id:3, name:'Arctic Wastes',     icon:'\u2744',     desc:'Complete the Arctic Wastes jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:2},
+  {id:4, name:'Volcanic Isle',     icon:'\u{1F30B}', desc:'Complete the Volcanic Isle jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:3},
+  {id:5, name:'Dense Jungle',      icon:'\u{1F33F}', desc:'Complete the Dense Jungle jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:4},
+  {id:6, name:'Ancient Seas',      icon:'\u2693',     desc:'Complete the Ancient Seas jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:5},
+  {id:7, name:'Mountain Fortress', icon:'\u{1F3D4}', desc:'Complete the Mountain Fortress jigsaw puzzle.', gridCols:5,gridRows:3,sceneIdx:6},
+  {id:8, name:'Misty Peninsula',   icon:'\u{1F32B}', desc:'Complete the Misty Peninsula jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:7},
+  {id:9, name:'Golden Savanna',    icon:'\u{1F305}', desc:'Complete the Golden Savanna jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:8},
+  {id:10,name:'Cursed Swamp',      icon:'\u{1F40A}', desc:'Complete the Cursed Swamp jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:9},
+  {id:11,name:'Crystal Caverns',   icon:'\u{1F48E}', desc:'Complete the Crystal Caverns jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:10},
+  {id:12,name:'Pirate Harbor',     icon:'\u{1F3F4}', desc:'Complete the Pirate Harbor jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:11},
+  {id:13,name:"Dragon's Vale",     icon:'\u{1F409}', desc:"Complete the Dragon's Vale jigsaw puzzle.",     gridCols:5,gridRows:3,sceneIdx:12},
+  {id:14,name:"Pharaoh's Realm",   icon:'\u{1F451}', desc:"Complete the Pharaoh's Realm jigsaw puzzle.",   gridCols:5,gridRows:3,sceneIdx:13},
+  {id:15,name:'Nordic Shores',     icon:'\u26F5',     desc:'Complete the Nordic Shores jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:14},
+  {id:16,name:'Enchanted Wilds',   icon:'\u2728',     desc:'Complete the Enchanted Wilds jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:15},
+  {id:17,name:'Thunder Peaks',     icon:'\u26C8',     desc:'Complete the Thunder Peaks jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:16},
+  {id:18,name:'Mystic Lagoon',     icon:'\u{1F30A}', desc:'Complete the Mystic Lagoon jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:17},
+  {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18},
+  {id:20,name:'Sunken City',       icon:'\u{1F3DB}', desc:'Complete the Sunken City jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:19},
+  {id:21,name:'Coral Shore',       icon:'\u{1F41A}', desc:'Complete the Coral Shore jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:20},
+  {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21},
+  {id:23,name:'Ancient River',     icon:'\u{1F3DE}', desc:'Complete the Ancient River jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:22},
+  {id:24,name:'Frozen Abyss',      icon:'\u{1F573}', desc:'Complete the Frozen Abyss jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:23},
+  {id:25,name:'Crimson Peak',      icon:'\u{1F480}', desc:'Complete the Crimson Peak jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:24}
 ];
 
-/** Generate jigsaw edge definitions for an arbitrary cols×rows grid.
- *  Returns a 1-indexed array (null at 0) of {T,R,B,L} edge objects.
- *  Border edges are flat ('f'); internal edges alternate tab-out/notch-in
- *  so adjacent pieces interlock correctly. */
-function generatePieceEdges(cols,rows){
-  // Build a 2D grid of edge objects, then flatten to 1-indexed array
-  const hEdges=[]; // horizontal edges between rows: hEdges[r][c] (r=0..rows, c=0..cols-1)
-  const vEdges=[]; // vertical edges between cols: vEdges[r][c] (r=0..rows-1, c=0..cols)
-
-  // Pre-generate shared internal edges with slight randomization
-  function rp(){return .42+Math.random()*.16;} // center position ~0.42-0.58
-  function rd(){return .18+Math.random()*.08;} // depth ~0.18-0.26
-  function rh(){return .16+Math.random()*.06;} // halfWidth ~0.16-0.22
-
-  // Horizontal edges (top/bottom of cells)
-  for(let r=0;r<=rows;r++){
-    hEdges[r]=[];
-    for(let c=0;c<cols;c++){
-      if(r===0||r===rows){
-        hEdges[r][c]={t:'f'};
-      } else {
-        // Alternate 'o' and 'i' in a checkerboard-ish pattern
-        const type=((r+c)%2===0)?'o':'i';
-        hEdges[r][c]={t:type,p:rp(),d:rd(),hw:rh()};
-      }
-    }
-  }
-  // Vertical edges (left/right of cells)
-  for(let r=0;r<rows;r++){
-    vEdges[r]=[];
-    for(let c=0;c<=cols;c++){
-      if(c===0||c===cols){
-        vEdges[r][c]={t:'f'};
-      } else {
-        const type=((r+c)%2===0)?'o':'i';
-        vEdges[r][c]={t:type,p:rp(),d:rd(),hw:rh()};
-      }
-    }
-  }
-
-  // Build pieces array (1-indexed)
-  const pieces=[null];
-  for(let r=0;r<rows;r++){
-    for(let c=0;c<cols;c++){
-      const top=hEdges[r][c];
-      const bottom_raw=hEdges[r+1][c];
-      const left=vEdges[r][c];
-      const right_raw=vEdges[r][c+1];
-      // Bottom edge from perspective of this cell is the opposite of the top edge of cell below
-      const bottom=bottom_raw.t==='f'?{t:'f'}:{t:bottom_raw.t==='o'?'i':'o',p:bottom_raw.p,d:bottom_raw.d,hw:bottom_raw.hw};
-      // Right edge from this cell's perspective is opposite of left edge of cell to the right
-      const right=right_raw.t==='f'?{t:'f'}:{t:right_raw.t==='o'?'i':'o',p:right_raw.p,d:right_raw.d,hw:right_raw.hw};
-      pieces.push({T:top,R:right,B:bottom,L:left});
-    }
-  }
-  return pieces;
-}
-
-// Cache generated edges per grid size to avoid re-randomizing
-const _advEdgeCache={};
-function getAdvEdges(cols,rows){
-  const key=cols+'x'+rows;
-  if(!_advEdgeCache[key]) _advEdgeCache[key]=generatePieceEdges(cols,rows);
-  return _advEdgeCache[key];
-}
+// (generatePieceEdges and getAdvEdges removed — Adventure Path now uses standard PIECE_EDGES)
 
 /* ── ARTIFACT HELPERS (support both standard + jigsaw slots) ── */
 function getArtifactSvg(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.svg||'':ARTIFACTS.svg(slot);}
@@ -6978,25 +6911,16 @@ function mapChestOpened(){
    ADVENTURE PATH — Tab Switching & Roadmap
 ══════════════════════════════════════════════════════ */
 function switchMapTab(tabName){
-  const tabs=document.querySelectorAll('.map-tab');
-  tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===tabName));
+  // Simplified: always show adventure path (daily tab removed)
   const advContent=document.getElementById('adventure-tab-content');
   const dailyContent=document.getElementById('daily-tab-content');
   const title=document.getElementById('mapv-title');
   const sub=document.getElementById('mapv-sub');
-  if(tabName==='adventure'){
-    advContent.style.display='';
-    dailyContent.style.display='none';
-    title.textContent='\u269C ADVENTURE PATH \u269C';
-    sub.textContent='Chart your course through 25 legendary locations';
-    renderAdventurePath();
-  } else {
-    advContent.style.display='none';
-    dailyContent.style.display='';
-    title.textContent='\u269C TREASURE MAP \u269C';
-    sub.textContent='Place your earned pieces in the right spots';
-    renderMapPuzzle();
-  }
+  advContent.style.display='';
+  dailyContent.style.display='none';
+  title.textContent='\u269C TREASURE MAP \u269C';
+  sub.textContent='Chart your course through 25 legendary locations';
+  renderAdventurePath();
 }
 
 /* ── Adventure Path Rendering ── */
@@ -7032,17 +6956,7 @@ function renderAdventurePath(){
   svg.setAttribute('viewBox','0 0 380 '+svgH);
   svg.style.height=svgH+'px';
 
-  // Theme decorations between rows
-  const decoIcons={
-    coastal:'M{x},{y} l-4,-8 l4,3 l4,-3 Z', // wave
-    forest:'M{x},{y} l-3,-10 l3,2 l3,-2 Z',  // tree
-    cave:'M{x},{y} l-5,-6 l5,-2 l5,2 Z',      // mountain
-    desert:'M{x},{y} l-6,0 l3,-8 Z',           // pyramid
-    mountain:'M{x},{y} l-5,0 l5,-10 l5,10 Z',  // peak
-    ruins:'M{x},{y} l0,-8 l3,0 l0,8 Z',        // pillar
-    volcanic:'M{x},{y} l-4,0 l2,-8 l2,0 l2,8 Z',// volcano
-    mythical:'M{x},{y} l-3,-4 l3,-3 l3,3 Z'    // star
-  };
+  // Decorative icons (generic map/treasure themed, no longer theme-dependent)
 
   let html='<defs>';
   html+='<radialGradient id="advGoldG" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="50%" stop-color="#f5c842"/><stop offset="100%" stop-color="#a07010"/></radialGradient>';
@@ -7066,24 +6980,17 @@ function renderAdventurePath(){
     html+=`<path d="M${a.x},${a.y} Q${midX},${midY} ${b.x},${b.y}" fill="none" stroke="${color}" stroke-width="${width}" ${dash?'stroke-dasharray="'+dash+'"':''} stroke-linecap="round"/>`;
   }
 
-  // Draw small decorative elements between nodes
+  // Draw small decorative elements between nodes (generic map markers)
   for(let i=1;i<=25;i++){
     const loc=ADVENTURE_LOCATIONS[i];
     if(!loc)continue;
     const p=positions[i];
-    // Tiny theme decoration offset from node
     const dx=(i%2===0)?-28:28;
     const dy=12;
-    const theme=loc.theme;
     const col=completed.includes(i)?'rgba(200,180,120,.25)':'rgba(80,80,80,.15)';
-    if(theme==='coastal') html+=`<circle cx="${p.x+dx}" cy="${p.y+dy}" r="3" fill="${col}"/>`;
-    else if(theme==='forest') html+=`<path d="M${p.x+dx},${p.y+dy} l-2.5,-7 l2.5,1.5 l2.5,-1.5 Z" fill="${col}"/>`;
-    else if(theme==='desert') html+=`<path d="M${p.x+dx},${p.y+dy} l-4,0 l4,-7 l4,0 Z" fill="${col}"/>`;
-    else if(theme==='mountain') html+=`<path d="M${p.x+dx},${p.y+dy} l-4,0 l4,-8 l4,0 Z" fill="${col}"/>`;
-    else if(theme==='ruins') html+=`<rect x="${p.x+dx-2}" y="${p.y+dy-7}" width="4" height="7" rx="1" fill="${col}"/>`;
-    else if(theme==='volcanic') html+=`<path d="M${p.x+dx},${p.y+dy} l-3,0 l1.5,-6 l1,0 l1.5,6 Z" fill="${col}"/>`;
-    else if(theme==='mythical') html+=`<polygon points="${p.x+dx},${p.y+dy-6} ${p.x+dx+2},${p.y+dy-2} ${p.x+dx+5},${p.y+dy-2} ${p.x+dx+3},${p.y+dy+1} ${p.x+dx+4},${p.y+dy+5} ${p.x+dx},${p.y+dy+3} ${p.x+dx-4},${p.y+dy+5} ${p.x+dx-3},${p.y+dy+1} ${p.x+dx-5},${p.y+dy-2} ${p.x+dx-2},${p.y+dy-2}" fill="${col}"/>`;
-    else html+=`<circle cx="${p.x+dx}" cy="${p.y+dy}" r="2.5" fill="${col}"/>`;
+    // Alternate between small circle and diamond markers
+    if(i%2===0) html+=`<circle cx="${p.x+dx}" cy="${p.y+dy}" r="3" fill="${col}"/>`;
+    else html+=`<path d="M${p.x+dx},${p.y+dy-4} l3,4 l-3,4 l-3,-4 Z" fill="${col}"/>`;
   }
 
   // Draw nodes
@@ -7124,27 +7031,21 @@ function renderAdventurePath(){
     const nameY=p.y+r+16;
     html+=`<text x="${p.x}" y="${nameY}" text-anchor="middle" font-family="'Cinzel',serif" font-size="9" fill="${nameColor}" letter-spacing=".08em">${loc.name}</text>`;
 
-    // Difficulty indicator (small dots showing piece count)
-    const pieces=loc.gridCols*loc.gridRows;
+    // Piece count indicator (all 15-piece puzzles)
     const dotColor=isDone?'rgba(200,160,40,.5)':isCurrent?'rgba(200,160,40,.6)':'rgba(100,100,100,.2)';
     const dotY=nameY+10;
-    const dotSpacing=6;
-    const dotStart=p.x-((pieces-1)*dotSpacing)/2;
-    for(let d=0;d<Math.min(pieces,8);d++){
-      html+=`<circle cx="${dotStart+d*dotSpacing}" cy="${dotY}" r="1.5" fill="${dotColor}"/>`;
-    }
-    if(pieces>8) html+=`<text x="${dotStart+8*dotSpacing+4}" y="${dotY+3}" font-size="6" fill="${dotColor}">+${pieces-8}</text>`;
+    html+=`<text x="${p.x}" y="${dotY+3}" text-anchor="middle" font-size="7" fill="${dotColor}" font-family="'Cinzel',serif">15 pieces</text>`;
 
     html+=`</g>`;
   }
 
   // Section labels
   const sections=[
-    {y:30,label:'COASTAL SHORES',range:'1-5'},
-    {y:260,label:'DEEP FORESTS',range:'6-10'},
-    {y:490,label:'DESERT & PEAKS',range:'11-15'},
-    {y:720,label:'ANCIENT RUINS',range:'16-20'},
-    {y:940,label:'LEGENDARY REALM',range:'21-25'}
+    {y:30,label:'UNCHARTED ISLES',range:'1-5'},
+    {y:260,label:'WILD FRONTIERS',range:'6-10'},
+    {y:490,label:'HIDDEN DEPTHS',range:'11-15'},
+    {y:720,label:'MYSTIC LANDS',range:'16-20'},
+    {y:940,label:'FINAL EXPEDITION',range:'21-25'}
   ];
   sections.forEach(s=>{
     html+=`<text x="190" y="${s.y}" text-anchor="middle" font-family="'Crimson Pro',serif" font-size="8" fill="rgba(200,180,140,.3)" letter-spacing=".35em">${s.label}</text>`;
@@ -7190,7 +7091,7 @@ function openAdvJigsaw(locationId){
   const totalPieces=cols*rows;
   const sceneMap=TREASURE_MAPS[loc.sceneIdx];
   const sceneURI=sceneMap?sceneMap.uri:'';
-  const edges=getAdvEdges(cols,rows);
+  const edges=PIECE_EDGES; // standard 5×3 grid — same as Daily Map jigsaw
   const placed=GAME_STATS.adventurePlacedPieces[locationId]||[];
 
   _advJigState={locId:locationId,selectedPiece:null};
@@ -7354,6 +7255,15 @@ function advJigsawComplete(locationId){
   if(GAME_STATS.adventureProgress<=locationId){
     GAME_STATS.adventureProgress=Math.min(26,locationId+1);
   }
+
+  // Award jigsaw relic — artifact index matches location (1-25)
+  const artifactIdx=locationId; // location 1 → artifact 1, etc.
+  if(!GAME_STATS.jigsawArtifacts)GAME_STATS.jigsawArtifacts=[];
+  const alreadyEarned=GAME_STATS.jigsawArtifacts.includes(artifactIdx);
+  if(!alreadyEarned){
+    GAME_STATS.jigsawArtifacts.push(artifactIdx);
+  }
+
   saveState();
 
   // Celebration
@@ -7363,23 +7273,30 @@ function advJigsawComplete(locationId){
   flash.style.cssText='position:fixed;inset:0;z-index:510;background:rgba(245,200,66,.3);pointer-events:none;animation:flashFade .65s ease forwards;';
   document.body.appendChild(flash);setTimeout(()=>flash.remove(),800);
   // Particles
-  for(let i=0;i<4;i++){
+  for(let i=0;i<6;i++){
     setTimeout(()=>{
       spawnParticles(
-        window.innerWidth*.2+Math.random()*window.innerWidth*.6,
-        window.innerHeight*.15+Math.random()*window.innerHeight*.4,
-        Math.ceil(Math.random()*7)
+        window.innerWidth*.15+Math.random()*window.innerWidth*.7,
+        window.innerHeight*.1+Math.random()*window.innerHeight*.55,
+        Math.ceil(Math.random()*9)
       );
-    },i*180);
+    },i*200);
   }
+  // Coins
+  spawnWinCoins();
+  setTimeout(()=>spawnWinCoins(),800);
 
   const loc=ADVENTURE_LOCATIONS[locationId];
   showToast(loc.icon+' '+loc.name+' complete! '+(locationId<25?'Next location unlocked!':'ALL LOCATIONS COMPLETE!'));
 
-  // Close overlay after delay and re-render path
+  // Close jigsaw overlay, then show relic reveal
   setTimeout(()=>{
     document.getElementById('adv-jigsaw-overlay').classList.remove('show');
-    setTimeout(()=>renderAdventurePath(),350);
+    if(!alreadyEarned){
+      setTimeout(()=>showJigsawReveal(artifactIdx,'adventure'),600);
+    } else {
+      setTimeout(()=>renderAdventurePath(),350);
+    }
   },1800);
 }
 
@@ -7447,10 +7364,7 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
 })();
 document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>switchMapTab('adventure'));});
 
-// Adventure Path tab switching
-document.querySelectorAll('.map-tab').forEach(t=>{
-  t.addEventListener('click',()=>switchMapTab(t.dataset.tab));
-});
+// Tab switching removed — adventure path is the only view
 
 // Adventure jigsaw back button
 document.getElementById('adv-jigsaw-back').addEventListener('click',()=>{
@@ -7775,7 +7689,7 @@ function dpMapPieceEarned(dateStr){
   showToast(`🗺️ Map piece ${cycle}/15 collected!`,2500);
 }
 
-function showJigsawReveal(idx){
+function showJigsawReveal(idx,returnTo){
   const art=JIGSAW_ARTIFACTS[idx];
   if(!art)return;
   const overlay=document.getElementById('legendary-unlock-overlay');
@@ -7791,9 +7705,14 @@ function showJigsawReveal(idx){
   overlay.style.display='flex';
   document.getElementById('luo-close').onclick=()=>{
     overlay.style.display='none';
-    renderJigsawVault();
-    showScreen('screen-vault');
-    renderVault();
+    if(returnTo==='adventure'){
+      showScreen('screen-mapview');
+      renderAdventurePath();
+    } else {
+      renderJigsawVault();
+      showScreen('screen-vault');
+      renderVault();
+    }
   };
 }
 
