@@ -7033,7 +7033,7 @@ function renderAdventurePath(){
     if(!document.getElementById('adv-log-pos-btn')){
       const btn=document.createElement('button');btn.id='adv-log-pos-btn';
       btn.textContent='Log Positions';btn.style.cssText='position:fixed;bottom:60px;right:16px;z-index:999;background:#f5c842;color:#3a1a00;border:2px solid #a07010;border-radius:8px;padding:8px 14px;font-weight:bold;font-size:13px;cursor:pointer;';
-      btn.onclick=()=>{let out='const positions=[\\n  null,\\n';for(let i=1;i<=10;i++){const p=nodePositions[i];out+=`  {x:${p.x},y:${p.y},align:\\'${p.align}\\'},  // ${i}\\n`;}out+='];';console.log(out);alert('Positions logged to console!');};
+      btn.onclick=()=>{let out='';for(let i=1;i<=10;i++){const p=nodePositions[i];out+=`${i}: x:${p.x} y:${p.y} ${p.align}\n`;}alert(out);};
       document.body.appendChild(btn);
     }
   }
