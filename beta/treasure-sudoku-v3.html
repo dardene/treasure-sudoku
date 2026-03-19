@@ -3167,7 +3167,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
 /* ══ TREASURE MAP SCREEN ══ */
-#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:8px 12px 20px;gap:0;background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.25)),url('treasure-map-bg.jpg') center center/cover no-repeat,#1a1008;}
+#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:env(safe-area-inset-top,2px) 12px 20px;gap:0;background:linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%),url('treasure-map-bg.jpg') 60% 30%/auto 120% no-repeat,#1a1008;}
 #mapv-bg{display:none;}
 #screen-mapview > *{position:relative;z-index:2;}
 #screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
@@ -3725,9 +3725,9 @@ const JIGSAW_ARTIFACTS=[
 const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×3 = 15 pieces)
   {id:1, name:'The Lost Isle',     icon:'\u{1F3DD}', desc:'Complete The Lost Isle jigsaw puzzle.',         gridCols:5,gridRows:3,sceneIdx:0},
   {id:2, name:'Desert Sands',      icon:'\u{1F3DC}', desc:'Complete the Desert Sands jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:1},
-  {id:3, name:'Arctic Wastes',     icon:'\u2744',     desc:'Complete the Arctic Wastes jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:2},
+  {id:3, name:'Dense Jungle',      icon:'\u{1F33F}', desc:'Complete the Dense Jungle jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:4},
   {id:4, name:'Volcanic Isle',     icon:'\u{1F30B}', desc:'Complete the Volcanic Isle jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:3},
-  {id:5, name:'Dense Jungle',      icon:'\u{1F33F}', desc:'Complete the Dense Jungle jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:4},
+  {id:5, name:'Arctic Wastes',     icon:'\u2744',     desc:'Complete the Arctic Wastes jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:2},
   {id:6, name:'Ancient Seas',      icon:'\u2693',     desc:'Complete the Ancient Seas jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:5},
   {id:7, name:'Mountain Fortress', icon:'\u{1F3D4}', desc:'Complete the Mountain Fortress jigsaw puzzle.', gridCols:5,gridRows:3,sceneIdx:6},
   {id:8, name:'Misty Peninsula',   icon:'\u{1F32B}', desc:'Complete the Misty Peninsula jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:7},
@@ -6939,7 +6939,7 @@ function renderAdventurePath(){
   const svg=document.getElementById('advpath-svg');
   const DEV_MODE=true; // TEMP: reveal all nodes for positioning
   const progress=DEV_MODE?99:(GAME_STATS.adventureProgress||1);
-  const completed=DEV_MODE?[1,2,3,4,5,6,7,8,9]:(GAME_STATS.adventureCompleted||[]);
+  const completed=DEV_MODE?[1,2,3,4,5,6,7,8,9,10]:(GAME_STATS.adventureCompleted||[]);
 
   // Positions mapped to island landmarks (viewBox 380 x 490)
   // Only show first 10 locations — bottom to top, near buildings/edges
@@ -6954,7 +6954,7 @@ function renderAdventurePath(){
     {x:156,y:225,align:'left'},   // 7 - center path buildings
     {x:279,y:190,align:'right'},  // 8 - right structures
     {x:228,y:108,align:'left'},   // 9 - upper mountains
-    {x:489,y:125,align:'right'},  // 10 - far right temple
+    {x:350,y:125,align:'right'},  // 10 - far right temple
   ];
 
   svg.setAttribute('viewBox','-40 40 460 560');
