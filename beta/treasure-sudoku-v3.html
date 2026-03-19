@@ -3240,11 +3240,11 @@ document.addEventListener('touchstart',function(e){
 .adv-jig-frame{display:flex;align-items:center;justify-content:center;margin:0 auto 10px;width:100%;max-width:440px;padding:0 8px;box-sizing:border-box;}
 .adv-jig-frame svg{display:block;overflow:visible;max-width:100%;border-radius:6px;}
 .adv-jig-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px;max-width:440px;margin:0 auto;}
-.adv-jig-piece{cursor:grab;border-radius:4px;transition:filter .2s,transform .2s;overflow:visible;width:78px;height:78px;display:flex;align-items:center;justify-content:center;}
+.adv-jig-piece{cursor:grab;border-radius:4px;transition:filter .2s,transform .2s;overflow:visible;width:78px;height:78px;display:flex;align-items:center;justify-content:center;filter:brightness(.75);}
 .adv-jig-piece svg{display:block;overflow:visible;}
-.adv-jig-piece.selected{filter:drop-shadow(0 0 10px rgba(245,200,66,.95)) brightness(1.25);transform:scale(1.08);}
-.adv-jig-piece.placed{opacity:.22;pointer-events:none;filter:grayscale(.7);}
-.adv-jig-piece.dragging{position:fixed;z-index:600;pointer-events:none;opacity:.85;filter:drop-shadow(0 0 16px rgba(245,200,66,.9)) brightness(1.3);transform:scale(1.15);transition:none;cursor:grabbing;}
+.adv-jig-piece.selected{filter:drop-shadow(0 0 6px rgba(245,200,66,.5)) brightness(.85);transform:scale(1.08);}
+.adv-jig-piece.placed{opacity:.22;pointer-events:none;filter:grayscale(.7) brightness(.6);}
+.adv-jig-piece.dragging{position:fixed;z-index:600;pointer-events:none;opacity:.85;filter:drop-shadow(0 0 8px rgba(245,200,66,.4)) brightness(.8);transform:scale(1.15);transition:none;cursor:grabbing;}
 .adv-jig-slot{cursor:pointer;transition:opacity .2s;}
 .adv-jig-slot.highlight{opacity:1;animation:mapSlotPulse .8s ease-in-out infinite;}
 @keyframes advShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
@@ -7275,9 +7275,9 @@ function openAdvJigsaw(locationId){
 
   // Set location-specific background
   const overlay=document.getElementById('adv-jigsaw-overlay');
-  const LOC_BGS={1:'url(lost-isle-bg.png)'};
+  const LOC_BGS={1:'url(lost-isle-bg.png)',2:'url(desert-sand-bg.png)'};
   overlay.style.background=LOC_BGS[locationId]
-    ? LOC_BGS[locationId]+' center/cover no-repeat rgba(4,2,10,.96)'
+    ? LOC_BGS[locationId]+' center 20%/140% no-repeat rgba(4,2,10,.96)'
     : 'rgba(4,2,10,.96)';
 
   // Show overlay
