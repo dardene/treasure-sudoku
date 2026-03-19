@@ -731,7 +731,17 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <body>
 
 <!-- Debug banner (temporary) -->
-<div id="ts-debug" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:white;font-family:monospace;font-size:12px;padding:4px 8px;text-align:center;">JS loading...</div>
+<div id="ts-debug" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:white;font-family:monospace;font-size:11px;padding:6px 8px;text-align:center;word-break:break-all;">JS loading...</div>
+<script>
+document.addEventListener('click',function(e){
+  var d=document.getElementById('ts-debug');
+  if(d){d.style.display='block';d.style.background='#333';d.textContent='TAP: <'+e.target.tagName+'> id='+e.target.id+' class='+e.target.className.substring(0,60)+' pe='+getComputedStyle(e.target).pointerEvents;}
+},true);
+document.addEventListener('touchstart',function(e){
+  var d=document.getElementById('ts-debug');
+  if(d){d.style.display='block';d.style.background='purple';d.textContent='TOUCH: <'+e.target.tagName+'> id='+e.target.id+' class='+e.target.className.substring(0,60);}
+},{capture:true,passive:true});
+</script>
 
 <!-- Hidden background music player -->
 <audio id="bg-music" src="Sudoku.mp3" preload="auto"></audio>
