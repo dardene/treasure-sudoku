@@ -674,9 +674,10 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 /* ── Tutorial Overlay ── */
 .howto-section-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.22em;color:rgba(200,160,80,.55);text-align:center;margin-bottom:14px;text-transform:uppercase;transition:opacity .3s;}
 /* ── How To Play Tutorial Overlay ── */
-#howto-overlay{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+#howto-overlay{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:url('map-bg.jpeg') center center/cover no-repeat;}
+#howto-overlay::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:none;}
 #howto-overlay.show{display:flex;}
-.howto-panel{position:relative;width:min(92vw,420px);background:linear-gradient(160deg,rgba(18,10,3,.98),rgba(32,20,6,.98));border:1px solid rgba(180,140,60,.5);border-radius:24px;padding:32px 28px 28px;box-shadow:0 0 80px rgba(0,0,0,.9),0 0 40px rgba(140,100,20,.15);overflow:hidden;}
+.howto-panel{position:relative;z-index:1;width:min(92vw,420px);background:linear-gradient(160deg,rgba(18,10,3,.98),rgba(32,20,6,.98));border:1px solid rgba(180,140,60,.5);border-radius:24px;padding:32px 28px 28px;box-shadow:0 0 80px rgba(0,0,0,.9),0 0 40px rgba(140,100,20,.15);overflow:hidden;}
 .howto-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,150,30,.08),transparent 70%);pointer-events:none;}
 .howto-skip{position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(180,140,70,.45);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;cursor:pointer;padding:4px 8px;}
 .howto-skip:hover{color:rgba(200,160,90,.75);}
@@ -2301,8 +2302,10 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <rect x="0" y="0" width="400" height="65" fill="rgba(0,0,0,.65)"/>
   </svg></div>
   <button class="ghost-btn back-btn" id="mapview-back">← Back</button>
-  <div class="mapv-title" id="mapv-title">⚜ TREASURE MAP ⚜</div>
-  <div class="mapv-sub" id="mapv-sub">Chart your course through 25 legendary locations</div>
+  <div class="mapv-header">
+    <div class="mapv-title" id="mapv-title">⚜ TREASURE MAP ⚜</div>
+    <div class="mapv-sub" id="mapv-sub">Chart your course through 25 legendary locations</div>
+  </div>
   <!-- map-tabs removed: adventure path is now the only view -->
   <div class="map-tabs" id="map-tabs" style="display:none">
     <div class="map-tab active" data-tab="adventure">ADVENTURE PATH</div>
@@ -3160,14 +3163,15 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
 /* ══ TREASURE MAP SCREEN ══ */
-#screen-mapview{flex-direction:column;align-items:center;overflow-y:auto;padding:50px 12px 20px;gap:0;background:#060402;}
-#mapv-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;background:url('map-bg.jpeg') center center/cover no-repeat;}
-#mapv-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45);}
+#screen-mapview{flex-direction:column;align-items:center;overflow-y:auto;padding:8px 12px 20px;gap:0;background:#0a0604;}
+#mapv-bg{position:fixed;inset:-20px;pointer-events:none;z-index:0;overflow:hidden;background:url('treasure-map-bg.png') center -140px/cover no-repeat;}
+#mapv-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.15);}
 #mapv-bg svg{width:100%;height:100%;display:block;position:relative;z-index:1;}
 #screen-mapview > *:not(#mapv-bg){position:relative;z-index:2;}
 #screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
-.mapv-title{font-size:17px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:2px;flex-shrink:0;}
-.mapv-sub{font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:12px;flex-shrink:0;text-align:center;}
+.mapv-header{background:rgba(20,12,4,.75);border:1px solid rgba(140,100,40,.3);border-radius:12px;padding:10px 24px 8px;text-align:center;flex-shrink:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.mapv-title{font-size:17px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:2px;}
+.mapv-sub{font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:0;text-align:center;}
 .mapv-grid-wrap{flex-shrink:0;margin-bottom:10px;}
 .mapv-parchment{background:linear-gradient(145deg,#c8a040,#d4b55a,#b88a32,#c8a040);border-radius:10px;border:3px solid #7a4a0a;box-shadow:0 0 28px rgba(100,60,10,.7),inset 0 1px 0 rgba(255,240,160,.3);padding:5px;position:relative;overflow:visible;}
 .mapv-parchment::before{content:'';position:absolute;inset:8px;border:1px dashed rgba(100,60,10,.3);border-radius:5px;pointer-events:none;z-index:10;}
@@ -3202,7 +3206,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .map-tabs{display:flex;gap:6px;justify-content:center;margin:8px auto 10px;padding:0 16px;max-width:340px;}
 .map-tab{flex:1;text-align:center;padding:7px 0;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:rgba(200,180,140,.55);border:1px solid rgba(200,180,140,.18);border-radius:10px;cursor:pointer;transition:all .25s;background:rgba(0,0,0,.25);}
 .map-tab.active{color:var(--gold);border-color:var(--gold);background:rgba(180,140,40,.15);text-shadow:0 0 12px var(--glow-gold);}
-.advpath-wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:0 0 20px;scroll-behavior:smooth;}
+.advpath-wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:0 0 20px;scroll-behavior:smooth;-webkit-mask-image:linear-gradient(to bottom,transparent 0%,transparent 12%,black 38%,black 85%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,transparent 12%,black 38%,black 85%,transparent 100%);}
 .advpath-svg{display:block;margin:0 auto;width:100%;max-width:380px;}
 @keyframes advNodeGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(245,200,66,.6))}50%{filter:drop-shadow(0 0 22px rgba(245,200,66,1)) drop-shadow(0 0 40px rgba(200,160,40,.5))}}
 .adv-node-current{cursor:pointer;animation:advNodeGlow 1.8s ease-in-out infinite;}
@@ -6932,29 +6936,30 @@ function renderAdventurePath(){
   const completed=GAME_STATS.adventureCompleted||[];
 
   // Pre-computed node positions for a serpentine winding path
+  const OY=170; // offset to push all locations down onto the map parchment
   const positions=[
     null, // 1-indexed
     // Row 1 (L→R): locations 1-3
-    {x:70,y:80},{x:190,y:65},{x:310,y:85},
+    {x:70,y:OY+80},{x:190,y:OY+65},{x:310,y:OY+85},
     // Row 2 (R→L): locations 4-6
-    {x:320,y:190},{x:190,y:175},{x:60,y:195},
+    {x:320,y:OY+190},{x:190,y:OY+175},{x:60,y:OY+195},
     // Row 3 (L→R): locations 7-9
-    {x:75,y:310},{x:190,y:290},{x:305,y:315},
+    {x:75,y:OY+310},{x:190,y:OY+290},{x:305,y:OY+315},
     // Row 4 (R→L): locations 10-12
-    {x:315,y:425},{x:190,y:405},{x:65,y:430},
+    {x:315,y:OY+425},{x:190,y:OY+405},{x:65,y:OY+430},
     // Row 5 (L→R): locations 13-15
-    {x:80,y:545},{x:190,y:520},{x:300,y:550},
+    {x:80,y:OY+545},{x:190,y:OY+520},{x:300,y:OY+550},
     // Row 6 (R→L): locations 16-18
-    {x:310,y:660},{x:190,y:640},{x:70,y:665},
+    {x:310,y:OY+660},{x:190,y:OY+640},{x:70,y:OY+665},
     // Row 7 (L→R): locations 19-21
-    {x:75,y:780},{x:190,y:755},{x:305,y:785},
+    {x:75,y:OY+780},{x:190,y:OY+755},{x:305,y:OY+785},
     // Row 8 (R→L): locations 22-24
-    {x:315,y:895},{x:190,y:875},{x:65,y:900},
+    {x:315,y:OY+895},{x:190,y:OY+875},{x:65,y:OY+900},
     // Row 9 (center): location 25
-    {x:190,y:1010}
+    {x:190,y:OY+1010}
   ];
 
-  const svgH=1080;
+  const svgH=1080+OY;
   svg.setAttribute('viewBox','0 0 380 '+svgH);
   svg.style.height=svgH+'px';
 
@@ -6966,8 +6971,7 @@ function renderAdventurePath(){
   html+='<filter id="advGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
   html+='</defs>';
 
-  // Background gradient
-  html+='<rect width="380" height="'+svgH+'" rx="8" fill="rgba(8,4,18,.85)"/>';
+  // No SVG background — the treasure-map-bg.png image shows through
 
   // Draw connecting paths
   for(let i=1;i<25;i++){
@@ -7014,9 +7018,9 @@ function renderAdventurePath(){
     html+=`<g class="${nodeClass}" data-loc="${i}" style="cursor:${isLocked?'default':'pointer'}">`;
 
     if(isDone){
-      // Gold filled circle with checkmark
-      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="url(#advGoldG)" stroke="#c09820" stroke-width="2"/>`;
-      html+=`<text x="${p.x}" y="${p.y+6}" text-anchor="middle" font-size="22" fill="#2a1800" font-weight="900">\u2713</text>`;
+      // Keep icon visible, gold border to show completed
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="rgba(40,28,8,.85)" stroke="#c09820" stroke-width="2.5"/>`;
+      html+=`<text x="${p.x}" y="${p.y+8}" text-anchor="middle" font-size="24">${loc.icon}</text>`;
     } else if(isCurrent){
       // Animated gold outline, icon inside
       html+=`<circle cx="${p.x}" cy="${p.y}" r="${r+4}" fill="none" stroke="rgba(245,200,66,.3)" stroke-width="2" filter="url(#advGlow)"/>`;
@@ -7031,7 +7035,7 @@ function renderAdventurePath(){
     // Location name
     const nameColor=isDone?'rgba(245,200,66,.85)':isCurrent?'rgba(245,200,66,.95)':'rgba(150,150,150,.35)';
     const nameY=p.y+r+16;
-    html+=`<text x="${p.x}" y="${nameY}" text-anchor="middle" font-family="'Cinzel',serif" font-size="9" fill="${nameColor}" letter-spacing=".08em">${loc.name}</text>`;
+    html+=`<text x="${p.x}" y="${nameY}" text-anchor="middle" font-family="'Cinzel',serif" font-size="9" fill="${nameColor}" letter-spacing=".08em">${loc.name}${isDone?' <tspan fill="rgba(245,200,66,1)" font-size="10">✓</tspan>':''}</text>`;
 
     // Piece count indicator (all 15-piece puzzles)
     const dotColor=isDone?'rgba(200,160,40,.5)':isCurrent?'rgba(200,160,40,.6)':'rgba(100,100,100,.2)';
@@ -7041,17 +7045,7 @@ function renderAdventurePath(){
     html+=`</g>`;
   }
 
-  // Section labels
-  const sections=[
-    {y:30,label:'UNCHARTED ISLES',range:'1-5'},
-    {y:260,label:'WILD FRONTIERS',range:'6-10'},
-    {y:490,label:'HIDDEN DEPTHS',range:'11-15'},
-    {y:720,label:'MYSTIC LANDS',range:'16-20'},
-    {y:940,label:'FINAL EXPEDITION',range:'21-25'}
-  ];
-  sections.forEach(s=>{
-    html+=`<text x="190" y="${s.y}" text-anchor="middle" font-family="'Crimson Pro',serif" font-size="8" fill="rgba(200,180,140,.3)" letter-spacing=".35em">${s.label}</text>`;
-  });
+  // No section labels — locations sit directly on the map background
 
   svg.innerHTML=html;
 
