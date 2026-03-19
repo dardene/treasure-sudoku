@@ -6937,8 +6937,9 @@ function switchMapTab(tabName){
 /* ── Adventure Path Rendering ── */
 function renderAdventurePath(){
   const svg=document.getElementById('advpath-svg');
-  const progress=GAME_STATS.adventureProgress||1;
-  const completed=GAME_STATS.adventureCompleted||[];
+  const DEV_MODE=true; // TEMP: reveal all nodes for positioning
+  const progress=DEV_MODE?99:(GAME_STATS.adventureProgress||1);
+  const completed=DEV_MODE?[1,2,3,4,5,6,7,8,9]:(GAME_STATS.adventureCompleted||[]);
 
   // Positions mapped to island landmarks (viewBox 380 x 490)
   // Only show first 10 locations — bottom to top, near buildings/edges
@@ -7013,6 +7014,29 @@ function renderAdventurePath(){
   svg.querySelectorAll('[data-loc]').forEach(g=>{
     g.addEventListener('click',()=>advNodeClicked(parseInt(g.dataset.loc)));
   });
+
+  // ── DEV MODE: Drag-and-drop node positioning ──
+  if(DEV_MODE){
+    const nodePositions={};
+    for(let i=1;i<=10;i++){const p=positions[i];if(p)nodePositions[i]={x:p.x,y:p.y,align:p.align};}
+    let dragNode=null,dragIdx=0,dragOffset={x:0,y:0};
+    const svgPt=svg.createSVGPoint();
+    function toSVG(e){const touch=e.touches?e.touches[0]:e;svgPt.x=touch.clientX;svgPt.y=touch.clientY;return svgPt.matrixTransform(svg.getScreenCTM().inverse());}
+    svg.querySelectorAll('[data-loc]').forEach(g=>{
+      const onDown=e=>{e.preventDefault();e.stopPropagation();dragNode=g;dragIdx=parseInt(g.dataset.loc);const pt=toSVG(e);dragOffset.x=nodePositions[dragIdx].x-pt.x;dragOffset.y=nodePositions[dragIdx].y-pt.y;};
+      g.addEventListener('mousedown',onDown);g.addEventListener('touchstart',onDown,{passive:false});
+    });
+    const onMove=e=>{if(!dragNode)return;e.preventDefault();const pt=toSVG(e);const nx=Math.round(pt.x+dragOffset.x),ny=Math.round(pt.y+dragOffset.y);nodePositions[dragIdx].x=nx;nodePositions[dragIdx].y=ny;dragNode.querySelectorAll('circle').forEach(c=>{c.setAttribute('cx',nx);c.setAttribute('cy',ny);});dragNode.querySelectorAll('text').forEach(t=>{const isName=t.textContent!==String(dragIdx);t.setAttribute('x',isName?(nodePositions[dragIdx].align==='left'?nx+19:nx-19):nx);t.setAttribute('y',ny+5);});};
+    svg.addEventListener('mousemove',onMove);svg.addEventListener('touchmove',onMove,{passive:false});
+    svg.addEventListener('mouseup',()=>{dragNode=null;});svg.addEventListener('touchend',()=>{dragNode=null;});
+    svg.querySelectorAll('[data-loc]').forEach(g=>{g.addEventListener('dblclick',e=>{e.preventDefault();e.stopPropagation();const idx=parseInt(g.dataset.loc),pos=nodePositions[idx];pos.align=pos.align==='left'?'right':'left';g.querySelectorAll('text').forEach(t=>{const isName=t.textContent!==String(idx);if(isName){t.setAttribute('x',pos.align==='left'?pos.x+19:pos.x-19);t.setAttribute('text-anchor',pos.align==='left'?'start':'end');}});});});
+    if(!document.getElementById('adv-log-pos-btn')){
+      const btn=document.createElement('button');btn.id='adv-log-pos-btn';
+      btn.textContent='Log Positions';btn.style.cssText='position:fixed;bottom:16px;right:16px;z-index:999;background:#f5c842;color:#3a1a00;border:2px solid #a07010;border-radius:8px;padding:8px 14px;font-weight:bold;font-size:13px;cursor:pointer;';
+      btn.onclick=()=>{let out='const positions=[\\n  null,\\n';for(let i=1;i<=10;i++){const p=nodePositions[i];out+=`  {x:${p.x},y:${p.y},align:\\'${p.align}\\'},  // ${i}\\n`;}out+='];';console.log(out);alert('Positions logged to console!');};
+      document.body.appendChild(btn);
+    }
+  }
 
   // Auto-scroll to current node
   if(currentNodeY>0){
