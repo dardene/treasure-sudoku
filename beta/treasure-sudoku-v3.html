@@ -726,9 +726,12 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .relic-lore{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(180,140,80,.6);font-style:italic;line-height:1.45;margin-top:3px;text-align:center;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
-<script>window.onerror=function(m,s,l,c,e){console.warn('JS error:',m,s,l);return false;};window.onunhandledrejection=function(e){console.warn('Unhandled promise:',e.reason);};</script>
+<script>window._tsErrors=[];window.onerror=function(m,s,l,c,e){window._tsErrors.push(m+' @'+s+':'+l);var d=document.getElementById('ts-debug');if(d)d.textContent='JS ERROR: '+m+' (line '+l+')';return false;};window.onunhandledrejection=function(e){var d=document.getElementById('ts-debug');if(d)d.textContent='Promise error: '+e.reason;};</script>
 </head>
 <body>
+
+<!-- Debug banner (temporary) -->
+<div id="ts-debug" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:white;font-family:monospace;font-size:12px;padding:4px 8px;text-align:center;">JS loading...</div>
 
 <!-- Hidden background music player -->
 <audio id="bg-music" src="Sudoku.mp3" preload="auto"></audio>
@@ -8081,6 +8084,8 @@ function renderDailyHub(){
     archiveList.appendChild(card);
   }
 }
+// Debug: confirm JS fully loaded
+(function(){var d=document.getElementById('ts-debug');if(d){d.style.background='green';d.textContent='JS OK — buttons ready';setTimeout(function(){d.style.display='none';},3000);}})();
 </script>
 </body>
 </html>
