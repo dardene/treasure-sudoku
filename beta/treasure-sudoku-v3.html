@@ -731,19 +731,6 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 </head>
 <body>
 
-<!-- Debug banner (temporary) -->
-<div id="ts-debug" style="position:fixed;top:0;left:0;right:0;z-index:99999;background:red;color:white;font-family:monospace;font-size:11px;padding:6px 8px;text-align:center;word-break:break-all;">JS loading...</div>
-<script>
-function _cn(el){try{var c=el.className;return typeof c==='string'?c.substring(0,60):(c&&c.baseVal?c.baseVal.substring(0,60):'svg');}catch(e){return '?';}}
-document.addEventListener('click',function(e){
-  try{var d=document.getElementById('ts-debug');
-  if(d){d.style.display='block';d.style.background='#333';d.textContent='TAP: <'+e.target.tagName+'> id='+(e.target.id||'')+' class='+_cn(e.target)+' pe='+getComputedStyle(e.target).pointerEvents;}}catch(x){}
-},true);
-document.addEventListener('touchstart',function(e){
-  try{var d=document.getElementById('ts-debug');
-  if(d){d.style.display='block';d.style.background='purple';d.textContent='TOUCH: <'+e.target.tagName+'> id='+(e.target.id||'')+' class='+_cn(e.target);}}catch(x){}
-},{capture:true,passive:true});
-</script>
 
 <!-- Hidden background music player -->
 <audio id="bg-music" src="Sudoku.mp3" preload="auto"></audio>
@@ -7027,104 +7014,6 @@ function renderAdventurePath(){
     g.addEventListener('click',()=>advNodeClicked(parseInt(g.dataset.loc)));
   });
 
-  // ── DEV MODE: Drag-and-drop node positioning ──
-  // Drag any node to reposition it. Click "Log Positions" button to get final coords.
-  const nodePositions={};
-  for(let i=1;i<=10;i++){
-    const p=positions[i];
-    if(p) nodePositions[i]={x:p.x,y:p.y,align:p.align};
-  }
-
-  let dragNode=null, dragIdx=0, dragOffset={x:0,y:0};
-  const svgPt=svg.createSVGPoint();
-  function toSVG(e){
-    const touch=e.touches?e.touches[0]:e;
-    svgPt.x=touch.clientX; svgPt.y=touch.clientY;
-    return svgPt.matrixTransform(svg.getScreenCTM().inverse());
-  }
-
-  svg.querySelectorAll('[data-loc]').forEach(g=>{
-    const onDown=e=>{
-      e.preventDefault(); e.stopPropagation();
-      dragNode=g; dragIdx=parseInt(g.dataset.loc);
-      const pt=toSVG(e);
-      dragOffset.x=nodePositions[dragIdx].x-pt.x;
-      dragOffset.y=nodePositions[dragIdx].y-pt.y;
-      g.style.cursor='grabbing';
-    };
-    g.addEventListener('mousedown',onDown);
-    g.addEventListener('touchstart',onDown,{passive:false});
-  });
-
-  const onMove=e=>{
-    if(!dragNode)return;
-    e.preventDefault();
-    const pt=toSVG(e);
-    const nx=Math.round(pt.x+dragOffset.x);
-    const ny=Math.round(pt.y+dragOffset.y);
-    nodePositions[dragIdx].x=nx;
-    nodePositions[dragIdx].y=ny;
-    // Move all elements in the group
-    const circles=dragNode.querySelectorAll('circle');
-    circles.forEach(c=>{c.setAttribute('cx',nx);c.setAttribute('cy',ny);});
-    const texts=dragNode.querySelectorAll('text');
-    texts.forEach(t=>{
-      const a=nodePositions[dragIdx].align;
-      const isName=t.textContent!==String(dragIdx);
-      if(isName){
-        t.setAttribute('x',a==='left'?nx+19:nx-19);
-      } else {
-        t.setAttribute('x',nx);
-      }
-      t.setAttribute('y',ny+5);
-    });
-  };
-  svg.addEventListener('mousemove',onMove);
-  svg.addEventListener('touchmove',onMove,{passive:false});
-
-  const onUp=()=>{
-    if(dragNode){dragNode.style.cursor='pointer';dragNode=null;}
-  };
-  svg.addEventListener('mouseup',onUp);
-  svg.addEventListener('touchend',onUp);
-
-  // Toggle align on double-click (flips name to other side)
-  svg.querySelectorAll('[data-loc]').forEach(g=>{
-    g.addEventListener('dblclick',e=>{
-      e.preventDefault(); e.stopPropagation();
-      const idx=parseInt(g.dataset.loc);
-      const pos=nodePositions[idx];
-      pos.align=pos.align==='left'?'right':'left';
-      const texts=g.querySelectorAll('text');
-      texts.forEach(t=>{
-        const isName=t.textContent!==String(idx);
-        if(isName){
-          t.setAttribute('x',pos.align==='left'?pos.x+19:pos.x-19);
-          t.setAttribute('text-anchor',pos.align==='left'?'start':'end');
-        }
-      });
-    });
-  });
-
-  // Add "Log Positions" button
-  if(!document.getElementById('adv-log-pos-btn')){
-    const btn=document.createElement('button');
-    btn.id='adv-log-pos-btn';
-    btn.textContent='📋 Log Positions';
-    btn.style.cssText='position:fixed;bottom:16px;right:16px;z-index:999;background:#f5c842;color:#3a1a00;border:2px solid #a07010;border-radius:8px;padding:8px 14px;font-weight:bold;font-size:13px;cursor:pointer;';
-    btn.onclick=()=>{
-      let out='const positions=[\\n  null,\\n';
-      for(let i=1;i<=10;i++){
-        const p=nodePositions[i];
-        out+=`  {x:${p.x},y:${p.y},align:'${p.align}'},  // ${i}\\n`;
-      }
-      out+='];';
-      console.log(out);
-      alert('Positions logged to console! (Open DevTools > Console to copy)');
-    };
-    document.body.appendChild(btn);
-  }
-
   // Auto-scroll to current node
   if(currentNodeY>0){
     const wrap=document.getElementById('adventure-tab-content');
@@ -8104,8 +7993,6 @@ function renderDailyHub(){
     archiveList.appendChild(card);
   }
 }
-// Debug: confirm JS fully loaded
-(function(){var d=document.getElementById('ts-debug');if(d){d.style.background='green';d.textContent='JS OK — buttons ready';setTimeout(function(){d.style.display='none';},3000);}})();
 </script>
 </body>
 </html>
