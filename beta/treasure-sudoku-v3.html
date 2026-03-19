@@ -2302,14 +2302,34 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </svg></div>
   <button class="ghost-btn back-btn" id="mapview-back">← Back</button>
   <div class="mapv-title" id="mapv-title">⚜ TREASURE MAP ⚜</div>
-  <div class="mapv-sub" id="mapv-sub">Place your earned pieces in the right spots</div>
-  <div class="mapv-grid-wrap">
-    <div class="mapv-parchment">
-      <div class="mapv-grid" id="mapv-grid"></div>
-    </div>
+  <div class="mapv-sub" id="mapv-sub">Chart your course through 25 legendary locations</div>
+  <div class="map-tabs" id="map-tabs">
+    <div class="map-tab active" data-tab="adventure">ADVENTURE PATH</div>
+    <div class="map-tab" data-tab="daily">DAILY MAP</div>
   </div>
-  <div class="mapv-tray-label">YOUR PIECES — tap to select, then tap its spot on the map</div>
-  <div class="mapv-tray" id="mapv-tray"></div>
+  <div id="adventure-tab-content" class="advpath-wrap">
+    <svg id="advpath-svg" class="advpath-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div id="daily-tab-content" style="display:none">
+    <div class="mapv-grid-wrap">
+      <div class="mapv-parchment">
+        <div class="mapv-grid" id="mapv-grid"></div>
+      </div>
+    </div>
+    <div class="mapv-tray-label">YOUR PIECES — tap to select, then tap its spot on the map</div>
+    <div class="mapv-tray" id="mapv-tray"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ADVENTURE JIGSAW OVERLAY ═══════════════ -->
+<div class="adv-jigsaw-overlay" id="adv-jigsaw-overlay">
+  <button class="ghost-btn back-btn" id="adv-jigsaw-back">&larr; Back</button>
+  <div class="adv-jig-title" id="adv-jig-title"></div>
+  <div class="adv-jig-sub" id="adv-jig-sub"></div>
+  <div class="adv-jig-frame">
+    <svg id="adv-jig-grid" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div class="adv-jig-tray" id="adv-jig-tray"></div>
 </div>
 
 <!-- ═══════════════ MAP CHEST OVERLAY ═══════════════ -->
@@ -3175,6 +3195,36 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 #mc-inner-glow{opacity:0;transition:opacity .45s .15s;}
 #mc-chest-wrap.opened #mc-inner-glow{opacity:1;}
 .mco-tap-hint{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.3em;color:var(--gold);animation:tapPulse 1.5s ease-in-out infinite;}
+
+/* ══ ADVENTURE PATH TAB + ROADMAP STYLES ══ */
+.map-tabs{display:flex;gap:6px;justify-content:center;margin:8px auto 10px;padding:0 16px;max-width:340px;}
+.map-tab{flex:1;text-align:center;padding:7px 0;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:rgba(200,180,140,.55);border:1px solid rgba(200,180,140,.18);border-radius:10px;cursor:pointer;transition:all .25s;background:rgba(0,0,0,.25);}
+.map-tab.active{color:var(--gold);border-color:var(--gold);background:rgba(180,140,40,.15);text-shadow:0 0 12px var(--glow-gold);}
+.advpath-wrap{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:0 0 20px;scroll-behavior:smooth;}
+.advpath-svg{display:block;margin:0 auto;width:100%;max-width:380px;}
+@keyframes advNodeGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(245,200,66,.6))}50%{filter:drop-shadow(0 0 22px rgba(245,200,66,1)) drop-shadow(0 0 40px rgba(200,160,40,.5))}}
+.adv-node-current{cursor:pointer;animation:advNodeGlow 1.8s ease-in-out infinite;}
+.adv-node-completed{cursor:pointer;}
+.adv-node-locked{opacity:.4;cursor:default;}
+
+/* Adventure Jigsaw Overlay */
+.adv-jigsaw-overlay{position:fixed;inset:0;z-index:500;background:rgba(4,2,10,.96);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;padding:18px 12px 24px;overflow-y:auto;transform:translateY(100%);opacity:0;transition:transform .4s ease,opacity .35s ease;pointer-events:none;}
+.adv-jigsaw-overlay.show{transform:translateY(0);opacity:1;pointer-events:auto;}
+.adv-jigsaw-overlay .back-btn{position:absolute;top:12px;left:12px;z-index:2;}
+.adv-jig-title{font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;margin-top:38px;text-align:center;}
+.adv-jig-sub{font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.15em;margin:4px 0 14px;text-align:center;}
+.adv-jig-frame{display:flex;align-items:center;justify-content:center;margin:0 auto 14px;width:100%;max-width:340px;}
+.adv-jig-frame svg{display:block;overflow:visible;max-width:100%;border-radius:6px;}
+.adv-jig-tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;max-width:360px;margin:0 auto;}
+.adv-jig-piece{cursor:pointer;border-radius:4px;transition:filter .2s,transform .2s;overflow:visible;}
+.adv-jig-piece svg{display:block;overflow:visible;}
+.adv-jig-piece.selected{filter:drop-shadow(0 0 10px rgba(245,200,66,.95)) brightness(1.25);transform:scale(1.12);}
+.adv-jig-piece.placed{opacity:.22;pointer-events:none;filter:grayscale(.7);}
+.adv-jig-slot{cursor:pointer;transition:opacity .2s;}
+.adv-jig-slot.highlight{opacity:1;animation:mapSlotPulse .8s ease-in-out infinite;}
+@keyframes advShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
+.adv-jig-shake{animation:advShake .35s ease;}
+
 /* ══ LEGENDARY UNLOCK OVERLAY ══ */
 #legendary-unlock-overlay{position:fixed;inset:0;z-index:510;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);}
 #legendary-unlock-overlay.show{display:flex;}
@@ -3655,6 +3705,109 @@ const JIGSAW_ARTIFACTS=[
   {name:'Void Codex',label:'Void Codex',rarity:'Legendary',rune:'ᛒ',glow:'rgba(60,120,255,1)',desc:"A grimoire written in a dead star's light — its runes glow electric blue and its pages turn themselves at midnight.",lore:"A grimoire written in a dead star's light. Its pages turn themselves at midnight — always to the same page, which is always blank.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j24g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0818a0"/><stop offset="100%" stop-color="#000808"/></linearGradient></defs><path d="M8,4 Q6,4 6,6 L6,34 Q6,36 8,36 L22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="url(#j24g)" stroke="#2040e0" stroke-width="1"/><path d="M22,4 Q30,4 34,6 L34,34 Q30,36 22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="#04080a" stroke="#1030c0" stroke-width=".9"/><line x1="9" y1="10" x2="19" y2="10" stroke="#3060ff" stroke-width="1.1"/><line x1="9" y1="14" x2="18" y2="14" stroke="#2050e0" stroke-width=".9"/><line x1="10" y1="18" x2="17" y2="18" stroke="#1840c0" stroke-width=".8"/><line x1="24" y1="12" x2="32" y2="12" stroke="rgba(100,160,255,.7)" stroke-width="1.1"/><line x1="24" y1="16" x2="31" y2="16" stroke="rgba(80,140,255,.6)" stroke-width=".9"/><line x1="25" y1="20" x2="31" y2="20" stroke="rgba(60,120,255,.55)" stroke-width=".8"/><line x1="24" y1="24" x2="31" y2="24" stroke="rgba(40,100,220,.5)" stroke-width=".8"/><circle cx="16" cy="24" r="4" fill="none" stroke="#4080ff" stroke-width="1.2"/><line x1="16" y1="20" x2="16" y2="28" stroke="#4080ff" stroke-width=".9"/><line x1="12" y1="24" x2="20" y2="24" stroke="#4080ff" stroke-width=".9"/><circle cx="16" cy="24" r="1.5" fill="#2060d0"/></svg>`},
   {name:"Leviathan's Fang",label:'Leviathan Fang',rarity:'Legendary',rune:null,glow:'rgba(20,200,180,1)',desc:"A fang torn from the Leviathan of the Drowned Deep — its surface shimmers with captured bioluminescence.",lore:"A fang torn from the Leviathan of the Drowned Deep. The beast it came from is still alive. It still has all the rest of its teeth.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j25g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0fff8"/><stop offset="35%" stop-color="#18c0b8"/><stop offset="75%" stop-color="#048080"/><stop offset="100%" stop-color="#001a18"/></linearGradient><linearGradient id="j25s" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(100,255,240,.5)"/><stop offset="100%" stop-color="rgba(20,180,160,0)"/></linearGradient></defs><path d="M22,3 Q30,10 34,20 Q36,28 32,34 Q28,38 24,36 Q18,34 16,26 Q12,18 14,10 Z" fill="url(#j25g)" stroke="#10a0a0" stroke-width="1"/><path d="M22,3 Q28,10 32,20" stroke="url(#j25s)" stroke-width="1.5" fill="none"/><path d="M14,10 Q16,16 18,22" stroke="rgba(80,240,220,.3)" stroke-width="1" fill="none"/><path d="M32,34 Q30,36 28,36 Q26,36 24,35" stroke="rgba(0,180,160,.5)" stroke-width="1.2" fill="none"/><circle cx="24.5" cy="10" r="2.5" fill="rgba(160,255,240,.5)"/><circle cx="19.5" cy="20" r="2" fill="rgba(100,220,210,.4)"/><circle cx="27" cy="25" r="1.8" fill="rgba(80,200,190,.5)"/><circle cx="23" cy="32" r="1.5" fill="rgba(60,180,170,.4)"/></svg>`},
 ];
+
+/* ══════════════════════════════════════════════════════
+   ADVENTURE PATH — 25 Location Roadmap
+══════════════════════════════════════════════════════ */
+const ADVENTURE_LOCATIONS=[null, // 1-indexed
+  // ── Coastal / Beach (2×2 = 4 pieces) ──
+  {id:1,name:'Sunlit Cove',theme:'coastal',desc:'A sheltered cove where golden waves lap at the shore.',gridCols:2,gridRows:2,sceneIdx:0,icon:'\u{1F3D6}'},
+  {id:2,name:'Coral Beach',theme:'coastal',desc:'Pink coral fragments litter the warm white sand.',gridCols:2,gridRows:2,sceneIdx:1,icon:'\u{1F41A}'},
+  {id:3,name:'Smuggler\'s Bay',theme:'coastal',desc:'A hidden bay favored by pirates and smugglers.',gridCols:2,gridRows:2,sceneIdx:2,icon:'\u2693'},
+  {id:4,name:'Tidal Pools',theme:'coastal',desc:'Shallow pools teeming with strange bioluminescent life.',gridCols:2,gridRows:2,sceneIdx:3,icon:'\u{1F30A}'},
+  {id:5,name:'Lighthouse Point',theme:'coastal',desc:'An ancient lighthouse still beams across the fog.',gridCols:2,gridRows:2,sceneIdx:4,icon:'\u{1F6E5}'},
+  // ── Forest / Cave (3×2 = 6 pieces) ──
+  {id:6,name:'Whispering Woods',theme:'forest',desc:'The trees here whisper secrets of buried treasure.',gridCols:3,gridRows:2,sceneIdx:5,icon:'\u{1F332}'},
+  {id:7,name:'Mushroom Hollow',theme:'forest',desc:'Giant mushrooms tower above the mossy trail.',gridCols:3,gridRows:2,sceneIdx:6,icon:'\u{1F344}'},
+  {id:8,name:'Crystal Cavern',theme:'cave',desc:'Geodes sparkle like stars inside this hidden grotto.',gridCols:3,gridRows:2,sceneIdx:7,icon:'\u{1F48E}'},
+  {id:9,name:'Emerald Canopy',theme:'forest',desc:'Sunlight filters through an endless green canopy.',gridCols:3,gridRows:2,sceneIdx:8,icon:'\u{1F33F}'},
+  {id:10,name:'Bat\'s Nest Cave',theme:'cave',desc:'Thousands of bats guard the entrance to deeper tunnels.',gridCols:3,gridRows:2,sceneIdx:9,icon:'\u{1F987}'},
+  // ── Desert / Mountain (3×3 = 9 pieces) ──
+  {id:11,name:'Scorpion Dunes',theme:'desert',desc:'Shifting dunes hide ancient ruins beneath the sand.',gridCols:3,gridRows:3,sceneIdx:10,icon:'\u{1F982}'},
+  {id:12,name:'Oasis Temple',theme:'desert',desc:'A crumbling temple rises from a desert oasis.',gridCols:3,gridRows:3,sceneIdx:11,icon:'\u{1F3DB}'},
+  {id:13,name:'Eagle\'s Peak',theme:'mountain',desc:'The highest peak, home to the golden eagles.',gridCols:3,gridRows:3,sceneIdx:12,icon:'\u{1F985}'},
+  {id:14,name:'Sandstorm Pass',theme:'desert',desc:'A treacherous pass battered by eternal sandstorms.',gridCols:3,gridRows:3,sceneIdx:13,icon:'\u{1F32A}'},
+  {id:15,name:'Frozen Summit',theme:'mountain',desc:'Ice and snow cloak the summit of this dead volcano.',gridCols:3,gridRows:3,sceneIdx:14,icon:'\u2744'},
+  // ── Ruins / Volcanic (4×3 = 12 pieces) ──
+  {id:16,name:'Obsidian Ruins',theme:'ruins',desc:'Black glass pillars mark a civilization lost to fire.',gridCols:4,gridRows:3,sceneIdx:15,icon:'\u{1F3DA}'},
+  {id:17,name:'Lava Fields',theme:'volcanic',desc:'Rivers of molten rock flow between charred stone.',gridCols:4,gridRows:3,sceneIdx:16,icon:'\u{1F30B}'},
+  {id:18,name:'Sunken Colosseum',theme:'ruins',desc:'Half-submerged arena from the days of Solara.',gridCols:4,gridRows:3,sceneIdx:17,icon:'\u{1F3DF}'},
+  {id:19,name:'Magma Throne',theme:'volcanic',desc:'A throne carved from cooled magma, still warm to touch.',gridCols:4,gridRows:3,sceneIdx:18,icon:'\u{1F525}'},
+  {id:20,name:'Ash Gardens',theme:'volcanic',desc:'Strange flowers bloom in the volcanic ash fields.',gridCols:4,gridRows:3,sceneIdx:19,icon:'\u{1F33A}'},
+  // ── Legendary / Mythical (5×3 = 15 pieces) ──
+  {id:21,name:'Dragon\'s Lair',theme:'mythical',desc:'The final resting place of the last dragon of Solara.',gridCols:5,gridRows:3,sceneIdx:20,icon:'\u{1F409}'},
+  {id:22,name:'Phantom Shipwreck',theme:'mythical',desc:'A ghost ship lodged in an impossible cliff face.',gridCols:5,gridRows:3,sceneIdx:21,icon:'\u{1F47B}'},
+  {id:23,name:'Celestial Bridge',theme:'mythical',desc:'A bridge of starlight connecting two floating islands.',gridCols:5,gridRows:3,sceneIdx:22,icon:'\u{1F320}'},
+  {id:24,name:'Void Temple',theme:'mythical',desc:'A temple built at the edge of reality itself.',gridCols:5,gridRows:3,sceneIdx:23,icon:'\u{1F573}'},
+  {id:25,name:'Solara\'s Heart',theme:'mythical',desc:'The legendary vault where all treasures converge.',gridCols:5,gridRows:3,sceneIdx:24,icon:'\u{1F451}'}
+];
+
+/** Generate jigsaw edge definitions for an arbitrary cols×rows grid.
+ *  Returns a 1-indexed array (null at 0) of {T,R,B,L} edge objects.
+ *  Border edges are flat ('f'); internal edges alternate tab-out/notch-in
+ *  so adjacent pieces interlock correctly. */
+function generatePieceEdges(cols,rows){
+  // Build a 2D grid of edge objects, then flatten to 1-indexed array
+  const hEdges=[]; // horizontal edges between rows: hEdges[r][c] (r=0..rows, c=0..cols-1)
+  const vEdges=[]; // vertical edges between cols: vEdges[r][c] (r=0..rows-1, c=0..cols)
+
+  // Pre-generate shared internal edges with slight randomization
+  function rp(){return .42+Math.random()*.16;} // center position ~0.42-0.58
+  function rd(){return .18+Math.random()*.08;} // depth ~0.18-0.26
+  function rh(){return .16+Math.random()*.06;} // halfWidth ~0.16-0.22
+
+  // Horizontal edges (top/bottom of cells)
+  for(let r=0;r<=rows;r++){
+    hEdges[r]=[];
+    for(let c=0;c<cols;c++){
+      if(r===0||r===rows){
+        hEdges[r][c]={t:'f'};
+      } else {
+        // Alternate 'o' and 'i' in a checkerboard-ish pattern
+        const type=((r+c)%2===0)?'o':'i';
+        hEdges[r][c]={t:type,p:rp(),d:rd(),hw:rh()};
+      }
+    }
+  }
+  // Vertical edges (left/right of cells)
+  for(let r=0;r<rows;r++){
+    vEdges[r]=[];
+    for(let c=0;c<=cols;c++){
+      if(c===0||c===cols){
+        vEdges[r][c]={t:'f'};
+      } else {
+        const type=((r+c)%2===0)?'o':'i';
+        vEdges[r][c]={t:type,p:rp(),d:rd(),hw:rh()};
+      }
+    }
+  }
+
+  // Build pieces array (1-indexed)
+  const pieces=[null];
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      const top=hEdges[r][c];
+      const bottom_raw=hEdges[r+1][c];
+      const left=vEdges[r][c];
+      const right_raw=vEdges[r][c+1];
+      // Bottom edge from perspective of this cell is the opposite of the top edge of cell below
+      const bottom=bottom_raw.t==='f'?{t:'f'}:{t:bottom_raw.t==='o'?'i':'o',p:bottom_raw.p,d:bottom_raw.d,hw:bottom_raw.hw};
+      // Right edge from this cell's perspective is opposite of left edge of cell to the right
+      const right=right_raw.t==='f'?{t:'f'}:{t:right_raw.t==='o'?'i':'o',p:right_raw.p,d:right_raw.d,hw:right_raw.hw};
+      pieces.push({T:top,R:right,B:bottom,L:left});
+    }
+  }
+  return pieces;
+}
+
+// Cache generated edges per grid size to avoid re-randomizing
+const _advEdgeCache={};
+function getAdvEdges(cols,rows){
+  const key=cols+'x'+rows;
+  if(!_advEdgeCache[key]) _advEdgeCache[key]=generatePieceEdges(cols,rows);
+  return _advEdgeCache[key];
+}
+
 /* ── ARTIFACT HELPERS (support both standard + jigsaw slots) ── */
 function getArtifactSvg(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.svg||'':ARTIFACTS.svg(slot);}
 function getArtifactLabel(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.label||'?':ARTIFACTS.labels[slot];}
@@ -4146,9 +4299,13 @@ function loadState(){
       const ss=document.getElementById('sfx-vol-slider'),sp=document.getElementById('sfx-vol-pct');
       if(ss){ss.value=sv;ss.style.setProperty('--val',sv+'%');if(sp)sp.textContent=sv+'%';}
     }
+  // Adventure Path defaults for existing saves
+  if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=1;
+  if(!GAME_STATS.adventureCompleted) GAME_STATS.adventureCompleted=[];
+  if(!GAME_STATS.adventurePlacedPieces) GAME_STATS.adventurePlacedPieces={};
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[]};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{}};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -6818,6 +6975,415 @@ function mapChestOpened(){
 }
 
 /* ══════════════════════════════════════════════════════
+   ADVENTURE PATH — Tab Switching & Roadmap
+══════════════════════════════════════════════════════ */
+function switchMapTab(tabName){
+  const tabs=document.querySelectorAll('.map-tab');
+  tabs.forEach(t=>t.classList.toggle('active',t.dataset.tab===tabName));
+  const advContent=document.getElementById('adventure-tab-content');
+  const dailyContent=document.getElementById('daily-tab-content');
+  const title=document.getElementById('mapv-title');
+  const sub=document.getElementById('mapv-sub');
+  if(tabName==='adventure'){
+    advContent.style.display='';
+    dailyContent.style.display='none';
+    title.textContent='\u269C ADVENTURE PATH \u269C';
+    sub.textContent='Chart your course through 25 legendary locations';
+    renderAdventurePath();
+  } else {
+    advContent.style.display='none';
+    dailyContent.style.display='';
+    title.textContent='\u269C TREASURE MAP \u269C';
+    sub.textContent='Place your earned pieces in the right spots';
+    renderMapPuzzle();
+  }
+}
+
+/* ── Adventure Path Rendering ── */
+function renderAdventurePath(){
+  const svg=document.getElementById('advpath-svg');
+  const progress=GAME_STATS.adventureProgress||1;
+  const completed=GAME_STATS.adventureCompleted||[];
+
+  // Pre-computed node positions for a serpentine winding path
+  const positions=[
+    null, // 1-indexed
+    // Row 1 (L→R): locations 1-3
+    {x:70,y:80},{x:190,y:65},{x:310,y:85},
+    // Row 2 (R→L): locations 4-6
+    {x:320,y:190},{x:190,y:175},{x:60,y:195},
+    // Row 3 (L→R): locations 7-9
+    {x:75,y:310},{x:190,y:290},{x:305,y:315},
+    // Row 4 (R→L): locations 10-12
+    {x:315,y:425},{x:190,y:405},{x:65,y:430},
+    // Row 5 (L→R): locations 13-15
+    {x:80,y:545},{x:190,y:520},{x:300,y:550},
+    // Row 6 (R→L): locations 16-18
+    {x:310,y:660},{x:190,y:640},{x:70,y:665},
+    // Row 7 (L→R): locations 19-21
+    {x:75,y:780},{x:190,y:755},{x:305,y:785},
+    // Row 8 (R→L): locations 22-24
+    {x:315,y:895},{x:190,y:875},{x:65,y:900},
+    // Row 9 (center): location 25
+    {x:190,y:1010}
+  ];
+
+  const svgH=1080;
+  svg.setAttribute('viewBox','0 0 380 '+svgH);
+  svg.style.height=svgH+'px';
+
+  // Theme decorations between rows
+  const decoIcons={
+    coastal:'M{x},{y} l-4,-8 l4,3 l4,-3 Z', // wave
+    forest:'M{x},{y} l-3,-10 l3,2 l3,-2 Z',  // tree
+    cave:'M{x},{y} l-5,-6 l5,-2 l5,2 Z',      // mountain
+    desert:'M{x},{y} l-6,0 l3,-8 Z',           // pyramid
+    mountain:'M{x},{y} l-5,0 l5,-10 l5,10 Z',  // peak
+    ruins:'M{x},{y} l0,-8 l3,0 l0,8 Z',        // pillar
+    volcanic:'M{x},{y} l-4,0 l2,-8 l2,0 l2,8 Z',// volcano
+    mythical:'M{x},{y} l-3,-4 l3,-3 l3,3 Z'    // star
+  };
+
+  let html='<defs>';
+  html+='<radialGradient id="advGoldG" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="50%" stop-color="#f5c842"/><stop offset="100%" stop-color="#a07010"/></radialGradient>';
+  html+='<radialGradient id="advGrayG" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#606060"/><stop offset="50%" stop-color="#3a3a3a"/><stop offset="100%" stop-color="#1a1a1a"/></radialGradient>';
+  html+='<filter id="advGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
+  html+='</defs>';
+
+  // Background gradient
+  html+='<rect width="380" height="'+svgH+'" rx="8" fill="rgba(8,4,18,.85)"/>';
+
+  // Draw connecting paths
+  for(let i=1;i<25;i++){
+    const a=positions[i],b=positions[i+1];
+    const isCompleted=completed.includes(i)&&completed.includes(i+1);
+    const isPartial=completed.includes(i)||i+1<=progress;
+    const midX=(a.x+b.x)/2;
+    const midY=(a.y+b.y)/2+((Math.abs(a.x-b.x)>100)?15:-10);
+    const color=isCompleted?'#f5c842':isPartial?'rgba(200,180,120,.35)':'rgba(100,100,100,.2)';
+    const dash=isCompleted?'':'8,6';
+    const width=isCompleted?3:2;
+    html+=`<path d="M${a.x},${a.y} Q${midX},${midY} ${b.x},${b.y}" fill="none" stroke="${color}" stroke-width="${width}" ${dash?'stroke-dasharray="'+dash+'"':''} stroke-linecap="round"/>`;
+  }
+
+  // Draw small decorative elements between nodes
+  for(let i=1;i<=25;i++){
+    const loc=ADVENTURE_LOCATIONS[i];
+    if(!loc)continue;
+    const p=positions[i];
+    // Tiny theme decoration offset from node
+    const dx=(i%2===0)?-28:28;
+    const dy=12;
+    const theme=loc.theme;
+    const col=completed.includes(i)?'rgba(200,180,120,.25)':'rgba(80,80,80,.15)';
+    if(theme==='coastal') html+=`<circle cx="${p.x+dx}" cy="${p.y+dy}" r="3" fill="${col}"/>`;
+    else if(theme==='forest') html+=`<path d="M${p.x+dx},${p.y+dy} l-2.5,-7 l2.5,1.5 l2.5,-1.5 Z" fill="${col}"/>`;
+    else if(theme==='desert') html+=`<path d="M${p.x+dx},${p.y+dy} l-4,0 l4,-7 l4,0 Z" fill="${col}"/>`;
+    else if(theme==='mountain') html+=`<path d="M${p.x+dx},${p.y+dy} l-4,0 l4,-8 l4,0 Z" fill="${col}"/>`;
+    else if(theme==='ruins') html+=`<rect x="${p.x+dx-2}" y="${p.y+dy-7}" width="4" height="7" rx="1" fill="${col}"/>`;
+    else if(theme==='volcanic') html+=`<path d="M${p.x+dx},${p.y+dy} l-3,0 l1.5,-6 l1,0 l1.5,6 Z" fill="${col}"/>`;
+    else if(theme==='mythical') html+=`<polygon points="${p.x+dx},${p.y+dy-6} ${p.x+dx+2},${p.y+dy-2} ${p.x+dx+5},${p.y+dy-2} ${p.x+dx+3},${p.y+dy+1} ${p.x+dx+4},${p.y+dy+5} ${p.x+dx},${p.y+dy+3} ${p.x+dx-4},${p.y+dy+5} ${p.x+dx-3},${p.y+dy+1} ${p.x+dx-5},${p.y+dy-2} ${p.x+dx-2},${p.y+dy-2}" fill="${col}"/>`;
+    else html+=`<circle cx="${p.x+dx}" cy="${p.y+dy}" r="2.5" fill="${col}"/>`;
+  }
+
+  // Draw nodes
+  let currentNodeY=0;
+  for(let i=1;i<=25;i++){
+    const loc=ADVENTURE_LOCATIONS[i];
+    if(!loc)continue;
+    const p=positions[i];
+    const isDone=completed.includes(i);
+    const isCurrent=i===progress&&!isDone;
+    const isLocked=i>progress;
+
+    let nodeClass='adv-node-locked';
+    if(isDone) nodeClass='adv-node-completed';
+    else if(isCurrent){nodeClass='adv-node-current';currentNodeY=p.y;}
+
+    const r=28;
+
+    html+=`<g class="${nodeClass}" data-loc="${i}" style="cursor:${isLocked?'default':'pointer'}">`;
+
+    if(isDone){
+      // Gold filled circle with checkmark
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="url(#advGoldG)" stroke="#c09820" stroke-width="2"/>`;
+      html+=`<text x="${p.x}" y="${p.y+6}" text-anchor="middle" font-size="22" fill="#2a1800" font-weight="900">\u2713</text>`;
+    } else if(isCurrent){
+      // Animated gold outline, icon inside
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r+4}" fill="none" stroke="rgba(245,200,66,.3)" stroke-width="2" filter="url(#advGlow)"/>`;
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="rgba(40,28,8,.85)" stroke="#f5c842" stroke-width="2.5"/>`;
+      html+=`<text x="${p.x}" y="${p.y+8}" text-anchor="middle" font-size="24">${loc.icon}</text>`;
+    } else {
+      // Gray locked circle with lock icon
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="url(#advGrayG)" stroke="#444" stroke-width="1.5" opacity=".4"/>`;
+      html+=`<text x="${p.x}" y="${p.y+6}" text-anchor="middle" font-size="16" fill="rgba(150,150,150,.5)">\u{1F512}</text>`;
+    }
+
+    // Location name
+    const nameColor=isDone?'rgba(245,200,66,.85)':isCurrent?'rgba(245,200,66,.95)':'rgba(150,150,150,.35)';
+    const nameY=p.y+r+16;
+    html+=`<text x="${p.x}" y="${nameY}" text-anchor="middle" font-family="'Cinzel',serif" font-size="9" fill="${nameColor}" letter-spacing=".08em">${loc.name}</text>`;
+
+    // Difficulty indicator (small dots showing piece count)
+    const pieces=loc.gridCols*loc.gridRows;
+    const dotColor=isDone?'rgba(200,160,40,.5)':isCurrent?'rgba(200,160,40,.6)':'rgba(100,100,100,.2)';
+    const dotY=nameY+10;
+    const dotSpacing=6;
+    const dotStart=p.x-((pieces-1)*dotSpacing)/2;
+    for(let d=0;d<Math.min(pieces,8);d++){
+      html+=`<circle cx="${dotStart+d*dotSpacing}" cy="${dotY}" r="1.5" fill="${dotColor}"/>`;
+    }
+    if(pieces>8) html+=`<text x="${dotStart+8*dotSpacing+4}" y="${dotY+3}" font-size="6" fill="${dotColor}">+${pieces-8}</text>`;
+
+    html+=`</g>`;
+  }
+
+  // Section labels
+  const sections=[
+    {y:30,label:'COASTAL SHORES',range:'1-5'},
+    {y:260,label:'DEEP FORESTS',range:'6-10'},
+    {y:490,label:'DESERT & PEAKS',range:'11-15'},
+    {y:720,label:'ANCIENT RUINS',range:'16-20'},
+    {y:940,label:'LEGENDARY REALM',range:'21-25'}
+  ];
+  sections.forEach(s=>{
+    html+=`<text x="190" y="${s.y}" text-anchor="middle" font-family="'Crimson Pro',serif" font-size="8" fill="rgba(200,180,140,.3)" letter-spacing=".35em">${s.label}</text>`;
+  });
+
+  svg.innerHTML=html;
+
+  // Add click listeners to nodes
+  svg.querySelectorAll('[data-loc]').forEach(g=>{
+    g.addEventListener('click',()=>advNodeClicked(parseInt(g.dataset.loc)));
+  });
+
+  // Auto-scroll to current node
+  if(currentNodeY>0){
+    const wrap=document.getElementById('adventure-tab-content');
+    setTimeout(()=>{wrap.scrollTop=Math.max(0,currentNodeY-200);},120);
+  }
+}
+
+/* ── Adventure Node Click ── */
+function advNodeClicked(locationId){
+  const progress=GAME_STATS.adventureProgress||1;
+  const completed=GAME_STATS.adventureCompleted||[];
+  if(locationId>progress){
+    showToast('Complete the previous puzzle to unlock this location');
+    return;
+  }
+  if(completed.includes(locationId)){
+    showToast(ADVENTURE_LOCATIONS[locationId].name+' — already completed!');
+    return;
+  }
+  openAdvJigsaw(locationId);
+}
+
+/* ── Adventure Jigsaw State ── */
+let _advJigState={locId:null,selectedPiece:null};
+
+/* ── Open Adventure Jigsaw Puzzle ── */
+function openAdvJigsaw(locationId){
+  const loc=ADVENTURE_LOCATIONS[locationId];
+  if(!loc)return;
+  const cols=loc.gridCols,rows=loc.gridRows;
+  const totalPieces=cols*rows;
+  const sceneMap=TREASURE_MAPS[loc.sceneIdx];
+  const sceneURI=sceneMap?sceneMap.uri:'';
+  const edges=getAdvEdges(cols,rows);
+  const placed=GAME_STATS.adventurePlacedPieces[locationId]||[];
+
+  _advJigState={locId:locationId,selectedPiece:null};
+
+  // Set title & subtitle
+  document.getElementById('adv-jig-title').textContent=loc.icon+' '+loc.name;
+  document.getElementById('adv-jig-sub').textContent=loc.desc;
+
+  // Render grid
+  const gridSvg=document.getElementById('adv-jig-grid');
+  const CS=Math.min(70,280/cols); // cell size
+  const gW=cols*CS,gH=rows*CS;
+  const pad=CS*.3; // padding for tab overflow
+  gridSvg.setAttribute('viewBox',`${-pad} ${-pad} ${gW+pad*2} ${gH+pad*2}`);
+  gridSvg.setAttribute('width',Math.min(340,gW+pad*2));
+  gridSvg.setAttribute('height',gH+pad*2);
+
+  let gHtml='<defs>';
+  // Clip paths and image patterns for each piece
+  for(let idx=1;idx<=totalPieces;idx++){
+    const c=(idx-1)%cols,r=Math.floor((idx-1)/cols);
+    const ed=edges[idx];
+    if(!ed)continue;
+    const pathD=jigsawPathSVG(c,r,CS,ed);
+    gHtml+=`<clipPath id="advjcp_${locationId}_${idx}"><path d="${pathD}"/></clipPath>`;
+  }
+  gHtml+='</defs>';
+
+  // Background parchment
+  gHtml+=`<rect x="0" y="0" width="${gW}" height="${gH}" rx="4" fill="rgba(40,28,10,.6)" stroke="rgba(160,120,60,.3)" stroke-width="1"/>`;
+
+  // Draw slots and placed pieces
+  for(let idx=1;idx<=totalPieces;idx++){
+    const c=(idx-1)%cols,r=Math.floor((idx-1)/cols);
+    const ed=edges[idx];
+    if(!ed)continue;
+    const pathD=jigsawPathSVG(c,r,CS,ed);
+
+    if(placed.includes(idx)){
+      // Placed piece — show scene image clipped
+      gHtml+=`<g clip-path="url(#advjcp_${locationId}_${idx})">`;
+      gHtml+=`<image href="${sceneURI}" x="0" y="0" width="${gW}" height="${gH}" preserveAspectRatio="xMidYMid slice"/>`;
+      gHtml+=`</g>`;
+      gHtml+=`<path d="${pathD}" fill="none" stroke="rgba(200,160,60,.4)" stroke-width=".8"/>`;
+    } else {
+      // Empty slot
+      gHtml+=`<path d="${pathD}" fill="rgba(20,14,6,.5)" stroke="rgba(160,120,60,.35)" stroke-width="1.2" class="adv-jig-slot" data-slot="${idx}" style="cursor:pointer"/>`;
+      // Piece number hint
+      gHtml+=`<text x="${c*CS+CS/2}" y="${r*CS+CS/2+4}" text-anchor="middle" font-size="${Math.max(8,CS/5)}" fill="rgba(160,120,60,.2)" font-family="'Cinzel',serif">${idx}</text>`;
+    }
+  }
+  gridSvg.innerHTML=gHtml;
+
+  // Add slot click listeners
+  gridSvg.querySelectorAll('.adv-jig-slot').forEach(slot=>{
+    slot.addEventListener('click',()=>advPlaceOnSlot(locationId,parseInt(slot.dataset.slot)));
+  });
+
+  // Render tray with unplaced pieces (shuffled)
+  const tray=document.getElementById('adv-jig-tray');
+  const unplaced=[];
+  for(let idx=1;idx<=totalPieces;idx++){
+    if(!placed.includes(idx))unplaced.push(idx);
+  }
+  // Shuffle
+  for(let i=unplaced.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [unplaced[i],unplaced[j]]=[unplaced[j],unplaced[i]];
+  }
+
+  const trayCS=Math.min(55,220/cols); // smaller pieces for tray
+  let trayHtml='';
+  unplaced.forEach(idx=>{
+    const c=(idx-1)%cols,r=Math.floor((idx-1)/cols);
+    const ed=edges[idx];
+    if(!ed)return;
+    // Build a standalone SVG for this tray piece
+    const tPad=trayCS*.3;
+    const pieceW=trayCS+tPad*2,pieceH=trayCS+tPad*2;
+    // Path centered in a single-cell viewBox
+    const tPath=jigsawPathSVG(0,0,trayCS,ed);
+    let pSvg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-tPad} ${-tPad} ${pieceW} ${pieceH}" width="${pieceW}" height="${pieceH}" style="overflow:visible">`;
+    pSvg+=`<defs><clipPath id="advtcp_${locationId}_${idx}"><path d="${tPath}"/></clipPath></defs>`;
+    // Show scene image section for this piece
+    const srcX=-c*trayCS,srcY=-r*trayCS;
+    const imgW=cols*trayCS,imgH=rows*trayCS;
+    pSvg+=`<g clip-path="url(#advtcp_${locationId}_${idx})">`;
+    pSvg+=`<image href="${sceneURI}" x="${srcX}" y="${srcY}" width="${imgW}" height="${imgH}" preserveAspectRatio="none"/>`;
+    pSvg+=`</g>`;
+    pSvg+=`<path d="${tPath}" fill="none" stroke="rgba(200,160,60,.6)" stroke-width="1.2"/>`;
+    pSvg+=`</svg>`;
+    trayHtml+=`<div class="adv-jig-piece" data-piece="${idx}" title="Piece ${idx}">${pSvg}</div>`;
+  });
+  tray.innerHTML=trayHtml;
+
+  // Add tray piece click listeners
+  tray.querySelectorAll('.adv-jig-piece').forEach(pc=>{
+    pc.addEventListener('click',()=>advSelectPiece(locationId,parseInt(pc.dataset.piece)));
+  });
+
+  // Show overlay
+  document.getElementById('adv-jigsaw-overlay').classList.add('show');
+}
+
+/* ── Select Piece in Tray ── */
+function advSelectPiece(locId,pieceIdx){
+  _advJigState.selectedPiece=pieceIdx;
+  // Highlight selected in tray
+  document.querySelectorAll('#adv-jig-tray .adv-jig-piece').forEach(p=>{
+    p.classList.toggle('selected',parseInt(p.dataset.piece)===pieceIdx);
+  });
+  // Highlight matching slot on grid
+  document.querySelectorAll('#adv-jig-grid .adv-jig-slot').forEach(s=>{
+    s.classList.toggle('highlight',parseInt(s.dataset.slot)===pieceIdx);
+  });
+}
+
+/* ── Place Piece on Slot ── */
+function advPlaceOnSlot(locId,slotIdx){
+  const sel=_advJigState.selectedPiece;
+  if(sel===null){
+    showToast('Select a piece from the tray first');
+    return;
+  }
+  if(sel!==slotIdx){
+    // Wrong slot — shake + error
+    const slotEl=document.querySelector(`#adv-jig-grid .adv-jig-slot[data-slot="${slotIdx}"]`);
+    if(slotEl){slotEl.classList.add('adv-jig-shake');setTimeout(()=>slotEl.classList.remove('adv-jig-shake'),400);}
+    SOUNDS.play(7); // error-ish tone
+    return;
+  }
+
+  // Correct placement!
+  if(!GAME_STATS.adventurePlacedPieces[locId])GAME_STATS.adventurePlacedPieces[locId]=[];
+  GAME_STATS.adventurePlacedPieces[locId].push(sel);
+  _advJigState.selectedPiece=null;
+  saveState();
+
+  // Sound + sparkle
+  SOUNDS.play(Math.ceil(Math.random()*6)); // random pleasant tone
+  const loc=ADVENTURE_LOCATIONS[locId];
+  const totalPieces=loc.gridCols*loc.gridRows;
+  const placed=GAME_STATS.adventurePlacedPieces[locId];
+
+  // Re-render the puzzle
+  openAdvJigsaw(locId);
+
+  // Check completion
+  if(placed.length>=totalPieces){
+    setTimeout(()=>advJigsawComplete(locId),400);
+  }
+}
+
+/* ── Jigsaw Puzzle Complete ── */
+function advJigsawComplete(locationId){
+  if(!GAME_STATS.adventureCompleted)GAME_STATS.adventureCompleted=[];
+  if(!GAME_STATS.adventureCompleted.includes(locationId)){
+    GAME_STATS.adventureCompleted.push(locationId);
+  }
+  // Unlock next location
+  if(GAME_STATS.adventureProgress<=locationId){
+    GAME_STATS.adventureProgress=Math.min(26,locationId+1);
+  }
+  saveState();
+
+  // Celebration
+  playWinChime();
+  // Gold flash
+  const flash=document.createElement('div');
+  flash.style.cssText='position:fixed;inset:0;z-index:510;background:rgba(245,200,66,.3);pointer-events:none;animation:flashFade .65s ease forwards;';
+  document.body.appendChild(flash);setTimeout(()=>flash.remove(),800);
+  // Particles
+  for(let i=0;i<4;i++){
+    setTimeout(()=>{
+      spawnParticles(
+        window.innerWidth*.2+Math.random()*window.innerWidth*.6,
+        window.innerHeight*.15+Math.random()*window.innerHeight*.4,
+        Math.ceil(Math.random()*7)
+      );
+    },i*180);
+  }
+
+  const loc=ADVENTURE_LOCATIONS[locationId];
+  showToast(loc.icon+' '+loc.name+' complete! '+(locationId<25?'Next location unlocked!':'ALL LOCATIONS COMPLETE!'));
+
+  // Close overlay after delay and re-render path
+  setTimeout(()=>{
+    document.getElementById('adv-jigsaw-overlay').classList.remove('show');
+    setTimeout(()=>renderAdventurePath(),350);
+  },1800);
+}
+
+/* ══════════════════════════════════════════════════════
    EVENT LISTENERS
 ══════════════════════════════════════════════════════ */
 // Menu
@@ -6879,7 +7445,17 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>renderMapPuzzle());});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>switchMapTab('adventure'));});
+
+// Adventure Path tab switching
+document.querySelectorAll('.map-tab').forEach(t=>{
+  t.addEventListener('click',()=>switchMapTab(t.dataset.tab));
+});
+
+// Adventure jigsaw back button
+document.getElementById('adv-jigsaw-back').addEventListener('click',()=>{
+  document.getElementById('adv-jigsaw-overlay').classList.remove('show');
+});
 
 // Back buttons
 document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
