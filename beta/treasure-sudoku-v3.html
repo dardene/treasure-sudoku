@@ -670,6 +670,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .menu-auth-corner-btn{position:absolute;bottom:22px;left:18px;background:rgba(8,5,1,.65);border:1px solid rgba(160,110,40,.35);border-radius:20px;color:rgba(200,160,100,.7);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;padding:7px 14px;cursor:pointer;transition:all .2s;z-index:20;}
 .menu-auth-corner-btn:hover{border-color:rgba(220,170,60,.55);color:var(--gold);background:rgba(15,9,2,.8);}
 .menu-btn-profile{background:linear-gradient(135deg,rgba(30,60,120,.92),rgba(45,85,160,.92));border:1px solid rgba(80,140,240,.45);color:#c0d8ff;}
+/* ── Tutorial Overlay ── */
+.howto-section-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.22em;color:rgba(200,160,80,.55);text-align:center;margin-bottom:14px;text-transform:uppercase;transition:opacity .3s;}
 /* ── How To Play Tutorial Overlay ── */
 #howto-overlay{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
 #howto-overlay.show{display:flex;}
@@ -1657,7 +1659,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <button class="menu-btn menu-btn-howto ghost-btn" id="menu-howto">
       <span class="mb-icon">📖</span>
       <span class="mb-text">
-        <span class="mb-title">HOW TO PLAY</span>
+        <span class="mb-title">TUTORIAL</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-primary ghost-btn" id="menu-daily">
@@ -2479,23 +2481,49 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </div>
 </div>
 
-<!-- ═══════════════ HOW TO PLAY TUTORIAL ═══════════════ -->
+<!-- ═══════════════ TUTORIAL OVERLAY ═══════════════ -->
 <div id="howto-overlay">
   <div class="howto-panel">
     <button class="howto-skip" id="howto-skip">SKIP ✕</button>
+    <div class="howto-section-label" id="howto-section-label">📖 THE STORY</div>
 
-    <!-- Slide 1: Welcome -->
+    <!-- ── STORY SLIDES ── -->
+
+    <!-- Slide 0: The Map -->
     <div class="howto-slide active" id="howto-slide-0">
-      <div class="howto-slide-icon">🏴‍☠️</div>
-      <div class="howto-slide-title">WELCOME, EXPLORER</div>
+      <div class="howto-slide-icon" style="font-size:52px;">🗺️</div>
+      <div class="howto-slide-title">AN ANCIENT MAP</div>
       <div class="howto-slide-body">
-        You've discovered <strong>Treasure Sudoku</strong> — an ancient puzzle of lost relics hiding in the ruins of Solara.<br><br>
-        Your mission: fill every row, column, and box with the sacred relics to unlock the treasure vault.
+        Deep in a forgotten sea, you stumble upon a <strong>torn, ancient map</strong>.<br><br>
+        It speaks of <em>Solara</em> — a lost city of wonder, swallowed by time and hidden from the world for centuries.
       </div>
     </div>
 
-    <!-- Slide 2: The Rules -->
+    <!-- Slide 1: The City -->
     <div class="howto-slide" id="howto-slide-1">
+      <div class="howto-slide-icon" style="font-size:52px;">🏛️</div>
+      <div class="howto-slide-title">THE LOST CITY OF SOLARA</div>
+      <div class="howto-slide-body">
+        Before Solara vanished, its people hid their most sacred relics across <strong>nine sealed chambers</strong> to protect them from invaders.<br><br>
+        The chambers were locked with <em>ancient puzzle seals</em> that only a true explorer could break.
+      </div>
+    </div>
+
+    <!-- Slide 2: Your Mission -->
+    <div class="howto-slide" id="howto-slide-2">
+      <div class="howto-slide-icon" style="font-size:52px;">⚔️</div>
+      <div class="howto-slide-title">YOUR MISSION</div>
+      <div class="howto-slide-body">
+        You are that explorer.<br><br>
+        Solve the <strong>relic puzzles</strong> carved into each chamber door. Collect the lost relics. Piece together the map.<br><br>
+        Find the <strong>Final Vault of Solara</strong> — and claim the treasure within.
+      </div>
+    </div>
+
+    <!-- ── HOW TO PLAY SLIDES ── -->
+
+    <!-- Slide 3: The Rules -->
+    <div class="howto-slide" id="howto-slide-3">
       <div class="howto-slide-icon">📜</div>
       <div class="howto-slide-title">THE RULES</div>
       <div class="howto-slide-body">
@@ -2512,11 +2540,11 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <div class="howto-cell filled">🗝️</div>
         <div class="howto-cell filled">👑</div>
       </div>
-      <div class="howto-slide-body" style="font-size:13px;margin-top:10px;opacity:.75;">Each relic appears once per row, column & box — no repeats!</div>
+      <div class="howto-slide-body" style="font-size:13px;margin-top:10px;opacity:.75;">No repeats in any row, column, or box!</div>
     </div>
 
-    <!-- Slide 3: How to Play -->
-    <div class="howto-slide" id="howto-slide-2">
+    <!-- Slide 4: Controls -->
+    <div class="howto-slide" id="howto-slide-4">
       <div class="howto-slide-icon">👆</div>
       <div class="howto-slide-title">HOW TO PLAY</div>
       <div class="howto-pills">
@@ -2530,46 +2558,66 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         </div>
         <div class="howto-pill">
           <div class="howto-pill-icon">✎</div>
-          <div class="howto-pill-text"><strong>NOTES mode</strong> — mark possible relics in a cell without committing</div>
+          <div class="howto-pill-text"><strong>NOTES mode</strong> — mark possible relics without committing</div>
         </div>
         <div class="howto-pill">
           <div class="howto-pill-icon">💡</div>
-          <div class="howto-pill-text"><strong>HINT</strong> — reveals one cell. You get 3 hints per game</div>
+          <div class="howto-pill-text"><strong>HINT</strong> — reveals one cell. You get 3 per game</div>
         </div>
       </div>
     </div>
 
-    <!-- Slide 4: Daily Puzzle -->
-    <div class="howto-slide" id="howto-slide-3">
+    <!-- Slide 5: Daily Puzzle -->
+    <div class="howto-slide" id="howto-slide-5">
       <div class="howto-slide-icon">📅</div>
       <div class="howto-slide-title">DAILY PUZZLE</div>
-      <div class="howto-slide-body">A brand-new challenge drops <strong>every day</strong>. Race the clock and climb the leaderboard!</div>
+      <div class="howto-slide-body">A new chamber unlocks <strong>every day</strong>. Race the clock and climb the leaderboard!</div>
       <div class="howto-pills" style="margin-top:12px;">
         <div class="howto-pill">
           <div class="howto-pill-icon">💣</div>
-          <div class="howto-pill-text"><strong>Bombs</strong> — place the correct relic before it explodes or lose a life!</div>
+          <div class="howto-pill-text"><strong>Bombs</strong> — place the relic before it explodes or lose a life!</div>
         </div>
         <div class="howto-pill">
           <div class="howto-pill-icon">💰</div>
-          <div class="howto-pill-text"><strong>Treasure bags</strong> — solve them fast for <strong>bonus points</strong></div>
+          <div class="howto-pill-text"><strong>Treasure bags</strong> — solve fast for <strong>bonus points</strong></div>
         </div>
         <div class="howto-pill">
           <div class="howto-pill-icon">❤️</div>
-          <div class="howto-pill-text">You start with <strong>5 lives</strong> — wrong answers cost you one</div>
+          <div class="howto-pill-text">You start with <strong>5 lives</strong> — wrong answers cost one</div>
         </div>
       </div>
     </div>
 
-    <!-- Slide 5: Ready -->
-    <div class="howto-slide" id="howto-slide-4">
-      <div class="howto-slide-icon">⚔️</div>
+    <!-- Slide 6: Achievement Vault -->
+    <div class="howto-slide" id="howto-slide-6">
+      <div class="howto-slide-icon">🏆</div>
+      <div class="howto-slide-title">COLLECT THE RELICS</div>
+      <div class="howto-pills">
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🧩</div>
+          <div class="howto-pill-text"><strong>Jigsaw pieces</strong> are earned by winning — collect them all to unlock <strong>Legendary Relics</strong></div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🗺️</div>
+          <div class="howto-pill-text">Unlock <strong>map fragments</strong> to slowly reveal the path to the Final Vault of Solara</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🏛️</div>
+          <div class="howto-pill-text">Visit the <strong>Achievement Vault</strong> to view all your collected relics and lore</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Ready -->
+    <div class="howto-slide" id="howto-slide-7">
+      <div class="howto-slide-icon">🏴‍☠️</div>
       <div class="howto-slide-title">YOUR QUEST BEGINS</div>
       <div class="howto-slide-body">
-        You're ready to explore the ruins of Solara and claim the lost relics.<br><br>
-        Choose <strong>Daily Puzzle</strong> for a fresh challenge every day, or <strong>Relic Puzzle</strong> to play anytime at your own pace.<br><br>
-        <strong>Good luck, explorer! 🏆</strong>
+        The ruins of Solara are waiting.<br><br>
+        Choose <strong>Daily Puzzle</strong> for a fresh chamber every day, or <strong>Relic Puzzle</strong> to train at your own pace.<br><br>
+        <strong>The lost city won't find itself. 🏆</strong>
       </div>
-      <button class="howto-start-btn" id="howto-start-btn">⚔ START PLAYING</button>
+      <button class="howto-start-btn" id="howto-start-btn">⚔ BEGIN YOUR QUEST</button>
     </div>
 
     <!-- Nav -->
@@ -5539,7 +5587,7 @@ const GAME_URL='https://dardene.github.io/treasure-sudoku/beta/treasure-sudoku-v
 // ── Exact share message ──
 function _buildShareMessage(scoreNum){
   const score=(scoreNum||0).toLocaleString();
-  return `I just scored ${score} in this treasure puzzle 🏴‍☠️ Think you can beat me? ${GAME_URL}`;
+  return `I just scored ${score} in this treasure puzzle 🏴‍☠️ Think you can beat me?`;
 }
 
 function _copyText(text,msg){
@@ -5699,7 +5747,7 @@ async function shareDailyResults(savedData){
   // ── 1. Native share with image (iOS 15+ / Android Chrome) ──
   if(navigator.share&&imageFile&&navigator.canShare&&navigator.canShare({files:[imageFile]})){
     try{
-      await navigator.share({files:[imageFile],text:message});
+      await navigator.share({files:[imageFile],text:message,url:GAME_URL});
       return;
     }catch(e){if(e.name==='AbortError')return;}
   }
@@ -6775,15 +6823,17 @@ document.getElementById('menu-puzzle').addEventListener('click',()=>{menuTransit
 document.getElementById('menu-vault').addEventListener('click',()=>{menuTransitionTo('screen-vault',()=>renderVault());});
 document.getElementById('menu-settings').addEventListener('click',()=>{menuTransitionTo('screen-settings');});
 
-// ── How To Play Tutorial ──
+// ── Tutorial (Story + How To Play) ──
 (function(){
-  const TOTAL=5;
+  const TOTAL=8;
+  const STORY_SLIDES=3; // slides 0-2 are story, 3-7 are how to play
   let cur=0;
   const overlay=document.getElementById('howto-overlay');
   const dotsWrap=document.getElementById('howto-dots');
   const prevBtn=document.getElementById('howto-prev');
   const nextBtn=document.getElementById('howto-next');
   const nav=document.getElementById('howto-nav');
+  const sectionLabel=document.getElementById('howto-section-label');
 
   // Build dots
   for(let i=0;i<TOTAL;i++){
@@ -6801,7 +6851,9 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
     const isLast=cur===TOTAL-1;
     nextBtn.style.display=isLast?'none':'';
     nav.style.justifyContent=isLast?'center':'space-between';
-    if(isLast){prevBtn.style.display='none';}else{prevBtn.style.display='';}
+    prevBtn.style.display=isLast?'none':'';
+    // Update section label
+    sectionLabel.textContent=cur<STORY_SLIDES?'📖 THE STORY':'🎮 HOW TO PLAY';
   }
 
   function openTutorial(){overlay.classList.add('show');goTo(0);}
