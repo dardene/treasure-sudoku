@@ -3221,7 +3221,8 @@ document.addEventListener('touchstart',function(e){
 .map-tabs{display:flex;gap:6px;justify-content:center;margin:8px auto 10px;padding:0 16px;max-width:340px;}
 .map-tab{flex:1;text-align:center;padding:7px 0;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:rgba(200,180,140,.55);border:1px solid rgba(200,180,140,.18);border-radius:10px;cursor:pointer;transition:all .25s;background:rgba(0,0,0,.25);}
 .map-tab.active{color:var(--gold);border-color:var(--gold);background:rgba(180,140,40,.15);text-shadow:0 0 12px var(--glow-gold);}
-.advpath-wrap{position:fixed!important;top:0;left:0;width:100vw;height:100vh;height:100dvh;overflow:visible;padding:0;pointer-events:none;z-index:3;}
+.advpath-wrap{position:fixed!important;top:0;left:0;width:100vw;height:100vh;height:100dvh;overflow:visible;padding:0;pointer-events:none;z-index:3;display:none;}
+.screen.active .advpath-wrap,.screen.active>.advpath-wrap{display:block;}
 .advpath-wrap svg{pointer-events:all;width:100%;height:100%;}
 .advpath-wrap::-webkit-scrollbar{display:none;}
 .advpath-svg{display:block;margin:0 auto;width:100%;max-width:380px;}
