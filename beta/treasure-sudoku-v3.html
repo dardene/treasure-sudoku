@@ -6937,8 +6937,9 @@ function switchMapTab(tabName){
 /* ── Adventure Path Rendering ── */
 function renderAdventurePath(){
   const svg=document.getElementById('advpath-svg');
-  const progress=GAME_STATS.adventureProgress||1;
-  const completed=GAME_STATS.adventureCompleted||[];
+  const DEV_UNLOCK_ALL=true; // TEMP: unlock all nodes for testing
+  const progress=DEV_UNLOCK_ALL?99:(GAME_STATS.adventureProgress||1);
+  const completed=DEV_UNLOCK_ALL?[1,2,3,4,5,6,7,8,9,10]:(GAME_STATS.adventureCompleted||[]);
 
   // Positions mapped to island landmarks (viewBox 380 x 490)
   // Only show first 10 locations — bottom to top, near buildings/edges
