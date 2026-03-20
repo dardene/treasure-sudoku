@@ -3325,7 +3325,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 /* ── Jigsaw Artifact Vault ── */
 .jigsaw-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:4px 0;max-width:340px;margin:0 auto;}
-.jsw-slot{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1.5px solid rgba(100,70,20,.4);background:rgba(14,8,2,.7);cursor:default;transition:transform .18s;position:relative;max-width:62px;}
+.jsw-slot{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1.5px solid rgba(100,70,20,.4);background:rgba(14,8,2,.7);cursor:default;transition:transform .18s;position:relative;max-width:62px;overflow:hidden;}
 .jsw-slot.earned{background:rgba(20,12,4,.85);}
 .jsw-slot.earned:hover{transform:scale(1.08);}
 .jsw-slot.locked{opacity:.45;}
@@ -7839,7 +7839,7 @@ function renderJigsawVault(){
     const rarityClass=art?art.rarity.toLowerCase():'';
     slot.className='jsw-slot'+(isEarned?' '+rarityClass:' locked');
     if(isEarned){
-      slot.innerHTML=`<div class="jsw-slot-icon" style="filter:drop-shadow(0 0 8px ${art.glow})">${art.svg}</div><div class="jsw-slot-name">${art.label}</div><div class="jsw-rarity-pip"></div>${art.lore?`<div class="relic-lore">${art.lore}</div>`:''}`;
+      slot.innerHTML=`<div class="jsw-slot-icon" style="filter:drop-shadow(0 0 8px ${art.glow})">${art.svg}</div><div class="jsw-slot-name">${art.label}</div><div class="jsw-rarity-pip"></div>`;
       slot.title=art.name+'\n'+art.rarity+(art.rune?' · '+art.rune:'')+'\n'+art.desc;
     } else {
       slot.innerHTML=`<div class="jsw-slot-icon" style="font-size:20px;line-height:3;opacity:.35;">🔒</div><div class="jsw-slot-name" style="opacity:.3;">???</div>`;
