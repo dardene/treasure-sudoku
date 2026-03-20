@@ -7712,6 +7712,10 @@ document.getElementById('reset-records').addEventListener('click',()=>{
 });
 (async()=>{
   loadState();
+  // TEMP: Force all 10 locations completed for testing
+  GAME_STATS.adventureProgress=11;
+  GAME_STATS.adventureCompleted=[1,2,3,4,5,6,7,8,9,10];
+  saveState();
   await initSupabase();
   if(AUTH_STATE.user)await loadFromCloud();
   updateMenuState();
