@@ -7104,13 +7104,12 @@ function renderAdventurePath(){
   // DEV_MODE_P2: drag to reposition page 2 nodes
   if(isPage2&&DEV_MODE_P2){
     svg.style.touchAction='none';
-    let dragLocId=null,dragG=null,startX=0,startY=0,txOffset=0,tyOffset=0;
-    function getSVGScale(){
-      const rect=svg.getBoundingClientRect();
-      const vb=svg.viewBox.baseVal;
-      return{sx:vb.width/rect.width,sy:vb.height/rect.height};
+    let dragLocId=null,dragG=null,startSVGX=0,startSVGY=0,txOffset=0,tyOffset=0;
+    function toSVGPoint(clientX,clientY){
+      const pt=svg.createSVGPoint();
+      pt.x=clientX;pt.y=clientY;
+      return pt.matrixTransform(svg.getScreenCTM().inverse());
     }
-    function getClientPos(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
     function findNodeG(el){
       let cur=el;
       while(cur&&cur!==svg){if(cur.dataset&&cur.dataset.loc)return cur;cur=cur.parentElement;}
@@ -7121,17 +7120,18 @@ function renderAdventurePath(){
       if(!g)return;
       e.preventDefault();e.stopPropagation();
       dragLocId=parseInt(g.dataset.loc);dragG=g;
-      const pos=getClientPos(e);
-      startX=pos.x;startY=pos.y;txOffset=0;tyOffset=0;
+      const t=e.touches[0];
+      const sp=toSVGPoint(t.clientX,t.clientY);
+      startSVGX=sp.x;startSVGY=sp.y;txOffset=0;tyOffset=0;
       g.style.opacity='0.7';
     },{passive:false});
     svg.addEventListener('touchmove',function(e){
       if(!dragG)return;
       e.preventDefault();e.stopPropagation();
-      const pos=getClientPos(e);
-      const{sx,sy}=getSVGScale();
-      txOffset=Math.round((pos.x-startX)*sx);
-      tyOffset=Math.round((pos.y-startY)*sy);
+      const t=e.touches[0];
+      const sp=toSVGPoint(t.clientX,t.clientY);
+      txOffset=Math.round(sp.x-startSVGX);
+      tyOffset=Math.round(sp.y-startSVGY);
       dragG.setAttribute('transform',`translate(${txOffset},${tyOffset})`);
     },{passive:false});
     svg.addEventListener('touchend',function(e){
