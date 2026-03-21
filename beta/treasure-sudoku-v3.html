@@ -6982,6 +6982,7 @@ function switchMapTab(tabName){
 
 /* ── Adventure Path Rendering ── */
 let _currentMapPage=1;
+const DEV_MODE_P2=true; // TEMP: enable drag repositioning for page 2 nodes
 
 function changeMapPage(dir){
   _currentMapPage=_currentMapPage===1?2:1;
@@ -7015,7 +7016,7 @@ function renderAdventurePath(){
     {x:395,y:-157,align:'right'}, // 10
   ];
   // Page 2 positions (locations 11-25) — user can reposition
-  const positionsP2=[
+  if(!window._positionsP2)window._positionsP2=[
     null,null,null,null,null,null,null,null,null,null,null, // 1-10 unused
     {x:80,y:480,align:'left'},    // 11 Crystal Caverns
     {x:280,y:450,align:'right'},  // 12 Pirate Harbor
@@ -7033,6 +7034,7 @@ function renderAdventurePath(){
     {x:220,y:-50,align:'right'},  // 24 Frozen Abyss
     {x:360,y:-90,align:'left'},   // 25 Crimson Peak
   ];
+  const positionsP2=window._positionsP2;
   const isPage2=_currentMapPage===2;
   const startIdx=isPage2?11:1;
   const endIdx=isPage2?25:10;
@@ -7095,6 +7097,77 @@ function renderAdventurePath(){
   svg.querySelectorAll('[data-loc]').forEach(g=>{
     g.addEventListener('click',()=>advNodeClicked(parseInt(g.dataset.loc)));
   });
+
+  // DEV_MODE_P2: drag to reposition page 2 nodes
+  if(isPage2&&DEV_MODE_P2){
+    svg.querySelectorAll('[data-loc]').forEach(g=>{
+      const locId=parseInt(g.dataset.loc);
+      let dragging=false,startX=0,startY=0,origX=0,origY=0;
+      function getPos(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
+      function svgCoords(clientX,clientY){
+        const rect=svg.getBoundingClientRect();
+        const vb=svg.viewBox.baseVal;
+        const scaleX=vb.width/rect.width;
+        const scaleY=vb.height/rect.height;
+        return{x:(clientX-rect.left)*scaleX+vb.x, y:(clientY-rect.top)*scaleY+vb.y};
+      }
+      function onStart(e){
+        e.preventDefault();
+        const pos=getPos(e);
+        const sc=svgCoords(pos.x,pos.y);
+        dragging=true;startX=pos.x;startY=pos.y;
+        origX=positionsP2[locId].x;origY=positionsP2[locId].y;
+        g.style.opacity='0.7';
+      }
+      function onMove(e){
+        if(!dragging)return;e.preventDefault();
+        const pos=getPos(e);
+        const sc=svgCoords(pos.x,pos.y);
+        const dx=pos.x-startX,dy=pos.y-startY;
+        const rect=svg.getBoundingClientRect();
+        const vb=svg.viewBox.baseVal;
+        const scaleX=vb.width/rect.width,scaleY=vb.height/rect.height;
+        positionsP2[locId].x=Math.round(origX+dx*scaleX);
+        positionsP2[locId].y=Math.round(origY+dy*scaleY);
+        // Move all children
+        g.querySelectorAll('circle,text').forEach(el=>{
+          const cx=el.getAttribute('cx'),tx=el.getAttribute('x');
+          const cy=el.getAttribute('cy'),ty=el.getAttribute('y');
+          if(cx!==null)el.setAttribute('cx',positionsP2[locId].x);
+          if(tx!==null){
+            const isName=parseFloat(tx)!==origX;
+            const offset=parseFloat(tx)-origX;
+            el.setAttribute('x',positionsP2[locId].x+offset);
+          }
+          if(cy!==null)el.setAttribute('cy',positionsP2[locId].y);
+          if(ty!==null)el.setAttribute('y',positionsP2[locId].y+5);
+        });
+      }
+      function onEnd(){if(!dragging)return;dragging=false;g.style.opacity='1';}
+      g.addEventListener('touchstart',onStart,{passive:false});
+      g.addEventListener('touchmove',onMove,{passive:false});
+      g.addEventListener('touchend',onEnd);
+      g.addEventListener('mousedown',onStart);
+      window.addEventListener('mousemove',onMove);
+      window.addEventListener('mouseup',onEnd);
+    });
+
+    // Log Positions button for page 2
+    if(!document.getElementById('log-pos-btn-p2')){
+      const logBtn=document.createElement('button');
+      logBtn.id='log-pos-btn-p2';
+      logBtn.textContent='Log Positions';
+      logBtn.style.cssText='position:fixed;bottom:70px;left:16px;z-index:9999;background:#f5c842;color:#3a1a00;font-family:Cinzel,serif;font-size:13px;font-weight:900;border:none;border-radius:12px;padding:10px 18px;cursor:pointer;touch-action:manipulation;';
+      logBtn.addEventListener('click',()=>{
+        const lines=[];
+        for(let i=11;i<=25;i++){if(positionsP2[i])lines.push(`${i}: x:${positionsP2[i].x} y:${positionsP2[i].y} ${positionsP2[i].align}`);}
+        alert(lines.join('\n'));
+      });
+      document.body.appendChild(logBtn);
+    }
+  } else {
+    const old=document.getElementById('log-pos-btn-p2');if(old)old.remove();
+  }
 
   // Auto-scroll to current node
   if(currentNodeY>0){
