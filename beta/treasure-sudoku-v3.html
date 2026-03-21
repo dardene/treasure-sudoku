@@ -7018,7 +7018,7 @@ function renderAdventurePath(){
     {x:395,y:-157,align:'right'}, // 10
   ];
   // Page 2 positions (locations 11-25) — user can reposition
-  if(!window._positionsP2)window._positionsP2=[
+  window._positionsP2=window._positionsP2||[
     null,null,null,null,null,null,null,null,null,null,null, // 1-10 unused
     {x:80,y:480,align:'left'},    // 11 Crystal Caverns
     {x:280,y:450,align:'right'},  // 12 Pirate Harbor
@@ -7057,6 +7057,7 @@ function renderAdventurePath(){
     const loc=ADVENTURE_LOCATIONS[i];
     if(!loc)continue;
     const p=positions[i];
+    if(!p)continue;
     const isDone=completed.includes(i);
     const isCurrent=i===progress&&!isDone;
     const isLocked=i>progress;
@@ -7136,8 +7137,8 @@ function renderAdventurePath(){
     svg.addEventListener('touchend',function(e){
       if(!dragG)return;
       e.preventDefault();
-      positionsP2[dragLocId].x+=txOffset;
-      positionsP2[dragLocId].y+=tyOffset;
+      positionsP2[dragLocId].x=Math.round(Math.max(-30,Math.min(410,positionsP2[dragLocId].x+txOffset)));
+      positionsP2[dragLocId].y=Math.round(Math.max(-200,Math.min(580,positionsP2[dragLocId].y+tyOffset)));
       dragG.removeAttribute('transform');
       dragG.style.opacity='1';
       dragG=null;dragLocId=null;txOffset=0;tyOffset=0;
