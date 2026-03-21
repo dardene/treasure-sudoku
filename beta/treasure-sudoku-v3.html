@@ -3195,11 +3195,11 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
 /* ══ TREASURE MAP SCREEN ══ */
-#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:env(safe-area-inset-top,2px) 12px 20px;gap:0;background:linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%),url('treasure-map-bg.jpg') 45% 30%/cover no-repeat,#1a1008;transition:background 0.3s ease;}
+#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:0;gap:0;background:linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%),url('treasure-map-bg.jpg') 45% 30%/cover no-repeat,#1a1008;transition:background 0.3s ease;background-size:cover,cover,auto;min-height:100vh;min-height:100dvh;}
 #mapv-bg{display:none;}
 #screen-mapview > *{position:relative;z-index:2;}
 #screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
-.mapv-header{background:rgba(20,12,4,.75);border:1px solid rgba(140,100,40,.3);border-radius:10px;padding:6px 18px 5px;text-align:center;flex-shrink:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
+.mapv-header{background:rgba(20,12,4,.75);border:1px solid rgba(140,100,40,.3);border-radius:10px;padding:6px 18px 5px;text-align:center;flex-shrink:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);margin-top:calc(env(safe-area-inset-top,8px) + 8px);}
 .mapv-title{font-size:13px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:1px;}
 .mapv-sub{font-family:'Crimson Pro',serif;font-size:9px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:0;text-align:center;}
 .mapv-grid-wrap{flex-shrink:0;margin-bottom:10px;}
