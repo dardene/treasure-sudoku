@@ -366,7 +366,7 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 .menu-runes{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
 .version-tag{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(180,140,60,.5);letter-spacing:.2em;margin-top:12px;text-align:center;}
 
-/* ══════════════ PUZZLE MODE ══════════════ */
+/* ══════════════ RELAX MODE ══════════════ */
 #screen-puzzle{padding:10px 14px;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('puzzle-bg1.png') center center/cover no-repeat;}
 #screen-daily{background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),url('puzzle-bg1.png') center center/cover no-repeat;}
 .puzzle-header{width:100%;max-width:520px;display:flex;justify-content:center;align-items:center;gap:18px;padding:6px 0 10px;}
@@ -1726,7 +1726,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <path d="M11,18 Q17,24 11,30" stroke="rgba(255,238,150,.38)" stroke-width="1.1" fill="none"/>
       </svg></span>
       <span class="mb-text">
-        <span class="mb-title">PUZZLE MODE</span>
+        <span class="mb-title">RELAX MODE</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-vault ghost-btn" id="menu-vault">
@@ -1809,7 +1809,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="stat-best" id="pz-best">Best: --</div>
     </div>
     <div style="text-align:center;">
-      <div style="font-size:clamp(14px,3vw,20px);font-weight:900;color:var(--gold-light);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;">⚜ RELIC PUZZLE ⚜</div>
+      <div style="font-size:clamp(14px,3vw,20px);font-weight:900;color:var(--gold-light);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;">⚜ RELAX MODE ⚜</div>
       <div style="font-family:'Crimson Pro',serif;font-size:10px;color:var(--stone-light);letter-spacing:.25em;">The Lost Treasures of Solara</div>
       <div style="margin-top:3px;"><span id="pz-diff-badge" style="font-family:'Crimson Pro',serif;font-size:9px;letter-spacing:.22em;color:var(--gold);opacity:.85;"></span></div>
     </div>
@@ -1842,7 +1842,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ══ DIFFICULTY PICKER MODAL ══ -->
 <div id="diff-picker">
   <div style="text-align:center;padding:32px 28px 28px;background:linear-gradient(160deg,rgba(20,12,5,.98),rgba(36,22,8,.98));border:1px solid rgba(180,140,60,.55);border-radius:22px;width:min(92vw,400px);box-shadow:0 0 60px rgba(245,200,66,.28),0 20px 60px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,220,100,.1);">
-    <div style="font-size:8px;letter-spacing:.4em;color:var(--gold);font-family:'Cinzel',serif;margin-bottom:3px;opacity:.8;">⚜ RELIC PUZZLE ⚜</div>
+    <div style="font-size:8px;letter-spacing:.4em;color:var(--gold);font-family:'Cinzel',serif;margin-bottom:3px;opacity:.8;">⚜ RELAX MODE ⚜</div>
     <div style="font-size:clamp(16px,4vw,22px);font-weight:900;color:var(--gold-light);letter-spacing:.16em;font-family:'Cinzel',serif;margin-bottom:3px;text-shadow:0 0 24px rgba(255,220,80,.65);">DIFFICULTY</div>
     <div style="font-family:'Crimson Pro',serif;font-size:12px;color:rgba(255,240,200,.5);letter-spacing:.22em;margin-bottom:22px;">select your challenge</div>
     <div style="display:flex;flex-direction:column;gap:9px;">
@@ -1945,7 +1945,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="battle-stats" id="vault-daily-stats"></div>
     </div>
     <div class="vault-section">
-      <div class="vault-section-title">📜 Puzzle Mode Records</div>
+      <div class="vault-section-title">📜 Relax Mode Records</div>
       <div class="vault-records" id="vault-records"></div>
     </div>
     <div class="vault-section">
@@ -2652,7 +2652,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="howto-slide-title">YOUR QUEST BEGINS</div>
       <div class="howto-slide-body">
         The ruins of Solara are waiting.<br><br>
-        Choose <strong>Daily Puzzle</strong> for a fresh chamber every day, or <strong>Relic Puzzle</strong> to train at your own pace.<br><br>
+        Choose <strong>Daily Puzzle</strong> for a fresh chamber every day, or <strong>Relax Mode</strong> to train at your own pace.<br><br>
         <strong>The lost city won't find itself. 🏆</strong>
       </div>
       <button class="howto-start-btn" id="howto-start-btn">⚔ BEGIN YOUR QUEST</button>
@@ -3172,7 +3172,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .map-progress-label{font-size:9px;color:rgba(200,160,100,.7);letter-spacing:.18em;font-family:'Crimson Pro',serif;text-align:center;}
 
 
-/* ══ LEGENDARY PUZZLE MODE ══ */
+/* ══ LEGENDARY RELAX MODE ══ */
 .legendary-mode #pz-board{box-shadow:0 0 30px rgba(180,80,255,.35),0 0 60px rgba(140,40,200,.2);}
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
@@ -4517,7 +4517,7 @@ function spawnWinCoins(){
 }
 
 /* ══════════════════════════════════════════════════════
-   PUZZLE MODE
+   RELAX MODE
 ══════════════════════════════════════════════════════ */
 let PZ={puzzle:[],solution:[],board:[],notes:[],selected:null,activeNum:null,notesMode:false,mistakes:0,score:0,streak:0,hints:3,diff:'easy',undoStack:[],timerInterval:null,elapsed:0,startTime:0};
 
