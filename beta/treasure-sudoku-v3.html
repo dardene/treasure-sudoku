@@ -7207,9 +7207,10 @@ function openAdvJigsaw(locationId){
   const overlay=document.getElementById('adv-jigsaw-overlay');
   const LOC_BGS={1:'url(lost-isle-bg.png)',2:'url(desert-sand-bg.png)',3:'url(dense-jungle-bg.png)',4:'url(volcanic-isle-bg.png)',5:'url(arctic-wastes-bg.png)',6:'url(ancient-seas-bg.png)',7:'url(mountain-fortress-bg.png)',8:'url(misty-peninsula-bg.png)',9:'url(golden-savanna-bg.png)',10:'url(cursed-swamp-bg.png)'};
   const LOC_POS={3:'center top'};
+  overlay.style.backgroundColor='rgb(4,2,10)';
   overlay.style.background=LOC_BGS[locationId]
-    ? LOC_BGS[locationId]+' '+(LOC_POS[locationId]||'center center')+'/cover no-repeat rgba(4,2,10,.96)'
-    : 'rgba(4,2,10,.96)';
+    ? 'rgb(4,2,10) '+LOC_BGS[locationId]+' '+(LOC_POS[locationId]||'center center')+'/cover no-repeat'
+    : 'rgb(4,2,10)';
 
   // Show overlay
   overlay.classList.add('show');
