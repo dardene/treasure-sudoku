@@ -7102,41 +7102,47 @@ function renderAdventurePath(){
 
   // DEV_MODE_P2: drag to reposition page 2 nodes
   if(isPage2&&DEV_MODE_P2){
-    svg.querySelectorAll('[data-loc]').forEach(g=>{
-      const locId=parseInt(g.dataset.loc);
-      let dragging=false,startX=0,startY=0,txOffset=0,tyOffset=0;
-      function getPos(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
-      function onStart(e){
-        e.preventDefault();
-        const pos=getPos(e);
-        dragging=true;startX=pos.x;startY=pos.y;txOffset=0;tyOffset=0;
-        g.style.opacity='0.7';
-      }
-      function onMove(e){
-        if(!dragging)return;e.preventDefault();
-        const pos=getPos(e);
-        const rect=svg.getBoundingClientRect();
-        const vb=svg.viewBox.baseVal;
-        const scaleX=vb.width/rect.width,scaleY=vb.height/rect.height;
-        txOffset=Math.round((pos.x-startX)*scaleX);
-        tyOffset=Math.round((pos.y-startY)*scaleY);
-        g.setAttribute('transform',`translate(${txOffset},${tyOffset})`);
-      }
-      function onEnd(){
-        if(!dragging)return;dragging=false;
-        positionsP2[locId].x+=txOffset;
-        positionsP2[locId].y+=tyOffset;
-        g.removeAttribute('transform');
-        g.style.opacity='1';
-        renderAdventurePath();
-      }
-      g.addEventListener('touchstart',onStart,{passive:false});
-      g.addEventListener('touchmove',onMove,{passive:false});
-      g.addEventListener('touchend',onEnd);
-      g.addEventListener('mousedown',onStart);
-      window.addEventListener('mousemove',onMove);
-      window.addEventListener('mouseup',onEnd);
-    });
+    svg.style.touchAction='none';
+    let dragLocId=null,dragG=null,startX=0,startY=0,txOffset=0,tyOffset=0;
+    function getSVGScale(){
+      const rect=svg.getBoundingClientRect();
+      const vb=svg.viewBox.baseVal;
+      return{sx:vb.width/rect.width,sy:vb.height/rect.height};
+    }
+    function getClientPos(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
+    function findNodeG(el){
+      let cur=el;
+      while(cur&&cur!==svg){if(cur.dataset&&cur.dataset.loc)return cur;cur=cur.parentElement;}
+      return null;
+    }
+    svg.addEventListener('touchstart',function(e){
+      const g=findNodeG(e.target);
+      if(!g)return;
+      e.preventDefault();e.stopPropagation();
+      dragLocId=parseInt(g.dataset.loc);dragG=g;
+      const pos=getClientPos(e);
+      startX=pos.x;startY=pos.y;txOffset=0;tyOffset=0;
+      g.style.opacity='0.7';
+    },{passive:false});
+    svg.addEventListener('touchmove',function(e){
+      if(!dragG)return;
+      e.preventDefault();e.stopPropagation();
+      const pos=getClientPos(e);
+      const{sx,sy}=getSVGScale();
+      txOffset=Math.round((pos.x-startX)*sx);
+      tyOffset=Math.round((pos.y-startY)*sy);
+      dragG.setAttribute('transform',`translate(${txOffset},${tyOffset})`);
+    },{passive:false});
+    svg.addEventListener('touchend',function(e){
+      if(!dragG)return;
+      e.preventDefault();
+      positionsP2[dragLocId].x+=txOffset;
+      positionsP2[dragLocId].y+=tyOffset;
+      dragG.removeAttribute('transform');
+      dragG.style.opacity='1';
+      dragG=null;dragLocId=null;txOffset=0;tyOffset=0;
+      renderAdventurePath();
+    },{passive:false});
 
     // Log Positions button for page 2
     if(!document.getElementById('log-pos-btn-p2')){
