@@ -3478,8 +3478,8 @@ const ARTIFACTS = {
       create policy "own_game_data" on public.game_data
         using (auth.uid()=user_id) with check (auth.uid()=user_id);
 ══════════════════════════════════════════════════════ */
-const SUPABASE_URL='YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL='https://ibfspxdiicrwrkfsjivo.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZnNweGRpaWNyd3JrZnNqaXZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTI1NzUsImV4cCI6MjA4OTYyODU3NX0.TTQz5cAGXMnU0BJg9cg2DGBQmldoePlAPOdqqLRb5aM';
 
 let _sb=null;
 const AUTH_STATE={user:null,profile:null,initialized:false};
