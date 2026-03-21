@@ -2335,9 +2335,6 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <div id="adventure-tab-content" class="advpath-wrap">
     <svg id="advpath-svg" class="advpath-svg" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
-  <div class="map-page-nav" id="map-page-nav">
-    <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
-  </div>
   <!-- daily-tab-content hidden: merged into adventure path -->
   <div id="daily-tab-content" style="display:none">
     <div class="mapv-grid-wrap">
@@ -2348,6 +2345,11 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <div class="mapv-tray-label">YOUR PIECES — tap to select, then tap its spot on the map</div>
     <div class="mapv-tray" id="mapv-tray"></div>
   </div>
+</div>
+
+<!-- Page nav button — outside screen-mapview so position:fixed works on iPhone -->
+<div id="map-page-nav" style="display:none;position:fixed;bottom:80px;right:16px;z-index:200;pointer-events:all;">
+  <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
 </div>
 
 <!-- ═══════════════ ADVENTURE JIGSAW OVERLAY ═══════════════ -->
@@ -7611,7 +7613,8 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>switchMapTab('adventure'));});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');document.getElementById('map-page-nav').style.display='block';});});
+
 
 // Tab switching removed — adventure path is the only view
 
@@ -7641,7 +7644,7 @@ document.getElementById('vault-back').addEventListener('click',()=>showScreen('s
   window._vaultScrollReset=()=>{sc.scrollTo(0,0);setTimeout(upd,60);};
   window._vaultScrollUpd=upd;
 })();
-document.getElementById('mapview-back').addEventListener('click',()=>showScreen('screen-menu'));
+document.getElementById('mapview-back').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';showScreen('screen-menu');});
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-signout-btn').addEventListener('click',()=>sbSignOut());
