@@ -2357,6 +2357,24 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
 </div>
 
+<!-- ═══════════════ TREASURE MAP INTRO OVERLAY ═══════════════ -->
+<div id="map-intro-overlay">
+  <div class="map-intro-inner">
+    <div class="map-intro-icon">⚜</div>
+    <div class="map-intro-title">The Lost Relics of Solara</div>
+    <div class="map-intro-text">
+      Long ago, the ancient civilization of Solara hid powerful relics across 25 legendary locations. The maps that once led to them were torn apart and scattered to the winds.
+    </div>
+    <div class="map-intro-text">
+      You are an explorer. At each location, you'll find scattered map fragments. Piece them together to reveal where the relic is hidden — then claim it.
+    </div>
+    <div class="map-intro-text" style="color:var(--gold);">
+      Collect all 25 relics to complete the Lost Collection of Solara.
+    </div>
+    <button class="map-intro-btn" id="map-intro-start">BEGIN THE JOURNEY</button>
+  </div>
+</div>
+
 <!-- ═══════════════ ADVENTURE JIGSAW OVERLAY ═══════════════ -->
 <div class="adv-jigsaw-overlay" id="adv-jigsaw-overlay">
   <button class="ghost-btn back-btn" id="adv-jigsaw-back">&larr; Back</button>
@@ -3220,6 +3238,14 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 /* Map chest overlay */
 #map-chest-overlay{position:fixed;inset:0;z-index:505;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.93);backdrop-filter:blur(14px);}
 #map-chest-overlay.show{display:flex;}
+#map-intro-overlay{position:fixed;inset:0;z-index:510;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+#map-intro-overlay.show{display:flex;}
+.map-intro-inner{text-align:center;padding:28px 24px;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.map-intro-icon{font-size:42px;text-shadow:0 0 40px var(--glow-gold);}
+.map-intro-title{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);text-shadow:0 0 30px var(--glow-gold);letter-spacing:.12em;}
+.map-intro-text{font-family:'Crimson Pro',serif;font-size:14px;line-height:1.6;color:var(--stone-light);letter-spacing:.04em;}
+.map-intro-btn{background:linear-gradient(135deg,rgba(180,140,40,.9),rgba(140,100,20,.9));border:1px solid rgba(220,180,60,.5);border-radius:12px;color:#fff;font-family:'Cinzel',serif;font-size:13px;font-weight:700;letter-spacing:.15em;padding:12px 32px;cursor:pointer;text-shadow:0 1px 3px rgba(0,0,0,.5);transition:all .2s;touch-action:manipulation;}
+.map-intro-btn:hover{background:linear-gradient(135deg,rgba(200,160,50,.95),rgba(160,120,30,.95));box-shadow:0 0 20px rgba(220,180,60,.4);}
 .mco-inner{text-align:center;padding:20px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;}
 .mco-title{font-size:20px;font-weight:900;color:var(--gold);text-shadow:0 0 30px var(--glow-gold);letter-spacing:.1em;}
 .mco-sub{font-family:'Crimson Pro',serif;font-size:13px;color:var(--stone-light);letter-spacing:.15em;}
@@ -7459,7 +7485,7 @@ function advPlaceOnSlot(locId,slotIdx){
 
   // If all pieces placed, show toast — chest flow handles completion
   if(placed.length>=totalPieces){
-    showToast('Map complete! Tap the \u2715 to claim your reward!');
+    showToast('The map is complete! X marks the spot — tap it to find the relic!');
   }
 }
 
@@ -7467,12 +7493,13 @@ function advPlaceOnSlot(locId,slotIdx){
 function advMapRevealChest(locationId){
   const overlay=document.getElementById('map-chest-overlay');
   if(overlay.classList.contains('show'))return;
+  const loc=ADVENTURE_LOCATIONS[locationId];
   const xStage=document.getElementById('mco-x-stage');
   const chestStage=document.getElementById('mco-chest-stage');
   xStage.style.display='none';
   chestStage.style.display='block';
-  document.getElementById('mco-title').textContent='YOUR TREASURE AWAITS!';
-  document.getElementById('mco-sub').textContent='Tap the chest to open it';
+  document.getElementById('mco-title').textContent='RELIC DISCOVERED!';
+  document.getElementById('mco-sub').textContent='Open the chest to claim the Relic of '+(loc?loc.name:'this land');
   const chest=document.getElementById('mc-chest-wrap');
   chest.classList.remove('opened');
   chest.style.animation='none';chest.offsetHeight;chest.style.animation='';
@@ -7534,7 +7561,8 @@ function advJigsawComplete(locationId){
   setTimeout(()=>spawnWinCoins(),800);
 
   const loc=ADVENTURE_LOCATIONS[locationId];
-  showToast(loc.icon+' '+loc.name+' complete! '+(locationId<25?'Next location unlocked!':'ALL LOCATIONS COMPLETE!'));
+  const relicMsg=locationId<25?'The path to the next relic has been revealed!':'You have collected ALL the Lost Relics of Solara!';
+  showToast(loc.icon+' Relic of '+loc.name+' discovered! '+relicMsg);
 
   // Close jigsaw overlay, then show relic reveal
   setTimeout(()=>{
@@ -7609,7 +7637,8 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');document.getElementById('map-page-nav').style.display='block';document.getElementById('mapview-back').style.display='inline-block';});});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');document.getElementById('map-page-nav').style.display='block';document.getElementById('mapview-back').style.display='inline-block';if(!localStorage.getItem('ts_map_intro_seen')){document.getElementById('map-intro-overlay').classList.add('show');}});});
+document.getElementById('map-intro-start').addEventListener('click',(e)=>{e.stopPropagation();document.getElementById('map-intro-overlay').classList.remove('show');localStorage.setItem('ts_map_intro_seen','1');});
 
 
 // Tab switching removed — adventure path is the only view
