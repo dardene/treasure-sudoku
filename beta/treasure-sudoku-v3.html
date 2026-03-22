@@ -2327,7 +2327,6 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <!-- Top dark overhang -->
     <rect x="0" y="0" width="400" height="65" fill="rgba(0,0,0,.65)"/>
   </svg></div>
-  <button class="ghost-btn back-btn" id="mapview-back">← Back</button>
   <div class="mapv-header">
     <div class="mapv-title" id="mapv-title">⚜ TREASURE MAP ⚜</div>
     <div class="mapv-sub" id="mapv-sub">Chart your course through 25 legendary locations</div>
@@ -2352,8 +2351,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </div>
 </div>
 
-<!-- Page nav button — outside screen-mapview so position:fixed works on iPhone -->
-<div id="map-page-nav" style="display:none;position:fixed;bottom:16px;right:14px;z-index:100;pointer-events:all;">
+<!-- Map buttons — outside screen-mapview so they render above the SVG overlay -->
+<button class="ghost-btn back-btn" id="mapview-back" style="display:none;position:fixed;top:auto;bottom:16px;left:14px;z-index:200;pointer-events:all;">← Back</button>
+<div id="map-page-nav" style="display:none;position:fixed;bottom:16px;right:14px;z-index:200;pointer-events:all;">
   <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
 </div>
 
@@ -3198,7 +3198,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 #screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:0;gap:0;background:linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%),url('treasure-map-bg.jpg') 45% 30%/cover no-repeat,#1a1008;background-size:cover,cover,auto;min-height:100vh;min-height:100dvh;touch-action:none;overscroll-behavior:none;}
 #mapv-bg{display:none;}
 #screen-mapview > *{position:relative;z-index:2;}
-#screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
+#screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:200;}
 .mapv-header{background:rgba(20,12,4,.75);border:1px solid rgba(140,100,40,.3);border-radius:10px;padding:6px 18px 5px;text-align:center;flex-shrink:0;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);margin-top:calc(env(safe-area-inset-top,8px) + 8px);}
 .mapv-title{font-size:13px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:1px;}
 .mapv-sub{font-family:'Crimson Pro',serif;font-size:9px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:0;text-align:center;}
@@ -7318,7 +7318,7 @@ function openAdvJigsaw(locationId){
 
   // Set location-specific background
   const overlay=document.getElementById('adv-jigsaw-overlay');
-  const LOC_BGS={1:'url(lost-isle-bg.png)',2:'url(desert-sand-bg.png)',3:'url(dense-jungle-bg.png)',4:'url(volcanic-isle-bg.png)',5:'url(arctic-wastes-bg.png)',6:'url(ancient-seas-bg.png)',7:'url(mountain-fortress-bg.png)',8:'url(misty-peninsula-bg.png)',9:'url(golden-savanna-bg.png)',10:'url(cursed-swamp-bg.png)'};
+  const LOC_BGS={1:'url(lost-isle-bg.png)',2:'url(desert-sand-bg.png)',3:'url(dense-jungle-bg.png)',4:'url(volcanic-isle-bg.png)',5:'url(arctic-wastes-bg.png)',6:'url(ancient-seas-bg.png)',7:'url(mountain-fortress-bg.png)',8:'url(misty-peninsula-bg.png)',9:'url(golden-savanna-bg.png)',10:'url(cursed-swamp-bg.png)',11:'url(crystal-caverns-bg.png)',12:'url(pirate-harbor-bg.png)',13:'url(dragons-vale-bg.png)',14:'url(pharaohs-realm-bg.png)',15:'url(nordic-shores-bg.png)',16:'url(enchanted-wilds-bg.png)'};
   const LOC_POS={3:'center top'};
   overlay.style.backgroundColor='rgb(4,2,10)';
   overlay.style.background=LOC_BGS[locationId]
@@ -7609,7 +7609,7 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');document.getElementById('map-page-nav').style.display='block';});});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');document.getElementById('map-page-nav').style.display='block';document.getElementById('mapview-back').style.display='inline-block';});});
 
 
 // Tab switching removed — adventure path is the only view
@@ -7640,7 +7640,7 @@ document.getElementById('vault-back').addEventListener('click',()=>showScreen('s
   window._vaultScrollReset=()=>{sc.scrollTo(0,0);setTimeout(upd,60);};
   window._vaultScrollUpd=upd;
 })();
-document.getElementById('mapview-back').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';showScreen('screen-menu');});
+document.getElementById('mapview-back').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';showScreen('screen-menu');});
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-signout-btn').addEventListener('click',()=>sbSignOut());
