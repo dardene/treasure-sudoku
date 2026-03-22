@@ -2396,44 +2396,169 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     </div>
     <div id="mco-chest-stage" style="display:none">
       <div id="mc-chest-wrap">
-        <svg width="160" height="146" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
+        <svg width="200" height="200" viewBox="-20 -40 240 240" xmlns="http://www.w3.org/2000/svg" style="overflow:visible">
           <defs>
-            <linearGradient id="mcw" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#7a4820"/><stop offset="45%" stop-color="#5c3410"/><stop offset="100%" stop-color="#3e2008"/></linearGradient>
-            <linearGradient id="mcl" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8c5428"/><stop offset="100%" stop-color="#5a3010"/></linearGradient>
-            <linearGradient id="mcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="30%" stop-color="#f8d840"/><stop offset="70%" stop-color="#e0a820"/><stop offset="100%" stop-color="#c48010"/></linearGradient>
-            <radialGradient id="mci" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="rgba(255,225,90,.95)"/><stop offset="55%" stop-color="rgba(255,165,25,.6)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient>
-            <radialGradient id="mcc" cx="50%" cy="38%" r="58%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="50%" stop-color="#e8c030"/><stop offset="100%" stop-color="#a07008"/></radialGradient>
+            <!-- Wood gradients -->
+            <linearGradient id="mcw" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8a5428"/><stop offset="25%" stop-color="#6e3c14"/><stop offset="50%" stop-color="#5c3410"/><stop offset="75%" stop-color="#4a2808"/><stop offset="100%" stop-color="#3e2008"/></linearGradient>
+            <linearGradient id="mcw2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#7a4820"/><stop offset="100%" stop-color="#4a2808"/></linearGradient>
+            <linearGradient id="mcl" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9c6430"/><stop offset="40%" stop-color="#7a4820"/><stop offset="100%" stop-color="#5a3010"/></linearGradient>
+            <!-- Gold/metal gradients -->
+            <linearGradient id="mcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fff8c0"/><stop offset="20%" stop-color="#fce858"/><stop offset="50%" stop-color="#f0c020"/><stop offset="80%" stop-color="#d4a010"/><stop offset="100%" stop-color="#b88008"/></linearGradient>
+            <linearGradient id="mcg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ffe880"/><stop offset="50%" stop-color="#d4a418"/><stop offset="100%" stop-color="#a07008"/></linearGradient>
+            <!-- Glow gradients -->
+            <radialGradient id="mci" cx="50%" cy="40%" r="65%"><stop offset="0%" stop-color="rgba(255,240,120,1)"/><stop offset="30%" stop-color="rgba(255,200,50,.8)"/><stop offset="60%" stop-color="rgba(255,150,20,.4)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient>
+            <radialGradient id="mcc" cx="40%" cy="35%" r="55%"><stop offset="0%" stop-color="#fffce0"/><stop offset="40%" stop-color="#f0d040"/><stop offset="100%" stop-color="#a07008"/></radialGradient>
+            <!-- Gem gradients -->
+            <radialGradient id="mcgem-r" cx="35%" cy="30%"><stop offset="0%" stop-color="#ff6080"/><stop offset="50%" stop-color="#d82050"/><stop offset="100%" stop-color="#900828"/></radialGradient>
+            <radialGradient id="mcgem-b" cx="35%" cy="30%"><stop offset="0%" stop-color="#60c8ff"/><stop offset="50%" stop-color="#2090d0"/><stop offset="100%" stop-color="#084880"/></radialGradient>
+            <radialGradient id="mcgem-g" cx="35%" cy="30%"><stop offset="0%" stop-color="#60ff90"/><stop offset="50%" stop-color="#28b850"/><stop offset="100%" stop-color="#086028"/></radialGradient>
+            <radialGradient id="mcgem-o" cx="35%" cy="30%"><stop offset="0%" stop-color="#ffa050"/><stop offset="50%" stop-color="#d85820"/><stop offset="100%" stop-color="#882808"/></radialGradient>
+            <!-- Light rays gradient -->
+            <linearGradient id="mcray" x1="0%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stop-color="rgba(255,230,100,.9)"/><stop offset="60%" stop-color="rgba(255,200,50,.3)"/><stop offset="100%" stop-color="rgba(255,200,50,0)"/></linearGradient>
+            <!-- Wood grain filter -->
+            <filter id="mcgrain"><feTurbulence type="fractalNoise" baseFrequency="0.04 0.15" numOctaves="3" result="noise"/><feColorMatrix type="saturate" values="0" in="noise" result="mono"/><feBlend in="SourceGraphic" in2="mono" mode="overlay" result="blend"/><feComponentTransfer in="blend"><feFuncA type="linear" slope="1"/></feComponentTransfer></filter>
           </defs>
-          <ellipse cx="100" cy="180" rx="84" ry="8" fill="rgba(0,0,0,.38)"/>
-          <ellipse id="mc-inner-glow" cx="100" cy="100" rx="78" ry="46" fill="url(#mci)"/>
-          <rect x="8" y="100" width="184" height="76" rx="9" fill="url(#mcw)"/>
-          <rect x="8" y="100" width="184" height="76" rx="9" fill="none" stroke="#2a1404" stroke-width="2.5"/>
-          <line x1="38" y1="100" x2="38" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-          <line x1="68" y1="100" x2="68" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-          <line x1="132" y1="100" x2="132" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-          <line x1="162" y1="100" x2="162" y2="176" stroke="#3a1c08" stroke-width="1.4" opacity=".5"/>
-          <rect x="6" y="118" width="188" height="9" rx="2.5" fill="url(#mcg)"/>
-          <circle cx="36" cy="122.5" r="4.2" fill="#d82090"/><circle cx="36" cy="122.5" r="2" fill="rgba(255,140,215,.7)"/>
-          <circle cx="76" cy="122.5" r="4.2" fill="#20a8d8"/><circle cx="76" cy="122.5" r="2" fill="rgba(140,225,255,.7)"/>
-          <circle cx="124" cy="122.5" r="4.2" fill="#28cc68"/><circle cx="124" cy="122.5" r="2" fill="rgba(140,255,195,.7)"/>
-          <circle cx="164" cy="122.5" r="4.2" fill="#d84820"/><circle cx="164" cy="122.5" r="2" fill="rgba(255,165,125,.7)"/>
-          <rect x="6" y="145" width="188" height="8" rx="2.5" fill="url(#mcg)"/>
-          <circle cx="100" cy="149" r="3.8" fill="#e8c030"/><circle cx="100" cy="149" r="1.9" fill="rgba(255,242,155,.75)"/>
-          <circle cx="26" cy="170" r="5.5" fill="url(#mcg)" stroke="#8a5a08" stroke-width="1.2"/>
-          <circle cx="174" cy="170" r="5.5" fill="url(#mcg)" stroke="#8a5a08" stroke-width="1.2"/>
-          <rect x="84" y="93" width="32" height="22" rx="6" fill="url(#mcg)" stroke="#7a5008" stroke-width="1.8"/>
-          <rect x="88" y="97" width="24" height="14" rx="3.5" fill="rgba(120,76,0,.55)"/>
-          <circle cx="100" cy="104" r="5" fill="url(#mcc)" stroke="#7a5008" stroke-width="1.2"/>
-          <circle cx="100" cy="104" r="2.2" fill="rgba(255,248,180,.72)"/>
-          <g class="mc-lid-group">
-            <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="url(#mcl)"/>
-            <path d="M8 100 Q8 44 100 40 Q192 44 192 100Z" fill="none" stroke="#2a1404" stroke-width="2.5"/>
-            <path d="M16 100 Q16 52 100 48 Q184 52 184 100Z" fill="#1e0c04"/>
-            <path d="M8 78 Q8 44 100 38 Q192 44 192 78" fill="none" stroke="url(#mcg)" stroke-width="9" stroke-linecap="round"/>
-            <path d="M30 74 Q58 54 100 50 Q142 54 170 74" fill="none" stroke="rgba(255,220,80,.38)" stroke-width="2"/>
-            <circle cx="100" cy="68" r="10" fill="url(#mcg)" stroke="rgba(160,110,0,.5)" stroke-width="1.3"/>
-            <path d="M100 60 L102.4 66.2 L109 66.2 L103.8 70 L105.8 76.2 L100 72.5 L94.2 76.2 L96.2 70 L91 66.2 L97.6 66.2Z" fill="#2a1404"/>
+
+          <!-- Shadow beneath chest -->
+          <ellipse cx="100" cy="182" rx="90" ry="10" fill="rgba(0,0,0,.45)"/>
+          <ellipse cx="100" cy="182" rx="60" ry="6" fill="rgba(0,0,0,.25)"/>
+
+          <!-- Light rays (hidden until opened) -->
+          <g id="mc-light-rays" opacity="0">
+            <polygon points="100,95 85,-60 90,-55" fill="url(#mcray)" opacity=".7"/>
+            <polygon points="100,95 110,-65 118,-50" fill="url(#mcray)" opacity=".6"/>
+            <polygon points="100,95 55,-30 68,-20" fill="url(#mcray)" opacity=".5"/>
+            <polygon points="100,95 140,-35 150,-18" fill="url(#mcray)" opacity=".55"/>
+            <polygon points="100,95 30,10 45,20" fill="url(#mcray)" opacity=".4"/>
+            <polygon points="100,95 165,5 175,22" fill="url(#mcray)" opacity=".45"/>
+            <polygon points="100,95 10,50 22,55" fill="url(#mcray)" opacity=".3"/>
+            <polygon points="100,95 185,45 195,55" fill="url(#mcray)" opacity=".35"/>
           </g>
+
+          <!-- Inner glow (intensifies on open) -->
+          <ellipse id="mc-inner-glow" cx="100" cy="95" rx="85" ry="50" fill="url(#mci)" opacity="0"/>
+
+          <!-- ══ CHEST BODY ══ -->
+          <!-- Main body with wood grain -->
+          <rect x="6" y="98" width="188" height="80" rx="8" fill="url(#mcw)" filter="url(#mcgrain)"/>
+          <!-- Body outline -->
+          <rect x="6" y="98" width="188" height="80" rx="8" fill="none" stroke="#1a0a02" stroke-width="2.5"/>
+          <!-- Inner shadow at top of body (depth illusion) -->
+          <rect x="8" y="98" width="184" height="12" rx="4" fill="rgba(0,0,0,.3)"/>
+          <!-- Wood plank lines -->
+          <line x1="40" y1="98" x2="40" y2="178" stroke="#2a1404" stroke-width="1.2" opacity=".4"/>
+          <line x1="70" y1="98" x2="70" y2="178" stroke="#2a1404" stroke-width="1" opacity=".3"/>
+          <line x1="130" y1="98" x2="130" y2="178" stroke="#2a1404" stroke-width="1" opacity=".3"/>
+          <line x1="160" y1="98" x2="160" y2="178" stroke="#2a1404" stroke-width="1.2" opacity=".4"/>
+          <!-- Wood grain subtle curves -->
+          <path d="M20,130 Q50,126 80,130 Q110,134 140,130 Q170,126 180,130" fill="none" stroke="rgba(120,80,30,.15)" stroke-width="1"/>
+          <path d="M20,145 Q60,142 100,146 Q140,150 180,145" fill="none" stroke="rgba(120,80,30,.12)" stroke-width="1"/>
+          <path d="M20,160 Q55,157 90,161 Q125,164 180,160" fill="none" stroke="rgba(120,80,30,.12)" stroke-width="1"/>
+
+          <!-- ══ GOLD BANDS ══ -->
+          <!-- Upper band -->
+          <rect x="4" y="115" width="192" height="12" rx="3" fill="url(#mcg)"/>
+          <rect x="4" y="115" width="192" height="12" rx="3" fill="none" stroke="rgba(120,80,0,.4)" stroke-width="1"/>
+          <!-- Band highlight -->
+          <rect x="6" y="116" width="188" height="3" rx="1.5" fill="rgba(255,255,220,.3)"/>
+          <!-- Rivets on upper band -->
+          <circle cx="20" cy="121" r="2.5" fill="url(#mcg2)" stroke="#806008" stroke-width=".8"/>
+          <circle cx="50" cy="121" r="2.5" fill="url(#mcg2)" stroke="#806008" stroke-width=".8"/>
+          <circle cx="150" cy="121" r="2.5" fill="url(#mcg2)" stroke="#806008" stroke-width=".8"/>
+          <circle cx="180" cy="121" r="2.5" fill="url(#mcg2)" stroke="#806008" stroke-width=".8"/>
+
+          <!-- Gems on upper band (faceted) -->
+          <g>
+            <!-- Ruby -->
+            <circle cx="70" cy="121" r="5" fill="url(#mcgem-r)" stroke="#600018" stroke-width="1"/>
+            <path d="M67,119 L70,116 L73,119" fill="rgba(255,200,200,.4)" stroke="none"/>
+            <circle cx="68" cy="119" r="1" fill="rgba(255,220,220,.6)"/>
+            <!-- Sapphire -->
+            <circle cx="90" cy="121" r="5" fill="url(#mcgem-b)" stroke="#002860" stroke-width="1"/>
+            <path d="M87,119 L90,116 L93,119" fill="rgba(200,220,255,.4)" stroke="none"/>
+            <circle cx="88" cy="119" r="1" fill="rgba(220,240,255,.6)"/>
+            <!-- Emerald -->
+            <circle cx="110" cy="121" r="5" fill="url(#mcgem-g)" stroke="#003818" stroke-width="1"/>
+            <path d="M107,119 L110,116 L113,119" fill="rgba(200,255,220,.4)" stroke="none"/>
+            <circle cx="108" cy="119" r="1" fill="rgba(220,255,230,.6)"/>
+            <!-- Amber -->
+            <circle cx="130" cy="121" r="5" fill="url(#mcgem-o)" stroke="#601808" stroke-width="1"/>
+            <path d="M127,119 L130,116 L133,119" fill="rgba(255,220,180,.4)" stroke="none"/>
+            <circle cx="128" cy="119" r="1" fill="rgba(255,230,200,.6)"/>
+          </g>
+
+          <!-- Lower band -->
+          <rect x="4" y="150" width="192" height="10" rx="3" fill="url(#mcg)"/>
+          <rect x="4" y="150" width="192" height="10" rx="3" fill="none" stroke="rgba(120,80,0,.4)" stroke-width="1"/>
+          <rect x="6" y="151" width="188" height="2.5" rx="1" fill="rgba(255,255,220,.25)"/>
+          <!-- Center medallion on lower band -->
+          <circle cx="100" cy="155" r="4.5" fill="url(#mcg2)" stroke="#705008" stroke-width="1"/>
+          <circle cx="100" cy="155" r="2" fill="rgba(255,245,180,.7)"/>
+
+          <!-- ══ CORNER BRACKETS ══ -->
+          <g fill="url(#mcg2)" stroke="#705008" stroke-width=".8">
+            <!-- Top-left -->
+            <path d="M8,100 L8,112 L14,112 L14,106 L20,106 L20,100Z"/>
+            <!-- Top-right -->
+            <path d="M192,100 L192,112 L186,112 L186,106 L180,106 L180,100Z"/>
+            <!-- Bottom-left -->
+            <path d="M8,178 L8,166 L14,166 L14,172 L20,172 L20,178Z"/>
+            <!-- Bottom-right -->
+            <path d="M192,178 L192,166 L186,166 L186,172 L180,172 L180,178Z"/>
+          </g>
+
+          <!-- ══ FEET ══ -->
+          <ellipse cx="28" cy="176" rx="7" ry="4" fill="url(#mcg2)" stroke="#705008" stroke-width="1"/>
+          <ellipse cx="172" cy="176" rx="7" ry="4" fill="url(#mcg2)" stroke="#705008" stroke-width="1"/>
+
+          <!-- ══ LOCK PLATE ══ -->
+          <rect x="80" y="90" width="40" height="28" rx="7" fill="url(#mcg)" stroke="#705008" stroke-width="2"/>
+          <rect x="84" y="94" width="32" height="20" rx="4" fill="rgba(80,50,10,.6)"/>
+          <!-- Keyhole -->
+          <circle cx="100" cy="102" r="5.5" fill="url(#mcc)" stroke="#705008" stroke-width="1.5"/>
+          <circle cx="100" cy="102" r="3" fill="rgba(40,25,5,.8)"/>
+          <rect x="98.5" y="102" width="3" height="7" rx="1" fill="rgba(40,25,5,.8)"/>
+          <!-- Lock plate highlight -->
+          <path d="M85,95 Q100,92 115,95" fill="none" stroke="rgba(255,240,180,.3)" stroke-width="1"/>
+
+          <!-- ══ LID ══ -->
+          <g class="mc-lid-group">
+            <!-- Lid body -->
+            <path d="M6 98 Q6 38 100 34 Q194 38 194 98Z" fill="url(#mcl)" filter="url(#mcgrain)"/>
+            <path d="M6 98 Q6 38 100 34 Q194 38 194 98Z" fill="none" stroke="#1a0a02" stroke-width="2.5"/>
+            <!-- Inner dark -->
+            <path d="M14 98 Q14 48 100 44 Q186 48 186 98Z" fill="#1a0a04"/>
+            <!-- Gold band on lid -->
+            <path d="M6 76 Q6 38 100 32 Q194 38 194 76" fill="none" stroke="url(#mcg)" stroke-width="10" stroke-linecap="round"/>
+            <!-- Band highlight -->
+            <path d="M12 72 Q12 40 100 35 Q188 40 188 72" fill="none" stroke="rgba(255,255,220,.2)" stroke-width="2"/>
+            <!-- Decorative scrollwork on lid -->
+            <path d="M32 72 Q60 50 100 46 Q140 50 168 72" fill="none" stroke="rgba(255,220,80,.35)" stroke-width="1.5"/>
+            <path d="M45 80 Q70 62 100 58 Q130 62 155 80" fill="none" stroke="rgba(255,220,80,.2)" stroke-width="1"/>
+            <!-- Rivets on lid band -->
+            <circle cx="30" cy="74" r="2" fill="url(#mcg2)" stroke="#705008" stroke-width=".6"/>
+            <circle cx="60" cy="62" r="2" fill="url(#mcg2)" stroke="#705008" stroke-width=".6"/>
+            <circle cx="140" cy="62" r="2" fill="url(#mcg2)" stroke="#705008" stroke-width=".6"/>
+            <circle cx="170" cy="74" r="2" fill="url(#mcg2)" stroke="#705008" stroke-width=".6"/>
+            <!-- Central emblem -->
+            <circle cx="100" cy="64" r="12" fill="url(#mcg)" stroke="rgba(140,100,0,.6)" stroke-width="1.5"/>
+            <circle cx="100" cy="64" r="9" fill="rgba(60,35,10,.7)"/>
+            <!-- Compass rose emblem -->
+            <path d="M100,54 L102,62 L100,60 L98,62Z" fill="url(#mcg)"/>
+            <path d="M100,74 L102,66 L100,68 L98,66Z" fill="url(#mcg)"/>
+            <path d="M90,64 L98,62 L96,64 L98,66Z" fill="url(#mcg)"/>
+            <path d="M110,64 L102,62 L104,64 L102,66Z" fill="url(#mcg)"/>
+            <!-- Compass diagonals -->
+            <path d="M94,58 L99,63 L97,63Z" fill="rgba(255,220,80,.5)"/>
+            <path d="M106,58 L101,63 L103,63Z" fill="rgba(255,220,80,.5)"/>
+            <path d="M94,70 L99,65 L97,65Z" fill="rgba(255,220,80,.5)"/>
+            <path d="M106,70 L101,65 L103,65Z" fill="rgba(255,220,80,.5)"/>
+            <circle cx="100" cy="64" r="2.5" fill="url(#mcc)"/>
+            <circle cx="100" cy="64" r="1" fill="rgba(255,250,200,.8)"/>
+          </g>
+
+          <!-- Seam glow (visible during tremble, hidden by default) -->
+          <line id="mc-seam-glow" x1="8" y1="98" x2="192" y2="98" stroke="rgba(255,220,80,0)" stroke-width="3" style="transition:stroke .3s;"/>
         </svg>
       </div>
       <div class="mco-tap-hint" id="mco-tap-hint">✦ TAP TO OPEN ✦</div>
@@ -3236,7 +3361,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .mapv-piece.placed{opacity:.28;pointer-events:none;filter:grayscale(.65);}
 .mapv-piece.unearned{opacity:.15;pointer-events:none;filter:grayscale(1);}
 /* Map chest overlay */
-#map-chest-overlay{position:fixed;inset:0;z-index:505;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.93);backdrop-filter:blur(14px);}
+#map-chest-overlay{position:fixed;inset:0;z-index:505;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.93);backdrop-filter:blur(14px);background-size:cover;background-position:center;}
 #map-chest-overlay.show{display:flex;}
 #map-intro-overlay{position:fixed;inset:0;z-index:510;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
 #map-intro-overlay.show{display:flex;}
@@ -3252,10 +3377,19 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 #mco-x-mark{font-size:110px;line-height:1;color:#ff3030;text-shadow:0 0 50px rgba(255,40,40,.9),0 0 100px rgba(200,0,0,.5);cursor:pointer;animation:xSlotPulse 1.1s ease-in-out infinite;display:inline-block;font-weight:900;}
 #mc-chest-wrap{cursor:pointer;filter:drop-shadow(0 0 30px rgba(255,200,50,.65));animation:wChestPop .65s cubic-bezier(.34,1.56,.64,1) .1s both,wChestWiggle 2.2s ease-in-out 1.5s infinite;}
 #mc-chest-wrap:hover{filter:drop-shadow(0 0 50px rgba(255,228,80,.95))!important;}
-.mc-lid-group{transform-origin:50% 100%;transform-box:fill-box;transition:transform .58s cubic-bezier(.34,1.56,.64,1);}
+.mc-lid-group{transform-origin:50% 100%;transform-box:fill-box;transition:transform .7s cubic-bezier(.22,1.4,.55,1);}
 #mc-chest-wrap.opened .mc-lid-group{transform:rotate(-118deg);}
-#mc-inner-glow{opacity:0;transition:opacity .45s .15s;}
+#mc-inner-glow{opacity:0;transition:opacity .6s .2s;}
 #mc-chest-wrap.opened #mc-inner-glow{opacity:1;}
+#mc-chest-wrap.trembling{animation:chestTremble .4s ease-in-out;filter:drop-shadow(0 0 40px rgba(255,200,50,.9))!important;}
+@keyframes chestTremble{0%{transform:translateX(0) rotate(0)}10%{transform:translateX(-3px) rotate(-1deg)}20%{transform:translateX(3px) rotate(1deg)}30%{transform:translateX(-4px) rotate(-1.5deg)}40%{transform:translateX(4px) rotate(1.5deg)}50%{transform:translateX(-3px) rotate(-1deg)}60%{transform:translateX(3px) rotate(1deg)}70%{transform:translateX(-2px) rotate(-.5deg)}80%{transform:translateX(2px) rotate(.5deg)}90%{transform:translateX(-1px)}100%{transform:translateX(0)}}
+#mc-light-rays{opacity:0;transform-origin:100px 95px;transition:opacity .8s .3s,transform .8s .3s;}
+#mc-chest-wrap.opened #mc-light-rays{opacity:1;transform:scale(1.1);animation:raysRotate 6s linear infinite,raysPulse 2s ease-in-out infinite;}
+@keyframes raysRotate{from{transform:rotate(0deg) scale(1.1)}to{transform:rotate(360deg) scale(1.1)}}
+@keyframes raysPulse{0%,100%{opacity:.8}50%{opacity:1}}
+#mc-seam-glow{transition:stroke .3s;}
+#mc-chest-wrap.trembling #mc-seam-glow{stroke:rgba(255,220,80,.8)!important;filter:blur(2px);}
+#mc-chest-wrap.opened #mc-seam-glow{stroke:rgba(255,220,80,0)!important;}
 .mco-tap-hint{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.3em;color:var(--gold);animation:tapPulse 1.5s ease-in-out infinite;}
 
 /* ══ ADVENTURE PATH TAB + ROADMAP STYLES ══ */
@@ -7500,22 +7634,50 @@ function advMapRevealChest(locationId){
   chestStage.style.display='block';
   document.getElementById('mco-title').textContent='RELIC DISCOVERED!';
   document.getElementById('mco-sub').textContent='Open the chest to claim the Relic of '+(loc?loc.name:'this land');
+  // Per-location treasure backgrounds
+  const CHEST_BGS={1:'url(lost-isle-treasure-bg.png)'};
+  const bg=CHEST_BGS[locationId];
+  overlay.style.background=bg?'linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),'+bg+' center center/cover no-repeat':'rgba(0,0,0,.93)';
   const chest=document.getElementById('mc-chest-wrap');
   chest.classList.remove('opened');
   chest.style.animation='none';chest.offsetHeight;chest.style.animation='';
   overlay.classList.add('show');
   chest.onclick=function(){
-    if(this.classList.contains('opened'))return;
-    this.classList.add('opened');
-    const r=this.getBoundingClientRect();
-    spawnParticles(r.left+r.width/2,r.top+r.height*.4,Math.ceil(Math.random()*9));
-    setTimeout(()=>spawnParticles(r.left+r.width/2,r.top+r.height*.3,Math.ceil(Math.random()*9)),200);
+    if(this.classList.contains('opened')||this.classList.contains('trembling'))return;
+    const el=this;const r=el.getBoundingClientRect();
+    const cx=r.left+r.width/2,cy=r.top+r.height*.35;
+    // Phase 1: Tremble + seam glow (0-400ms)
+    el.classList.add('trembling');
+    el.style.animation='chestTremble .4s ease-in-out';
+    // Phase 2: Open lid (400ms)
+    setTimeout(()=>{
+      el.classList.remove('trembling');
+      el.classList.add('opened');
+      el.style.animation='none';
+      // Phase 3: First particle burst — upward golden sparkles
+      spawnParticles(cx,cy,Math.ceil(Math.random()*9),8);
+    },400);
+    // Phase 4: Second burst — wider spread (600ms)
+    setTimeout(()=>{
+      spawnParticles(cx-30,cy-10,Math.ceil(Math.random()*9),5);
+      spawnParticles(cx+30,cy-10,Math.ceil(Math.random()*9),5);
+    },650);
+    // Phase 5: Third burst — slow floating glitter (1000ms)
+    setTimeout(()=>{
+      spawnParticles(cx,cy-20,Math.ceil(Math.random()*9),6);
+    },1000);
+    // Phase 6: Gold flash
+    setTimeout(()=>{
+      const flash=document.createElement('div');
+      flash.style.cssText='position:fixed;inset:0;z-index:510;background:rgba(255,230,80,.25);pointer-events:none;animation:flashFade .8s ease forwards;';
+      document.body.appendChild(flash);setTimeout(()=>flash.remove(),900);
+    },500);
+    // Phase 7: Close and complete (2500ms)
     setTimeout(()=>{
       overlay.classList.remove('show');
-      // Close jigsaw overlay too
       document.getElementById('adv-jigsaw-overlay').classList.remove('show');
       advJigsawComplete(locationId);
-    },900);
+    },2500);
   };
 }
 
