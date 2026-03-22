@@ -4,7 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Treasure Sudoku — The Lost Relics</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<!-- Fonts bundled locally — no external requests -->
+<style>
+@font-face{font-family:'Cinzel';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/cinzel-latin.woff2') format('woff2');}
+@font-face{font-family:'Cinzel';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/cinzel-latin.woff2') format('woff2');}
+@font-face{font-family:'Cinzel';font-style:normal;font-weight:700;font-display:swap;src:url('fonts/cinzel-latin.woff2') format('woff2');}
+@font-face{font-family:'Cinzel';font-style:normal;font-weight:900;font-display:swap;src:url('fonts/cinzel-latin.woff2') format('woff2');}
+@font-face{font-family:'Crimson Pro';font-style:normal;font-weight:300;font-display:swap;src:url('fonts/crimsonpro-300.woff2') format('woff2');}
+@font-face{font-family:'Crimson Pro';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/crimsonpro-400.woff2') format('woff2');}
+@font-face{font-family:'Crimson Pro';font-style:italic;font-weight:300;font-display:swap;src:url('fonts/crimsonpro-italic-300.woff2') format('woff2');}
+</style>
 <style>
 /* ══════════════ ROOT ══════════════ */
 :root{
@@ -19,7 +28,7 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{height:100%;height:-webkit-fill-available;overflow:hidden;overscroll-behavior:none;}
 body{font-family:'Cinzel',serif;background:url('menu-bg.png') center center/cover no-repeat #080402;height:100%;height:-webkit-fill-available;overflow:hidden;user-select:none;-webkit-user-select:none;overscroll-behavior:none;touch-action:manipulation;}
-button,input,.menu-btn,.ghost-btn,.gold-btn,.cell,.num-btn,.action-btn,.hand-card,.toggle-btn,.sel-btn,.diff-pick-btn,.howto-nav-btn,.howto-dot,.auth-btn,.auth-guest-btn,.auth-google-btn,.auth-tab,.menu-top-btn,.howto-start-btn,.howto-skip,.battle-btn,.profile-signout-btn,.lr-close,.dh-day-card{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+button,input,.menu-btn,.ghost-btn,.gold-btn,.cell,.num-btn,.action-btn,.hand-card,.toggle-btn,.sel-btn,.diff-pick-btn,.howto-nav-btn,.howto-dot,.auth-btn,.auth-guest-btn,.auth-tab,.menu-top-btn,.howto-start-btn,.howto-skip,.battle-btn,.profile-signout-btn,.lr-close,.dh-day-card{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.ghost-btn svg,.ghost-btn span{pointer-events:none;}
 
 /* ══════════════ ENVIRONMENT — Tropical Beach ══════════════ */
@@ -653,10 +662,6 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .auth-error{font-family:'Crimson Pro',serif;font-size:12px;color:#ff7070;text-align:center;min-height:18px;margin-bottom:6px;}
 .auth-switch{font-family:'Crimson Pro',serif;font-size:12px;color:rgba(180,140,70,.6);text-align:center;margin-top:14px;}
 .auth-switch span{color:var(--gold);cursor:pointer;text-decoration:underline;}
-.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0 10px;color:rgba(200,160,100,.35);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:rgba(160,110,40,.25);}
-.auth-google-btn{width:100%;padding:13px;border-radius:14px;background:#fff;border:1px solid rgba(200,200,200,.6);color:#3c3c3c;font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.1em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;margin-bottom:4px;}
-.auth-google-btn:hover{box-shadow:0 2px 18px rgba(0,0,0,.25);background:#f8f8f8;}
 /* Profile screen */
 .profile-panel{width:100%;max-width:420px;background:linear-gradient(160deg,rgba(18,10,3,.97),rgba(30,18,6,.97));border:1px solid rgba(180,140,60,.45);border-radius:22px;padding:28px 24px 24px;box-shadow:0 0 60px rgba(0,0,0,.8);margin-top:44px;overflow-y:auto;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);}
 .profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(180,130,20,.5),rgba(100,70,10,.5));border:2px solid rgba(200,155,40,.55);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;}
@@ -730,7 +735,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 /* Relic lore */
 .relic-lore{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(180,140,80,.6);font-style:italic;line-height:1.45;margin-top:3px;text-align:center;}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
+<!-- No external scripts — fully offline -->
 <script>window._tsErrors=[];window.onerror=function(m,s,l,c,e){window._tsErrors.push(m+' @'+s+':'+l);var d=document.getElementById('ts-debug');if(d)d.textContent='JS ERROR: '+m+' (line '+l+')';return false;};window.onunhandledrejection=function(e){var d=document.getElementById('ts-debug');if(d)d.textContent='Promise error: '+e.reason;};</script>
 </head>
 <body>
@@ -2348,7 +2353,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 </div>
 
 <!-- Page nav button — outside screen-mapview so position:fixed works on iPhone -->
-<div id="map-page-nav" style="display:none;position:fixed;bottom:80px;right:16px;z-index:200;pointer-events:all;">
+<div id="map-page-nav" style="display:none;position:fixed;bottom:16px;right:14px;z-index:100;pointer-events:all;">
   <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
 </div>
 
@@ -2509,11 +2514,6 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       </div>
     </div>
     <button class="auth-btn" id="auth-submit-btn">SIGN IN</button>
-    <div class="auth-divider"><span>OR</span></div>
-    <button class="auth-google-btn" id="auth-google-btn">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-      SIGN IN WITH GOOGLE
-    </button>
     <button class="auth-guest-btn" id="auth-guest-btn">Continue as Guest (progress won't be saved)</button>
   </div>
 </div>
@@ -3195,7 +3195,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
 /* ══ TREASURE MAP SCREEN ══ */
-#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:0;gap:0;background:linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%),url('treasure-map-bg.jpg') 45% 30%/cover no-repeat,#1a1008;transition:background 0.3s ease;background-size:cover,cover,auto;min-height:100vh;min-height:100dvh;}
+#screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:0;gap:0;background:linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%),url('treasure-map-bg.jpg') 45% 30%/cover no-repeat,#1a1008;background-size:cover,cover,auto;min-height:100vh;min-height:100dvh;touch-action:none;overscroll-behavior:none;}
 #mapv-bg{display:none;}
 #screen-mapview > *{position:relative;z-index:2;}
 #screen-mapview #mapview-back{position:fixed;top:auto;bottom:16px;left:14px;z-index:20;}
@@ -3236,11 +3236,11 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .map-tabs{display:flex;gap:6px;justify-content:center;margin:8px auto 10px;padding:0 16px;max-width:340px;}
 .map-tab{flex:1;text-align:center;padding:7px 0;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:rgba(200,180,140,.55);border:1px solid rgba(200,180,140,.18);border-radius:10px;cursor:pointer;transition:all .25s;background:rgba(0,0,0,.25);}
 .map-tab.active{color:var(--gold);border-color:var(--gold);background:rgba(180,140,40,.15);text-shadow:0 0 12px var(--glow-gold);}
-.advpath-wrap{position:fixed!important;top:0;left:0;width:100vw;height:100vh;height:100dvh;overflow:visible;padding:0;pointer-events:none;z-index:3;display:none;}
+.advpath-wrap{position:fixed!important;top:0;left:0;width:100vw;height:100vh;height:100dvh;overflow:hidden;padding:0;pointer-events:none;z-index:3;display:none;touch-action:none;overscroll-behavior:none;}
 .screen.active .advpath-wrap,.screen.active>.advpath-wrap{display:block;}
 .advpath-wrap svg{pointer-events:all;width:100%;height:100%;}
 .map-page-nav{position:fixed;bottom:70px;right:16px;display:flex;align-items:center;z-index:20;pointer-events:all;}
-.map-page-btn{background:linear-gradient(135deg,rgba(40,25,5,.92),rgba(60,38,8,.92));border:1px solid rgba(180,140,60,.5);border-radius:12px;color:var(--gold);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;padding:9px 18px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+.map-page-btn{background:linear-gradient(135deg,rgba(40,25,5,.92),rgba(60,38,8,.92));border:1px solid rgba(180,140,60,.5);border-radius:12px;color:var(--gold);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;padding:7px 14px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
 .map-page-btn:disabled{opacity:.3;pointer-events:none;}
 .map-page-indicator{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:rgba(200,160,80,.7);}
 .advpath-wrap::-webkit-scrollbar{display:none;}
@@ -3501,8 +3501,8 @@ const ARTIFACTS = {
       create policy "own_game_data" on public.game_data
         using (auth.uid()=user_id) with check (auth.uid()=user_id);
 ══════════════════════════════════════════════════════ */
-const SUPABASE_URL='https://ibfspxdiicrwrkfsjivo.supabase.co';
-const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImliZnNweGRpaWNyd3JrZnNqaXZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTI1NzUsImV4cCI6MjA4OTYyODU3NX0.TTQz5cAGXMnU0BJg9cg2DGBQmldoePlAPOdqqLRb5aM';
+const SUPABASE_URL='YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY='YOUR_SUPABASE_ANON_KEY';
 
 let _sb=null;
 const AUTH_STATE={user:null,profile:null,initialized:false};
@@ -3558,18 +3558,6 @@ async function sbSignIn(email,password){
   return data;
 }
 
-async function sbSignInWithGoogle(){
-  const sb=_sbClient();
-  if(!sb){
-    document.getElementById('auth-error').textContent='Cloud save not configured yet. Coming soon!';
-    return;
-  }
-  const{error}=await sb.auth.signInWithOAuth({
-    provider:'google',
-    options:{redirectTo:window.location.href}
-  });
-  if(error){document.getElementById('auth-error').textContent=error.message;}
-}
 
 async function sbSignOut(){
   const sb=_sbClient();if(sb)await sb.auth.signOut();
@@ -3700,9 +3688,6 @@ function initAuthScreen(){
 
   document.getElementById('auth-guest-btn').addEventListener('click',()=>{
     showScreen('screen-menu');
-  });
-  document.getElementById('auth-google-btn').addEventListener('click',()=>{
-    sbSignInWithGoogle();
   });
 }
 
@@ -6984,7 +6969,7 @@ function switchMapTab(tabName){
 
 /* ── Adventure Path Rendering ── */
 let _currentMapPage=1;
-const DEV_MODE_P2=true; // TEMP: enable drag repositioning for page 2 nodes
+const DEV_MODE_P2=false;
 
 function changeMapPage(dir){
   _currentMapPage=_currentMapPage===1?2:1;
@@ -7017,33 +7002,32 @@ function renderAdventurePath(){
     {x:222,y:-123,align:'left'},  // 9
     {x:395,y:-157,align:'right'}, // 10
   ];
-  // Page 2 positions (locations 11-25) — user can reposition
-  window._positionsP2=window._positionsP2||[
+  // Page 2 positions (locations 11-25)
+  const positionsP2=[
     null,null,null,null,null,null,null,null,null,null,null, // 1-10 unused
-    {x:80,y:480,align:'left'},    // 11 Crystal Caverns
-    {x:280,y:450,align:'right'},  // 12 Pirate Harbor
-    {x:60,y:370,align:'left'},    // 13 Dragon's Vale
-    {x:320,y:340,align:'right'},  // 14 Pharaoh's Realm
-    {x:160,y:290,align:'left'},   // 15 Nordic Shores
-    {x:50,y:230,align:'left'},    // 16 Enchanted Wilds
-    {x:330,y:210,align:'right'},  // 17 Thunder Peaks
-    {x:190,y:170,align:'left'},   // 18 Mystic Lagoon
-    {x:70,y:120,align:'left'},    // 19 Lost Continent
+    {x:20,y:110,align:'left'},     // 11 Crystal Caverns
+    {x:15,y:-19,align:'left'},     // 12 Pirate Harbor
+    {x:98,y:-94,align:'left'},     // 13 Dragon's Vale
+    {x:310,y:-5,align:'right'},    // 14 Pharaoh's Realm
+    {x:300,y:104,align:'right'},   // 15 Nordic Shores
+    {x:240,y:188,align:'right'},   // 16 Enchanted Wilds
+    {x:300,y:264,align:'right'},   // 17 Thunder Peaks
+    {x:340,y:349,align:'right'},   // 18 Mystic Lagoon
+    {x:300,y:511,align:'right'},   // 19 Lost Continent
     {x:320,y:100,align:'right'},  // 20 Sunken City
     {x:140,y:60,align:'left'},    // 21 Coral Shore
     {x:290,y:30,align:'right'},   // 22 Haunted Moors
     {x:80,y:-10,align:'left'},    // 23 Ancient River
-    {x:220,y:-50,align:'right'},  // 24 Frozen Abyss
+    {x:80,y:-50,align:'right'},   // 24 Frozen Abyss
     {x:360,y:-90,align:'left'},   // 25 Crimson Peak
   ];
-  const positionsP2=window._positionsP2;
   const isPage2=_currentMapPage===2;
   const startIdx=isPage2?11:1;
   const endIdx=isPage2?19:10;
   const positions=isPage2?positionsP2:positionsP1;
 
-  svg.setAttribute('viewBox','-40 40 460 560');
-  svg.setAttribute('overflow','visible');
+  svg.setAttribute('viewBox','-40 -160 460 760');
+  svg.setAttribute('overflow','hidden');
   svg.setAttribute('preserveAspectRatio','xMidYMax meet');
 
   let html='<defs>';
@@ -7098,51 +7082,72 @@ function renderAdventurePath(){
 
   // Add click listeners to nodes
   svg.querySelectorAll('[data-loc]').forEach(g=>{
-    g.addEventListener('click',()=>advNodeClicked(parseInt(g.dataset.loc)));
+    g.addEventListener('click',()=>{if(!window._devDragging)advNodeClicked(parseInt(g.dataset.loc));});
   });
 
-  // DEV_MODE_P2: drag to reposition page 2 nodes
+  // DEV_MODE_P2: drag to reposition page 2 nodes (mouse + touch)
   if(isPage2&&DEV_MODE_P2){
     svg.style.touchAction='none';
-    let dragLocId=null,dragG=null,startSVGX=0,startSVGY=0,txOffset=0,tyOffset=0;
-    function toSVGPoint(clientX,clientY){
-      const pt=svg.createSVGPoint();
-      pt.x=clientX;pt.y=clientY;
-      return pt.matrixTransform(svg.getScreenCTM().inverse());
+    // Use global drag state so window listeners (set up once) can access it
+    if(!window._devDragState){
+      window._devDragState={dragLocId:null,dragG:null,startX:0,startY:0,tx:0,ty:0,didDrag:false,svg:null};
+      window._devDragging=false;
+      window.addEventListener('mousemove',function(e){
+        const s=window._devDragState;if(!s.dragG)return;e.preventDefault();
+        const rect=s.svg.getBoundingClientRect();const vb=s.svg.viewBox.baseVal;
+        s.tx=Math.round((e.clientX-s.startX)*(vb.width/rect.width));
+        s.ty=Math.round((e.clientY-s.startY)*(vb.height/rect.height));
+        if(Math.abs(s.tx)>3||Math.abs(s.ty)>3)s.didDrag=true;
+        if(s.didDrag){window._devDragging=true;s.dragG.setAttribute('transform',`translate(${s.tx},${s.ty})`);}
+      });
+      window.addEventListener('mouseup',function(){
+        const s=window._devDragState;if(!s.dragG)return;
+        if(s.didDrag){
+          const p=window._positionsP2[s.dragLocId];
+          p.x=Math.round(Math.max(-30,Math.min(410,p.x+s.tx)));
+          p.y=Math.round(Math.max(-200,Math.min(580,p.y+s.ty)));
+        }
+        s.dragG.removeAttribute('transform');s.dragG.style.opacity='1';s.dragG.style.cursor='';
+        const wasDrag=s.didDrag;
+        s.dragG=null;s.dragLocId=null;s.tx=0;s.ty=0;s.didDrag=false;
+        setTimeout(()=>{window._devDragging=false;},100);
+        if(wasDrag)renderAdventurePath();
+      });
     }
-    function findNodeG(el){
-      let cur=el;
-      while(cur&&cur!==svg){if(cur.dataset&&cur.dataset.loc)return cur;cur=cur.parentElement;}
-      return null;
-    }
+    const ds=window._devDragState;
+    ds.svg=svg;
+    function findNodeG(el){let cur=el;while(cur&&cur!==svg){if(cur.dataset&&cur.dataset.loc)return cur;cur=cur.parentElement;}return null;}
+    svg.addEventListener('mousedown',function(e){
+      const g=findNodeG(e.target);if(!g)return;e.preventDefault();
+      ds.dragLocId=parseInt(g.dataset.loc);ds.dragG=g;ds.startX=e.clientX;ds.startY=e.clientY;ds.tx=0;ds.ty=0;ds.didDrag=false;
+      g.style.opacity='0.7';g.style.cursor='grabbing';
+    });
+    // Touch events
     svg.addEventListener('touchstart',function(e){
-      const g=findNodeG(e.target);
-      if(!g)return;
-      e.preventDefault();e.stopPropagation();
-      dragLocId=parseInt(g.dataset.loc);dragG=g;
-      const t=e.touches[0];
-      const sp=toSVGPoint(t.clientX,t.clientY);
-      startSVGX=sp.x;startSVGY=sp.y;txOffset=0;tyOffset=0;
+      const g=findNodeG(e.target);if(!g)return;e.preventDefault();e.stopPropagation();
+      ds.dragLocId=parseInt(g.dataset.loc);ds.dragG=g;ds.startX=e.touches[0].clientX;ds.startY=e.touches[0].clientY;ds.tx=0;ds.ty=0;ds.didDrag=false;
       g.style.opacity='0.7';
     },{passive:false});
     svg.addEventListener('touchmove',function(e){
-      if(!dragG)return;
-      e.preventDefault();e.stopPropagation();
-      const t=e.touches[0];
-      const sp=toSVGPoint(t.clientX,t.clientY);
-      txOffset=Math.round(sp.x-startSVGX);
-      tyOffset=Math.round(sp.y-startSVGY);
-      dragG.setAttribute('transform',`translate(${txOffset},${tyOffset})`);
+      if(!ds.dragG)return;e.preventDefault();e.stopPropagation();
+      const rect=svg.getBoundingClientRect();const vb=svg.viewBox.baseVal;
+      ds.tx=Math.round((e.touches[0].clientX-ds.startX)*(vb.width/rect.width));
+      ds.ty=Math.round((e.touches[0].clientY-ds.startY)*(vb.height/rect.height));
+      if(Math.abs(ds.tx)>3||Math.abs(ds.ty)>3)ds.didDrag=true;
+      if(ds.didDrag){window._devDragging=true;ds.dragG.setAttribute('transform',`translate(${ds.tx},${ds.ty})`);}
     },{passive:false});
     svg.addEventListener('touchend',function(e){
-      if(!dragG)return;
-      e.preventDefault();
-      positionsP2[dragLocId].x=Math.round(Math.max(-30,Math.min(410,positionsP2[dragLocId].x+txOffset)));
-      positionsP2[dragLocId].y=Math.round(Math.max(-200,Math.min(580,positionsP2[dragLocId].y+tyOffset)));
-      dragG.removeAttribute('transform');
-      dragG.style.opacity='1';
-      dragG=null;dragLocId=null;txOffset=0;tyOffset=0;
-      renderAdventurePath();
+      if(!ds.dragG)return;e.preventDefault();
+      if(ds.didDrag){
+        const p=window._positionsP2[ds.dragLocId];
+        p.x=Math.round(Math.max(-30,Math.min(410,p.x+ds.tx)));
+        p.y=Math.round(Math.max(-200,Math.min(580,p.y+ds.ty)));
+      }
+      ds.dragG.removeAttribute('transform');ds.dragG.style.opacity='1';
+      const wasDrag=ds.didDrag;
+      ds.dragG=null;ds.dragLocId=null;ds.tx=0;ds.ty=0;ds.didDrag=false;
+      setTimeout(()=>{window._devDragging=false;},100);
+      if(wasDrag)renderAdventurePath();
     },{passive:false});
 
     // Log Positions button for page 2
