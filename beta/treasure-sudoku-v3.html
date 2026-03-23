@@ -748,7 +748,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <button id="music-toggle-btn" title="Toggle music">🎵</button>
 
 <!-- Gold balance — top-right, left of music button, menu only -->
-<div id="menu-gold-display" style="display:none;position:fixed;top:12px;right:54px;z-index:9999;align-items:center;gap:4px;padding:0 10px;height:34px;background:rgba(20,12,4,.88);border:1px solid rgba(200,155,55,.45);border-radius:20px;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:default;">🪙 <span id="menu-gold-amount">0</span>g</div>
+<div id="menu-gold-display" style="display:none;position:fixed;top:12px;right:54px;z-index:9999;align-items:center;gap:4px;padding:0 10px;height:34px;background:rgba(20,12,4,.88);border:1px solid rgba(200,155,55,.45);border-radius:20px;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:default;">🪙 <span id="menu-gold-amount">0</span> gold</div>
 
 <!-- ═══════════════ ENVIRONMENT — Tropical Beach ═══════════════ -->
 <div id="env">
@@ -1963,6 +1963,29 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="vault-section-title">⚡ Legendary Relics<span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
       <div class="jigsaw-collection" id="vault-jigsaw"></div>
     </div>
+    <div class="vault-section">
+      <div class="vault-section-title">🏛️ Ancient Relics <span id="vault-ancient-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
+      <div class="vault-ancient-legend">
+        <span class="ar-legend-dot common"></span>Common
+        <span class="ar-legend-dot rare"></span>Rare
+        <span class="ar-legend-dot epic"></span>Epic
+        <span class="ar-legend-dot legendary"></span>Legendary
+      </div>
+      <div class="ancient-collection" id="vault-ancient"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ANCIENT RELIC UNLOCK OVERLAY ═══════════════ -->
+<div id="ancient-relic-unlock">
+  <div class="aru-panel" id="aru-panel">
+    <div class="aru-label">Ancient Relic Discovered</div>
+    <div class="aru-title" id="aru-title">✦ NEW DISCOVERY ✦</div>
+    <div class="aru-icon" id="aru-icon">💎</div>
+    <div class="aru-name" id="aru-name"></div>
+    <div class="aru-rarity" id="aru-rarity"></div>
+    <div class="aru-desc" id="aru-desc"></div>
+    <button class="aru-btn" onclick="document.getElementById('ancient-relic-unlock').classList.remove('show')">⚜ ADD TO VAULT ⚜</button>
   </div>
 </div>
 
@@ -2398,7 +2421,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <div class="adv-jig-tray" id="adv-jig-tray"></div>
   <div class="adv-jig-recover-wrap" id="adv-jig-recover-wrap">
     <div class="adv-jig-recover-usage" id="adv-jig-recover-usage">Fragments recovered today: 0 / 3</div>
-    <button class="adv-jig-recover-btn" id="adv-jig-recover-btn" onclick="recoverFragment()">🪙 Recover Fragment — 50g</button>
+    <button class="adv-jig-recover-btn" id="adv-jig-recover-btn" onclick="recoverFragment()">🪙 Recover Fragment — 50 gold</button>
   </div>
 </div>
 
@@ -3027,7 +3050,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <div class="win-sub">The ancient relics have been restored.</div>
     <div class="win-time" id="win-time-val">0:00</div>
     <div class="win-best" id="win-best-val">✦ New Record! ✦</div>
-    <div id="win-gold-earned" style="display:none;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.12em;margin-bottom:14px;padding:7px 16px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;">🪙 +<span id="win-gold-amount">0</span>g earned</div>
+    <div id="win-gold-earned" style="display:none;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.12em;margin-bottom:14px;padding:7px 16px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;">🪙 +<span id="win-gold-amount">0</span> gold earned</div>
     <button class="gold-btn win-btn" id="win-play-again" style="padding:11px 28px;font-size:12px;">⚔ Play Again ⚔</button>
     <div style="margin-top:10px;"><button class="ghost-btn" id="win-menu" style="padding:8px 18px;font-size:10px;">← Main Menu</button></div>
   </div>
@@ -3085,7 +3108,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
     <div style="font-family:'Cinzel Decorative','Cinzel',serif;font-size:18px;font-weight:900;color:var(--gold);text-shadow:0 0 30px var(--glow-gold);letter-spacing:.1em;margin-bottom:4px;">TREASURE CLAIMED!</div>
     <div id="dw-diff-sub" style="font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.15em;margin-bottom:8px;opacity:.75;"></div>
-    <div id="dw-gold-earned" style="display:none;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.12em;margin-bottom:12px;padding:7px 16px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;">🪙 +<span id="dw-gold-amount">0</span>g earned</div>
+    <div id="dw-gold-earned" style="display:none;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.12em;margin-bottom:12px;padding:7px 16px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;">🪙 +<span id="dw-gold-amount">0</span> gold earned</div>
 
     <!-- Stats grid — 2×2 + rank -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px;">
@@ -3564,6 +3587,45 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 /* ── Jigsaw Artifact Vault ── */
 .jigsaw-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:4px 0;max-width:340px;margin:0 auto;}
+/* ── Ancient Relics Vault ── */
+.ancient-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:4px 0;}
+.vault-ancient-legend{display:flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:9px;color:rgba(200,160,80,.5);letter-spacing:.08em;margin-bottom:8px;flex-wrap:wrap;}
+.ar-legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:2px;}
+.ar-legend-dot.common{background:#c8966e;box-shadow:0 0 4px rgba(160,120,70,.4);}
+.ar-legend-dot.rare{background:#60d8ff;box-shadow:0 0 4px rgba(80,160,255,.5);}
+.ar-legend-dot.epic{background:#c070ff;box-shadow:0 0 6px rgba(170,80,255,.6);}
+.ar-legend-dot.legendary{background:#ffd700;box-shadow:0 0 8px rgba(255,200,40,.7);}
+.ar-slot{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,9,3,.7);border:1px solid rgba(100,70,30,.3);cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;padding:2px;}
+.ar-slot:active{transform:scale(.94);}
+.ar-slot.locked{opacity:.35;cursor:default;border-color:rgba(80,60,30,.2);}
+.ar-slot-icon{font-size:22px;line-height:1;margin-bottom:2px;}
+.ar-slot-name{font-family:'Cinzel',serif;font-size:6px;color:rgba(200,165,90,.7);text-align:center;letter-spacing:.04em;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px;}
+.ar-slot.common{border-color:rgba(160,120,70,.5);}
+.ar-slot.common:hover{box-shadow:0 0 8px rgba(160,120,70,.3);transform:scale(1.04);}
+.ar-slot.rare{border-color:rgba(80,160,255,.6);box-shadow:0 0 6px rgba(80,160,255,.2);}
+.ar-slot.rare:hover{box-shadow:0 0 12px rgba(80,160,255,.5);transform:scale(1.05);}
+.ar-slot.epic{border-color:rgba(170,80,255,.7);box-shadow:0 0 8px rgba(170,80,255,.3);}
+.ar-slot.epic:hover{box-shadow:0 0 16px rgba(170,80,255,.6);transform:scale(1.05);}
+.ar-slot.legendary{border-color:rgba(255,200,40,.8);box-shadow:0 0 10px rgba(255,200,40,.4);animation:arLegendaryPulse 2.5s ease-in-out infinite;}
+.ar-slot.legendary:hover{box-shadow:0 0 22px rgba(255,200,40,.7);transform:scale(1.06);}
+@keyframes arLegendaryPulse{0%,100%{box-shadow:0 0 10px rgba(255,200,40,.4)}50%{box-shadow:0 0 20px rgba(255,200,40,.7)}}
+.ar-slot.epic::before,.ar-slot.legendary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%);pointer-events:none;}
+.ar-rarity-pip{position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;}
+.ar-slot.common .ar-rarity-pip{background:#c8966e;}
+.ar-slot.rare .ar-rarity-pip{background:#60d8ff;box-shadow:0 0 4px rgba(80,160,255,.6);}
+.ar-slot.epic .ar-rarity-pip{background:#c070ff;box-shadow:0 0 5px rgba(170,80,255,.7);}
+.ar-slot.legendary .ar-rarity-pip{background:#ffd700;box-shadow:0 0 7px rgba(255,200,40,.9);}
+/* Ancient Relic unlock toast overlay */
+#ancient-relic-unlock{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);}
+#ancient-relic-unlock.show{display:flex;}
+.aru-panel{width:min(84vw,320px);background:linear-gradient(155deg,rgba(14,8,2,.98),rgba(28,17,5,.98));border-radius:24px;padding:32px 24px 28px;text-align:center;position:relative;}
+.aru-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.35em;color:rgba(200,160,80,.5);margin-bottom:8px;text-transform:uppercase;}
+.aru-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.25em;margin-bottom:16px;}
+.aru-icon{font-size:56px;line-height:1;margin-bottom:12px;filter:drop-shadow(0 0 16px currentColor);}
+.aru-name{font-family:'Cinzel',serif;font-size:19px;font-weight:900;color:var(--gold-light);letter-spacing:.1em;margin-bottom:6px;}
+.aru-rarity{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;margin-bottom:14px;}
+.aru-desc{font-family:'Crimson Pro',serif;font-size:14px;color:rgba(210,180,130,.9);line-height:1.6;margin-bottom:20px;}
+.aru-btn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.15em;padding:10px 28px;background:linear-gradient(135deg,rgba(40,24,5,.95),rgba(65,40,8,.95));border:1px solid rgba(180,140,60,.5);border-radius:14px;color:var(--gold);cursor:pointer;}
 .jsw-slot{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1.5px solid rgba(100,70,20,.4);background:rgba(14,8,2,.7);cursor:default;transition:transform .18s;position:relative;max-width:62px;overflow:hidden;}
 .jsw-slot.earned{background:rgba(20,12,4,.85);}
 .jsw-slot.earned:hover{transform:scale(1.08);}
@@ -3999,6 +4061,105 @@ const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×
 function getArtifactSvg(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.svg||'':ARTIFACTS.svg(slot);}
 function getArtifactLabel(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.label||'?':ARTIFACTS.labels[slot];}
 function getArtifactGlow(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsawArtifacts[slot-10]]?.glow||'rgba(255,215,0,.8)':ARTIFACTS.glowColors[slot];}
+
+/* ══════════════════════════════════════════════════════
+   ANCIENT RELICS — 75 collectible rewards (Daily + Relax)
+══════════════════════════════════════════════════════ */
+const ANCIENT_RELICS=[
+  null,
+  // ── COMMON (1–30) ──────────────────────────────────
+  {id:1, name:'Copper Coin',         rarity:'common',   icon:'🪙', desc:'A worn coin stamped with a forgotten emperor\'s face.',          lore:'Currency of a trade empire lost to the sands of time.'},
+  {id:2, name:'Stone Tablet',        rarity:'common',   icon:'📜', desc:'A flat stone etched with symbols no one alive can read.',        lore:'Perhaps a law. Perhaps a recipe. Perhaps a love letter.'},
+  {id:3, name:'Clay Vessel',         rarity:'common',   icon:'🏺', desc:'A small jar sealed with ancient wax, contents long evaporated.',  lore:'Whatever it held, someone thought it worth preserving.'},
+  {id:4, name:'Bone Needle',         rarity:'common',   icon:'🧵', desc:'Carved from the shin of a long-extinct bird.',                    lore:'Found alongside scraps of linen finer than any made today.'},
+  {id:5, name:'Flint Arrowhead',     rarity:'common',   icon:'🏹', desc:'Chipped to a razor edge by a hand ten thousand years ago.',      lore:'Never used. The hunter who made it never came back.'},
+  {id:6, name:'Reed Scroll',         rarity:'common',   icon:'📄', desc:'Brittle papyrus covered in faded ink.',                          lore:'Most of the text is lost, but the last line reads: "Return."'},
+  {id:7, name:'Wooden Idol',         rarity:'common',   icon:'🗿', desc:'A small carved figure with hollow eyes.',                         lore:'Placed in the homes of Solara\'s common people for protection.'},
+  {id:8, name:'Iron Ring',           rarity:'common',   icon:'⭕', desc:'Plain, unadorned, slightly too small for any finger.',            lore:'Ownership rings like this were given to servants, not slaves.'},
+  {id:9, name:'Obsidian Shard',      rarity:'common',   icon:'🌑', desc:'A fragment of volcanic glass, edges still sharp.',               lore:'The volcano that formed it has not erupted in recorded history.'},
+  {id:10,name:'Shell Pendant',       rarity:'common',   icon:'🐚', desc:'A spiral shell with a hole worn through the top.',               lore:'The sea it came from is now a desert.'},
+  {id:11,name:'Clay Lamp',           rarity:'common',   icon:'🪔', desc:'A pinched clay oil lamp, still stained with soot.',              lore:'It once lit a room where someone stayed up reading all night.'},
+  {id:12,name:'Bronze Clasp',        rarity:'common',   icon:'🔗', desc:'A small fastener, still functional after three millennia.',      lore:'Solaran garments were famously elaborate. This held one together.'},
+  {id:13,name:'Leather Pouch',       rarity:'common',   icon:'👝', desc:'Dried and cracked, but the stitching is still intact.',          lore:'It smells faintly of dried spice.'},
+  {id:14,name:'Carved Bone',         rarity:'common',   icon:'🦴', desc:'An animal bone etched with tally marks.',                        lore:'Someone was counting something. Days, debts, or kills.'},
+  {id:15,name:'River Stone',         rarity:'common',   icon:'🪨', desc:'A smooth pebble worn by an ancient river, now long dry.',        lore:'Children of Solara kept favorite stones as lucky charms.'},
+  {id:16,name:'Wax Seal',            rarity:'common',   icon:'🔏', desc:'An imprint of a sigil pressed into dark red wax.',               lore:'The house it belonged to has no living descendants.'},
+  {id:17,name:'Terra Cotta Tile',    rarity:'common',   icon:'🧱', desc:'A painted floor tile, part of a larger mosaic.',                 lore:'The full mosaic depicted the founding of Solara. Most is lost.'},
+  {id:18,name:'Feather Charm',       rarity:'common',   icon:'🪶', desc:'A large feather, miraculously preserved.',                       lore:'From the Solaran Sun-Hawk, hunted to extinction for its plumes.'},
+  {id:19,name:'Rough Amber',         rarity:'common',   icon:'🟡', desc:'A blob of tree resin with a tiny insect frozen inside.',         lore:'The insect species has never been identified by modern science.'},
+  {id:20,name:'Herb Bundle',         rarity:'common',   icon:'🌿', desc:'Dried plants bound with cord, scent still faintly present.',     lore:'Used in Solaran healing rituals. Modern herbalists call it useless.'},
+  {id:21,name:'Animal Tooth',        rarity:'common',   icon:'🦷', desc:'A large canine tooth, drilled for use as a pendant.',            lore:'From a predator no longer found on any continent.'},
+  {id:22,name:'Basket Fragment',     rarity:'common',   icon:'🧺', desc:'A woven reed section, pattern still recognizable.',              lore:'Solaran weavers worked patterns that encoded family lineages.'},
+  {id:23,name:'Sandstone Carving',   rarity:'common',   icon:'🗽', desc:'A small relief of a figure in ceremonial dress.',               lore:'The face has been deliberately worn smooth — by its owner, perhaps.'},
+  {id:24,name:'Knotted Cord',        rarity:'common',   icon:'🪢', desc:'A length of rope with complex knots tied at intervals.',         lore:'A Solaran counting method. This one records a debt never repaid.'},
+  {id:25,name:'Pottery Shard',       rarity:'common',   icon:'🫙', desc:'A painted fragment from a larger vessel.',                       lore:'The scene depicted is a celebration. Everyone in it is smiling.'},
+  {id:26,name:'Copper Wire Coil',    rarity:'common',   icon:'🌀', desc:'Thin copper wire wound into a perfect spiral.',                  lore:'Solaran artisans used wire this fine for circuits not yet understood.'},
+  {id:27,name:'Gourd Flask',         rarity:'common',   icon:'🍶', desc:'A dried gourd sealed with resin, used as a water vessel.',       lore:'Still watertight. Remarkable after so many centuries.'},
+  {id:28,name:'Bone Whistle',        rarity:'common',   icon:'🎵', desc:'A hollow bird bone with three finger holes.',                    lore:'Produces a sound archaeologists describe as "unexpectedly haunting."'},
+  {id:29,name:'Linen Wrap',          rarity:'common',   icon:'🧣', desc:'A strip of fine linen, folded and pressed.',                     lore:'Used to wrap something precious during transport. The precious thing is gone.'},
+  {id:30,name:'Charcoal Stick',      rarity:'common',   icon:'✏️', desc:'A thick stick of charcoal, used for drawing or writing.',       lore:'The last marks it made still exist on a cave wall somewhere in the world.'},
+  // ── RARE (31–55) ──────────────────────────────────
+  {id:31,name:'Silver Bracelet',     rarity:'rare',     icon:'💿', desc:'Twisted silver strands braided with inhuman precision.',         lore:'Worn by Solaran navigators on their right wrist. Earned, never given.'},
+  {id:32,name:'Jade Pendant',        rarity:'rare',     icon:'💚', desc:'Deep green jade carved into a teardrop, polished to a mirror.',  lore:'Jade was considered the solidified tears of the earth goddess.'},
+  {id:33,name:'Lapis Lazuli Bead',   rarity:'rare',     icon:'🔵', desc:'A perfectly spherical bead of brilliant blue lapis lazuli.',     lore:'Traded across three continents. Worth more than most houses.'},
+  {id:34,name:'Ivory Comb',          rarity:'rare',     icon:'🎑', desc:'A wide comb carved from ivory, teeth unbroken.',                 lore:'Used in coming-of-age ceremonies. The owner combed their hair once, then put it away forever.'},
+  {id:35,name:'Bronze Dagger',       rarity:'rare',     icon:'⚔️', desc:'A short blade with a grip wrapped in dried leather.',           lore:'Carried by Solaran messengers for self-defense. Mostly symbolic.'},
+  {id:36,name:'Pearl Necklace',      rarity:'rare',     icon:'📿', desc:'Seventeen pearls strung on a thread that should have rotted.',   lore:'The thread appears to be something other than organic material.'},
+  {id:37,name:'Onyx Scarab',         rarity:'rare',     icon:'🖤', desc:'A beetle carved from pure black onyx, wings spread mid-flight.', lore:'Placed over the hearts of the Solaran honored dead.'},
+  {id:38,name:'Turquoise Tile',      rarity:'rare',     icon:'🟦', desc:'A hand-painted tile of brilliant turquoise.',                    lore:'The pigment formula has never been successfully replicated.'},
+  {id:39,name:'Gold Leaf Fragment',  rarity:'rare',     icon:'✨', desc:'A wafer-thin sheet of beaten gold, impossibly preserved.',       lore:'Used to gild the faces of sacred statues. This one escaped the furnace.'},
+  {id:40,name:'Amethyst Ring',       rarity:'rare',     icon:'💜', desc:'A deep purple amethyst set in a plain silver band.',            lore:'Worn by Solaran healers to identify their calling.'},
+  {id:41,name:'Engraved Medallion',  rarity:'rare',     icon:'🏅', desc:'A bronze disc stamped with a radiant sun symbol.',              lore:'Given to soldiers who survived the Battle of the Obsidian Plain.'},
+  {id:42,name:'Coral Figurine',      rarity:'rare',     icon:'🪸', desc:'A tiny figure carved from red coral, depicting a sea creature.', lore:'The Solarans believed coral was the skeleton of the sea.'},
+  {id:43,name:'Serpentine Mask',     rarity:'rare',     icon:'🐍', desc:'A green stone mask with inlaid copper eyes.',                   lore:'Worn during the Festival of Shedding — a celebration of new beginnings.'},
+  {id:44,name:'Glass Eye Amulet',    rarity:'rare',     icon:'👁️', desc:'A blown glass sphere with a painted iris, startlingly lifelike.',lore:'Believed to ward off envy. Every wealthy Solaran household had one.'},
+  {id:45,name:'Obsidian Blade',      rarity:'rare',     icon:'🗡️', desc:'A ritual knife of pure obsidian, never used as a weapon.',      lore:'Used in ceremonies that modern scholars still do not fully understand.'},
+  {id:46,name:'Silver Moon Disc',    rarity:'rare',     icon:'🌙', desc:'A disc of hammered silver engraved with lunar phases.',          lore:'Solaran farmers used it to time their planting. It was never wrong.'},
+  {id:47,name:'Bone Dice',           rarity:'rare',     icon:'🎲', desc:'A set of five polyhedral dice carved from bone.',               lore:'Found in the quarters of a Solaran admiral. She was famously lucky.'},
+  {id:48,name:'Inlaid Flute',        rarity:'rare',     icon:'🎶', desc:'A wooden flute inlaid with mother-of-pearl.',                   lore:'Still playable. The last musician to attempt it wept inexplicably.'},
+  {id:49,name:'Bronze Mirror',       rarity:'rare',     icon:'🪞', desc:'A hammered bronze disc polished to a cloudy reflection.',       lore:'Solaran nobles checked their appearance before every public appearance.'},
+  {id:50,name:'Papyrus Fragment',    rarity:'rare',     icon:'📃', desc:'A piece of ancient papyrus covered in dense script.',           lore:'Translates roughly to a list of things someone was afraid to forget.'},
+  {id:51,name:'Carnelian Seal',      rarity:'rare',     icon:'🔴', desc:'A red carnelian stone carved with an elaborate signet.',        lore:'Used to authorize documents. The authority it represented no longer exists.'},
+  {id:52,name:'Gilded Mirror',       rarity:'rare',     icon:'🪟', desc:'A small mirror backed with real gold leaf.',                    lore:'Belonged to someone who wanted to see themselves clearly.'},
+  {id:53,name:'Ruby Earring',        rarity:'rare',     icon:'💎', desc:'A single earring set with a blood-red ruby.',                   lore:'The matching earring was never found. The story of how they were separated is unknown.'},
+  {id:54,name:'Crystal Prism',       rarity:'rare',     icon:'🔷', desc:'A faceted crystal that splits light into its components.',      lore:'Solaran scholars used these to study the nature of light itself.'},
+  {id:55,name:'Malachite Tablet',    rarity:'rare',     icon:'🟢', desc:'A flat tablet of banded green malachite covered in script.',    lore:'Contains what appears to be a detailed star chart of a sky that no longer matches ours.'},
+  // ── EPIC (56–70) ──────────────────────────────────
+  {id:56,name:'Crystal Orb',        rarity:'epic',     icon:'🔮', desc:'A flawless sphere of pure quartz that seems to glow from within.', lore:'Solaran seers used these to commune with what they called the Deep Pattern.'},
+  {id:57,name:'Dragon Scale',       rarity:'epic',     icon:'🐉', desc:'A scale large as a dinner plate, iridescent as oil on water.',    lore:'From a creature the Solarans called the Ironwing. Extinct, officially.'},
+  {id:58,name:'Sunstone Pendant',   rarity:'epic',     icon:'☀️', desc:'An orange gem that generates its own faint warmth.',             lore:'It was warm when found. It has been warm ever since. No one knows why.'},
+  {id:59,name:'Moonfire Chalice',   rarity:'epic',     icon:'🏆', desc:'A silver goblet that glows faintly blue under moonlight.',       lore:'Drinking from it was said to grant a single true vision of the future.'},
+  {id:60,name:'Void Compass',       rarity:'epic',     icon:'🧭', desc:'A compass whose needle points somewhere no map has charted.',    lore:'It never points north. It points toward something patient and distant.'},
+  {id:61,name:'Storm Rune Stone',   rarity:'epic',     icon:'⛈️', desc:'A flat stone carved with a rune that smells of ozone.',          lore:'Storm callers carried these. Storms still gather where the stones rest.'},
+  {id:62,name:'Serpent Crown',      rarity:'epic',     icon:'👑', desc:'A crown of interlocked serpents in gold and enamel.',           lore:'Worn by the Solaran Serpent-Priests. Their order vanished in a single night.'},
+  {id:63,name:'Phoenix Feather',    rarity:'epic',     icon:'🦅', desc:'A single feather that refuses to burn, no matter the heat.',     lore:'The bird it came from has not been seen in two thousand years. Possibly.'},
+  {id:64,name:'Starfall Gem',       rarity:'epic',     icon:'💫', desc:'A meteorite fragment faceted like a gemstone.',                  lore:'The Solarans believed the sky shed tears of stone. They were not wrong.'},
+  {id:65,name:'Ancient War Horn',   rarity:'epic',     icon:'📯', desc:'A great horn carved from a single tusk, banded in silver.',     lore:'Its sound has not been heard in four thousand years. Some say it should stay that way.'},
+  {id:66,name:'Tempest Amulet',     rarity:'epic',     icon:'🌩️', desc:'A pendant crackling with static even in still air.',            lore:'Worn by the Solaran Storm-Callers in battle. Enemies broke and ran.'},
+  {id:67,name:'Garnet Brooch',      rarity:'epic',     icon:'❤️', desc:'A deep red garnet set in blackened silver, shaped like a heart.',lore:'Given between Solaran warriors who swore to die before the other.'},
+  {id:68,name:'Celestial Fragment', rarity:'epic',     icon:'🗺️', desc:'A piece of a star chart etched in silver foil.',                lore:'The stars it depicts are real. The constellation they form is unknown.'},
+  {id:69,name:'Whispering Skull',   rarity:'epic',     icon:'💀', desc:'A small crystal skull that produces a sound when held alone.',   lore:'The sound is different for every person. No one who hears it can describe it accurately.'},
+  {id:70,name:'Ember Heart',        rarity:'epic',     icon:'🔥', desc:'A red crystal the color of living embers, always warm to touch.',lore:'Torn from the chest of the last Fireborn. They let it happen willingly.'},
+  // ── LEGENDARY (71–75) ──────────────────────────────────
+  {id:71,name:'Tear of Solara',     rarity:'legendary', icon:'💧', desc:'A single crystallized tear from the goddess Solara herself.',    lore:'When the last relic was stolen, she wept once. This is what remains.'},
+  {id:72,name:'The Eternal Flame',  rarity:'legendary', icon:'🕯️', desc:'A flame that has burned since the founding of the first city.',  lore:'It has been carried across oceans and deserts and wars and centuries. It has never gone out.'},
+  {id:73,name:'Void Heart',         rarity:'legendary', icon:'🌌', desc:'A perfectly black sphere that absorbs all light that touches it.',lore:'Found at the center of a city that vanished. The city is not on any map made before the finding.'},
+  {id:74,name:'Forgotten Crown',    rarity:'legendary', icon:'⭐', desc:'A crown of gold and obsidian, sized for no human head.',         lore:'The king who wore it ruled something larger than an empire. What that means is not recorded.'},
+  {id:75,name:'The First Compass',  rarity:'legendary', icon:'🧿', desc:'The original instrument that guided the first explorer of Solara.',lore:'It does not point north. It points toward what you are looking for. Everyone who carries it finds something different.'},
+];
+const ANCIENT_RARITY_COLORS={
+  common:  {border:'rgba(160,120,70,.5)',  glow:'rgba(160,120,70,.0)',  pip:'#c8966e', label:'#c8966e', shimmer:false},
+  rare:    {border:'rgba(80,160,255,.6)',  glow:'rgba(80,160,255,.35)', pip:'#60d8ff', label:'#60d8ff', shimmer:false},
+  epic:    {border:'rgba(170,80,255,.7)',  glow:'rgba(170,80,255,.45)', pip:'#c070ff', label:'#c070ff', shimmer:true},
+  legendary:{border:'rgba(255,200,40,.8)',glow:'rgba(255,200,40,.55)', pip:'#ffd700', label:'#ffd700', shimmer:true}
+};
+// Drop rates: Common 55%, Rare 30%, Epic 12%, Legendary 3%
+const ANCIENT_DROP_RATES=[
+  {rarity:'common',   weight:55},
+  {rarity:'rare',     weight:30},
+  {rarity:'epic',     weight:12},
+  {rarity:'legendary',weight:3}
+];
 
 /* ══ ARTIFACT SOUND EFFECTS ══ */
 const SOUNDS=(()=>{
@@ -4493,9 +4654,10 @@ function loadState(){
   if(GAME_STATS.gold===undefined) GAME_STATS.gold=0;
   if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
   if(!GAME_STATS.goldPiecesDate) GAME_STATS.goldPiecesDate='';
+  if(!GAME_STATS.ancientRelics) GAME_STATS.ancientRelics=[];
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:''};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[]};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -4895,7 +5057,8 @@ function pzCheckWin(){
   const _wgEl=document.getElementById('win-gold-earned');
   const _wgAmt=document.getElementById('win-gold-amount');
   if(_wgEl&&_wgAmt){_wgAmt.textContent=_pzGoldEarned;_wgEl.style.display='block';}
-  setTimeout(()=>showToast(`🪙 +${_pzGoldEarned} gold earned! Total: ${GAME_STATS.gold}g`,2500),4200);
+  setTimeout(()=>rollAncientRelic('relax'),500);
+  setTimeout(()=>showToast(`🪙 +${_pzGoldEarned} gold earned! Total: ${GAME_STATS.gold} gold`,2500),4200);
   const t=PZ.elapsed,m=PZ.mistakes,prev=BEST_TIMES[PZ.diff];
   const isRecord=!prev||t<prev.time;
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
@@ -5615,7 +5778,7 @@ function dpUpdateHUD(){
     if(hcount)hcount.textContent=`(${DP.hints})`;
   } else {
     hb.classList.remove('hint-used-up');hb.querySelector('.icon').textContent='🪙';
-    if(hcount)hcount.textContent='(50g)';
+    if(hcount)hcount.textContent='(50 gold)';
   }
   const bonusStatus=document.getElementById('dp-bonus-status');
   bonusStatus.textContent=DP.bonusAvailable?'✦ Bonus Active':'Bonus Lost';
@@ -5628,11 +5791,11 @@ function dpHint(){
   // Free hints exhausted — offer gold purchase
   if(DP.hints<=0){
     const gold=GAME_STATS.gold||0;
-    if(gold<50){showToast('Not enough gold! Need 50🪙 for a hint.',2000);return;}
-    if(!confirm('Use 50🪙 for an extra hint?'))return;
+    if(gold<50){showToast('Not enough gold! Need 50 gold 🪙 for a hint.',2000);return;}
+    if(!confirm('Use 50 gold for an extra hint?'))return;
     GAME_STATS.gold=gold-50;saveState();
     dpUpdateHUD();
-    showToast('🪙 -50g — extra hint used!',1800);
+    showToast('🪙 -50 gold — extra hint used!',1800);
     dpRevealHintCell();
     return;
   }
@@ -5707,10 +5870,11 @@ function dpCheckWin(){
     _dwgAmt.textContent=_dpGoldBonus>0?`${_dpGoldBase}+${_dpGoldBonus}`:_dpGoldEarned;
     _dwgEl.style.display='block';
   }
+  setTimeout(()=>rollAncientRelic('daily'),600);
   if(_dpGoldBonus>0){
-    setTimeout(()=>showToast(`🪙 +${_dpGoldBase}g + ✨${_dpGoldBonus}g no-mistake bonus! Total: ${GAME_STATS.gold}g`,3000),2600);
+    setTimeout(()=>showToast(`🪙 +${_dpGoldBase} gold + ✨${_dpGoldBonus} gold no-mistake bonus! Total: ${GAME_STATS.gold} gold`,3000),2600);
   } else {
-    setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold earned! Total: ${GAME_STATS.gold}g`,2500),2600);
+    setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold earned! Total: ${GAME_STATS.gold} gold`,2500),2600);
   }
   saveState();spawnWinCoins();
   showAchievement(DP.isReplay?'🔄 REPLAY COMPLETE!':'🏆 PUZZLE COMPLETE! +1500!');
@@ -6356,6 +6520,7 @@ function renderVault(){
   });
   updateMapProgressBar();
   renderJigsawVault();
+  renderAncientVault();
 }
 
 /* ══════════════════════════════════════════════════════
@@ -7627,7 +7792,7 @@ function _advJigRefreshGoldUI(locationId){
       btn.disabled=true;
       btn.style.opacity='.4';
     } else {
-      btn.textContent=`🪙 Recover Fragment — ${nextCost}g`;
+      btn.textContent=`🪙 Recover Fragment — ${nextCost} gold`;
       btn.disabled=false;
       btn.style.opacity='';
     }
@@ -8430,6 +8595,97 @@ function updateMapProgressBar(){
     const pct=(cycleProgress/15)*100;
     fillEl.style.width=pct+'%';
     labelEl.textContent=`${cycleProgress} / 15`;
+  }
+}
+
+/* ── ANCIENT RELIC DROP + RENDER ── */
+function rollAncientRelic(source){
+  // source: 'relax' (35% chance) or 'daily' (50% chance)
+  const chance=source==='daily'?50:35;
+  if(Math.random()*100>chance)return;
+  const owned=new Set(GAME_STATS.ancientRelics||[]);
+  if(owned.size>=75){
+    // All collected — give bonus gold instead
+    GAME_STATS.gold=(GAME_STATS.gold||0)+15;
+    saveState();
+    showToast('✨ All Ancient Relics collected! +15 gold bonus.',2500);
+    return;
+  }
+  // Pick rarity by weighted roll
+  const roll=Math.random()*100;
+  let cumulative=0,chosenRarity='common';
+  for(const {rarity,weight} of ANCIENT_DROP_RATES){
+    cumulative+=weight;
+    if(roll<cumulative){chosenRarity=rarity;break;}
+  }
+  // Get all uncollected relics of this rarity
+  let pool=ANCIENT_RELICS.slice(1).filter(r=>r&&r.rarity===chosenRarity&&!owned.has(r.id));
+  // If none available, fall back to any uncollected relic
+  if(!pool.length) pool=ANCIENT_RELICS.slice(1).filter(r=>r&&!owned.has(r.id));
+  if(!pool.length)return;
+  const relic=pool[Math.floor(Math.random()*pool.length)];
+  GAME_STATS.ancientRelics=[...(GAME_STATS.ancientRelics||[]),relic.id];
+  saveState();
+  showAncientRelicUnlock(relic);
+}
+
+function showAncientRelicUnlock(relic){
+  const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
+  const panel=document.getElementById('aru-panel');
+  const titleEl=document.getElementById('aru-title');
+  const rarityTitles={common:'✦ COMMON RELIC ✦',rare:'✦ RARE RELIC ✦',epic:'✦✦ EPIC RELIC ✦✦',legendary:'✦✦✦ LEGENDARY RELIC ✦✦✦'};
+  if(panel){
+    panel.style.border=`1px solid ${colors.border}`;
+    panel.style.boxShadow=`0 0 60px ${colors.glow}, 0 0 120px rgba(0,0,0,.9)`;
+  }
+  if(titleEl){titleEl.textContent=rarityTitles[relic.rarity]||'✦ RELIC FOUND ✦';titleEl.style.color=colors.label;}
+  document.getElementById('aru-icon').textContent=relic.icon;
+  document.getElementById('aru-icon').style.color=colors.pip;
+  document.getElementById('aru-name').textContent=relic.name;
+  const rarityEl=document.getElementById('aru-rarity');
+  rarityEl.textContent=relic.rarity.toUpperCase();
+  rarityEl.style.color=colors.label;
+  document.getElementById('aru-desc').textContent=relic.desc;
+  document.getElementById('ancient-relic-unlock').classList.add('show');
+}
+
+function renderAncientVault(){
+  const container=document.getElementById('vault-ancient');
+  if(!container)return;
+  container.innerHTML='';
+  const owned=new Set(GAME_STATS.ancientRelics||[]);
+  const countEl=document.getElementById('vault-ancient-count');
+  if(countEl)countEl.textContent=`${owned.size} / 75`;
+  for(let i=1;i<=75;i++){
+    const relic=ANCIENT_RELICS[i];
+    if(!relic)continue;
+    const isOwned=owned.has(i);
+    const slot=document.createElement('div');
+    const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
+    if(isOwned){
+      slot.className=`ar-slot ${relic.rarity}`;
+      slot.innerHTML=`<div class="ar-rarity-pip"></div><div class="ar-slot-icon">${relic.icon}</div><div class="ar-slot-name">${relic.name}</div>`;
+      slot.title=relic.name;
+      slot.addEventListener('click',()=>{
+        const pip=document.getElementById('rd-rarity-pip');
+        const pipColors={common:'#c8966e',rare:'#60d8ff',epic:'#c070ff',legendary:'#ffd700'};
+        const pipGlow={common:'rgba(160,120,70,.4)',rare:'rgba(80,160,255,.6)',epic:'rgba(170,80,255,.7)',legendary:'rgba(255,200,40,.9)'};
+        const r=relic.rarity;
+        document.getElementById('rd-icon').innerHTML=`<div style="font-size:64px;line-height:80px;filter:drop-shadow(0 0 14px ${colors.pip})">${relic.icon}</div>`;
+        pip.style.background=pipColors[r];
+        pip.style.boxShadow=`0 0 8px ${pipGlow[r]}`;
+        document.getElementById('rd-name').textContent=relic.name;
+        document.getElementById('rd-rarity').textContent=r.toUpperCase();
+        document.getElementById('rd-desc').textContent=relic.desc;
+        document.getElementById('rd-lore').textContent=relic.lore;
+        document.getElementById('relic-detail-modal').style.display='flex';
+      });
+    } else {
+      slot.className='ar-slot locked';
+      slot.innerHTML=`<div class="ar-slot-icon" style="font-size:18px;opacity:.4;">🔒</div><div class="ar-slot-name" style="opacity:.3;">???</div>`;
+      slot.title='Discover this relic through Daily or Relax Mode';
+    }
+    container.appendChild(slot);
   }
 }
 
