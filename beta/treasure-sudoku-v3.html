@@ -5608,10 +5608,15 @@ function dpUpdateHUD(){
     h.style.fontSize='13px';
     livesEl.appendChild(h);
   }
-  document.getElementById('dp-hint-count').textContent=`(${DP.hints})`;
   const hb=document.getElementById('dp-hint');
-  if(DP.hints<=0){hb.classList.add('hint-used-up');hb.querySelector('.icon').textContent='🚫';}
-  else{hb.classList.remove('hint-used-up');hb.querySelector('.icon').textContent='💡';}
+  const hcount=document.getElementById('dp-hint-count');
+  if(DP.hints>0){
+    hb.classList.remove('hint-used-up');hb.querySelector('.icon').textContent='💡';
+    if(hcount)hcount.textContent=`(${DP.hints})`;
+  } else {
+    hb.classList.remove('hint-used-up');hb.querySelector('.icon').textContent='🪙';
+    if(hcount)hcount.textContent='(50g)';
+  }
   const bonusStatus=document.getElementById('dp-bonus-status');
   bonusStatus.textContent=DP.bonusAvailable?'✦ Bonus Active':'Bonus Lost';
   bonusStatus.style.color=DP.bonusAvailable?'var(--gold)':'rgba(200,100,100,.7)';
@@ -5619,14 +5624,27 @@ function dpUpdateHUD(){
 
 /* ── HINT ── */
 function dpHint(){
-  if(DP.hints<=0){showToast('No hints remaining!',1500);return;}
   if(DP.gameOver||DP.completed)return;
+  // Free hints exhausted — offer gold purchase
+  if(DP.hints<=0){
+    const gold=GAME_STATS.gold||0;
+    if(gold<50){showToast('Not enough gold! Need 50🪙 for a hint.',2000);return;}
+    if(!confirm('Use 50🪙 for an extra hint?'))return;
+    GAME_STATS.gold=gold-50;saveState();
+    dpUpdateHUD();
+    showToast('🪙 -50g — extra hint used!',1800);
+    dpRevealHintCell();
+    return;
+  }
+  DP.hints--;dpUpdateHUD();
+  dpRevealHintCell();
+}
+function dpRevealHintCell(){
   const candidates=[];
   for(let i=0;i<81;i++){if(DP.puzzle[i]===0&&DP.board[i]===0){if(DP.activeNum!==null&&DP.solution[i]===DP.activeNum)candidates.unshift(i);else candidates.push(i);}}
   if(!candidates.length){showToast('No cells left!',1500);return;}
   const pool=DP.activeNum?candidates.filter(i=>DP.solution[i]===DP.activeNum):candidates;
   const target=(pool.length?pool:candidates)[Math.floor(Math.random()*(pool.length||candidates.length))];
-  DP.hints--;dpUpdateHUD();
   DP.selected=target;dpRenderBoard();
   const cell=document.querySelector(`#dp-board .cell[data-idx="${target}"]`);
   if(cell){cell.classList.add('hint-reveal');spawnSparkle(cell);setTimeout(()=>cell.classList.remove('hint-reveal'),1500);}
