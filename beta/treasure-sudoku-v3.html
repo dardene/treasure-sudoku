@@ -2353,6 +2353,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 <!-- Map buttons — outside screen-mapview so they render above the SVG overlay -->
 <button class="ghost-btn back-btn" id="mapview-back" style="display:none;position:fixed;top:auto;bottom:16px;left:14px;z-index:200;pointer-events:all;">← Back</button>
+<button class="ghost-btn back-btn" id="mapview-exit" style="display:none;position:fixed;top:auto;bottom:16px;right:14px;z-index:200;pointer-events:all;">✕ Exit</button>
 <div id="map-page-nav" style="display:none;position:fixed;bottom:16px;right:14px;z-index:200;pointer-events:all;">
   <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
 </div>
@@ -3605,6 +3606,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <div class="ap-count" id="ap-count">0 / 9 selected</div>
     <button class="ap-confirm" id="ap-confirm" disabled>Begin Puzzle →</button>
     <button class="ap-reset" id="ap-reset">Reset to Default</button>
+    <div style="display:flex;justify-content:flex-start;margin-top:8px;">
+      <button id="ap-back" class="ghost-btn back-btn" style="font-size:11px;padding:7px 16px;">← Back</button>
+    </div>
   </div>
 </div>
 
@@ -7137,6 +7141,7 @@ function changeMapPage(dir){
   const btn=document.getElementById('map-page-next');
   btn.textContent='PAGE 2 ▶';
   btn.style.display=_currentMapPage===1?'':'none';
+  document.getElementById('mapview-exit').style.display=_currentMapPage===2?'inline-block':'none';
   // Switch background
   const grad='linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%)';
   const bg=_currentMapPage===1?'url(\'treasure-map-bg.jpg\') 45% 30%/cover no-repeat':'url(\'treasure-map-bg2.jpg\') center center/cover no-repeat';
@@ -7792,7 +7797,7 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');document.getElementById('map-page-nav').style.display='block';document.getElementById('mapview-back').style.display='inline-block';if(!localStorage.getItem('ts_map_intro_seen')){document.getElementById('map-intro-overlay').classList.add('show');}});});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');_currentMapPage=1;document.getElementById('map-page-nav').style.display='block';document.getElementById('mapview-back').style.display='inline-block';document.getElementById('mapview-exit').style.display='none';if(!localStorage.getItem('ts_map_intro_seen')){document.getElementById('map-intro-overlay').classList.add('show');}});});
 document.getElementById('map-intro-start').addEventListener('click',(e)=>{e.stopPropagation();document.getElementById('map-intro-overlay').classList.remove('show');localStorage.setItem('ts_map_intro_seen','1');});
 
 
@@ -7824,7 +7829,11 @@ document.getElementById('vault-back').addEventListener('click',()=>showScreen('s
   window._vaultScrollReset=()=>{sc.scrollTo(0,0);setTimeout(upd,60);};
   window._vaultScrollUpd=upd;
 })();
-document.getElementById('mapview-back').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';showScreen('screen-menu');});
+document.getElementById('mapview-back').addEventListener('click',()=>{
+  if(_currentMapPage===2){changeMapPage(-1);}
+  else{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';document.getElementById('mapview-exit').style.display='none';showScreen('screen-menu');}
+});
+document.getElementById('mapview-exit').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';document.getElementById('mapview-exit').style.display='none';showScreen('screen-menu');});
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-signout-btn').addEventListener('click',()=>sbSignOut());
@@ -7955,6 +7964,12 @@ document.getElementById('dw-share').addEventListener('click',shareDailyResults);
 
 // Artifact picker — close when clicking outside
 document.getElementById('artifact-picker').addEventListener('click',function(e){if(e.target===this){this.style.display='none';}});
+// Artifact picker — back button returns to difficulty picker
+document.getElementById('ap-back').addEventListener('click',()=>{
+  document.getElementById('artifact-picker').classList.remove('show');
+  document.getElementById('artifact-picker').style.display='';
+  document.getElementById('diff-picker').classList.add('show');
+});
 
 // Daily rules overlay — Begin Quest button starts the timer
 document.getElementById('dp-rules-start').addEventListener('click',()=>dpBegin());
