@@ -3916,25 +3916,25 @@ const JIGSAW_ARTIFACTS=[
    ADVENTURE PATH — 25 Location Roadmap
 ══════════════════════════════════════════════════════ */
 const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×3 = 15 pieces)
-  {id:1, name:'The Lost Isle',     icon:'\u{1F3DD}', desc:'Complete The Lost Isle jigsaw puzzle.',         gridCols:5,gridRows:3,sceneIdx:0},
-  {id:2, name:'Desert Sands',      icon:'\u{1F3DC}', desc:'Complete the Desert Sands jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:1},
-  {id:3, name:'Dense Jungle',      icon:'\u{1F33F}', desc:'Complete the Dense Jungle jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:4},
-  {id:4, name:'Volcanic Isle',     icon:'\u{1F30B}', desc:'Complete the Volcanic Isle jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:3},
-  {id:5, name:'Arctic Wastes',     icon:'\u2744',     desc:'Complete the Arctic Wastes jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:2},
-  {id:6, name:'Ancient Seas',      icon:'\u2693',     desc:'Complete the Ancient Seas jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:5},
-  {id:7, name:'Mountain Fortress', icon:'\u{1F3D4}', desc:'Complete the Mountain Fortress jigsaw puzzle.', gridCols:5,gridRows:3,sceneIdx:6},
-  {id:8, name:'Misty Peninsula',   icon:'\u{1F32B}', desc:'Complete the Misty Peninsula jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:7},
-  {id:9, name:'Golden Savanna',    icon:'\u{1F305}', desc:'Complete the Golden Savanna jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:8},
-  {id:10,name:'Cursed Swamp',      icon:'\u{1F40A}', desc:'Complete the Cursed Swamp jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:9},
-  {id:11,name:'Crystal Caverns',   icon:'\u{1F48E}', desc:'Complete the Crystal Caverns jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:10},
-  {id:12,name:'Pirate Harbor',     icon:'\u{1F3F4}', desc:'Complete the Pirate Harbor jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:11},
-  {id:13,name:"Dragon's Vale",     icon:'\u{1F409}', desc:"Complete the Dragon's Vale jigsaw puzzle.",     gridCols:5,gridRows:3,sceneIdx:12},
-  {id:14,name:"Pharaoh's Realm",   icon:'\u{1F451}', desc:"Complete the Pharaoh's Realm jigsaw puzzle.",   gridCols:5,gridRows:3,sceneIdx:13},
-  {id:15,name:'Nordic Shores',     icon:'\u26F5',     desc:'Complete the Nordic Shores jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:14},
-  {id:16,name:'Enchanted Wilds',   icon:'\u2728',     desc:'Complete the Enchanted Wilds jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:15},
-  {id:17,name:'Thunder Peaks',     icon:'\u26C8',     desc:'Complete the Thunder Peaks jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:16},
-  {id:18,name:'Mystic Lagoon',     icon:'\u{1F30A}', desc:'Complete the Mystic Lagoon jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:17},
-  {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18},
+  {id:1, name:'The Lost Isle',     icon:'\u{1F3DD}', desc:'Complete The Lost Isle jigsaw puzzle.',         gridCols:5,gridRows:3,sceneIdx:0, bg:'lost-isle-bg.png',treasureBg:'lost-isle-treasure-bg.png'},
+  {id:2, name:'Desert Sands',      icon:'\u{1F3DC}', desc:'Complete the Desert Sands jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:1, bg:'desert-sand-bg.png',treasureBg:'desert-sands-treasure-bg.png'},
+  {id:3, name:'Dense Jungle',      icon:'\u{1F33F}', desc:'Complete the Dense Jungle jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:4, bg:'dense-jungle-bg.png',treasureBg:'dense-jungle-treasure-bg.png'},
+  {id:4, name:'Volcanic Isle',     icon:'\u{1F30B}', desc:'Complete the Volcanic Isle jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:3, bg:'volcanic-isle-bg.png',treasureBg:'volcanic-isle-treasure-bg.png'},
+  {id:5, name:'Arctic Wastes',     icon:'\u2744',     desc:'Complete the Arctic Wastes jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:2, bg:'arctic-wastes-bg.png',treasureBg:'arctic-wastes-treasure-bg.png'},
+  {id:6, name:'Ancient Seas',      icon:'\u2693',     desc:'Complete the Ancient Seas jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:5, bg:'ancient-seas-bg.png',treasureBg:'ancient-seas-treasure-bg.png'},
+  {id:7, name:'Mountain Fortress', icon:'\u{1F3D4}', desc:'Complete the Mountain Fortress jigsaw puzzle.', gridCols:5,gridRows:3,sceneIdx:6, bg:'mountain-fortress-bg.png',treasureBg:'mountain-fortress-treasure-bg.png'},
+  {id:8, name:'Misty Peninsula',   icon:'\u{1F32B}', desc:'Complete the Misty Peninsula jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:7, bg:'misty-peninsula-bg.png'},
+  {id:9, name:'Golden Savanna',    icon:'\u{1F305}', desc:'Complete the Golden Savanna jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:8, bg:'golden-savanna-bg.png'},
+  {id:10,name:'Cursed Swamp',      icon:'\u{1F40A}', desc:'Complete the Cursed Swamp jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:9, bg:'cursed-swamp-bg.png'},
+  {id:11,name:'Crystal Caverns',   icon:'\u{1F48E}', desc:'Complete the Crystal Caverns jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:10,bg:'crystal-caverns-bg.png'},
+  {id:12,name:'Pirate Harbor',     icon:'\u{1F3F4}', desc:'Complete the Pirate Harbor jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:11,bg:'pirate-harbor-bg.png'},
+  {id:13,name:"Dragon's Vale",     icon:'\u{1F409}', desc:"Complete the Dragon's Vale jigsaw puzzle.",     gridCols:5,gridRows:3,sceneIdx:12,bg:'dragons-vale-bg.png'},
+  {id:14,name:"Pharaoh's Realm",   icon:'\u{1F451}', desc:"Complete the Pharaoh's Realm jigsaw puzzle.",   gridCols:5,gridRows:3,sceneIdx:13,bg:'pharaohs-realm-bg.png'},
+  {id:15,name:'Nordic Shores',     icon:'\u26F5',     desc:'Complete the Nordic Shores jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:14,bg:'nordic-shores-bg.png'},
+  {id:16,name:'Enchanted Wilds',   icon:'\u2728',     desc:'Complete the Enchanted Wilds jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:15,bg:'enchanted-wilds-bg.png'},
+  {id:17,name:'Thunder Peaks',     icon:'\u26C8',     desc:'Complete the Thunder Peaks jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:16,bg:'thunder-peaks-bg.png'},
+  {id:18,name:'Mystic Lagoon',     icon:'\u{1F30A}', desc:'Complete the Mystic Lagoon jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:17,bg:'mystic-lagoon-bg.png'},
+  {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18,bg:'lost-continent-bg.png'},
   {id:20,name:'Sunken City',       icon:'\u{1F3DB}', desc:'Complete the Sunken City jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:19},
   {id:21,name:'Coral Shore',       icon:'\u{1F41A}', desc:'Complete the Coral Shore jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:20},
   {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21},
@@ -7476,13 +7476,13 @@ function openAdvJigsaw(locationId){
     pc.addEventListener('touchstart',(e)=>_advDragStart(locationId,parseInt(pc.dataset.piece),pc,e),{passive:false});
   });
 
-  // Set location-specific background
+  // Set location-specific background from ADVENTURE_LOCATIONS config
   const overlay=document.getElementById('adv-jigsaw-overlay');
-  const LOC_BGS={1:'url(lost-isle-bg.png)',2:'url(desert-sand-bg.png)',3:'url(dense-jungle-bg.png)',4:'url(volcanic-isle-bg.png)',5:'url(arctic-wastes-bg.png)',6:'url(ancient-seas-bg.png)',7:'url(mountain-fortress-bg.png)',8:'url(misty-peninsula-bg.png)',9:'url(golden-savanna-bg.png)',10:'url(cursed-swamp-bg.png)',11:'url(crystal-caverns-bg.png)',12:'url(pirate-harbor-bg.png)',13:'url(dragons-vale-bg.png)',14:'url(pharaohs-realm-bg.png)',15:'url(nordic-shores-bg.png)',16:'url(enchanted-wilds-bg.png)',17:'url(thunder-peaks-bg.png)',18:'url(mystic-lagoon-bg.png)',19:'url(lost-continent-bg.png)'};
+  const locBg=loc.bg?'url('+loc.bg+')':null;
   const LOC_POS={3:'center top'};
   overlay.style.backgroundColor='rgb(4,2,10)';
-  overlay.style.background=LOC_BGS[locationId]
-    ? 'rgb(4,2,10) '+LOC_BGS[locationId]+' '+(LOC_POS[locationId]||'center center')+'/cover no-repeat'
+  overlay.style.background=locBg
+    ? 'rgb(4,2,10) '+locBg+' '+(LOC_POS[locationId]||'center center')+'/cover no-repeat'
     : 'rgb(4,2,10)';
 
   // Show overlay
@@ -7635,9 +7635,12 @@ function advMapRevealChest(locationId){
   document.getElementById('mco-title').textContent='RELIC DISCOVERED!';
   document.getElementById('mco-sub').textContent='Open the chest to claim the Relic of '+(loc?loc.name:'this land');
   // Per-location treasure backgrounds
-  const CHEST_BGS={1:'url(lost-isle-treasure-bg.png)'};
-  const bg=CHEST_BGS[locationId];
-  overlay.style.background=bg?'linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),'+bg+' center center/cover no-repeat':'rgba(0,0,0,.93)';
+  const tBg=loc?loc.treasureBg:null;
+  if(tBg){
+    overlay.setAttribute('style','position:fixed;inset:0;z-index:505;display:flex;align-items:center;justify-content:center;background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url('+tBg+');background-size:cover;background-position:center;background-repeat:no-repeat;');
+  }else{
+    overlay.setAttribute('style','');
+  }
   const chest=document.getElementById('mc-chest-wrap');
   chest.classList.remove('opened');
   chest.style.animation='none';chest.offsetHeight;chest.style.animation='';
