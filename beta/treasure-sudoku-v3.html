@@ -7072,6 +7072,7 @@ function mapRevealChest(){
     setTimeout(()=>spawnParticles(r.left+r.width/2,r.top+r.height*.3,Math.ceil(Math.random()*9)),200);
     setTimeout(()=>{
       overlay.classList.remove('show');
+      overlay.removeAttribute('style');
       mapChestOpened();
     },900);
   };
@@ -7134,7 +7135,8 @@ const DEV_MODE_P2=false;
 function changeMapPage(dir){
   _currentMapPage=_currentMapPage===1?2:1;
   const btn=document.getElementById('map-page-next');
-  btn.textContent=_currentMapPage===1?'PAGE 2 ▶':'◀ PAGE 1';
+  btn.textContent='PAGE 2 ▶';
+  btn.style.display=_currentMapPage===1?'':'none';
   // Switch background
   const grad='linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%)';
   const bg=_currentMapPage===1?'url(\'treasure-map-bg.jpg\') 45% 30%/cover no-repeat':'url(\'treasure-map-bg2.jpg\') center center/cover no-repeat';
@@ -7678,6 +7680,7 @@ function advMapRevealChest(locationId){
     // Phase 7: Close and complete (2500ms)
     setTimeout(()=>{
       overlay.classList.remove('show');
+      overlay.removeAttribute('style');
       document.getElementById('adv-jigsaw-overlay').classList.remove('show');
       advJigsawComplete(locationId);
     },2500);
@@ -7711,19 +7714,6 @@ function advJigsawComplete(locationId){
   const flash=document.createElement('div');
   flash.style.cssText='position:fixed;inset:0;z-index:510;background:rgba(245,200,66,.3);pointer-events:none;animation:flashFade .65s ease forwards;';
   document.body.appendChild(flash);setTimeout(()=>flash.remove(),800);
-  // Particles
-  for(let i=0;i<6;i++){
-    setTimeout(()=>{
-      spawnParticles(
-        window.innerWidth*.15+Math.random()*window.innerWidth*.7,
-        window.innerHeight*.1+Math.random()*window.innerHeight*.55,
-        Math.ceil(Math.random()*9)
-      );
-    },i*200);
-  }
-  // Coins
-  spawnWinCoins();
-  setTimeout(()=>spawnWinCoins(),800);
 
   const loc=ADVENTURE_LOCATIONS[locationId];
   const relicMsg=locationId<25?'The path to the next relic has been revealed!':'You have collected ALL the Lost Relics of Solara!';
