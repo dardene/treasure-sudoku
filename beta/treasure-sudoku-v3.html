@@ -747,6 +747,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- Music toggle button — always visible top-right -->
 <button id="music-toggle-btn" title="Toggle music">🎵</button>
 
+<!-- Gold balance — top-right, left of music button, menu only -->
+<div id="menu-gold-display" style="display:none;position:fixed;top:12px;right:54px;z-index:9999;align-items:center;gap:4px;padding:0 10px;height:34px;background:rgba(20,12,4,.88);border:1px solid rgba(200,155,55,.45);border-radius:20px;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:default;">🪙 <span id="menu-gold-amount">0</span>g</div>
+
 <!-- ═══════════════ ENVIRONMENT — Tropical Beach ═══════════════ -->
 <div id="env">
   <div id="sky"></div>
@@ -2355,10 +2358,10 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 </div>
 
 <!-- Map buttons — outside screen-mapview so they render above the SVG overlay -->
-<button class="ghost-btn back-btn" id="mapview-back" style="display:none;position:fixed;top:auto;bottom:16px;left:14px;z-index:200;pointer-events:all;">← Back</button>
-<button class="ghost-btn back-btn" id="mapview-exit" style="display:none;position:fixed;top:auto;bottom:16px;right:14px;z-index:200;pointer-events:all;">✕ Exit</button>
+<button class="map-page-btn" id="mapview-back" style="display:none;position:fixed;bottom:16px;left:14px;z-index:200;pointer-events:all;">← Back</button>
 <div id="map-page-nav" style="display:none;position:fixed;bottom:16px;right:14px;z-index:200;pointer-events:all;">
   <button class="map-page-btn" id="map-page-next" onclick="changeMapPage(1)">PAGE 2 ▶</button>
+  <button class="map-page-btn" id="mapview-exit" style="display:none;">✕ Exit</button>
 </div>
 
 <!-- ═══════════════ TREASURE MAP INTRO OVERLAY ═══════════════ -->
@@ -3024,6 +3027,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <div class="win-sub">The ancient relics have been restored.</div>
     <div class="win-time" id="win-time-val">0:00</div>
     <div class="win-best" id="win-best-val">✦ New Record! ✦</div>
+    <div id="win-gold-earned" style="display:none;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.12em;margin-bottom:14px;padding:7px 16px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;">🪙 +<span id="win-gold-amount">0</span>g earned</div>
     <button class="gold-btn win-btn" id="win-play-again" style="padding:11px 28px;font-size:12px;">⚔ Play Again ⚔</button>
     <div style="margin-top:10px;"><button class="ghost-btn" id="win-menu" style="padding:8px 18px;font-size:10px;">← Main Menu</button></div>
   </div>
@@ -3080,7 +3084,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     </div>
 
     <div style="font-family:'Cinzel Decorative','Cinzel',serif;font-size:18px;font-weight:900;color:var(--gold);text-shadow:0 0 30px var(--glow-gold);letter-spacing:.1em;margin-bottom:4px;">TREASURE CLAIMED!</div>
-    <div id="dw-diff-sub" style="font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.15em;margin-bottom:14px;opacity:.75;"></div>
+    <div id="dw-diff-sub" style="font-family:'Crimson Pro',serif;font-size:11px;color:var(--stone-light);letter-spacing:.15em;margin-bottom:8px;opacity:.75;"></div>
+    <div id="dw-gold-earned" style="display:none;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.12em;margin-bottom:12px;padding:7px 16px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:10px;">🪙 +<span id="dw-gold-amount">0</span>g earned</div>
 
     <!-- Stats grid — 2×2 + rank -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px;">
@@ -4502,6 +4507,10 @@ function showScreen(id){
   /* Pause SVG animations on map background when not viewing the map */
   try{const mapSvg=document.querySelector('#mapv-bg svg');
   if(mapSvg&&mapSvg.pauseAnimations){id==='screen-map'?mapSvg.unpauseAnimations():mapSvg.pauseAnimations();}}catch(e){}
+  /* Refresh and show/hide gold badge */
+  const _gdEl=document.getElementById('menu-gold-display');
+  const _gaEl=document.getElementById('menu-gold-amount');
+  if(_gdEl){if(id==='screen-menu'){if(_gaEl)_gaEl.textContent=(GAME_STATS.gold||0);_gdEl.style.display='flex';}else{_gdEl.style.display='none';}}
   requestAnimationFrame(()=>{document.getElementById(id).classList.add('active');});
 }
 
@@ -4882,6 +4891,10 @@ function pzCheckWin(){
   const _pzGoldMap={easy:20,medium:30,hard:45,expert:60};
   const _pzGoldEarned=_pzGoldMap[PZ.diff]||20;
   GAME_STATS.gold=(GAME_STATS.gold||0)+_pzGoldEarned;
+  // Show gold earned on win screen
+  const _wgEl=document.getElementById('win-gold-earned');
+  const _wgAmt=document.getElementById('win-gold-amount');
+  if(_wgEl&&_wgAmt){_wgAmt.textContent=_pzGoldEarned;_wgEl.style.display='block';}
   setTimeout(()=>showToast(`🪙 +${_pzGoldEarned} gold earned! Total: ${GAME_STATS.gold}g`,2500),4200);
   const t=PZ.elapsed,m=PZ.mistakes,prev=BEST_TIMES[PZ.diff];
   const isRecord=!prev||t<prev.time;
@@ -5669,6 +5682,13 @@ function dpCheckWin(){
   const _dpGoldBonus=(5-DP.lives===0)?25:0; // 25g bonus for no mistakes (lives never lost)
   const _dpGoldEarned=_dpGoldBase+_dpGoldBonus;
   GAME_STATS.gold=(GAME_STATS.gold||0)+_dpGoldEarned;
+  // Show gold earned on daily win screen
+  const _dwgEl=document.getElementById('dw-gold-earned');
+  const _dwgAmt=document.getElementById('dw-gold-amount');
+  if(_dwgEl&&_dwgAmt){
+    _dwgAmt.textContent=_dpGoldBonus>0?`${_dpGoldBase}+${_dpGoldBonus}`:_dpGoldEarned;
+    _dwgEl.style.display='block';
+  }
   if(_dpGoldBonus>0){
     setTimeout(()=>showToast(`🪙 +${_dpGoldBase}g + ✨${_dpGoldBonus}g no-mistake bonus! Total: ${GAME_STATS.gold}g`,3000),2600);
   } else {
@@ -7198,9 +7218,12 @@ const DEV_MODE_P2=false;
 function changeMapPage(dir){
   _currentMapPage=_currentMapPage===1?2:1;
   const btn=document.getElementById('map-page-next');
-  btn.textContent='PAGE 2 ▶';
-  btn.style.display=_currentMapPage===1?'':'none';
+  btn.style.display=_currentMapPage===1?'inline-block':'none';
+  // Exit button swaps with PAGE 2 button inside same nav container
   document.getElementById('mapview-exit').style.display=_currentMapPage===2?'inline-block':'none';
+  // Back button always visible; label shows context
+  const backBtn=document.getElementById('mapview-back');
+  if(backBtn){backBtn.style.display='inline-block';backBtn.textContent=_currentMapPage===2?'◀ Page 1':'← Back';}
   // Switch background
   const grad='linear-gradient(rgba(10,6,2,.7) 0%,rgba(0,0,0,.15) 12%,rgba(0,0,0,.15) 88%,rgba(10,6,2,.7) 100%)';
   const bg=_currentMapPage===1?'url(\'treasure-map-bg.jpg\') 45% 30%/cover no-repeat':'url(\'treasure-map-bg2.jpg\') center center/cover no-repeat';
@@ -8002,7 +8025,7 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');_currentMapPage=1;document.getElementById('map-page-nav').style.display='block';document.getElementById('mapview-back').style.display='inline-block';document.getElementById('mapview-exit').style.display='none';if(!localStorage.getItem('ts_map_intro_seen')){document.getElementById('map-intro-overlay').classList.add('show');}});});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');_currentMapPage=1;document.getElementById('map-page-nav').style.display='flex';document.getElementById('map-page-next').style.display='inline-block';document.getElementById('mapview-exit').style.display='none';const _mb=document.getElementById('mapview-back');_mb.style.display='inline-block';_mb.textContent='← Back';if(!localStorage.getItem('ts_map_intro_seen')){document.getElementById('map-intro-overlay').classList.add('show');}});});
 document.getElementById('map-intro-start').addEventListener('click',(e)=>{e.stopPropagation();document.getElementById('map-intro-overlay').classList.remove('show');localStorage.setItem('ts_map_intro_seen','1');});
 
 
@@ -8036,9 +8059,9 @@ document.getElementById('vault-back').addEventListener('click',()=>showScreen('s
 })();
 document.getElementById('mapview-back').addEventListener('click',()=>{
   if(_currentMapPage===2){changeMapPage(-1);}
-  else{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';document.getElementById('mapview-exit').style.display='none';showScreen('screen-menu');}
+  else{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';showScreen('screen-menu');}
 });
-document.getElementById('mapview-exit').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';document.getElementById('mapview-exit').style.display='none';showScreen('screen-menu');});
+document.getElementById('mapview-exit').addEventListener('click',()=>{document.getElementById('map-page-nav').style.display='none';document.getElementById('mapview-back').style.display='none';showScreen('screen-menu');});
 document.getElementById('settings-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-back').addEventListener('click',()=>showScreen('screen-menu'));
 document.getElementById('profile-signout-btn').addEventListener('click',()=>sbSignOut());
