@@ -2382,12 +2382,21 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ ADVENTURE JIGSAW OVERLAY ═══════════════ -->
 <div class="adv-jigsaw-overlay" id="adv-jigsaw-overlay">
   <button class="ghost-btn back-btn" id="adv-jigsaw-back">&larr; Back</button>
+  <div class="adv-jig-gold-bar" id="adv-jig-gold-bar">
+    <span class="adv-jig-gold-icon">🪙</span>
+    <span class="adv-jig-gold-amount" id="adv-jig-gold-amount">0</span>
+    <span class="adv-jig-gold-label">gold</span>
+  </div>
   <div class="adv-jig-title" id="adv-jig-title"></div>
   <div class="adv-jig-sub" id="adv-jig-sub"></div>
   <div class="adv-jig-frame">
     <svg id="adv-jig-grid" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
   <div class="adv-jig-tray" id="adv-jig-tray"></div>
+  <div class="adv-jig-recover-wrap" id="adv-jig-recover-wrap">
+    <div class="adv-jig-recover-usage" id="adv-jig-recover-usage">Fragments recovered today: 0 / 3</div>
+    <button class="adv-jig-recover-btn" id="adv-jig-recover-btn" onclick="recoverFragment()">🪙 Recover Fragment — 50g</button>
+  </div>
 </div>
 
 <!-- ═══════════════ MAP CHEST OVERLAY ═══════════════ -->
@@ -3433,6 +3442,35 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 @keyframes advShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(3px)}}
 .adv-jig-shake{animation:advShake .35s ease;}
 
+/* Gold bar in jigsaw overlay */
+.adv-jig-gold-bar{position:absolute;top:12px;right:14px;display:flex;align-items:center;gap:5px;background:rgba(20,12,2,.72);border:1px solid rgba(200,160,50,.45);border-radius:20px;padding:5px 12px;z-index:3;}
+.adv-jig-gold-icon{font-size:14px;line-height:1;}
+.adv-jig-gold-amount{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gold);text-shadow:0 0 8px var(--glow-gold);}
+.adv-jig-gold-label{font-family:'Crimson Pro',serif;font-size:10px;color:rgba(200,170,90,.7);letter-spacing:.08em;}
+
+/* Recover Fragment section */
+.adv-jig-recover-wrap{display:flex;flex-direction:column;align-items:center;gap:7px;margin-top:10px;padding:10px 16px;background:rgba(12,7,2,.55);border:1px solid rgba(160,110,40,.3);border-radius:14px;max-width:340px;width:100%;}
+.adv-jig-recover-usage{font-family:'Crimson Pro',serif;font-size:11px;color:rgba(200,160,90,.7);letter-spacing:.1em;text-align:center;}
+.adv-jig-recover-btn{padding:10px 22px;border-radius:12px;background:linear-gradient(135deg,rgba(90,60,10,.95),rgba(140,95,15,.95));border:1.5px solid rgba(200,160,50,.6);color:var(--gold-light);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.4);}
+.adv-jig-recover-btn:hover{box-shadow:0 0 18px rgba(245,200,66,.35);border-color:var(--gold);}
+.adv-jig-recover-btn:active{transform:scale(.97);}
+
+/* Coin fly animation */
+@keyframes coinFly{
+  0%{transform:translate(0,0) scale(1);opacity:1;}
+  60%{opacity:1;}
+  100%{transform:translate(var(--coin-dx),var(--coin-dy)) scale(.4);opacity:0;}
+}
+.coin-fly{position:fixed;z-index:9999;pointer-events:none;font-size:18px;animation:coinFly .7s cubic-bezier(.4,0,.6,1) forwards;}
+
+/* Piece glow pulse after purchase */
+@keyframes pieceGlow{
+  0%,100%{filter:brightness(.75);}
+  40%{filter:brightness(1.1) drop-shadow(0 0 10px rgba(245,200,66,.85)) drop-shadow(0 0 20px rgba(245,200,66,.5));}
+}
+.adv-jig-piece.gold-glow{animation:pieceGlow 1.5s ease-in-out;}
+
+
 /* ══ LEGENDARY UNLOCK OVERLAY ══ */
 #legendary-unlock-overlay{position:fixed;inset:0;z-index:510;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.9);backdrop-filter:blur(12px);}
 #legendary-unlock-overlay.show{display:flex;}
@@ -4447,9 +4485,12 @@ function loadState(){
   if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=1;
   if(!GAME_STATS.adventureCompleted) GAME_STATS.adventureCompleted=[];
   if(!GAME_STATS.adventurePlacedPieces) GAME_STATS.adventurePlacedPieces={};
+  if(GAME_STATS.gold===undefined) GAME_STATS.gold=0;
+  if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
+  if(!GAME_STATS.goldPiecesDate) GAME_STATS.goldPiecesDate='';
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{}};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:''};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -4837,6 +4878,11 @@ function pzCheckWin(){
   playWinChime();
   clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;
   if(GAME_STATS.puzzleWinsByDiff)GAME_STATS.puzzleWinsByDiff[PZ.diff]=(GAME_STATS.puzzleWinsByDiff[PZ.diff]||0)+1;
+  // Gold reward for Relax Mode
+  const _pzGoldMap={easy:20,medium:30,hard:45,expert:60};
+  const _pzGoldEarned=_pzGoldMap[PZ.diff]||20;
+  GAME_STATS.gold=(GAME_STATS.gold||0)+_pzGoldEarned;
+  setTimeout(()=>showToast(`🪙 +${_pzGoldEarned} gold earned! Total: ${GAME_STATS.gold}g`,2500),4200);
   const t=PZ.elapsed,m=PZ.mistakes,prev=BEST_TIMES[PZ.diff];
   const isRecord=!prev||t<prev.time;
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
@@ -5618,6 +5664,16 @@ function dpCheckWin(){
   if(_isNewBest) DAILY_SCORES[DP.dateStr]={score:DP.score,time:DP.elapsed,mistakes:5-DP.lives};
   if(!DP.isReplay){dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;}
   GAME_STATS.dailyTotalScore+=DP.score;
+  // Gold reward for Daily Puzzle
+  const _dpGoldBase=50;
+  const _dpGoldBonus=(5-DP.lives===0)?25:0; // 25g bonus for no mistakes (lives never lost)
+  const _dpGoldEarned=_dpGoldBase+_dpGoldBonus;
+  GAME_STATS.gold=(GAME_STATS.gold||0)+_dpGoldEarned;
+  if(_dpGoldBonus>0){
+    setTimeout(()=>showToast(`🪙 +${_dpGoldBase}g + ✨${_dpGoldBonus}g no-mistake bonus! Total: ${GAME_STATS.gold}g`,3000),2600);
+  } else {
+    setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold earned! Total: ${GAME_STATS.gold}g`,2500),2600);
+  }
   saveState();spawnWinCoins();
   showAchievement(DP.isReplay?'🔄 REPLAY COMPLETE!':'🏆 PUZZLE COMPLETE! +1500!');
   if(DP.isReplay&&_isNewBest)setTimeout(()=>showAchievement('📈 New Best Score!'),1400);
@@ -7495,8 +7551,154 @@ function openAdvJigsaw(locationId){
     ? 'rgb(4,2,10) '+locBg+' '+(LOC_POS[locationId]||'center center')+'/cover no-repeat'
     : 'rgb(4,2,10)';
 
+  // Refresh gold display and recover button
+  _advJigRefreshGoldUI(locationId);
+
   // Show overlay
   overlay.classList.add('show');
+}
+
+/* ── Refresh gold bar and recover UI in jigsaw overlay ── */
+function _advJigRefreshGoldUI(locationId){
+  // Gold amount
+  const goldEl=document.getElementById('adv-jig-gold-amount');
+  if(goldEl) goldEl.textContent=(GAME_STATS.gold||0).toLocaleString();
+
+  // Daily usage reset check
+  const today=new Date().toISOString().slice(0,10); // YYYY-MM-DD
+  if(GAME_STATS.goldPiecesDate!==today){
+    GAME_STATS.goldPiecesUsedToday=0;
+    GAME_STATS.goldPiecesDate=today;
+  }
+  const used=GAME_STATS.goldPiecesUsedToday||0;
+  const costs=[50,75,100];
+  const nextCost=used<3?costs[used]:null;
+
+  // Usage label
+  const usageEl=document.getElementById('adv-jig-recover-usage');
+  if(usageEl) usageEl.textContent=`Fragments recovered today: ${used} / 3`;
+
+  // Button label & visibility
+  const btn=document.getElementById('adv-jig-recover-btn');
+  if(btn){
+    if(used>=3){
+      btn.textContent='🪙 Recover Fragment — Limit Reached';
+      btn.disabled=true;
+      btn.style.opacity='.4';
+    } else {
+      btn.textContent=`🪙 Recover Fragment — ${nextCost}g`;
+      btn.disabled=false;
+      btn.style.opacity='';
+    }
+    // Store current locationId on button for the handler
+    btn.dataset.locId=locationId;
+  }
+
+  // Hide recover section if all pieces already placed
+  const loc=ADVENTURE_LOCATIONS[locationId];
+  const placed=GAME_STATS.adventurePlacedPieces[locationId]||[];
+  const totalPieces=(loc.gridCols*loc.gridRows);
+  const wrap=document.getElementById('adv-jig-recover-wrap');
+  if(wrap) wrap.style.display=(placed.length>=totalPieces)?'none':'flex';
+}
+
+/* ── Recover a Lost Fragment (gold purchase) ── */
+function recoverFragment(){
+  const btn=document.getElementById('adv-jig-recover-btn');
+  const locationId=parseInt(btn?.dataset.locId||'0');
+  if(!locationId) return;
+
+  const today=new Date().toISOString().slice(0,10);
+  if(GAME_STATS.goldPiecesDate!==today){
+    GAME_STATS.goldPiecesUsedToday=0;
+    GAME_STATS.goldPiecesDate=today;
+  }
+
+  const used=GAME_STATS.goldPiecesUsedToday||0;
+  if(used>=3){
+    showToast('⚓ You\'ve recovered enough fragments for today. Return tomorrow!',3000);
+    return;
+  }
+
+  const costs=[50,75,100];
+  const cost=costs[used];
+  const currentGold=GAME_STATS.gold||0;
+
+  if(currentGold<cost){
+    showToast('💰 Not enough gold. Complete more puzzles to earn gold!',3000);
+    return;
+  }
+
+  // Find an unplaced piece to give the player
+  const loc=ADVENTURE_LOCATIONS[locationId];
+  if(!loc) return;
+  const totalPieces=loc.gridCols*loc.gridRows;
+  const placed=GAME_STATS.adventurePlacedPieces[locationId]||[];
+  const unplaced=[];
+  for(let i=1;i<=totalPieces;i++){if(!placed.includes(i))unplaced.push(i);}
+  if(unplaced.length===0){showToast('All pieces are already placed!',2000);return;}
+
+  // Pick a random unplaced piece
+  const chosenPiece=unplaced[Math.floor(Math.random()*unplaced.length)];
+
+  // Deduct gold and track usage
+  GAME_STATS.gold=currentGold-cost;
+  GAME_STATS.goldPiecesUsedToday=(used+1);
+  GAME_STATS.goldPiecesDate=today;
+
+  // Place the piece
+  if(!GAME_STATS.adventurePlacedPieces[locationId]) GAME_STATS.adventurePlacedPieces[locationId]=[];
+  GAME_STATS.adventurePlacedPieces[locationId].push(chosenPiece);
+  saveState();
+
+  showToast(`✨ Lost fragment recovered! (${cost}g spent)`,2800);
+
+  // Coin fly animation from gold bar to grid
+  _spawnCoinFly();
+
+  // Re-render jigsaw (will show the new piece)
+  openAdvJigsaw(locationId);
+
+  // After re-render, apply glow to the newly placed piece slot
+  setTimeout(()=>{
+    const grid=document.getElementById('adv-jig-grid');
+    if(!grid) return;
+    // Find the tray piece elements and apply glow class to the rendered tray item
+    // Actually the piece is now in the grid as a placed piece — highlight by briefly adding a filter to the grid
+    const goldBar=document.getElementById('adv-jig-gold-bar');
+    if(goldBar){
+      goldBar.style.transition='box-shadow .2s';
+      goldBar.style.boxShadow='0 0 18px rgba(245,200,66,.8)';
+      setTimeout(()=>{goldBar.style.boxShadow='';},1500);
+    }
+    // Pulse the whole grid briefly to signal placement
+    grid.style.transition='filter 1.5s';
+    grid.style.filter='drop-shadow(0 0 14px rgba(245,200,66,.7))';
+    setTimeout(()=>{grid.style.filter='';},1500);
+  },350);
+}
+
+/* ── Coin fly animation helper ── */
+function _spawnCoinFly(){
+  const goldBar=document.getElementById('adv-jig-gold-bar');
+  const grid=document.getElementById('adv-jig-grid');
+  if(!goldBar||!grid) return;
+  const src=goldBar.getBoundingClientRect();
+  const dst=grid.getBoundingClientRect();
+  const startX=src.left+src.width/2;
+  const startY=src.top+src.height/2;
+  const endX=dst.left+dst.width/2;
+  const endY=dst.top+dst.height/2;
+  const count=6;
+  for(let i=0;i<count;i++){
+    const coin=document.createElement('div');
+    coin.className='coin-fly';
+    coin.textContent='🪙';
+    const scatter=(Math.random()-.5)*40;
+    coin.style.cssText=`left:${startX+scatter}px;top:${startY}px;--coin-dx:${endX-startX+scatter}px;--coin-dy:${endY-startY}px;animation-delay:${i*70}ms;`;
+    document.body.appendChild(coin);
+    setTimeout(()=>coin.remove(),900+i*70);
+  }
 }
 
 /* ── Drag & Drop for Adventure Jigsaw ── */
