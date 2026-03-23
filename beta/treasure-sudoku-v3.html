@@ -1872,6 +1872,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <span class="dpb-desc">Master of relics</span>
       </button>
     </div>
+    <div style="display:flex;justify-content:flex-start;margin-top:14px;">
+      <button id="diff-picker-back" class="ghost-btn back-btn" style="font-size:11px;padding:7px 16px;">← Back</button>
+    </div>
   </div>
 </div>
 
@@ -7962,6 +7965,11 @@ document.getElementById('dw-leaderboard').addEventListener('click',()=>{document
 document.getElementById('dw-menu').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';showScreen('screen-menu');});
 document.getElementById('dw-share').addEventListener('click',shareDailyResults);
 
+// Difficulty picker — back button returns to menu
+document.getElementById('diff-picker-back').addEventListener('click',()=>{
+  document.getElementById('diff-picker').classList.remove('show');
+  showScreen('screen-menu');
+});
 // Artifact picker — close when clicking outside
 document.getElementById('artifact-picker').addEventListener('click',function(e){if(e.target===this){this.style.display='none';}});
 // Artifact picker — back button returns to difficulty picker
