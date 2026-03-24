@@ -2012,8 +2012,9 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="vault-section-title">📜 Relax Mode Records</div>
       <div class="vault-records" id="vault-records"></div>
     </div>
+    <div id="vault-total-relics" style="text-align:center;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.15em;color:var(--gold);margin:8px 0 16px;opacity:.8;"></div>
     <div class="vault-section">
-      <div class="vault-section-title">⚡ Legendary Relics<span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
+      <div class="vault-section-title">⚡ Legendary Relics <span id="vault-jigsaw-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
       <div class="jigsaw-collection" id="vault-jigsaw"></div>
     </div>
     <div class="vault-section">
@@ -7232,6 +7233,13 @@ function renderVault(){
   updateMapProgressBar();
   renderJigsawVault();
   renderAncientVault();
+  // Update total relic count
+  const _totalEl=document.getElementById('vault-total-relics');
+  if(_totalEl){
+    const _ancient=(GAME_STATS.ancientRelics||[]).length;
+    const _legendary=(GAME_STATS.jigsawArtifacts||[]).length;
+    _totalEl.textContent=`${_ancient+_legendary} / 100 Relics Discovered`;
+  }
 }
 
 /* ══════════════════════════════════════════════════════
