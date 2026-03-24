@@ -471,8 +471,8 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 #win-chest-wrap:hover{filter:drop-shadow(0 0 48px rgba(255,228,80,.92))!important;}
 @keyframes wChestPop{from{transform:scale(0) rotate(-8deg);opacity:0}65%{transform:scale(1.12) rotate(2deg)}to{transform:scale(1) rotate(0deg);opacity:1}}
 @keyframes wChestWiggle{0%,100%{transform:rotate(0deg) translateY(0)}25%{transform:rotate(-2.5deg) translateY(-3px)}75%{transform:rotate(2.5deg) translateY(-3px)}}
-.win-lid-group{transform-origin:50% 100%;transform-box:fill-box;transition:transform .58s cubic-bezier(.34,1.56,.64,1);}
-#win-chest-wrap.opened .win-lid-group{transform:rotate(-118deg);}
+.win-lid-group{transform-origin:50% 100%;transform-box:fill-box;transition:transform .9s cubic-bezier(.16,1.4,.5,1);}
+#win-chest-wrap.opened .win-lid-group{transform:rotate(-110deg);}
 #wc-inner-glow{opacity:0;transition:opacity .45s .15s;}
 #win-chest-wrap.opened #wc-inner-glow{opacity:1;}
 #win-tap-hint{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.3em;color:var(--gold);margin-top:22px;animation:tapPulse 1.5s ease-in-out infinite;}
@@ -483,11 +483,16 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 /* ══ CHEST REWARD SEQUENCE — ANIMATIONS ══ */
 @keyframes chestBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
 @keyframes chestGlowPulse{0%,100%{opacity:var(--glow-lo,.3)}50%{opacity:var(--glow-hi,.7)}}
-@keyframes chestTapSquash{0%{transform:scale(1,1)}30%{transform:scale(.92,1.06)}60%{transform:scale(1.05,.96)}100%{transform:scale(1,1)}}
-@keyframes chestShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
-@keyframes chestAnticipate{0%{transform:scale(1)}60%{transform:scale(1.04)}100%{transform:scale(1.02)}}
+/* Squash down — anticipation crouch */
+@keyframes chestSquash{0%{transform:scale(1,1) translateY(0)}100%{transform:scale(1.08,.88) translateY(8px)}}
+/* Stretch + jump upward */
+@keyframes chestJump{0%{transform:scale(1.08,.88) translateY(8px)}25%{transform:scale(.9,1.15) translateY(-35px)}50%{transform:scale(.95,1.08) translateY(-30px)}100%{transform:scale(.95,1.08) translateY(-30px)}}
+/* Settle bounce back down */
+@keyframes chestSettle{0%{transform:scale(.95,1.08) translateY(-30px)}30%{transform:scale(1.06,.94) translateY(5px)}55%{transform:scale(.98,1.03) translateY(-4px)}75%{transform:scale(1.02,.99) translateY(2px)}100%{transform:scale(1,1) translateY(0)}}
+/* Shake with increasing intensity */
+@keyframes chestShake{0%,100%{transform:scale(1.08,.88) translateX(0) translateY(8px)}15%{transform:scale(1.08,.88) translateX(-3px) translateY(8px)}30%{transform:scale(1.08,.88) translateX(4px) translateY(8px)}45%{transform:scale(1.08,.88) translateX(-4px) translateY(8px)}60%{transform:scale(1.08,.88) translateX(5px) translateY(8px)}75%{transform:scale(1.08,.88) translateX(-3px) translateY(8px)}90%{transform:scale(1.08,.88) translateX(2px) translateY(8px)}}
 @keyframes lightBurst{0%{transform:scale(0);opacity:.9}40%{opacity:1}100%{transform:scale(3.5);opacity:0}}
-@keyframes goldFloatUp{0%{transform:translateY(0) scale(.8);opacity:0}15%{opacity:1;transform:translateY(-8px) scale(1)}60%{opacity:1;transform:translateY(-40px) scale(1)}100%{transform:translateY(-80px) scale(1);opacity:0}}
+@keyframes goldFloatUp{0%{transform:translateY(20px) scale(.7);opacity:0}25%{opacity:1;transform:translateY(-5px) scale(1.05)}40%{transform:translateY(0) scale(1)}100%{transform:translateY(0) scale(1);opacity:1}}
 @keyframes relicBeamUp{0%{transform:translateY(40px) scale(.5) rotate(0deg);opacity:0}30%{opacity:1}100%{transform:translateY(0) scale(1) rotate(360deg);opacity:1}}
 @keyframes relicBeamGlow{0%{height:0;opacity:0}30%{opacity:1}100%{height:120px;opacity:.8}}
 @keyframes rewardDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -500,12 +505,9 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 /* Light burst overlay */
 #win-light-burst{position:fixed;inset:0;z-index:350;pointer-events:none;display:none;background:radial-gradient(circle at 50% 45%,rgba(255,230,100,.95) 0%,rgba(255,200,50,.6) 20%,rgba(255,180,30,.2) 40%,transparent 65%);}
 #win-light-burst.active{display:block;animation:lightBurst .6s ease-out forwards;}
-/* Reward display container */
-#win-reward-display{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:360;text-align:center;display:none;}
-#win-reward-display.show{display:block;}
 /* Floating gold text */
-#win-gold-float{font-family:'Cinzel',serif;font-weight:900;letter-spacing:.15em;text-shadow:0 2px 8px rgba(0,0,0,.6),0 0 20px var(--burst-color,rgba(255,200,50,.6));color:#fff8e0;opacity:0;}
-#win-gold-float.animate{animation:goldFloatUp 2.8s ease-out forwards;}
+#win-gold-float{font-family:'Cinzel',serif;font-weight:900;letter-spacing:.15em;text-shadow:0 2px 8px rgba(0,0,0,.6),0 0 20px var(--burst-color,rgba(255,200,50,.6));color:#fff8e0;display:none;margin-bottom:12px;}
+#win-gold-float.animate{animation:goldFloatUp 1.6s cubic-bezier(.34,1.56,.64,1) forwards;}
 /* Relic reveal */
 #win-relic-reveal{margin-top:12px;display:none;flex-direction:column;align-items:center;}
 #win-relic-reveal.show{display:flex;}
@@ -3187,14 +3189,12 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         </g>
       </svg>
     </div>
+    <div id="win-gold-float"></div>
     <div id="win-tap-hint">✦ TAP TO OPEN ✦</div>
-    <div id="win-reward-display">
-      <div id="win-gold-float"></div>
-      <div id="win-relic-reveal">
-        <div id="win-relic-beam"></div>
-        <div id="win-relic-icon"></div>
-        <div id="win-relic-label">ANCIENT RELIC DISCOVERED</div>
-      </div>
+    <div id="win-relic-reveal">
+      <div id="win-relic-beam"></div>
+      <div id="win-relic-icon"></div>
+      <div id="win-relic-label">ANCIENT RELIC DISCOVERED</div>
     </div>
     <div id="win-continue-hint">✦ TAP TO CONTINUE ✦</div>
   </div>
@@ -5320,7 +5320,6 @@ function chestReset(){
   const p1=document.getElementById('win-phase1');
   const p2=document.getElementById('win-phase2');
   const burst=document.getElementById('win-light-burst');
-  const reward=document.getElementById('win-reward-display');
   const goldFloat=document.getElementById('win-gold-float');
   const relicReveal=document.getElementById('win-relic-reveal');
   const continueHint=document.getElementById('win-continue-hint');
@@ -5331,8 +5330,7 @@ function chestReset(){
   p1.className='';
   p2.classList.remove('show');p2.style.display='none';
   burst.classList.remove('active');burst.style.display='none';
-  reward.classList.remove('show');reward.style.display='none';
-  goldFloat.classList.remove('animate');goldFloat.textContent='';
+  goldFloat.classList.remove('animate');goldFloat.textContent='';goldFloat.style.display='none';
   relicReveal.classList.remove('show');
   document.getElementById('win-relic-beam').classList.remove('animate');
   document.getElementById('win-relic-icon').classList.remove('animate');
@@ -5456,7 +5454,6 @@ function chestAdvancePhase(){
   const p1=document.getElementById('win-phase1');
   const p2=document.getElementById('win-phase2');
   const burst=document.getElementById('win-light-burst');
-  const reward=document.getElementById('win-reward-display');
   const goldFloat=document.getElementById('win-gold-float');
   const relicReveal=document.getElementById('win-relic-reveal');
   const tapHint=document.getElementById('win-tap-hint');
@@ -5465,43 +5462,49 @@ function chestAdvancePhase(){
 
   switch(CHEST_SEQ.phase){
     case'idle':
-      // Phase: Tapped — squash bounce + thud
+      // Phase: Tapped — squash down (anticipation crouch)
       CHEST_SEQ.phase='tapped';
       playChestThud();
-      wrap.style.animation='chestTapSquash .3s ease';
       if(CHEST_SEQ.sparkleInterval){clearInterval(CHEST_SEQ.sparkleInterval);CHEST_SEQ.sparkleInterval=null;}
       tapHint.style.display='none';
-      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),300));
+      wrap.style.animation='chestSquash .25s ease-out forwards';
+      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),250));
       break;
 
     case'tapped':
-      // Phase: Anticipation — shake + glow ramp
+      // Phase: Anticipation — hold squash + shake with tension
       CHEST_SEQ.phase='anticipate';
       playChestTension();
       const shakeIter=parseInt(getComputedStyle(p1).getPropertyValue('--shake-iter'))||2;
-      wrap.style.animation=`chestShake .4s ease ${shakeIter}`;
+      wrap.style.animation=`chestShake .35s ease-in-out ${shakeIter}`;
       const glow=document.getElementById('win-chest-glow');
-      if(glow)glow.style.transition='opacity .8s';
-      if(glow)glow.style.opacity=getComputedStyle(p1).getPropertyValue('--glow-hi')||'.9';
-      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),.4*shakeIter*1000+100));
+      if(glow){glow.style.transition='opacity .6s';glow.style.opacity=getComputedStyle(p1).getPropertyValue('--glow-hi')||'.9';}
+      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),.35*shakeIter*1000+50));
       break;
 
     case'anticipate':
-      // Phase: Burst — lid opens + light + particles
+      // Phase: Burst — jump up, lid opens dramatically, settle bounce
       CHEST_SEQ.phase='burst';
-      wrap.style.animation='';
-      // Open the lid with CSS transition
-      wrap.classList.add('opened');
-      playWinChime();
-      // Light burst (slightly delayed to sync with lid opening)
+      // Jump upward with stretch
+      wrap.style.animation='chestJump .4s cubic-bezier(.2,.8,.3,1) forwards';
       CHEST_SEQ.timers.push(setTimeout(()=>{
+        // At peak of jump — open lid + light burst + particles
+        wrap.classList.add('opened');
+        playWinChime();
         burst.style.display='block';
         burst.classList.add('active');
         setTimeout(()=>{burst.classList.remove('active');burst.style.display='none';},700);
-      },300));
-      // Particle explosion
-      CHEST_SEQ.timers.push(setTimeout(()=>spawnBurstParticles(tier),200));
-      // Spawn artifact coins (scaled by tier)
+        spawnBurstParticles(tier);
+        // Spawn particles from chest center
+        const r=wrap.getBoundingClientRect();
+        spawnParticles(r.left+r.width/2,r.top+r.height*.4,9,12);
+        setTimeout(()=>spawnParticles(r.left+r.width/2,r.top+r.height*.3,6,8),200);
+      },350));
+      // Settle bounce after jump
+      CHEST_SEQ.timers.push(setTimeout(()=>{
+        wrap.style.animation='chestSettle .6s cubic-bezier(.34,1.56,.64,1) forwards';
+      },800));
+      // Spawn artifact coins after settle starts
       CHEST_SEQ.timers.push(setTimeout(()=>{
         const coinCount=tier==='gold'?(CHEST_SEQ.isPerfect?72:50):tier==='silver'?35:tier==='bronze'?20:10;
         for(let i=0;i<coinCount;i++){
@@ -5509,32 +5512,32 @@ function chestAdvancePhase(){
           const val=Math.ceil(Math.random()*9);cc.innerHTML=ARTIFACTS.svg(val);
           const x=(Math.random()-.5)*window.innerWidth*.9;
           const y=-window.innerHeight*.4-Math.random()*140;
-          const dur=1.8+Math.random()*2.5;const delay=i*.06;
+          const dur=1.8+Math.random()*2.5;const delay=i*.055;
           cc.style.cssText=`left:${window.innerWidth/2-10}px;top:${window.innerHeight/2}px;width:20px;height:20px;--cx:${x}px;--cy:${y}px;--cdx:${(Math.random()-.5)*130}px;--cf-dur:${dur}s;--cf-delay:${delay}s;`;
           document.getElementById('particles').appendChild(cc);
           setTimeout(()=>cc.remove(),(dur+delay+.5)*1000);
         }
-      },400));
-      // Advance to reveal after lid opens + effects settle
-      CHEST_SEQ.timers.push(setTimeout(()=>{if(CHEST_SEQ.phase==='burst')chestAdvancePhase();},2200));
+      },500));
+      // Advance to reveal after settle completes
+      CHEST_SEQ.timers.push(setTimeout(()=>{if(CHEST_SEQ.phase==='burst')chestAdvancePhase();},2000));
       break;
 
     case'burst':
       // Phase: Reveal — gold floats up, relic rises
       CHEST_SEQ.phase='reveal';
-      reward.style.display='block';
-      reward.classList.add('show');
       if(CHEST_SEQ.goldEarned>0){
         const size=getComputedStyle(p1).getPropertyValue('--gold-size')||'28px';
         goldFloat.style.fontSize=size;
+        goldFloat.style.display='block';
         const perfectLabel=CHEST_SEQ.isPerfect?' ✨':'';
         goldFloat.textContent=`+${CHEST_SEQ.goldEarned} Gold${perfectLabel}`;
         goldFloat.classList.add('animate');
-        if(CHEST_SEQ.isPerfect)goldFloat.style.animation='goldFloatUp 2.8s ease-out forwards, perfectPulse 1s ease-in-out .2s 2';
+        if(CHEST_SEQ.isPerfect)goldFloat.style.animation='goldFloatUp 1.6s cubic-bezier(.34,1.56,.64,1) forwards, perfectPulse 1s ease-in-out .5s infinite';
         try{SOUNDS.play(6);}catch(e){}
       } else {
         goldFloat.textContent='No rewards earned';
         goldFloat.style.fontSize='18px';
+        goldFloat.style.display='block';
         goldFloat.classList.add('animate');
       }
       // Relic reveal
