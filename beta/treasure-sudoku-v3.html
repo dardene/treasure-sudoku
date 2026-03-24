@@ -688,7 +688,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 #howto-overlay{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:url('map-bg.jpeg') center center/cover no-repeat;}
 #howto-overlay::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45);pointer-events:none;}
 #howto-overlay.show{display:flex;}
-.howto-panel{position:relative;z-index:1;width:min(92vw,420px);background:linear-gradient(160deg,rgba(18,10,3,.98),rgba(32,20,6,.98));border:1px solid rgba(180,140,60,.5);border-radius:24px;padding:32px 28px 28px;box-shadow:0 0 80px rgba(0,0,0,.9),0 0 40px rgba(140,100,20,.15);overflow:hidden;}
+.howto-panel{position:relative;z-index:1;width:min(92vw,420px);max-height:min(88vh,88dvh);background:linear-gradient(160deg,rgba(18,10,3,.98),rgba(32,20,6,.98));border:1px solid rgba(180,140,60,.5);border-radius:24px;padding:32px 28px 28px;box-shadow:0 0 80px rgba(0,0,0,.9),0 0 40px rgba(140,100,20,.15);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 .howto-panel::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,150,30,.08),transparent 70%);pointer-events:none;}
 .howto-skip{position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(180,140,70,.45);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;cursor:pointer;padding:4px 8px;}
 .howto-skip:hover{color:rgba(200,160,90,.75);}
