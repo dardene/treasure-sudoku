@@ -480,6 +480,57 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 #win-phase2{display:none;}
 #win-phase2.show{display:block;animation:wfu .4s ease both;}
 
+/* ══ CHEST REWARD SEQUENCE — ANIMATIONS ══ */
+@keyframes chestBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+@keyframes chestGlowPulse{0%,100%{opacity:var(--glow-lo,.3)}50%{opacity:var(--glow-hi,.7)}}
+@keyframes chestTapSquash{0%{transform:scale(1,1)}30%{transform:scale(.92,1.06)}60%{transform:scale(1.05,.96)}100%{transform:scale(1,1)}}
+@keyframes chestShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-3px)}40%{transform:translateX(3px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
+@keyframes chestAnticipate{0%{transform:scale(1)}60%{transform:scale(1.04)}100%{transform:scale(1.02)}}
+@keyframes lightBurst{0%{transform:scale(0);opacity:.9}40%{opacity:1}100%{transform:scale(3.5);opacity:0}}
+@keyframes goldFloatUp{0%{transform:translateY(0) scale(.8);opacity:0}20%{opacity:1;transform:translateY(-10px) scale(1)}100%{transform:translateY(-70px) scale(1);opacity:0}}
+@keyframes relicBeamUp{0%{transform:translateY(40px) scale(.5) rotate(0deg);opacity:0}30%{opacity:1}100%{transform:translateY(0) scale(1) rotate(360deg);opacity:1}}
+@keyframes relicBeamGlow{0%{height:0;opacity:0}30%{opacity:1}100%{height:120px;opacity:.8}}
+@keyframes rewardDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes flyToCounter{0%{transform:translate(0,0) scale(1);opacity:1}80%{opacity:.8}100%{transform:translate(var(--fly-x,0),var(--fly-y,-200px)) scale(.3);opacity:0}}
+@keyframes sparkleFloat{0%{transform:translateY(0) scale(0);opacity:0}20%{opacity:1;transform:translateY(-5px) scale(1)}100%{transform:translateY(calc(-30px - var(--sp-extra,0px))) scale(0);opacity:0}}
+@keyframes perfectPulse{0%,100%{text-shadow:0 0 10px rgba(255,220,70,.4)}50%{text-shadow:0 0 30px rgba(255,220,70,.9),0 0 60px rgba(255,180,30,.4)}}
+
+/* Chest glow element (behind video) */
+#win-chest-glow{position:absolute;width:320px;height:240px;border-radius:50%;pointer-events:none;z-index:-1;animation:chestGlowPulse 2s ease-in-out infinite;will-change:opacity;}
+/* Light burst overlay */
+#win-light-burst{position:fixed;inset:0;z-index:350;pointer-events:none;display:none;background:radial-gradient(circle at 50% 45%,rgba(255,230,100,.95) 0%,rgba(255,200,50,.6) 20%,rgba(255,180,30,.2) 40%,transparent 65%);}
+#win-light-burst.active{display:block;animation:lightBurst .6s ease-out forwards;}
+/* Reward display container */
+#win-reward-display{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:360;text-align:center;display:none;}
+#win-reward-display.show{display:block;}
+/* Floating gold text */
+#win-gold-float{font-family:'Cinzel',serif;font-weight:900;letter-spacing:.15em;text-shadow:0 2px 8px rgba(0,0,0,.6),0 0 20px var(--burst-color,rgba(255,200,50,.6));color:#fff8e0;opacity:0;}
+#win-gold-float.animate{animation:goldFloatUp 1.8s ease-out forwards;}
+/* Relic reveal */
+#win-relic-reveal{margin-top:12px;display:none;flex-direction:column;align-items:center;}
+#win-relic-reveal.show{display:flex;}
+#win-relic-beam{width:4px;height:0;background:linear-gradient(to top,transparent,rgba(255,220,80,.9),transparent);border-radius:2px;margin:0 auto;}
+#win-relic-beam.animate{animation:relicBeamGlow 1s ease-out forwards;}
+#win-relic-icon{opacity:0;}
+#win-relic-icon.animate{animation:relicBeamUp 1s cubic-bezier(.34,1.56,.64,1) forwards;}
+#win-relic-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--gold);margin-top:8px;opacity:0;transition:opacity .5s;}
+/* Celebrate continue hint */
+#win-continue-hint{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.25em;color:rgba(200,160,80,.5);margin-top:24px;display:none;}
+#win-continue-hint.show{display:block;animation:tapPulse 1.5s ease-in-out infinite;}
+/* Idle sparkle particles */
+.chest-sparkle{position:absolute;width:4px;height:4px;border-radius:50%;pointer-events:none;animation:sparkleFloat var(--sp-dur,1s) ease-out forwards;}
+
+/* ── TIER INTENSITY CLASSES ── */
+.tier-gold #win-chest-glow{background:radial-gradient(circle,rgba(255,200,50,.8) 0%,rgba(255,180,30,.3) 40%,transparent 70%);--glow-lo:.5;--glow-hi:.9;}
+.tier-gold{--burst-color:rgba(255,200,50,.8);--burst-count:50;--shake-iter:3;--gold-size:36px;--sparkle-rate:300;}
+.tier-gold.perfect{--burst-count:65;--glow-hi:1;--gold-size:42px;--sparkle-rate:200;}
+.tier-silver #win-chest-glow{background:radial-gradient(circle,rgba(200,210,230,.6) 0%,rgba(180,190,220,.2) 40%,transparent 70%);--glow-lo:.3;--glow-hi:.65;}
+.tier-silver{--burst-color:rgba(200,210,230,.7);--burst-count:35;--shake-iter:2;--gold-size:28px;--sparkle-rate:500;}
+.tier-bronze #win-chest-glow{background:radial-gradient(circle,rgba(180,120,60,.4) 0%,rgba(160,100,40,.15) 40%,transparent 70%);--glow-lo:.15;--glow-hi:.4;}
+.tier-bronze{--burst-color:rgba(180,120,60,.5);--burst-count:20;--shake-iter:1;--gold-size:24px;--sparkle-rate:800;}
+.tier-none #win-chest-glow{background:radial-gradient(circle,rgba(100,80,50,.25) 0%,transparent 50%);--glow-lo:.1;--glow-hi:.25;}
+.tier-none{--burst-color:rgba(100,80,50,.3);--burst-count:12;--shake-iter:1;--gold-size:22px;--sparkle-rate:1200;}
+
 /* ══════════════ BATTLE MODE ══════════════ */
 
 .battle-layout{width:100%;max-width:660px;display:flex;flex-direction:column;align-items:center;gap:6px;}
@@ -2986,8 +3037,14 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
   <!-- ── Phase 1: Treasure chest to tap ── -->
   <div id="win-phase1">
-    <div id="win-chest-wrap">
-      <svg width="178" height="162" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible"><defs><linearGradient id="wcw" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8b5e2a"/><stop offset="18%" stop-color="#7a4f20"/><stop offset="40%" stop-color="#6b4218"/><stop offset="65%" stop-color="#5a3610"/><stop offset="100%" stop-color="#3e2408"/></linearGradient><linearGradient id="wcl" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#9a6430"/><stop offset="35%" stop-color="#7a4e20"/><stop offset="70%" stop-color="#5c3a12"/><stop offset="100%" stop-color="#4a2e0c"/></linearGradient><linearGradient id="wcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="12%" stop-color="#fde96a"/><stop offset="45%" stop-color="#f0c030"/><stop offset="75%" stop-color="#d49018"/><stop offset="100%" stop-color="#b07010"/></linearGradient><radialGradient id="wci" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="rgba(255,230,100,.98)"/><stop offset="45%" stop-color="rgba(255,170,30,.65)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient><radialGradient id="wcc" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="40%" stop-color="#f0d040"/><stop offset="100%" stop-color="#9a6808"/></radialGradient><linearGradient id="wcmetal" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6a6a72"/><stop offset="18%" stop-color="#a0a0ac"/><stop offset="40%" stop-color="#484850"/><stop offset="72%" stop-color="#38383e"/><stop offset="100%" stop-color="#28282e"/></linearGradient><radialGradient id="wcrivet" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#d0d0d8"/><stop offset="45%" stop-color="#787880"/><stop offset="100%" stop-color="#303038"/></radialGradient><radialGradient id="wcknob" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#fffbe0"/><stop offset="38%" stop-color="#f0c830"/><stop offset="100%" stop-color="#8a5808"/></radialGradient><linearGradient id="wcwv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,.22)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient><linearGradient id="wclv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,.18)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs>
+    <div id="win-chest-wrap" style="position:relative;">
+      <div id="win-chest-glow"></div>
+      <div id="win-chest-sparkles"></div>
+      <video id="win-chest-video" width="420" height="236" muted playsinline preload="auto" style="border-radius:14px;pointer-events:none;max-width:90vw;max-height:45vh;position:relative;z-index:1;">
+        <source src="chest-open.mp4" type="video/mp4">
+      </video>
+      <!-- SVG chest kept as hidden fallback -->
+      <svg width="0" height="0" viewBox="0 0 200 183" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;display:none"><defs><linearGradient id="wcw" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#8b5e2a"/><stop offset="18%" stop-color="#7a4f20"/><stop offset="40%" stop-color="#6b4218"/><stop offset="65%" stop-color="#5a3610"/><stop offset="100%" stop-color="#3e2408"/></linearGradient><linearGradient id="wcl" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#9a6430"/><stop offset="35%" stop-color="#7a4e20"/><stop offset="70%" stop-color="#5c3a12"/><stop offset="100%" stop-color="#4a2e0c"/></linearGradient><linearGradient id="wcg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="12%" stop-color="#fde96a"/><stop offset="45%" stop-color="#f0c030"/><stop offset="75%" stop-color="#d49018"/><stop offset="100%" stop-color="#b07010"/></linearGradient><radialGradient id="wci" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="rgba(255,230,100,.98)"/><stop offset="45%" stop-color="rgba(255,170,30,.65)"/><stop offset="100%" stop-color="rgba(255,100,0,0)"/></radialGradient><radialGradient id="wcc" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#fffbe8"/><stop offset="40%" stop-color="#f0d040"/><stop offset="100%" stop-color="#9a6808"/></radialGradient><linearGradient id="wcmetal" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#6a6a72"/><stop offset="18%" stop-color="#a0a0ac"/><stop offset="40%" stop-color="#484850"/><stop offset="72%" stop-color="#38383e"/><stop offset="100%" stop-color="#28282e"/></linearGradient><radialGradient id="wcrivet" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#d0d0d8"/><stop offset="45%" stop-color="#787880"/><stop offset="100%" stop-color="#303038"/></radialGradient><radialGradient id="wcknob" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="#fffbe0"/><stop offset="38%" stop-color="#f0c830"/><stop offset="100%" stop-color="#8a5808"/></radialGradient><linearGradient id="wcwv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,.22)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient><linearGradient id="wclv" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="rgba(255,255,255,.18)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient></defs>
         <!-- Drop shadow -->
         <ellipse cx="100" cy="181" rx="88" ry="9" fill="rgba(0,0,0,.45)"/>
         <!-- Inner glow (shows on open) -->
@@ -3142,7 +3199,17 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       </svg>
     </div>
     <div id="win-tap-hint">✦ TAP TO OPEN ✦</div>
+    <div id="win-reward-display">
+      <div id="win-gold-float"></div>
+      <div id="win-relic-reveal">
+        <div id="win-relic-beam"></div>
+        <div id="win-relic-icon"></div>
+        <div id="win-relic-label">ANCIENT RELIC DISCOVERED</div>
+      </div>
+    </div>
+    <div id="win-continue-hint">✦ TAP TO CONTINUE ✦</div>
   </div>
+  <div id="win-light-burst"></div>
 
   <!-- ── Phase 2: Treasure Found reveal ── -->
   <div id="win-phase2" class="win-panel">
@@ -5247,47 +5314,340 @@ function pzBuildNumpad(){
     np.appendChild(btn);
   }
 }
+/* ══ CHEST REWARD SEQUENCE — STATE MACHINE ══ */
+const CHEST_SEQ={phase:'idle',tier:null,goldEarned:0,relicEarned:null,isPerfect:false,timers:[],sparkleInterval:null,sparkleCount:0};
+
+function chestCleanup(){
+  CHEST_SEQ.timers.forEach(clearTimeout);CHEST_SEQ.timers=[];
+  if(CHEST_SEQ.sparkleInterval){clearInterval(CHEST_SEQ.sparkleInterval);CHEST_SEQ.sparkleInterval=null;}
+  CHEST_SEQ.sparkleCount=0;
+  document.getElementById('win-chest-sparkles').innerHTML='';
+}
+
+function chestReset(){
+  chestCleanup();
+  CHEST_SEQ.phase='idle';
+  const wrap=document.getElementById('win-chest-wrap');
+  const p1=document.getElementById('win-phase1');
+  const p2=document.getElementById('win-phase2');
+  const vid=document.getElementById('win-chest-video');
+  const burst=document.getElementById('win-light-burst');
+  const reward=document.getElementById('win-reward-display');
+  const goldFloat=document.getElementById('win-gold-float');
+  const relicReveal=document.getElementById('win-relic-reveal');
+  const continueHint=document.getElementById('win-continue-hint');
+  const tapHint=document.getElementById('win-tap-hint');
+  wrap.classList.remove('opened');
+  wrap.style.animation='none';wrap.offsetHeight;wrap.style.animation='';
+  p1.style.display='flex';p1.style.opacity='1';p1.style.transition='';
+  p1.className='';
+  p2.classList.remove('show');p2.style.display='none';
+  if(vid){vid.pause();vid.currentTime=0;}
+  burst.classList.remove('active');burst.style.display='none';
+  reward.classList.remove('show');reward.style.display='none';
+  goldFloat.classList.remove('animate');goldFloat.textContent='';
+  relicReveal.classList.remove('show');
+  document.getElementById('win-relic-beam').classList.remove('animate');
+  document.getElementById('win-relic-icon').classList.remove('animate');
+  document.getElementById('win-relic-icon').innerHTML='';
+  document.getElementById('win-relic-label').style.opacity='0';
+  continueHint.classList.remove('show');
+  tapHint.style.display='';
+}
+
+function tryRollRelic(source,overrideChance){
+  const totalWins=(GAME_STATS.puzzleWins||0)+(GAME_STATS.dailyWins||0);
+  const isFirstWin=totalWins<=1&&(GAME_STATS.ancientRelics||[]).length===0;
+  if(!isFirstWin){
+    const chance=overrideChance!=null?overrideChance:(source==='daily'?20:15);
+    if(chance<=0)return null;
+    if(Math.random()*100>chance)return null;
+  }
+  const owned=new Set(GAME_STATS.ancientRelics||[]);
+  if(owned.size>=75)return null;
+  const roll=Math.random()*100;
+  let cumulative=0,chosenRarity='common';
+  for(const{rarity,weight}of ANCIENT_DROP_RATES){cumulative+=weight;if(roll<cumulative){chosenRarity=rarity;break;}}
+  let pool=ANCIENT_RELICS.slice(1).filter(r=>r&&r.rarity===chosenRarity&&!owned.has(r.id));
+  if(!pool.length)pool=ANCIENT_RELICS.slice(1).filter(r=>r&&!owned.has(r.id));
+  if(!pool.length)return null;
+  const relic=pool[Math.floor(Math.random()*pool.length)];
+  GAME_STATS.ancientRelics=[...(GAME_STATS.ancientRelics||[]),relic.id];
+  saveState();
+  return relic;
+}
+
+function spawnIdleSparkle(){
+  if(!SETTINGS.particles)return;
+  if(CHEST_SEQ.sparkleCount>=8)return;
+  const container=document.getElementById('win-chest-sparkles');
+  const wrap=document.getElementById('win-chest-wrap');
+  if(!container||!wrap)return;
+  const wRect=wrap.getBoundingClientRect();
+  const s=document.createElement('div');
+  s.className='chest-sparkle';
+  const x=Math.random()*wRect.width;
+  const dur=.8+Math.random()*.7;
+  const colors=['rgba(255,220,80,.9)','rgba(255,240,150,.8)','rgba(255,200,50,.7)'];
+  s.style.cssText=`left:${x}px;top:${wRect.height*.3+Math.random()*wRect.height*.4}px;background:${colors[Math.floor(Math.random()*3)]};--sp-dur:${dur}s;--sp-extra:${10+Math.random()*20}px;`;
+  CHEST_SEQ.sparkleCount++;
+  container.appendChild(s);
+  setTimeout(()=>{s.remove();CHEST_SEQ.sparkleCount--;},dur*1000);
+}
+
+function spawnBurstParticles(tier){
+  if(!SETTINGS.particles)return;
+  const pc=document.getElementById('particles');
+  const counts={gold:50,silver:35,bronze:20};
+  const count=counts[tier]||12;
+  const colors={gold:['rgba(255,220,80,.9)','rgba(255,240,160,.8)','rgba(255,255,255,.7)'],silver:['rgba(200,210,230,.9)','rgba(220,225,240,.8)','rgba(255,255,255,.6)'],bronze:['rgba(180,120,60,.8)','rgba(200,150,80,.7)','rgba(160,100,40,.6)']};
+  const palette=colors[tier]||['rgba(120,100,70,.5)','rgba(100,80,50,.4)'];
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div');
+    const angle=Math.random()*Math.PI*2;
+    const dist=60+Math.random()*120;
+    const cx=Math.cos(angle)*dist;
+    const cy=Math.sin(angle)*dist-40;
+    const dur=.8+Math.random()*1.2;
+    const delay=Math.random()*.3;
+    const size=3+Math.random()*5;
+    p.className='coin-particle';
+    p.style.cssText=`left:${window.innerWidth/2-size/2}px;top:${window.innerHeight*.4}px;width:${size}px;height:${size}px;border-radius:50%;background:${palette[Math.floor(Math.random()*palette.length)]};--cx:${cx}px;--cy:${cy}px;--cdx:${(Math.random()-.5)*40}px;--cf-dur:${dur}s;--cf-delay:${delay}s;`;
+    pc.appendChild(p);
+    setTimeout(()=>p.remove(),(dur+delay+.5)*1000);
+  }
+}
+
+function playChestThud(){
+  if(!SETTINGS.sound)return;
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)();
+    if(c.state==='suspended')c.resume();
+    const g=c.createGain();g.connect(c.destination);
+    g.gain.setValueAtTime(.25*(SETTINGS.sfxVolume/100),c.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.15);
+    const o=c.createOscillator();o.type='triangle';o.frequency.value=130;
+    o.connect(g);o.start();o.stop(c.currentTime+.15);
+  }catch(e){}
+}
+
+function playChestTension(){
+  if(!SETTINGS.sound)return;
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)();
+    if(c.state==='suspended')c.resume();
+    const g=c.createGain();g.connect(c.destination);
+    g.gain.setValueAtTime(.08*(SETTINGS.sfxVolume/100),c.currentTime);
+    g.gain.linearRampToValueAtTime(.15*(SETTINGS.sfxVolume/100),c.currentTime+.6);
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.85);
+    const o=c.createOscillator();o.type='sine';
+    o.frequency.setValueAtTime(200,c.currentTime);
+    o.frequency.linearRampToValueAtTime(400,c.currentTime+.8);
+    o.connect(g);o.start();o.stop(c.currentTime+.85);
+  }catch(e){}
+}
+
+function playRelicReveal(){
+  if(!SETTINGS.sound)return;
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)();
+    if(c.state==='suspended')c.resume();
+    const m=c.createGain();m.gain.value=.14*(SETTINGS.sfxVolume/100);m.connect(c.destination);
+    [196,261.63,329.63,392,523.25].forEach((f,i)=>{
+      const t=c.currentTime+i*.09;
+      const g=c.createGain();g.connect(m);
+      g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.5,t+.015);
+      g.gain.exponentialRampToValueAtTime(.0001,t+.8);
+      const o=c.createOscillator();o.type='sine';o.frequency.value=f;
+      o.connect(g);o.start(t);o.stop(t+.85);
+    });
+  }catch(e){}
+}
+
+function chestAdvancePhase(){
+  const wrap=document.getElementById('win-chest-wrap');
+  const vid=document.getElementById('win-chest-video');
+  const p1=document.getElementById('win-phase1');
+  const p2=document.getElementById('win-phase2');
+  const burst=document.getElementById('win-light-burst');
+  const reward=document.getElementById('win-reward-display');
+  const goldFloat=document.getElementById('win-gold-float');
+  const relicReveal=document.getElementById('win-relic-reveal');
+  const tapHint=document.getElementById('win-tap-hint');
+  const continueHint=document.getElementById('win-continue-hint');
+  const tier=CHEST_SEQ.tier;
+
+  switch(CHEST_SEQ.phase){
+    case'idle':
+      // Phase: Tapped — squash bounce + thud
+      CHEST_SEQ.phase='tapped';
+      playChestThud();
+      wrap.style.animation='chestTapSquash .3s ease';
+      if(CHEST_SEQ.sparkleInterval){clearInterval(CHEST_SEQ.sparkleInterval);CHEST_SEQ.sparkleInterval=null;}
+      tapHint.style.display='none';
+      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),300));
+      break;
+
+    case'tapped':
+      // Phase: Anticipation — shake + glow ramp
+      CHEST_SEQ.phase='anticipate';
+      playChestTension();
+      const shakeIter=parseInt(getComputedStyle(p1).getPropertyValue('--shake-iter'))||2;
+      wrap.style.animation=`chestShake .4s ease ${shakeIter}`;
+      const glow=document.getElementById('win-chest-glow');
+      if(glow)glow.style.transition='opacity .8s';
+      if(glow)glow.style.opacity=getComputedStyle(p1).getPropertyValue('--glow-hi')||'.9';
+      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),.4*shakeIter*1000+100));
+      break;
+
+    case'anticipate':
+      // Phase: Burst — video + light + particles
+      CHEST_SEQ.phase='burst';
+      wrap.classList.add('opened');
+      wrap.style.animation='';
+      vid.currentTime=0;
+      vid.play().catch(()=>{});
+      playWinChime();
+      // Light burst
+      burst.style.display='block';
+      burst.classList.add('active');
+      CHEST_SEQ.timers.push(setTimeout(()=>{burst.classList.remove('active');burst.style.display='none';},700));
+      // Particle explosion
+      spawnBurstParticles(tier);
+      // Spawn artifact coins too (scaled by tier)
+      const coinCount=tier==='gold'?(CHEST_SEQ.isPerfect?72:50):tier==='silver'?35:tier==='bronze'?20:10;
+      for(let i=0;i<coinCount;i++){
+        const cc=document.createElement('div');cc.className='coin-particle';
+        const val=Math.ceil(Math.random()*9);cc.innerHTML=ARTIFACTS.svg(val);
+        const x=(Math.random()-.5)*window.innerWidth*.9;
+        const y=-window.innerHeight*.4-Math.random()*140;
+        const dur=1.8+Math.random()*2.5;const delay=i*.06;
+        cc.style.cssText=`left:${window.innerWidth/2-10}px;top:${window.innerHeight/2}px;width:20px;height:20px;--cx:${x}px;--cy:${y}px;--cdx:${(Math.random()-.5)*130}px;--cf-dur:${dur}s;--cf-delay:${delay}s;`;
+        document.getElementById('particles').appendChild(cc);
+        setTimeout(()=>cc.remove(),(dur+delay+.5)*1000);
+      }
+      // Wait for video to end
+      const onVideoEnd=()=>{if(CHEST_SEQ.phase==='burst')chestAdvancePhase();};
+      vid.addEventListener('ended',onVideoEnd,{once:true});
+      CHEST_SEQ.timers.push(setTimeout(()=>{if(CHEST_SEQ.phase==='burst')chestAdvancePhase();},3600));
+      break;
+
+    case'burst':
+      // Phase: Reveal — gold floats up, relic rises
+      CHEST_SEQ.phase='reveal';
+      reward.style.display='block';
+      reward.classList.add('show');
+      if(CHEST_SEQ.goldEarned>0){
+        const size=getComputedStyle(p1).getPropertyValue('--gold-size')||'28px';
+        goldFloat.style.fontSize=size;
+        const perfectLabel=CHEST_SEQ.isPerfect?' ✨':'';
+        goldFloat.textContent=`+${CHEST_SEQ.goldEarned} Gold${perfectLabel}`;
+        goldFloat.classList.add('animate');
+        if(CHEST_SEQ.isPerfect)goldFloat.style.animation='goldFloatUp 1.8s ease-out forwards, perfectPulse 1s ease-in-out .2s 2';
+        try{SOUNDS.play(6);}catch(e){}
+      } else {
+        goldFloat.textContent='No rewards earned';
+        goldFloat.style.fontSize='18px';
+        goldFloat.classList.add('animate');
+      }
+      // Relic reveal
+      if(CHEST_SEQ.relicEarned){
+        CHEST_SEQ.timers.push(setTimeout(()=>{
+          playRelicReveal();
+          relicReveal.classList.add('show');
+          const relic=CHEST_SEQ.relicEarned;
+          const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
+          document.getElementById('win-relic-beam').style.background=`linear-gradient(to top,transparent,${colors.pip},transparent)`;
+          document.getElementById('win-relic-beam').classList.add('animate');
+          document.getElementById('win-relic-icon').innerHTML=genRelicSVG(relic).replace('<svg ','<svg style="width:50px;height:50px;filter:drop-shadow(0 0 14px '+colors.pip+');" ');
+          document.getElementById('win-relic-icon').classList.add('animate');
+          setTimeout(()=>{document.getElementById('win-relic-label').style.opacity='1';},500);
+        },800));
+      }
+      CHEST_SEQ.timers.push(setTimeout(()=>chestAdvancePhase(),CHEST_SEQ.relicEarned?2800:2000));
+      break;
+
+    case'reveal':
+      // Phase: Celebrate — rewards drift, continue hint
+      CHEST_SEQ.phase='celebrate';
+      goldFloat.style.animation='rewardDrift 2s ease-in-out infinite';
+      goldFloat.style.opacity='1';
+      continueHint.classList.add('show');
+      // Auto-advance after 4s or on tap (handled by click listener)
+      CHEST_SEQ.timers.push(setTimeout(()=>{if(CHEST_SEQ.phase==='celebrate')chestAdvancePhase();},4000));
+      break;
+
+    case'celebrate':
+      // Phase: Collect — fly to counter, show results
+      CHEST_SEQ.phase='collect';
+      continueHint.classList.remove('show');
+      // Fly gold to counter area (top of screen)
+      if(CHEST_SEQ.goldEarned>0){
+        goldFloat.style.animation='flyToCounter .6s ease-in forwards';
+        goldFloat.style.setProperty('--fly-y','-300px');
+      }
+      // Show relic modal if earned (after a delay)
+      if(CHEST_SEQ.relicEarned){
+        CHEST_SEQ.timers.push(setTimeout(()=>showAncientRelicUnlock(CHEST_SEQ.relicEarned),800));
+      }
+      // Transition to phase 2 results
+      CHEST_SEQ.timers.push(setTimeout(()=>{
+        p1.style.transition='opacity .4s';p1.style.opacity='0';
+        setTimeout(()=>{
+          p1.style.display='none';
+          p2.style.display='block';
+          requestAnimationFrame(()=>requestAnimationFrame(()=>p2.classList.add('show')));
+        },400);
+      },700));
+      break;
+  }
+}
+
 function pzCheckWin(){
   if(!PZ.board.every((v,i)=>v!==0&&v===PZ.solution[i]))return;
   playWinChime();
   clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;
   if(GAME_STATS.puzzleWinsByDiff)GAME_STATS.puzzleWinsByDiff[PZ.diff]=(GAME_STATS.puzzleWinsByDiff[PZ.diff]||0)+1;
-  // Tier-based reward system
+  // Calculate rewards
   const _tier=calcPerformanceTier(PZ.diff,PZ.mistakes,PZ.elapsed);
   const _pzGoldEarned=calcGoldReward(PZ.diff,_tier,PZ.mistakes,PZ.maxConsecMistakes);
-  const _wgEl=document.getElementById('win-gold-earned');
-  const _wgAmt=document.getElementById('win-gold-amount');
-  const _tierNames={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
+  // Roll relic synchronously to know result for reveal animation
+  let _relicResult=null;
   if(_tier){
     GAME_STATS.gold=(GAME_STATS.gold||0)+_pzGoldEarned;
-    if(_wgEl&&_wgAmt){_wgAmt.textContent=_pzGoldEarned;_wgEl.style.display='block';}
-    const _tierLabel=_tierNames[_tier]||_tier;
-    const _perfectTag=PZ.mistakes===0?' ✨ Perfect Run!':'';
-    const _penaltyTag=PZ.maxConsecMistakes>=3?` (−${Math.min((PZ.maxConsecMistakes-2)*10,50)}% streak penalty)`:'';
-    // Relic drop with tier-based chance
     const _relicChance=REWARD_TIERS[PZ.diff]?.relicChance?.[_tier]||0;
-    setTimeout(()=>rollAncientRelic('relax',_relicChance),500);
-    setTimeout(()=>showToast(`${_tierLabel} Tier! 🪙 +${_pzGoldEarned} gold${_perfectTag}${_penaltyTag}`,3200),4200);
-  } else {
-    if(_wgEl)_wgEl.style.display='none';
-    setTimeout(()=>showToast('Too many mistakes for rewards. Keep practicing!',3000),4200);
+    _relicResult=tryRollRelic('relax',_relicChance);
   }
+  // Populate phase 2 results panel
+  const _wgEl=document.getElementById('win-gold-earned');
+  const _wgAmt=document.getElementById('win-gold-amount');
+  if(_tier&&_wgEl&&_wgAmt){_wgAmt.textContent=_pzGoldEarned;_wgEl.style.display='block';}
+  else if(_wgEl)_wgEl.style.display='none';
   const t=PZ.elapsed,m=PZ.mistakes,prev=BEST_TIMES[PZ.diff];
   const isRecord=!prev||t<prev.time;
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
   else document.getElementById('win-best-val').textContent=`Best: ${fmtTime(prev.time)}`;
   document.getElementById('win-time-val').textContent=fmtTime(t);
-  // Reset chest to closed state for this win
-  const _wc=document.getElementById('win-chest-wrap');
-  const _wp1=document.getElementById('win-phase1');
-  const _wp2=document.getElementById('win-phase2');
-  _wc.classList.remove('opened');
-  _wc.style.animation='none';_wc.offsetHeight;_wc.style.animation='';
-  _wp1.style.display='';_wp1.style.opacity='';_wp1.style.transition='';
-  _wp2.classList.remove('show');_wp2.style.display='none';
-  pzUpdateBest();spawnWinCoins();saveState();
-  setTimeout(()=>spawnWinCoins(),1600);
-  setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),3800);
+  // Store reward data in state machine
+  CHEST_SEQ.tier=_tier;
+  CHEST_SEQ.goldEarned=_pzGoldEarned;
+  CHEST_SEQ.relicEarned=_relicResult;
+  CHEST_SEQ.isPerfect=PZ.mistakes===0&&_tier;
+  // Reset chest for new sequence
+  chestReset();
+  // Apply tier class for visual intensity
+  const p1=document.getElementById('win-phase1');
+  p1.classList.add(_tier?'tier-'+_tier:'tier-none');
+  if(CHEST_SEQ.isPerfect)p1.classList.add('perfect');
+  // Start idle breathing animation + sparkles
+  const wrap=document.getElementById('win-chest-wrap');
+  wrap.style.animation='chestBreathe 2.5s ease-in-out infinite';
+  wrap.style.filter='drop-shadow(0 0 30px rgba(255,200,50,.65))';
+  const sparkleRate=parseInt(getComputedStyle(p1).getPropertyValue('--sparkle-rate'))||500;
+  CHEST_SEQ.sparkleInterval=setInterval(spawnIdleSparkle,sparkleRate);
+  pzUpdateBest();saveState();
+  // Show overlay after brief delay
+  setTimeout(()=>document.getElementById('win-overlay').classList.add('show'),2200);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -8581,23 +8941,11 @@ document.getElementById('win-menu').addEventListener('click',()=>{clearInterval(
 
 // Win chest tap — open lid then reveal results
 document.getElementById('win-chest-wrap').addEventListener('click',function(){
-  if(this.classList.contains('opened'))return;
-  this.classList.add('opened');
-  // Burst particles from chest center
-  const r=this.getBoundingClientRect();
-  spawnParticles(r.left+r.width/2,r.top+r.height*.45,9);
-  setTimeout(()=>spawnParticles(r.left+r.width/2,r.top+r.height*.3,6),180);
-  // After lid swings open, fade out phase1 and reveal phase2
-  const p1=document.getElementById('win-phase1');
-  const p2=document.getElementById('win-phase2');
-  setTimeout(()=>{
-    p1.style.transition='opacity .3s';p1.style.opacity='0';
-    setTimeout(()=>{
-      p1.style.display='none';
-      p2.style.display='block';
-      requestAnimationFrame(()=>requestAnimationFrame(()=>p2.classList.add('show')));
-    },300);
-  },520);
+  if(CHEST_SEQ.phase==='idle'){
+    chestAdvancePhase();
+  } else if(CHEST_SEQ.phase==='celebrate'){
+    chestAdvancePhase();
+  }
 });
 
 // Daily fail overlay
