@@ -4913,9 +4913,89 @@ function loadState(){
   if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
   if(!GAME_STATS.goldPiecesDate) GAME_STATS.goldPiecesDate='';
   if(!GAME_STATS.ancientRelics) GAME_STATS.ancientRelics=[];
+  // Migrate scattered localStorage flags into GAME_STATS
+  if(!GAME_STATS.storySeen&&localStorage.getItem('ts_story_seen')){GAME_STATS.storySeen=true;localStorage.removeItem('ts_story_seen');}
+  if(!GAME_STATS.mapIntroSeen&&localStorage.getItem('ts_map_intro_seen')){GAME_STATS.mapIntroSeen=true;localStorage.removeItem('ts_map_intro_seen');}
+  if(!GAME_STATS.leaderboardName&&localStorage.getItem('ts_lb_name')){GAME_STATS.leaderboardName=localStorage.getItem('ts_lb_name');localStorage.removeItem('ts_lb_name');}
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[]};
+
+/* ── MID-GAME SAVE & RESUME ── */
+function _notesToArrays(notes){return notes.map(s=>s instanceof Set?[...s]:Array.isArray(s)?s:[]);}
+function _arraysToNotes(arr){return arr.map(a=>new Set(a||[]));}
+
+function saveActiveGame(mode){
+  try{
+    if(mode==='relax'){
+      GAME_STATS.activeGame={mode:'relax',savedAt:Date.now(),state:{
+        puzzle:PZ.puzzle,solution:PZ.solution,board:PZ.board,notes:_notesToArrays(PZ.notes),
+        diff:PZ.diff,mistakes:PZ.mistakes,score:PZ.score,streak:PZ.streak,hints:PZ.hints,
+        elapsed:PZ.elapsed,consecMistakes:PZ.consecMistakes,maxConsecMistakes:PZ.maxConsecMistakes,
+        activeNum:PZ.activeNum,notesMode:PZ.notesMode
+      }};
+    } else if(mode==='daily'){
+      GAME_STATS.activeGame={mode:'daily',savedAt:Date.now(),state:{
+        puzzle:DP.puzzle,solution:DP.solution,board:DP.board,notes:_notesToArrays(DP.notes),
+        dateStr:DP.dateStr,diff:DP.diff,diffIdx:DP.diffIdx,
+        lives:DP.lives,score:DP.score,streak:DP.streak,hints:DP.hints,elapsed:DP.elapsed,
+        hand:DP.hand,handPlaced:DP.handPlaced,drawCount:DP.drawCount,
+        gameOver:DP.gameOver,completed:DP.completed,isReplay:DP.isReplay,isLegendary:DP.isLegendary
+      }};
+    }
+    saveState();
+  }catch(e){console.warn('Save active game failed:',e);}
+}
+
+function clearActiveGame(){
+  GAME_STATS.activeGame=null;
+  saveState();
+}
+
+function resumeActiveGame(){
+  const ag=GAME_STATS.activeGame;
+  if(!ag||!ag.state)return false;
+  try{
+    if(ag.mode==='relax'){
+      const s=ag.state;
+      ACTIVE_MODE='puzzle';
+      PZ.puzzle=s.puzzle;PZ.solution=s.solution;PZ.board=s.board;
+      PZ.notes=_arraysToNotes(s.notes);
+      PZ.diff=s.diff;PZ.mistakes=s.mistakes;PZ.score=s.score;PZ.streak=s.streak;PZ.hints=s.hints;
+      PZ.elapsed=s.elapsed;PZ.consecMistakes=s.consecMistakes||0;PZ.maxConsecMistakes=s.maxConsecMistakes||0;
+      PZ.activeNum=s.activeNum;PZ.notesMode=s.notesMode||false;
+      PZ.selected=null;PZ.undoStack=[];
+      PZ.startTime=Date.now()-PZ.elapsed*1000;
+      PZ.timerInterval=setInterval(()=>{PZ.elapsed=Math.floor((Date.now()-PZ.startTime)/1000);document.getElementById('pz-timer').textContent=fmtTime(PZ.elapsed);},500);
+      pzRenderBoard();pzBuildNumpad();pzUpdateNumpad();pzUpdateScore();pzUpdateMistakes();pzHintUpdate();pzUpdateBest();
+      showScreen('screen-puzzle');
+      showToast('Game resumed!',1500);
+      return true;
+    } else if(ag.mode==='daily'){
+      const s=ag.state;
+      // Only resume daily if it's still today's puzzle or a valid replay
+      ACTIVE_MODE=s.isLegendary?'legendary':'daily';
+      DP.puzzle=s.puzzle;DP.solution=s.solution;DP.board=s.board;
+      DP.notes=_arraysToNotes(s.notes);
+      DP.dateStr=s.dateStr;DP.diff=s.diff;DP.diffIdx=s.diffIdx;
+      DP.lives=s.lives;DP.score=s.score;DP.streak=s.streak;DP.hints=s.hints;DP.elapsed=s.elapsed;
+      DP.hand=s.hand||[];DP.handPlaced=s.handPlaced||[];DP.drawCount=s.drawCount||0;
+      DP.gameOver=s.gameOver||false;DP.completed=s.completed||false;
+      DP.isReplay=s.isReplay||false;DP.isLegendary=s.isLegendary||false;
+      DP.selected=null;DP.activeNum=null;DP.activeHandIdx=null;DP.notesMode=false;
+      DP.undoStack=[];DP.bonusAvailable=true;
+      DP.completedRows=new Set();DP.completedCols=new Set();DP.completedBoxes=new Set();
+      DP.fogCells=new Set();DP.challenges=[];DP.challengeQueue=[];DP.challengeScheduleId=null;
+      DP.startTime=Date.now()-DP.elapsed*1000;
+      DP.timerInterval=setInterval(()=>{DP.elapsed=Math.floor((Date.now()-DP.startTime)/1000);document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);},500);
+      dpRenderBoard();dpBuildNumpad();dpUpdateHUD();dpHintUpdate();dpRenderHand();
+      showScreen('screen-daily');
+      showToast('Game resumed!',1500);
+      return true;
+    }
+  }catch(e){console.warn('Resume failed:',e);clearActiveGame();}
+  return false;
+}
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[],activeGame:null,storySeen:false,mapIntroSeen:false,leaderboardName:''};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -5233,7 +5313,7 @@ function pzSelectCell(i){
 }
 function pzPlace(num){
   if(PZ.selected===null||PZ.puzzle[PZ.selected]!==0)return;
-  if(PZ.notesMode){if(PZ.notes[PZ.selected].has(num))PZ.notes[PZ.selected].delete(num);else PZ.notes[PZ.selected].add(num);pzRenderBoard();return;}
+  if(PZ.notesMode){if(PZ.notes[PZ.selected].has(num))PZ.notes[PZ.selected].delete(num);else PZ.notes[PZ.selected].add(num);pzRenderBoard();saveActiveGame('relax');return;}
   const placedIdx=PZ.selected;
   if(num===PZ.solution[placedIdx]){
     PZ.undoStack.push({idx:placedIdx,prev:PZ.board[placedIdx],prevNotes:new Set(PZ.notes[placedIdx])});
@@ -5247,19 +5327,19 @@ function pzPlace(num){
     const r=cell.getBoundingClientRect();spawnParticles(r.left+r.width/2,r.top+r.height/2,num);
     GAME_STATS.artifactCounts[num]=(GAME_STATS.artifactCounts[num]||0)+1;
     pzClearNotesCascade(placedIdx,num);PZ.selected=null;
-    pzUpdateScore();pzRenderBoard();pzCheckWin();
+    pzUpdateScore();pzRenderBoard();saveActiveGame('relax');pzCheckWin();
   } else {
     PZ.streak=0;PZ.mistakes++;PZ.consecMistakes++;if(PZ.consecMistakes>PZ.maxConsecMistakes)PZ.maxConsecMistakes=PZ.consecMistakes;pzUpdateMistakes();
     pzUpdateScore();
     PZ.activeNum=null;pzSyncActiveNumpad();
     const cell=document.querySelector(`#pz-board .cell[data-idx="${placedIdx}"]`);
     cell.innerHTML='';cell.appendChild(makeCellIcon(num,false));cell.classList.add('wrong-placement');
-    setTimeout(()=>{cell.classList.add('wrong-fade');setTimeout(()=>{cell.classList.remove('wrong-placement','wrong-fade');cell.innerHTML='';PZ.selected=null;pzRenderBoard();},200);},500);
+    setTimeout(()=>{cell.classList.add('wrong-fade');setTimeout(()=>{cell.classList.remove('wrong-placement','wrong-fade');cell.innerHTML='';PZ.selected=null;pzRenderBoard();saveActiveGame('relax');},200);},500);
   }
 }
 function pzClearNotesCascade(idx,num){const row=Math.floor(idx/9),col=idx%9;for(let i=0;i<81;i++){const r=Math.floor(i/9),c=i%9;if(r===row||c===col||(Math.floor(r/3)===Math.floor(row/3)&&Math.floor(c/3)===Math.floor(col/3)))PZ.notes[i].delete(num);}}
-function pzErase(){if(PZ.selected===null||PZ.puzzle[PZ.selected]!==0)return;PZ.undoStack.push({idx:PZ.selected,prev:PZ.board[PZ.selected],prevNotes:new Set(PZ.notes[PZ.selected])});PZ.board[PZ.selected]=0;PZ.notes[PZ.selected].clear();pzRenderBoard();}
-function pzUndo(){if(!PZ.undoStack.length)return;const{idx,prev,prevNotes}=PZ.undoStack.pop();PZ.board[idx]=prev;PZ.notes[idx]=prevNotes;PZ.selected=idx;pzRenderBoard();}
+function pzErase(){if(PZ.selected===null||PZ.puzzle[PZ.selected]!==0)return;PZ.undoStack.push({idx:PZ.selected,prev:PZ.board[PZ.selected],prevNotes:new Set(PZ.notes[PZ.selected])});PZ.board[PZ.selected]=0;PZ.notes[PZ.selected].clear();pzRenderBoard();saveActiveGame('relax');}
+function pzUndo(){if(!PZ.undoStack.length)return;const{idx,prev,prevNotes}=PZ.undoStack.pop();PZ.board[idx]=prev;PZ.notes[idx]=prevNotes;PZ.selected=idx;pzRenderBoard();saveActiveGame('relax');}
 function pzHintUpdate(){
   const btn=document.getElementById('pz-hint'),countEl=document.getElementById('pz-hint-count');
   if(PZ.hints<=0){btn.classList.add('hint-used-up');btn.querySelector('.icon').textContent='🚫';if(countEl)countEl.textContent='(0)';}
@@ -5272,7 +5352,7 @@ function pzHint(){
   if(!candidates.length){showToast('No cells left!',1500);return;}
   const pool=PZ.activeNum!==null?candidates.filter(i=>PZ.solution[i]===PZ.activeNum):candidates;
   const target=pool.length>0?pool[Math.floor(Math.random()*pool.length)]:candidates[Math.floor(Math.random()*candidates.length)];
-  PZ.hints--;pzHintUpdate();PZ.selected=target;pzRenderBoard();
+  PZ.hints--;pzHintUpdate();PZ.selected=target;pzRenderBoard();saveActiveGame('relax');
   const cell=document.querySelector(`#pz-board .cell[data-idx="${target}"]`);
   if(cell){cell.classList.add('hint-reveal');spawnSparkle(cell);setTimeout(()=>cell.classList.remove('hint-reveal'),1500);}
   showToast('💡 Hint: a correct cell is highlighted',1600);
@@ -5595,6 +5675,7 @@ function chestAdvancePhase(){
 
 function pzCheckWin(){
   if(!PZ.board.every((v,i)=>v!==0&&v===PZ.solution[i]))return;
+  clearActiveGame();
   playWinChime();
   clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;
   if(GAME_STATS.puzzleWinsByDiff)GAME_STATS.puzzleWinsByDiff[PZ.diff]=(GAME_STATS.puzzleWinsByDiff[PZ.diff]||0)+1;
@@ -5911,7 +5992,7 @@ function dpPlace(num){
   if(DP.notesMode){
     if(DP.notes[DP.selected].has(num))DP.notes[DP.selected].delete(num);
     else DP.notes[DP.selected].add(num);
-    dpRenderBoard();return;
+    dpRenderBoard();saveActiveGame('daily');return;
   }
 
   // Must have an active, unplaced hand slot selected
@@ -5966,6 +6047,7 @@ function dpPlace(num){
     if(_fogEl){_fogEl.classList.add('fog-cell','fog-clearing');setTimeout(()=>{_fogEl.classList.remove('fog-cell','fog-clearing');},620);}}
     dpCheckCompletions(placedIdx);
     dpCheckHandBonus();
+    saveActiveGame('daily');
     dpCheckWin();
 
   // WRONG
@@ -5984,7 +6066,7 @@ function dpPlace(num){
       setTimeout(()=>{
         cell.classList.remove('wrong-placement','wrong-fade');
         cell.innerHTML='';DP.selected=null;
-        dpRenderBoard();
+        dpRenderBoard();saveActiveGame('daily');
         if(!_isPopup&&!_isBomb&&DP.lives<=0)dpGameOver();
       },200);
     },550);
@@ -6364,7 +6446,7 @@ function dpHint(){
     return;
   }
   DP.hints--;dpUpdateHUD();
-  dpRevealHintCell();
+  dpRevealHintCell();saveActiveGame('daily');
 }
 function dpRevealHintCell(){
   const candidates=[];
@@ -6386,19 +6468,19 @@ function dpUndo(){
   if(handPlaced)DP.handPlaced=[...handPlaced];
   DP.activeHandIdx=prevActiveHandIdx??null;
   DP.activeNum=DP.activeHandIdx!==null?DP.hand[DP.activeHandIdx]:null;
-  DP.selected=idx;dpRenderBoard();dpRenderHand();
+  DP.selected=idx;dpRenderBoard();dpRenderHand();saveActiveGame('daily');
 }
 function dpErase(){
   if(DP.selected===null||DP.puzzle[DP.selected]!==0)return;
   DP.undoStack.push({idx:DP.selected,prev:DP.board[DP.selected],prevNotes:new Set(DP.notes[DP.selected]),handPlaced:[...DP.handPlaced]});
-  DP.board[DP.selected]=0;DP.notes[DP.selected].clear();dpRenderBoard();
+  DP.board[DP.selected]=0;DP.notes[DP.selected].clear();dpRenderBoard();saveActiveGame('daily');
 }
 
 /* ── WIN / GAME OVER ── */
 function dpCheckWin(){
   if(!DP.board.every((v,i)=>v!==0&&v===DP.solution[i]))return;
   playWinChime();
-  DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();
+  DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();
   dpClearAllFog();
 
   DP.score+=1500;
@@ -6464,7 +6546,7 @@ function dpCheckWin(){
   setTimeout(()=>dpShowWin(),800);
 }
 function dpGameOver(){
-  DP.gameOver=true;clearInterval(DP.timerInterval);dpChallengeStop();
+  DP.gameOver=true;clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();
   setTimeout(()=>{
     document.getElementById('df-diff-label').textContent=DP.diff?`${DP.diff.emoji} ${DP.diff.name} Difficulty`:'';
     document.getElementById('df-score').textContent=DP.score;
@@ -6653,8 +6735,8 @@ function dpShowRewardPanel(){
    STORY INTRO CINEMATIC
 ══════════════════════════════════════════════════════ */
 function showStoryIntro(){
-  if(localStorage.getItem('ts_story_seen'))return;
-  localStorage.setItem('ts_story_seen','1');
+  if(GAME_STATS.storySeen)return;
+  GAME_STATS.storySeen=true;saveState();
   const overlay=document.getElementById('story-intro-overlay');
   const linesWrap=document.getElementById('story-intro-lines');
   const btn=document.getElementById('story-intro-btn');
@@ -6981,7 +7063,7 @@ function lbGenerateFictional(dateStr, playerScore){
 function lbSubmitScore(name){
   if(!name.trim()){document.getElementById('lb-submit-msg').textContent='Please enter your name.';return;}
   // Remember name for next time
-  localStorage.setItem('ts_lb_name',name.trim());
+  GAME_STATS.leaderboardName=name.trim();saveState();
   const data=lbLoad();
   const key=lbGetTodayKey();
   if(!data[key])data[key]=[];
@@ -7051,7 +7133,7 @@ function openLeaderboard(){
   document.getElementById('lb-your-rank').style.display='none';
   document.getElementById('lb-submit-msg').textContent='';
   // Pre-fill saved name
-  const savedName=localStorage.getItem('ts_lb_name')||'';
+  const savedName=GAME_STATS.leaderboardName||'';
   if(savedName)document.getElementById('lb-name-input').value=savedName;
   const overlay=document.getElementById('leaderboard-overlay');
   overlay.style.display='flex';
@@ -8793,8 +8875,8 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
   // Open from menu button
   document.getElementById('menu-howto').addEventListener('click',openTutorial);
 })();
-document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');_currentMapPage=1;document.getElementById('map-page-nav').style.display='flex';document.getElementById('map-page-next').style.display='inline-block';document.getElementById('mapview-exit').style.display='none';const _mb=document.getElementById('mapview-back');_mb.style.display='inline-block';_mb.textContent='← Back';if(!localStorage.getItem('ts_map_intro_seen')){document.getElementById('map-intro-overlay').classList.add('show');}});});
-document.getElementById('map-intro-start').addEventListener('click',(e)=>{e.stopPropagation();document.getElementById('map-intro-overlay').classList.remove('show');localStorage.setItem('ts_map_intro_seen','1');});
+document.getElementById('menu-map').addEventListener('click',()=>{menuTransitionTo('screen-mapview',()=>{switchMapTab('adventure');_currentMapPage=1;document.getElementById('map-page-nav').style.display='flex';document.getElementById('map-page-next').style.display='inline-block';document.getElementById('mapview-exit').style.display='none';const _mb=document.getElementById('mapview-back');_mb.style.display='inline-block';_mb.textContent='← Back';if(!GAME_STATS.mapIntroSeen){document.getElementById('map-intro-overlay').classList.add('show');}});});
+document.getElementById('map-intro-start').addEventListener('click',(e)=>{e.stopPropagation();document.getElementById('map-intro-overlay').classList.remove('show');GAME_STATS.mapIntroSeen=true;saveState();});
 
 
 // Tab switching removed — adventure path is the only view
@@ -8805,8 +8887,8 @@ document.getElementById('adv-jigsaw-back').addEventListener('click',()=>{
 });
 
 // Back buttons
-document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();document.getElementById('dp-rules-overlay').style.display='none';document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
-document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
+document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();document.getElementById('dp-rules-overlay').style.display='none';document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
+document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);clearActiveGame();document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
 // Vault scroll buttons
 (function(){
@@ -9060,13 +9142,27 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   updateMenuState();
   updateMapProgressBar();
   BGM.init();BCLICK.init();
-  // Show sign-in on first open (if Supabase is configured and user not logged in)
-  if(_sbClient()&&!AUTH_STATE.user){
-    showScreen('screen-auth');
+  // Check for saved mid-game state
+  if(GAME_STATS.activeGame&&GAME_STATS.activeGame.state){
+    const ag=GAME_STATS.activeGame;
+    const modeLabel=ag.mode==='daily'?'Daily Puzzle':'Relax Mode ('+ag.state.diff+')';
+    // Show resume prompt after a short delay
+    setTimeout(()=>{
+      if(confirm('You have an unfinished game:\n'+modeLabel+'\n\nWould you like to resume?')){
+        resumeActiveGame();
+      } else {
+        clearActiveGame();
+      }
+    },600);
+  } else {
+    // Show sign-in on first open (if Supabase is configured and user not logged in)
+    if(_sbClient()&&!AUTH_STATE.user){
+      showScreen('screen-auth');
+    }
+    setTimeout(showStoryIntro, 800);
   }
   // Update corner auth button state
   _updateCornerAuthBtn();
-  setTimeout(showStoryIntro, 800);
 })();
 (function(){
   let _kicked=false;
