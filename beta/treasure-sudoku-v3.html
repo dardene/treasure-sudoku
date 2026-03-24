@@ -1969,7 +1969,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <span class="ar-legend-dot common"></span>Common
         <span class="ar-legend-dot rare"></span>Rare
         <span class="ar-legend-dot epic"></span>Epic
-        <span class="ar-legend-dot legendary"></span>Legendary
+        <span class="ar-legend-dot sacred"></span>Sacred
       </div>
       <div class="ancient-collection" id="vault-ancient"></div>
     </div>
@@ -2421,7 +2421,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <div class="adv-jig-tray" id="adv-jig-tray"></div>
   <div class="adv-jig-recover-wrap" id="adv-jig-recover-wrap">
     <div class="adv-jig-recover-usage" id="adv-jig-recover-usage">Fragments recovered today: 0 / 3</div>
-    <button class="adv-jig-recover-btn" id="adv-jig-recover-btn" onclick="recoverFragment()">🪙 Recover Fragment — 50 gold</button>
+    <button class="adv-jig-recover-btn" id="adv-jig-recover-btn" onclick="recoverFragment()">🪙 Recover Fragment — 150 gold</button>
   </div>
 </div>
 
@@ -3594,11 +3594,12 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .ar-legend-dot.common{background:#c8966e;box-shadow:0 0 4px rgba(160,120,70,.4);}
 .ar-legend-dot.rare{background:#60d8ff;box-shadow:0 0 4px rgba(80,160,255,.5);}
 .ar-legend-dot.epic{background:#c070ff;box-shadow:0 0 6px rgba(170,80,255,.6);}
-.ar-legend-dot.legendary{background:#ffd700;box-shadow:0 0 8px rgba(255,200,40,.7);}
+.ar-legend-dot.sacred{background:#ffd700;box-shadow:0 0 8px rgba(255,200,40,.7);}
 .ar-slot{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,9,3,.7);border:1px solid rgba(100,70,30,.3);cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden;padding:2px;}
 .ar-slot:active{transform:scale(.94);}
 .ar-slot.locked{opacity:.35;cursor:default;border-color:rgba(80,60,30,.2);}
-.ar-slot-icon{font-size:22px;line-height:1;margin-bottom:2px;}
+.ar-slot-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;}
+.ar-slot-icon svg{width:28px;height:28px;display:block;}
 .ar-slot-name{font-family:'Cinzel',serif;font-size:6px;color:rgba(200,165,90,.7);text-align:center;letter-spacing:.04em;line-height:1.2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px;}
 .ar-slot.common{border-color:rgba(160,120,70,.5);}
 .ar-slot.common:hover{box-shadow:0 0 8px rgba(160,120,70,.3);transform:scale(1.04);}
@@ -3606,22 +3607,23 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .ar-slot.rare:hover{box-shadow:0 0 12px rgba(80,160,255,.5);transform:scale(1.05);}
 .ar-slot.epic{border-color:rgba(170,80,255,.7);box-shadow:0 0 8px rgba(170,80,255,.3);}
 .ar-slot.epic:hover{box-shadow:0 0 16px rgba(170,80,255,.6);transform:scale(1.05);}
-.ar-slot.legendary{border-color:rgba(255,200,40,.8);box-shadow:0 0 10px rgba(255,200,40,.4);animation:arLegendaryPulse 2.5s ease-in-out infinite;}
-.ar-slot.legendary:hover{box-shadow:0 0 22px rgba(255,200,40,.7);transform:scale(1.06);}
-@keyframes arLegendaryPulse{0%,100%{box-shadow:0 0 10px rgba(255,200,40,.4)}50%{box-shadow:0 0 20px rgba(255,200,40,.7)}}
-.ar-slot.epic::before,.ar-slot.legendary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%);pointer-events:none;}
+.ar-slot.sacred{border-color:rgba(255,200,40,.8);box-shadow:0 0 10px rgba(255,200,40,.4);animation:arSacredPulse 2.5s ease-in-out infinite;}
+.ar-slot.sacred:hover{box-shadow:0 0 22px rgba(255,200,40,.7);transform:scale(1.06);}
+@keyframes arSacredPulse{0%,100%{box-shadow:0 0 10px rgba(255,200,40,.4)}50%{box-shadow:0 0 20px rgba(255,200,40,.7)}}
+.ar-slot.epic::before,.ar-slot.sacred::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.04) 0%,transparent 60%);pointer-events:none;}
 .ar-rarity-pip{position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;}
 .ar-slot.common .ar-rarity-pip{background:#c8966e;}
 .ar-slot.rare .ar-rarity-pip{background:#60d8ff;box-shadow:0 0 4px rgba(80,160,255,.6);}
 .ar-slot.epic .ar-rarity-pip{background:#c070ff;box-shadow:0 0 5px rgba(170,80,255,.7);}
-.ar-slot.legendary .ar-rarity-pip{background:#ffd700;box-shadow:0 0 7px rgba(255,200,40,.9);}
+.ar-slot.sacred .ar-rarity-pip{background:#ffd700;box-shadow:0 0 7px rgba(255,200,40,.9);}
 /* Ancient Relic unlock toast overlay */
 #ancient-relic-unlock{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);}
 #ancient-relic-unlock.show{display:flex;}
 .aru-panel{width:min(84vw,320px);background:linear-gradient(155deg,rgba(14,8,2,.98),rgba(28,17,5,.98));border-radius:24px;padding:32px 24px 28px;text-align:center;position:relative;}
 .aru-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.35em;color:rgba(200,160,80,.5);margin-bottom:8px;text-transform:uppercase;}
 .aru-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.25em;margin-bottom:16px;}
-.aru-icon{font-size:56px;line-height:1;margin-bottom:12px;filter:drop-shadow(0 0 16px currentColor);}
+.aru-icon{width:64px;height:64px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+.aru-icon svg{width:64px;height:64px;display:block;}
 .aru-name{font-family:'Cinzel',serif;font-size:19px;font-weight:900;color:var(--gold-light);letter-spacing:.1em;margin-bottom:6px;}
 .aru-rarity{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;margin-bottom:14px;}
 .aru-desc{font-family:'Crimson Pro',serif;font-size:14px;color:rgba(210,180,130,.9);line-height:1.6;margin-bottom:20px;}
@@ -4000,7 +4002,7 @@ const JIGSAW_ARTIFACTS=[
   {name:'Amber Rune Tablet',label:'Rune Tablet',rarity:'Rare',rune:'ᚠᚢᚦ',glow:'rgba(220,140,30,.9)',desc:'A fragment of amber stone inscribed with Elder Futhark runes — a master key to deciphering hidden treasure maps.',lore:'Each rune on this tablet corresponds to a chamber in Solara. Three have been translated. The rest remain a mystery.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j3g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe080"/><stop offset="55%" stop-color="#e89820"/><stop offset="100%" stop-color="#8a5408"/></linearGradient></defs><rect x="6" y="5" width="28" height="32" rx="3" fill="url(#j3g)" stroke="#a06818" stroke-width="1"/><rect x="6" y="5" width="28" height="32" rx="3" fill="none" stroke="rgba(255,240,160,.35)" stroke-width=".7"/><line x1="11" y1="12" x2="11" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="11" y1="12" x2="14" y2="15" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="11" y1="15" x2="14" y2="15" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="16" y1="12" x2="16" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="16" y1="12" x2="20" y2="15" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="21" y1="12" x2="21" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="19" y1="14" x2="23" y2="14" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="25" y1="12" x2="25" y2="19" stroke="rgba(80,40,0,.7)" stroke-width="1.1"/><line x1="23" y1="12" x2="27" y2="12" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="23" y1="19" x2="27" y2="19" stroke="rgba(80,40,0,.6)" stroke-width="1"/><line x1="10" y1="24" x2="10" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="10" y1="27" x2="13" y2="24" stroke="rgba(80,40,0,.55)" stroke-width="1"/><line x1="15" y1="24" x2="18" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="15" y1="31" x2="15" y2="27" stroke="rgba(80,40,0,.5)" stroke-width=".9"/><line x1="22" y1="24" x2="22" y2="31" stroke="rgba(80,40,0,.65)" stroke-width="1.1"/><line x1="22" y1="27" x2="26" y2="24" stroke="rgba(80,40,0,.55)" stroke-width="1"/><line x1="22" y1="27" x2="26" y2="31" stroke="rgba(80,40,0,.55)" stroke-width="1"/></svg>`},
   {name:'Copper Ouroboros',label:'Ouroboros',rarity:'Rare',rune:null,glow:'rgba(160,110,40,.9)',desc:'A serpent devouring its own tail — cast in aged copper, the eternal symbol of fortune and ruin.',lore:'Those who carry the Ouroboros are said to find what they have lost. Those who lose it are said to find nothing ever again.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j4g" cx="40%" cy="35%" r="65%"><stop offset="0%" stop-color="#d4a858"/><stop offset="55%" stop-color="#8a6028"/><stop offset="100%" stop-color="#3a6040"/></radialGradient></defs><circle cx="20" cy="20" r="13" fill="none" stroke="url(#j4g)" stroke-width="5"/><circle cx="20" cy="7.2" r="4.5" fill="#b08038" stroke="#8a6028" stroke-width=".7"/><circle cx="17.5" cy="5.8" r="1.2" fill="#0a0400"/><circle cx="22.5" cy="5.8" r="1.2" fill="#0a0400"/><path d="M18,8.5 Q20,9.5 22,8.5" stroke="#3a3000" stroke-width=".8" fill="none"/><line x1="19" y1="10" x2="21" y2="10" stroke="#40a060" stroke-width="1.2" stroke-linecap="round"/><path d="M18,31 Q20,33 22,31" stroke="#8a6028" stroke-width="1.5" fill="none"/></svg>`},
   {name:'Ivory Burial Mask',label:'Burial Mask',rarity:'Rare',rune:null,glow:'rgba(230,210,170,.9)',desc:'A ceremonial mask carved from elephant ivory — worn by ancient priest-kings to commune with the dead.',lore:'Recovered from the deepest burial chamber of Solara. The priest-king who wore it last was never found — only the mask.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j5g" cx="40%" cy="30%" r="62%"><stop offset="0%" stop-color="#fffaee"/><stop offset="55%" stop-color="#e8d8b0"/><stop offset="100%" stop-color="#b09060"/></radialGradient></defs><path d="M10,10 Q10,4 20,4 Q30,4 30,10 L32,28 Q30,36 20,36 Q10,36 8,28 Z" fill="url(#j5g)" stroke="#c0a060" stroke-width="1"/><ellipse cx="14" cy="18" rx="3.5" ry="4.5" fill="#080400"/><ellipse cx="26" cy="18" rx="3.5" ry="4.5" fill="#080400"/><ellipse cx="14" cy="17" rx="2" ry="2" fill="rgba(255,240,200,.4)"/><ellipse cx="26" cy="17" rx="2" ry="2" fill="rgba(255,240,200,.4)"/><path d="M14,27 Q20,30 26,27" stroke="#c0a060" stroke-width="1.2" fill="none"/><line x1="20" y1="4" x2="20" y2="7" stroke="#d0b070" stroke-width="1.5"/><ellipse cx="20" cy="8" rx="3" ry="1.2" fill="#d0b070" stroke="#a07040" stroke-width=".5"/><path d="M12,11 Q11,10 9,11 M28,11 Q29,10 31,11" stroke="#c0a060" stroke-width="1" fill="none"/></svg>`},
-  {name:'Obsidian Shard Blade',label:'Obsidian Blade',rarity:'Rare',rune:null,glow:'rgba(160,160,200,.9)',desc:'Knapped from volcanic obsidian by ancient shamans — its edge sharper than steel, its darkness absolute.',lore:'Cut from the heart of a volcano that no longer exists. It has never dulled, and it has never missed.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j6g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c0c8e8"/><stop offset="35%" stop-color="#404050"/><stop offset="100%" stop-color="#060608"/></linearGradient><linearGradient id="j6e" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(200,210,255,.7)"/><stop offset="100%" stop-color="rgba(180,200,255,0)"/></linearGradient></defs><path d="M20,3 L25,18 Q24,22 20,35 Q16,22 15,18 Z" fill="url(#j6g)" stroke="#8080a0" stroke-width=".8"/><path d="M20,3 L25,18" stroke="url(#j6e)" stroke-width="1.2" fill="none"/><path d="M15,18 L25,18 L22,22 L18,22 Z" fill="#1a1a28" stroke="#6060a0" stroke-width=".6"/><line x1="19" y1="4" x2="21" y2="12" stroke="rgba(180,200,255,.3)" stroke-width=".6"/></svg>`},
+  {name:'Obsidian Shard Blade',label:'Obsidian Blade',rarity:'Rare',rune:null,glow:'rgba(255,100,30,.9)',desc:'Knapped from volcanic obsidian by ancient shamans — its edge sharper than steel, its darkness absolute.',lore:'Cut from the heart of a volcano that no longer exists. It has never dulled, and it has never missed.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j6g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff8844"/><stop offset="35%" stop-color="#cc3300"/><stop offset="100%" stop-color="#4a0800"/></linearGradient><linearGradient id="j6e" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,180,100,.7)"/><stop offset="100%" stop-color="rgba(255,120,40,0)"/></linearGradient></defs><path d="M20,3 L25,18 Q24,22 20,35 Q16,22 15,18 Z" fill="url(#j6g)" stroke="#e05020" stroke-width=".8"/><path d="M20,3 L25,18" stroke="url(#j6e)" stroke-width="1.2" fill="none"/><path d="M15,18 L25,18 L22,22 L18,22 Z" fill="#2a0800" stroke="#c04020" stroke-width=".6"/><line x1="19" y1="4" x2="21" y2="12" stroke="rgba(255,180,100,.3)" stroke-width=".6"/></svg>`},
   {name:'Storm Glass Orb',label:'Storm Orb',rarity:'Rare',rune:null,glow:'rgba(100,160,255,.9)',desc:'A crystal sphere that churns with eternal storm-clouds — sailors pay fortunes to read its prophecies.',lore:'Burns without oil or flame. Found at the bottom of the deepest chamber, still lit. The storm inside has never stopped.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j7g" cx="40%" cy="35%" r="60%"><stop offset="0%" stop-color="#e0f0ff"/><stop offset="45%" stop-color="#7090c0"/><stop offset="100%" stop-color="#0a1830"/></radialGradient><radialGradient id="j7s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,255,255,.55)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(#j7g)" stroke="#4060a0" stroke-width=".9"/><path d="M10,22 Q14,18 18,22 Q22,26 26,20 Q28,16 30,18" stroke="rgba(180,220,255,.5)" stroke-width="1.2" fill="none"/><path d="M14,26 Q18,23 22,26" stroke="rgba(150,200,255,.4)" stroke-width="1" fill="none"/><path d="M19,14 L21,19 L18,19 L22,26" stroke="#f0f8ff" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="14" cy="13" rx="5" ry="3.5" fill="url(#j7s)"/><rect x="8" y="34" width="24" height="3" rx="1.5" fill="#2040a0" stroke="#103080" stroke-width=".5"/></svg>`},
   {name:'Carnelian Scarab',label:'Scarab',rarity:'Rare',rune:null,glow:'rgba(220,100,40,.9)',desc:'A sacred scarab carved from blood-red carnelian — symbol of resurrection, worn by pharaohs and gods alike.',lore:'The scarab was placed over the hearts of Solara\'s honored dead. This one still beats, faintly, if you press it to your ear.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j8g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#ffb880"/><stop offset="50%" stop-color="#d05820"/><stop offset="100%" stop-color="#7a2008"/></radialGradient></defs><ellipse cx="20" cy="22" rx="10" ry="12" fill="url(#j8g)" stroke="#c04818" stroke-width="1"/><ellipse cx="12" cy="18" rx="7" ry="9" fill="url(#j8g)" stroke="#c04818" stroke-width=".8" transform="rotate(-25,12,18)"/><ellipse cx="28" cy="18" rx="7" ry="9" fill="url(#j8g)" stroke="#c04818" stroke-width=".8" transform="rotate(25,28,18)"/><ellipse cx="20" cy="20" rx="8" ry="10" fill="#d06028" stroke="none"/><line x1="20" y1="12" x2="20" y2="32" stroke="#a03810" stroke-width=".9"/><line x1="13" y1="20" x2="27" y2="20" stroke="#a03810" stroke-width=".8"/><ellipse cx="20" cy="14" rx="5" ry="3.5" fill="#b04820"/><circle cx="17" cy="13" r="1.5" fill="#040000"/><circle cx="23" cy="13" r="1.5" fill="#040000"/><line x1="14" y1="12" x2="10" y2="8" stroke="#a03810" stroke-width="1.2" stroke-linecap="round"/><line x1="16" y1="11" x2="13" y2="7" stroke="#a03810" stroke-width="1" stroke-linecap="round"/><line x1="26" y1="12" x2="30" y2="8" stroke="#a03810" stroke-width="1.2" stroke-linecap="round"/><line x1="24" y1="11" x2="27" y2="7" stroke="#a03810" stroke-width="1" stroke-linecap="round"/></svg>`},
   {name:'Celestial Lodestone',label:'Lodestone',rarity:'Rare',rune:null,glow:'rgba(180,200,255,.9)',desc:'A magnetized star-iron etched with the night sky — it always points toward the nearest hidden treasure.',lore:'Carved from the bones of a great sea beast. Sailors claimed it always pointed toward treasure, never north.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j9g" cx="42%" cy="38%" r="60%"><stop offset="0%" stop-color="#a8b8d8"/><stop offset="50%" stop-color="#404858"/><stop offset="100%" stop-color="#0c0c18"/></radialGradient></defs><path d="M8,8 L14,8 L14,32 L8,32 L4,20 Z M32,8 L26,8 L26,32 L32,32 L36,20 Z" fill="url(#j9g)" stroke="#606880" stroke-width=".8"/><rect x="14" y="8" width="12" height="24" fill="url(#j9g)" stroke="#606880" stroke-width=".8"/><circle cx="17" cy="14" r="1.2" fill="#e0e8ff" opacity=".9"/><circle cx="23" cy="18" r="1" fill="#e0e8ff" opacity=".85"/><circle cx="19" cy="23" r="1.4" fill="#e0e8ff" opacity=".95"/><circle cx="25" cy="13" r=".8" fill="#e0e8ff" opacity=".8"/><circle cx="15" cy="28" r="1" fill="#e0e8ff" opacity=".75"/><path d="M19,23 L23,18 L17,14 L25,13" stroke="rgba(200,220,255,.25)" stroke-width=".6" fill="none"/><line x1="20" y1="2" x2="20" y2="6" stroke="#8898c8" stroke-width="1.5" stroke-linecap="round"/><rect x="17" y="5" width="6" height="3" rx="1" fill="#5060a0"/></svg>`},
@@ -4011,13 +4013,13 @@ const JIGSAW_ARTIFACTS=[
   {name:'Blood Amber Hourglass',label:'Hourglass',rarity:'Epic',rune:null,glow:'rgba(200,60,30,.9)',desc:'An hourglass sealed with blood amber — the crimson sand within never fully empties, as if time refuses to end.',lore:'An hourglass sealed with blood amber — the crimson sand within never fully empties, as if time refuses to end here.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j13f" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffd070"/><stop offset="100%" stop-color="#c08020"/></linearGradient><radialGradient id="j13s" cx="50%" cy="20%" r="60%"><stop offset="0%" stop-color="#ff4020"/><stop offset="60%" stop-color="#c01010"/><stop offset="100%" stop-color="#400010"/></radialGradient></defs><rect x="8" y="4" width="24" height="4" rx="2" fill="url(#j13f)" stroke="#a07018" stroke-width=".7"/><rect x="8" y="34" width="24" height="4" rx="2" fill="url(#j13f)" stroke="#a07018" stroke-width=".7"/><path d="M10,8 L30,8 L22,20 L30,32 L10,32 L18,20 Z" fill="rgba(20,10,0,.7)" stroke="#c09020" stroke-width=".9"/><path d="M10,8 L30,8 L22,20 L17,20 Z" fill="url(#j13s)" opacity=".9"/><path d="M18,20 L22,20 L20,26 Z" fill="#ff2010" opacity=".85"/><line x1="8" y1="4" x2="8" y2="36" stroke="#c09020" stroke-width=".7"/><line x1="32" y1="4" x2="32" y2="36" stroke="#c09020" stroke-width=".7"/></svg>`},
   {name:'Malachite Sphinx',label:'Sphinx',rarity:'Epic',rune:null,glow:'rgba(30,200,120,.9)',desc:'A miniature sphinx carved from imperial malachite — it sits with the patience of eternity, guarding an eternal riddle.',lore:'It was placed at the entrance of every Solaran vault. The riddle it guards has only one answer — and only one person has ever given it.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j14g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#90ffb8"/><stop offset="50%" stop-color="#18a840"/><stop offset="100%" stop-color="#043818"/></radialGradient></defs><ellipse cx="20" cy="35" rx="14" ry="4" fill="#043818" opacity=".5"/><rect x="8" y="24" width="24" height="10" rx="3" fill="url(#j14g)" stroke="#16a038" stroke-width=".9"/><path d="M10,24 Q10,14 16,12 Q20,10 24,12 Q30,14 30,24 Z" fill="url(#j14g)" stroke="#16a038" stroke-width=".9"/><ellipse cx="14" cy="19" rx="2.5" ry="3" fill="#042810"/><ellipse cx="26" cy="19" rx="2.5" ry="3" fill="#042810"/><ellipse cx="14" cy="18" rx="1.2" ry="1.5" fill="rgba(200,255,200,.5)"/><ellipse cx="26" cy="18" rx="1.2" ry="1.5" fill="rgba(200,255,200,.5)"/><path d="M16,26 Q20,29 24,26" stroke="#16a038" stroke-width="1.2" fill="none"/><path d="M12,12 Q10,8 12,7 Q14,6 16,9" stroke="#16a038" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M28,12 Q30,8 28,7 Q26,6 24,9" stroke="#16a038" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`},
   {name:'Silver Wraith Crown',label:'Wraith Crown',rarity:'Epic',rune:null,glow:'rgba(200,200,255,.9)',desc:'Worn by the Ghost Queen of Vaelas — it appears solid to the touch, yet passes through lesser souls.',lore:'The last crown of Queen Solara, buried with her greatest secret still sealed inside. The crown remains. The secret does not.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j15g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8f6ff"/><stop offset="50%" stop-color="#c0b8e0"/><stop offset="100%" stop-color="#5850a0"/></linearGradient></defs><path d="M4,28 L4,18 L10,24 L16,6 L20,16 L24,6 L30,24 L36,18 L36,28 Z" fill="url(#j15g)" stroke="#a098d0" stroke-width="1"/><line x1="4" y1="28" x2="36" y2="28" stroke="#8078c0" stroke-width="1.5"/><circle cx="16" cy="6" r="2.8" fill="#e8e0ff" stroke="#a098d0" stroke-width=".7"/><circle cx="20" cy="16" r="2.2" fill="#d0c8f0" stroke="#a098d0" stroke-width=".6"/><circle cx="24" cy="6" r="2.8" fill="#e8e0ff" stroke="#a098d0" stroke-width=".7"/><path d="M8,20 Q6,28 8,33" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/><path d="M20,17 Q18,28 20,35" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/><path d="M32,20 Q34,28 32,33" stroke="rgba(200,190,255,.35)" stroke-width="1.2" fill="none"/></svg>`},
-  {name:'Azure Phoenix Feather',label:'Phoenix Feather',rarity:'Epic',rune:null,glow:'rgba(40,180,255,.9)',desc:'A feather shed by the undying Phoenix of Solara — it burns cold in your hand, a ward against death itself.',lore:'A feather shed by the undying Phoenix of Solara. It burns cold in your hand — a ward against death itself, should you dare use it.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j16a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff0b0"/><stop offset="30%" stop-color="#ff8020"/><stop offset="70%" stop-color="#2080e0"/><stop offset="100%" stop-color="#0040a0"/></linearGradient><linearGradient id="j16b" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="rgba(255,200,100,.5)"/><stop offset="100%" stop-color="rgba(100,180,255,.5)"/></linearGradient></defs><path d="M20,36 Q14,26 12,18 Q10,12 14,6" stroke="url(#j16a)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M20,36 Q26,26 28,18 Q30,12 26,6" stroke="url(#j16b)" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M14,6 Q17,16 20,36 Q23,16 26,6" fill="url(#j16a)" opacity=".35"/><path d="M14,16 Q17,18 20,24" stroke="rgba(255,240,160,.45)" stroke-width=".9" fill="none"/><path d="M24,16 Q22,18 20,24" stroke="rgba(100,200,255,.4)" stroke-width=".9" fill="none"/><path d="M13,6 L15,4 L14,7 M27,6 L25,4 L26,7" stroke="#ff9030" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>`},
+  {name:'Emerald Phoenix Feather',label:'Phoenix Feather',rarity:'Epic',rune:null,glow:'rgba(80,220,100,.9)',desc:'A feather shed by the undying Phoenix of Solara — shimmering green like sunlight through jungle leaves, a symbol of eternal renewal.',lore:'The Phoenix of Solara was reborn in emerald flame. Its feathers carry the warmth of spring and the promise that every ending is a new beginning.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j16a" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8f0a0"/><stop offset="30%" stop-color="#60c850"/><stop offset="70%" stop-color="#2a8030"/><stop offset="100%" stop-color="#0a4018"/></linearGradient><linearGradient id="j16b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(180,240,160,.5)"/><stop offset="100%" stop-color="rgba(30,100,40,.5)"/></linearGradient></defs><path d="M20,36 Q14,26 12,18 Q10,12 14,6" stroke="url(#j16a)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M20,36 Q26,26 28,18 Q30,12 26,6" stroke="url(#j16b)" stroke-width="1.8" fill="none" stroke-linecap="round"/><path d="M14,6 Q17,16 20,36 Q23,16 26,6" fill="url(#j16a)" opacity=".35"/><path d="M14,16 Q17,18 20,24" stroke="rgba(180,255,160,.45)" stroke-width=".9" fill="none"/><path d="M24,16 Q22,18 20,24" stroke="rgba(60,180,80,.4)" stroke-width=".9" fill="none"/><path d="M13,6 L15,4 L14,7 M27,6 L25,4 L26,7" stroke="#60c850" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg>`},
   {name:'Gilt Grimoire',label:'Gilt Grimoire',rarity:'Epic',rune:'⊕',glow:'rgba(200,160,40,.9)',desc:'A spellbook bound in black dragonhide and gold — its runes shift when no one is looking, rewriting themselves.',lore:'No lock in Solara can resist the knowledge inside it — yet no one can agree on what door it was written to open.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j17a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#a08030"/><stop offset="100%" stop-color="#181008"/></linearGradient><linearGradient id="j17b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f8e868"/><stop offset="100%" stop-color="#c09818"/></linearGradient></defs><rect x="6" y="4" width="28" height="34" rx="3" fill="url(#j17a)" stroke="#c0a020" stroke-width="1.2"/><rect x="10" y="4" width="20" height="34" rx="2" fill="#0a0800"/><rect x="7" y="5" width="4" height="32" rx="1.5" fill="url(#j17a)"/><rect x="8" y="17" width="2" height="8" rx="1" fill="#ffd840"/><circle cx="20" cy="18" r="6.5" fill="none" stroke="url(#j17b)" stroke-width="1.2"/><line x1="14" y1="18" x2="26" y2="18" stroke="url(#j17b)" stroke-width="1"/><line x1="20" y1="12" x2="20" y2="24" stroke="url(#j17b)" stroke-width="1"/><circle cx="20" cy="18" r="2.5" fill="none" stroke="#f0d040" stroke-width=".9"/><circle cx="20" cy="18" r=".9" fill="#f0d040"/><line x1="13" y1="27" x2="27" y2="27" stroke="rgba(200,170,60,.4)" stroke-width=".7"/><line x1="13" y1="30" x2="27" y2="30" stroke="rgba(200,170,60,.35)" stroke-width=".7"/></svg>`},
   {name:'Aquamarine Trident',label:'Trident Head',rarity:'Epic',rune:null,glow:'rgba(40,200,200,.9)',desc:"The head of the Trident of Bathys, sea deity of the Drowned Empire — it still tastes of the abyssal ocean.",lore:'The Drowned Empire sank in a single night. This trident is all that returned to the surface. The sea wants it back.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j18g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c0ffee"/><stop offset="50%" stop-color="#18c0c0"/><stop offset="100%" stop-color="#084848"/></linearGradient></defs><rect x="18.5" y="8" width="3" height="28" rx="1.5" fill="url(#j18g)" stroke="#108888" stroke-width=".7"/><path d="M12,10 Q10,6 13,4 Q16,2 17,8 L15,18 Z" fill="url(#j18g)" stroke="#108888" stroke-width=".8"/><path d="M28,10 Q30,6 27,4 Q24,2 23,8 L25,18 Z" fill="url(#j18g)" stroke="#108888" stroke-width=".8"/><path d="M15,18 L25,18 L22,24 L18,24 Z" fill="#0a8080" stroke="#108888" stroke-width=".7"/><line x1="14" y1="10" x2="26" y2="10" stroke="rgba(160,255,240,.4)" stroke-width=".8"/><ellipse cx="14" cy="7" rx="1.5" ry="1" fill="rgba(200,255,248,.5)"/><ellipse cx="26" cy="7" rx="1.5" ry="1" fill="rgba(200,255,248,.5)"/></svg>`},
   {name:'Primordial Dragon Egg',label:'Dragon Egg',rarity:'Epic',rune:null,glow:'rgba(180,100,255,.9)',desc:'A fossilized egg from an age before memory — the gold cracks across its surface pulse with ancient warmth.',lore:'A fossilized egg from an age before memory. The gold cracks across its surface still pulse with warmth. Something is waiting.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j19g" cx="40%" cy="35%" r="62%"><stop offset="0%" stop-color="#d8a0ff"/><stop offset="50%" stop-color="#4a0860"/><stop offset="100%" stop-color="#100018"/></radialGradient></defs><ellipse cx="20" cy="21" rx="13" ry="16" fill="url(#j19g)" stroke="#8020c0" stroke-width="1"/><path d="M14,12 Q16,9 20,8 Q24,9 26,12" stroke="#f0c040" stroke-width="1.2" fill="none"/><path d="M11,20 Q13,16 16,14 Q13,22 11,26" stroke="#f0c040" stroke-width="1" fill="none"/><path d="M29,20 Q27,16 24,14 Q27,22 29,26" stroke="#f0c040" stroke-width="1" fill="none"/><path d="M14,28 Q16,32 20,33 Q24,32 26,28" stroke="#f0c040" stroke-width="1.1" fill="none"/><circle cx="20" cy="20" r="3.5" fill="#180028" stroke="#c050f0" stroke-width=".8"/><circle cx="18.5" cy="19" r="1.2" fill="rgba(255,220,100,.6)"/></svg>`},
   // ── LEGENDARY (20-25) ──
   {name:'Obsidian Heart',label:'Obsidian Heart',rarity:'Legendary',rune:'ᛟ',glow:'rgba(255,40,40,1)',desc:'The crystallized heart of a slain war-god — it beats like distant thunder when held near power.',lore:'The crystallized heart of a slain war-god. It beats like distant thunder when held near power — and it has been beating faster lately.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j20g" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#c04040"/><stop offset="40%" stop-color="#280808"/><stop offset="100%" stop-color="#060000"/></radialGradient><radialGradient id="j20p" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,40,20,.7)"/><stop offset="100%" stop-color="rgba(255,0,0,0)"/></radialGradient></defs><ellipse cx="20" cy="24" rx="16" ry="14" fill="url(#j20p)" opacity=".5"/><path d="M20,34 Q8,26 7,18 Q6,10 13,9 Q17,8 20,13 Q23,8 27,9 Q34,10 33,18 Q32,26 20,34 Z" fill="url(#j20g)" stroke="#c02020" stroke-width="1"/><path d="M15,14 Q12,16 12,20 Q13,25 20,32" stroke="rgba(255,60,40,.5)" stroke-width="1.2" fill="none"/><line x1="20" y1="13" x2="16" y2="22" stroke="rgba(255,100,60,.4)" stroke-width="1"/><line x1="20" y1="13" x2="24" y2="21" stroke="rgba(255,80,40,.35)" stroke-width=".9"/><line x1="20" y1="13" x2="20" y2="30" stroke="rgba(255,60,30,.3)" stroke-width=".8"/></svg>`},
-  {name:"God's Eye Relic",label:"God's Eye",rarity:'Legendary',rune:null,glow:'rgba(255,20,20,1)',desc:"The all-seeing relic of deity Korrath — its crimson iris tracks every living thing within a league.",lore:"The all-seeing relic of deity Korrath. Its crimson iris tracks every living thing within a league. It has been watching you since the first chamber.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j21g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff4040"/><stop offset="45%" stop-color="#c01010"/><stop offset="100%" stop-color="#200000"/></radialGradient><radialGradient id="j21s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(255,200,200,.55)"/><stop offset="100%" stop-color="rgba(255,100,100,0)"/></radialGradient></defs><path d="M4,20 Q12,6 20,6 Q28,6 36,20 Q28,34 20,34 Q12,34 4,20 Z" fill="#080000" stroke="#c01010" stroke-width="1"/><circle cx="20" cy="20" r="10" fill="url(#j21g)" stroke="#ff2020" stroke-width=".8"/><ellipse cx="15.5" cy="16.5" rx="4" ry="3.5" fill="url(#j21s)"/><ellipse cx="20" cy="20" rx="5.5" ry="6" fill="#0a0000"/><ellipse cx="17.5" cy="17.5" rx="2.5" ry="2" fill="rgba(255,255,255,.8)"/><circle cx="20" cy="20" r="2" fill="#060000"/></svg>`},
+  {name:"God's Eye Relic",label:"God's Eye",rarity:'Legendary',rune:null,glow:'rgba(60,140,255,1)',desc:"The all-seeing relic of deity Korrath — its golden-brown iris gazes across time and guides the worthy toward hidden treasure.",lore:"The all-seeing relic of deity Korrath. Its warm gaze has guided countless explorers to the treasures of Solara. Now it watches over you.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j21g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#c8a050"/><stop offset="45%" stop-color="#8b6520"/><stop offset="100%" stop-color="#3a2a08"/></radialGradient><radialGradient id="j21s" cx="35%" cy="30%" r="45%"><stop offset="0%" stop-color="rgba(200,220,255,.55)"/><stop offset="100%" stop-color="rgba(100,160,255,0)"/></radialGradient></defs><path d="M4,20 Q12,6 20,6 Q28,6 36,20 Q28,34 20,34 Q12,34 4,20 Z" fill="#0a1428" stroke="#3080e0" stroke-width="1"/><circle cx="20" cy="20" r="10" fill="url(#j21g)" stroke="#4090f0" stroke-width=".8"/><ellipse cx="15.5" cy="16.5" rx="4" ry="3.5" fill="url(#j21s)"/><ellipse cx="20" cy="20" rx="5.5" ry="6" fill="#1a1000"/><ellipse cx="17.5" cy="17.5" rx="2.5" ry="2" fill="rgba(255,255,255,.8)"/><circle cx="20" cy="20" r="2" fill="#0a0800"/></svg>`},
   {name:'Prism of Eternity',label:'Eternal Prism',rarity:'Legendary',rune:null,glow:'rgba(255,255,255,1)',desc:'A perfect crystal prism that splits light into infinite colors — and time into infinite possible futures.',lore:'A perfect crystal prism that splits light into infinite colors — and time into infinite possible futures. In one of them, Solara never fell.',svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j22a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#e8f0ff"/><stop offset="100%" stop-color="#c0d0f8"/></linearGradient></defs><polygon points="20,4 36,32 4,32" fill="url(#j22a)" stroke="rgba(200,220,255,.8)" stroke-width="1"/><path d="M20,4 L4,32" stroke="rgba(255,255,255,.4)" stroke-width=".8" fill="none"/><path d="M20,4 L36,32" stroke="rgba(255,255,255,.4)" stroke-width=".8" fill="none"/><ellipse cx="14" cy="16" rx="6" ry="4" fill="rgba(255,255,255,.2)" transform="rotate(-25,14,16)"/><line x1="4" y1="32" x2="0" y2="36" stroke="#ff4040" stroke-width="1.5" stroke-linecap="round"/><line x1="36" y1="32" x2="40" y2="36" stroke="#4060ff" stroke-width="1.5" stroke-linecap="round"/><line x1="4" y1="32" x2="1" y2="38" stroke="#ff8c00" stroke-width="1.2" stroke-linecap="round"/><line x1="36" y1="32" x2="39" y2="38" stroke="#8000ff" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="32" x2="18" y2="38" stroke="#00e000" stroke-width="1.2" stroke-linecap="round"/><line x1="20" y1="32" x2="22" y2="38" stroke="#ffee00" stroke-width="1.2" stroke-linecap="round"/></svg>`},
   {name:'Solar Sceptre of Ra',label:'Sceptre of Ra',rarity:'Legendary',rune:null,glow:'rgba(255,200,0,1)',desc:"The sun-crowned tip of Ra's divine sceptre — carried by the High Priests of the Solar Throne of Solara.",lore:"The sun-crowned tip of Ra's divine sceptre. Those who hold it in sunlight cast no shadow. Those who hold it at midnight cast two.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="j23g" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff8a0"/><stop offset="45%" stop-color="#f8c020"/><stop offset="100%" stop-color="#a05808"/></radialGradient><linearGradient id="j23s" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffe070"/><stop offset="100%" stop-color="#c08010"/></linearGradient></defs><circle cx="20" cy="16" r="11" fill="url(#j23g)" stroke="#c09010" stroke-width="1.2"/><circle cx="20" cy="16" r="7" fill="#a06008" stroke="#f0c020" stroke-width=".8"/><circle cx="20" cy="16" r="3.5" fill="url(#j23g)" stroke="#ffe050" stroke-width=".7"/><path d="M20,5 L20,2 M20,27 L20,30 M9,16 L6,16 M31,16 L34,16 M12.5,8.5 L10.2,6.2 M27.5,8.5 L29.8,6.2 M12.5,23.5 L10.2,25.8 M27.5,23.5 L29.8,25.8" stroke="#f0c020" stroke-width="1.8" stroke-linecap="round"/><rect x="18.5" y="27" width="3" height="12" rx="1.5" fill="url(#j23s)" stroke="#c08010" stroke-width=".7"/><line x1="14" y1="29" x2="26" y2="29" stroke="#c09010" stroke-width="1.2" stroke-linecap="round"/></svg>`},
   {name:'Void Codex',label:'Void Codex',rarity:'Legendary',rune:'ᛒ',glow:'rgba(60,120,255,1)',desc:"A grimoire written in a dead star's light — its runes glow electric blue and its pages turn themselves at midnight.",lore:"A grimoire written in a dead star's light. Its pages turn themselves at midnight — always to the same page, which is always blank.",svg:`<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="j24g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0818a0"/><stop offset="100%" stop-color="#000808"/></linearGradient></defs><path d="M8,4 Q6,4 6,6 L6,34 Q6,36 8,36 L22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="url(#j24g)" stroke="#2040e0" stroke-width="1"/><path d="M22,4 Q30,4 34,6 L34,34 Q30,36 22,36 Q20,20 20,20 Q20,20 22,4 Z" fill="#04080a" stroke="#1030c0" stroke-width=".9"/><line x1="9" y1="10" x2="19" y2="10" stroke="#3060ff" stroke-width="1.1"/><line x1="9" y1="14" x2="18" y2="14" stroke="#2050e0" stroke-width=".9"/><line x1="10" y1="18" x2="17" y2="18" stroke="#1840c0" stroke-width=".8"/><line x1="24" y1="12" x2="32" y2="12" stroke="rgba(100,160,255,.7)" stroke-width="1.1"/><line x1="24" y1="16" x2="31" y2="16" stroke="rgba(80,140,255,.6)" stroke-width=".9"/><line x1="25" y1="20" x2="31" y2="20" stroke="rgba(60,120,255,.55)" stroke-width=".8"/><line x1="24" y1="24" x2="31" y2="24" stroke="rgba(40,100,220,.5)" stroke-width=".8"/><circle cx="16" cy="24" r="4" fill="none" stroke="#4080ff" stroke-width="1.2"/><line x1="16" y1="20" x2="16" y2="28" stroke="#4080ff" stroke-width=".9"/><line x1="12" y1="24" x2="20" y2="24" stroke="#4080ff" stroke-width=".9"/><circle cx="16" cy="24" r="1.5" fill="#2060d0"/></svg>`},
@@ -4067,99 +4069,197 @@ function getArtifactGlow(slot){return slot>=10?JIGSAW_ARTIFACTS[GAME_STATS.jigsa
 ══════════════════════════════════════════════════════ */
 const ANCIENT_RELICS=[
   null,
-  // ── COMMON (1–30) ──────────────────────────────────
-  {id:1, name:'Copper Coin',         rarity:'common',   icon:'🪙', desc:'A worn coin stamped with a forgotten emperor\'s face.',          lore:'Currency of a trade empire lost to the sands of time.'},
-  {id:2, name:'Stone Tablet',        rarity:'common',   icon:'📜', desc:'A flat stone etched with symbols no one alive can read.',        lore:'Perhaps a law. Perhaps a recipe. Perhaps a love letter.'},
-  {id:3, name:'Clay Vessel',         rarity:'common',   icon:'🏺', desc:'A small jar sealed with ancient wax, contents long evaporated.',  lore:'Whatever it held, someone thought it worth preserving.'},
-  {id:4, name:'Bone Needle',         rarity:'common',   icon:'🧵', desc:'Carved from the shin of a long-extinct bird.',                    lore:'Found alongside scraps of linen finer than any made today.'},
-  {id:5, name:'Flint Arrowhead',     rarity:'common',   icon:'🏹', desc:'Chipped to a razor edge by a hand ten thousand years ago.',      lore:'Never used. The hunter who made it never came back.'},
-  {id:6, name:'Reed Scroll',         rarity:'common',   icon:'📄', desc:'Brittle papyrus covered in faded ink.',                          lore:'Most of the text is lost, but the last line reads: "Return."'},
-  {id:7, name:'Wooden Idol',         rarity:'common',   icon:'🗿', desc:'A small carved figure with hollow eyes.',                         lore:'Placed in the homes of Solara\'s common people for protection.'},
-  {id:8, name:'Iron Ring',           rarity:'common',   icon:'⭕', desc:'Plain, unadorned, slightly too small for any finger.',            lore:'Ownership rings like this were given to servants, not slaves.'},
-  {id:9, name:'Obsidian Shard',      rarity:'common',   icon:'🌑', desc:'A fragment of volcanic glass, edges still sharp.',               lore:'The volcano that formed it has not erupted in recorded history.'},
-  {id:10,name:'Shell Pendant',       rarity:'common',   icon:'🐚', desc:'A spiral shell with a hole worn through the top.',               lore:'The sea it came from is now a desert.'},
-  {id:11,name:'Clay Lamp',           rarity:'common',   icon:'🪔', desc:'A pinched clay oil lamp, still stained with soot.',              lore:'It once lit a room where someone stayed up reading all night.'},
-  {id:12,name:'Bronze Clasp',        rarity:'common',   icon:'🔗', desc:'A small fastener, still functional after three millennia.',      lore:'Solaran garments were famously elaborate. This held one together.'},
-  {id:13,name:'Leather Pouch',       rarity:'common',   icon:'👝', desc:'Dried and cracked, but the stitching is still intact.',          lore:'It smells faintly of dried spice.'},
-  {id:14,name:'Carved Bone',         rarity:'common',   icon:'🦴', desc:'An animal bone etched with tally marks.',                        lore:'Someone was counting something. Days, debts, or kills.'},
-  {id:15,name:'River Stone',         rarity:'common',   icon:'🪨', desc:'A smooth pebble worn by an ancient river, now long dry.',        lore:'Children of Solara kept favorite stones as lucky charms.'},
-  {id:16,name:'Wax Seal',            rarity:'common',   icon:'🔏', desc:'An imprint of a sigil pressed into dark red wax.',               lore:'The house it belonged to has no living descendants.'},
-  {id:17,name:'Terra Cotta Tile',    rarity:'common',   icon:'🧱', desc:'A painted floor tile, part of a larger mosaic.',                 lore:'The full mosaic depicted the founding of Solara. Most is lost.'},
-  {id:18,name:'Feather Charm',       rarity:'common',   icon:'🪶', desc:'A large feather, miraculously preserved.',                       lore:'From the Solaran Sun-Hawk, hunted to extinction for its plumes.'},
-  {id:19,name:'Rough Amber',         rarity:'common',   icon:'🟡', desc:'A blob of tree resin with a tiny insect frozen inside.',         lore:'The insect species has never been identified by modern science.'},
-  {id:20,name:'Herb Bundle',         rarity:'common',   icon:'🌿', desc:'Dried plants bound with cord, scent still faintly present.',     lore:'Used in Solaran healing rituals. Modern herbalists call it useless.'},
-  {id:21,name:'Animal Tooth',        rarity:'common',   icon:'🦷', desc:'A large canine tooth, drilled for use as a pendant.',            lore:'From a predator no longer found on any continent.'},
-  {id:22,name:'Basket Fragment',     rarity:'common',   icon:'🧺', desc:'A woven reed section, pattern still recognizable.',              lore:'Solaran weavers worked patterns that encoded family lineages.'},
-  {id:23,name:'Sandstone Carving',   rarity:'common',   icon:'🗽', desc:'A small relief of a figure in ceremonial dress.',               lore:'The face has been deliberately worn smooth — by its owner, perhaps.'},
-  {id:24,name:'Knotted Cord',        rarity:'common',   icon:'🪢', desc:'A length of rope with complex knots tied at intervals.',         lore:'A Solaran counting method. This one records a debt never repaid.'},
-  {id:25,name:'Pottery Shard',       rarity:'common',   icon:'🫙', desc:'A painted fragment from a larger vessel.',                       lore:'The scene depicted is a celebration. Everyone in it is smiling.'},
-  {id:26,name:'Copper Wire Coil',    rarity:'common',   icon:'🌀', desc:'Thin copper wire wound into a perfect spiral.',                  lore:'Solaran artisans used wire this fine for circuits not yet understood.'},
-  {id:27,name:'Gourd Flask',         rarity:'common',   icon:'🍶', desc:'A dried gourd sealed with resin, used as a water vessel.',       lore:'Still watertight. Remarkable after so many centuries.'},
-  {id:28,name:'Bone Whistle',        rarity:'common',   icon:'🎵', desc:'A hollow bird bone with three finger holes.',                    lore:'Produces a sound archaeologists describe as "unexpectedly haunting."'},
-  {id:29,name:'Linen Wrap',          rarity:'common',   icon:'🧣', desc:'A strip of fine linen, folded and pressed.',                     lore:'Used to wrap something precious during transport. The precious thing is gone.'},
-  {id:30,name:'Charcoal Stick',      rarity:'common',   icon:'✏️', desc:'A thick stick of charcoal, used for drawing or writing.',       lore:'The last marks it made still exist on a cave wall somewhere in the world.'},
-  // ── RARE (31–55) ──────────────────────────────────
-  {id:31,name:'Silver Bracelet',     rarity:'rare',     icon:'💿', desc:'Twisted silver strands braided with inhuman precision.',         lore:'Worn by Solaran navigators on their right wrist. Earned, never given.'},
-  {id:32,name:'Jade Pendant',        rarity:'rare',     icon:'💚', desc:'Deep green jade carved into a teardrop, polished to a mirror.',  lore:'Jade was considered the solidified tears of the earth goddess.'},
-  {id:33,name:'Lapis Lazuli Bead',   rarity:'rare',     icon:'🔵', desc:'A perfectly spherical bead of brilliant blue lapis lazuli.',     lore:'Traded across three continents. Worth more than most houses.'},
-  {id:34,name:'Ivory Comb',          rarity:'rare',     icon:'🎑', desc:'A wide comb carved from ivory, teeth unbroken.',                 lore:'Used in coming-of-age ceremonies. The owner combed their hair once, then put it away forever.'},
-  {id:35,name:'Bronze Dagger',       rarity:'rare',     icon:'⚔️', desc:'A short blade with a grip wrapped in dried leather.',           lore:'Carried by Solaran messengers for self-defense. Mostly symbolic.'},
-  {id:36,name:'Pearl Necklace',      rarity:'rare',     icon:'📿', desc:'Seventeen pearls strung on a thread that should have rotted.',   lore:'The thread appears to be something other than organic material.'},
-  {id:37,name:'Onyx Scarab',         rarity:'rare',     icon:'🖤', desc:'A beetle carved from pure black onyx, wings spread mid-flight.', lore:'Placed over the hearts of the Solaran honored dead.'},
-  {id:38,name:'Turquoise Tile',      rarity:'rare',     icon:'🟦', desc:'A hand-painted tile of brilliant turquoise.',                    lore:'The pigment formula has never been successfully replicated.'},
-  {id:39,name:'Gold Leaf Fragment',  rarity:'rare',     icon:'✨', desc:'A wafer-thin sheet of beaten gold, impossibly preserved.',       lore:'Used to gild the faces of sacred statues. This one escaped the furnace.'},
-  {id:40,name:'Amethyst Ring',       rarity:'rare',     icon:'💜', desc:'A deep purple amethyst set in a plain silver band.',            lore:'Worn by Solaran healers to identify their calling.'},
-  {id:41,name:'Engraved Medallion',  rarity:'rare',     icon:'🏅', desc:'A bronze disc stamped with a radiant sun symbol.',              lore:'Given to soldiers who survived the Battle of the Obsidian Plain.'},
-  {id:42,name:'Coral Figurine',      rarity:'rare',     icon:'🪸', desc:'A tiny figure carved from red coral, depicting a sea creature.', lore:'The Solarans believed coral was the skeleton of the sea.'},
-  {id:43,name:'Serpentine Mask',     rarity:'rare',     icon:'🐍', desc:'A green stone mask with inlaid copper eyes.',                   lore:'Worn during the Festival of Shedding — a celebration of new beginnings.'},
-  {id:44,name:'Glass Eye Amulet',    rarity:'rare',     icon:'👁️', desc:'A blown glass sphere with a painted iris, startlingly lifelike.',lore:'Believed to ward off envy. Every wealthy Solaran household had one.'},
-  {id:45,name:'Obsidian Blade',      rarity:'rare',     icon:'🗡️', desc:'A ritual knife of pure obsidian, never used as a weapon.',      lore:'Used in ceremonies that modern scholars still do not fully understand.'},
-  {id:46,name:'Silver Moon Disc',    rarity:'rare',     icon:'🌙', desc:'A disc of hammered silver engraved with lunar phases.',          lore:'Solaran farmers used it to time their planting. It was never wrong.'},
-  {id:47,name:'Bone Dice',           rarity:'rare',     icon:'🎲', desc:'A set of five polyhedral dice carved from bone.',               lore:'Found in the quarters of a Solaran admiral. She was famously lucky.'},
-  {id:48,name:'Inlaid Flute',        rarity:'rare',     icon:'🎶', desc:'A wooden flute inlaid with mother-of-pearl.',                   lore:'Still playable. The last musician to attempt it wept inexplicably.'},
-  {id:49,name:'Bronze Mirror',       rarity:'rare',     icon:'🪞', desc:'A hammered bronze disc polished to a cloudy reflection.',       lore:'Solaran nobles checked their appearance before every public appearance.'},
-  {id:50,name:'Papyrus Fragment',    rarity:'rare',     icon:'📃', desc:'A piece of ancient papyrus covered in dense script.',           lore:'Translates roughly to a list of things someone was afraid to forget.'},
-  {id:51,name:'Carnelian Seal',      rarity:'rare',     icon:'🔴', desc:'A red carnelian stone carved with an elaborate signet.',        lore:'Used to authorize documents. The authority it represented no longer exists.'},
-  {id:52,name:'Gilded Mirror',       rarity:'rare',     icon:'🪟', desc:'A small mirror backed with real gold leaf.',                    lore:'Belonged to someone who wanted to see themselves clearly.'},
-  {id:53,name:'Ruby Earring',        rarity:'rare',     icon:'💎', desc:'A single earring set with a blood-red ruby.',                   lore:'The matching earring was never found. The story of how they were separated is unknown.'},
-  {id:54,name:'Crystal Prism',       rarity:'rare',     icon:'🔷', desc:'A faceted crystal that splits light into its components.',      lore:'Solaran scholars used these to study the nature of light itself.'},
-  {id:55,name:'Malachite Tablet',    rarity:'rare',     icon:'🟢', desc:'A flat tablet of banded green malachite covered in script.',    lore:'Contains what appears to be a detailed star chart of a sky that no longer matches ours.'},
-  // ── EPIC (56–70) ──────────────────────────────────
-  {id:56,name:'Crystal Orb',        rarity:'epic',     icon:'🔮', desc:'A flawless sphere of pure quartz that seems to glow from within.', lore:'Solaran seers used these to commune with what they called the Deep Pattern.'},
-  {id:57,name:'Dragon Scale',       rarity:'epic',     icon:'🐉', desc:'A scale large as a dinner plate, iridescent as oil on water.',    lore:'From a creature the Solarans called the Ironwing. Extinct, officially.'},
-  {id:58,name:'Sunstone Pendant',   rarity:'epic',     icon:'☀️', desc:'An orange gem that generates its own faint warmth.',             lore:'It was warm when found. It has been warm ever since. No one knows why.'},
-  {id:59,name:'Moonfire Chalice',   rarity:'epic',     icon:'🏆', desc:'A silver goblet that glows faintly blue under moonlight.',       lore:'Drinking from it was said to grant a single true vision of the future.'},
-  {id:60,name:'Void Compass',       rarity:'epic',     icon:'🧭', desc:'A compass whose needle points somewhere no map has charted.',    lore:'It never points north. It points toward something patient and distant.'},
-  {id:61,name:'Storm Rune Stone',   rarity:'epic',     icon:'⛈️', desc:'A flat stone carved with a rune that smells of ozone.',          lore:'Storm callers carried these. Storms still gather where the stones rest.'},
-  {id:62,name:'Serpent Crown',      rarity:'epic',     icon:'👑', desc:'A crown of interlocked serpents in gold and enamel.',           lore:'Worn by the Solaran Serpent-Priests. Their order vanished in a single night.'},
-  {id:63,name:'Phoenix Feather',    rarity:'epic',     icon:'🦅', desc:'A single feather that refuses to burn, no matter the heat.',     lore:'The bird it came from has not been seen in two thousand years. Possibly.'},
-  {id:64,name:'Starfall Gem',       rarity:'epic',     icon:'💫', desc:'A meteorite fragment faceted like a gemstone.',                  lore:'The Solarans believed the sky shed tears of stone. They were not wrong.'},
-  {id:65,name:'Ancient War Horn',   rarity:'epic',     icon:'📯', desc:'A great horn carved from a single tusk, banded in silver.',     lore:'Its sound has not been heard in four thousand years. Some say it should stay that way.'},
-  {id:66,name:'Tempest Amulet',     rarity:'epic',     icon:'🌩️', desc:'A pendant crackling with static even in still air.',            lore:'Worn by the Solaran Storm-Callers in battle. Enemies broke and ran.'},
-  {id:67,name:'Garnet Brooch',      rarity:'epic',     icon:'❤️', desc:'A deep red garnet set in blackened silver, shaped like a heart.',lore:'Given between Solaran warriors who swore to die before the other.'},
-  {id:68,name:'Celestial Fragment', rarity:'epic',     icon:'🗺️', desc:'A piece of a star chart etched in silver foil.',                lore:'The stars it depicts are real. The constellation they form is unknown.'},
-  {id:69,name:'Whispering Skull',   rarity:'epic',     icon:'💀', desc:'A small crystal skull that produces a sound when held alone.',   lore:'The sound is different for every person. No one who hears it can describe it accurately.'},
-  {id:70,name:'Ember Heart',        rarity:'epic',     icon:'🔥', desc:'A red crystal the color of living embers, always warm to touch.',lore:'Torn from the chest of the last Fireborn. They let it happen willingly.'},
-  // ── LEGENDARY (71–75) ──────────────────────────────────
-  {id:71,name:'Tear of Solara',     rarity:'legendary', icon:'💧', desc:'A single crystallized tear from the goddess Solara herself.',    lore:'When the last relic was stolen, she wept once. This is what remains.'},
-  {id:72,name:'The Eternal Flame',  rarity:'legendary', icon:'🕯️', desc:'A flame that has burned since the founding of the first city.',  lore:'It has been carried across oceans and deserts and wars and centuries. It has never gone out.'},
-  {id:73,name:'Void Heart',         rarity:'legendary', icon:'🌌', desc:'A perfectly black sphere that absorbs all light that touches it.',lore:'Found at the center of a city that vanished. The city is not on any map made before the finding.'},
-  {id:74,name:'Forgotten Crown',    rarity:'legendary', icon:'⭐', desc:'A crown of gold and obsidian, sized for no human head.',         lore:'The king who wore it ruled something larger than an empire. What that means is not recorded.'},
-  {id:75,name:'The First Compass',  rarity:'legendary', icon:'🧿', desc:'The original instrument that guided the first explorer of Solara.',lore:'It does not point north. It points toward what you are looking for. Everyone who carries it finds something different.'},
+  // ── COMMON (1–30) ──
+  {id:1, name:'Solaran Trade Coin',         rarity:'common',    shape:'coin',   c1:'#8b5e2a',c2:'#d4a030',ac:'#f0c040',sym:'☽', desc:'A beautifully minted gold coin from the height of the Solaran trade empire, stamped with a crescent moon — the symbol of safe harbor.',                    lore:'Merchants who carried one were welcomed in every port across the known world.'},
+  {id:2, name:"Navigator's Log Page",       rarity:'common',    shape:'scroll', c1:'#e8d5a0',c2:'#8a6830',ac:'#6a4820',       desc:'A page from a Solaran explorer\'s journal, filled with detailed sketches of coastlines and wind patterns used to chart new trade routes.',               lore:'The navigator who wrote this mapped seventeen new islands in a single voyage — a record never broken.'},
+  {id:3, name:'Sealed Offering Jar',        rarity:'common',    shape:'vessel', c1:'#a0522d',c2:'#6b3a1f',ac:'#f5c842',       desc:'A painted clay vessel sealed with fragrant resin, used to carry precious spices and rare herbs as gifts to the temples of Solara.',                      lore:'The painted ibis on the side marks it as a gift to the Temple of Dawn — the grandest in all of Solara.'},
+  {id:4, name:'Ancestor Hearthstone',       rarity:'common',    shape:'tablet', c1:'#6b6b6b',c2:'#3a3a3a',ac:'#d0d0d0',sym:'⊕',desc:'A smooth river stone inscribed with the names of a Solaran family — placed by the hearth to honor generations of explorers and builders.',             lore:'Families competed to fill every inch of their hearthstone. A full stone was a family\'s greatest pride.'},
+  {id:5, name:'Temple Sanctum Tile',        rarity:'common',    shape:'tablet', c1:'#8b7355',c2:'#5c4827',ac:'#f5c842',sym:'𓂀',desc:'A gilded mosaic tile from the floor of Solara\'s inner sanctum, depicting the Eye of Wisdom — a symbol of knowledge and discovery.',                  lore:'The sanctum floor held ten thousand tiles, each hand-painted by the temple\'s finest artisans.'},
+  {id:6, name:'Healer\'s Herb Bundle',      rarity:'common',    shape:'feather',c1:'#4a7c3f',c2:'#2d5a27',ac:'#a8d8a0',       desc:'A bundle of rare mountain herbs used by Solaran healers, carefully dried and tied with silk thread — prized across the ancient world.',                   lore:'Solaran healers trained for twenty years before they were trusted to gather these herbs themselves.'},
+  {id:7, name:'Golden Blessing Feather',    rarity:'common',    shape:'feather',c1:'#d4a030',c2:'#8b6914',ac:'#fff8dc',       desc:'A gilded feather given to Solaran children at their naming ceremony — a symbol of good fortune and a life full of adventure.',                            lore:'Parents kept these in a place of honor. Finding one today is considered extraordinarily lucky.'},
+  {id:8, name:'Champion\'s Iron Link',      rarity:'common',    shape:'ring',   c1:'#4a4a4a',c2:'#2c2c2c',ac:'#999',          desc:'A single iron link from a champion\'s victory chain — one link was added for each tournament won in the great Solaran games.',                            lore:'The greatest champions wore chains so long they had to drape them twice around their shoulders.'},
+  {id:9, name:'Resonance Shell',            rarity:'common',    shape:'scale',  c1:'#f4e4c1',c2:'#c8a060',ac:'#fff9e6',       desc:'A rare spiral shell from the Solaran coast that hums with a musical tone when the wind passes through it — sailors used them as good luck charms.',        lore:'A ship with a resonance shell mounted on the bow was said to always find fair winds.'},
+  {id:10,name:'Royal Census Scroll',        rarity:'common',    shape:'scroll', c1:'#f5e6c8',c2:'#8b6914',ac:'#5c3d11',       desc:'A page from the great Solaran census — a meticulous record of every citizen, their craft, and their contribution to the empire.',                        lore:'The Solarans believed that recording every name kept their people alive in memory forever.'},
+  {id:11,name:'Everglow Lamp',              rarity:'common',    shape:'lamp',   c1:'#b87333',c2:'#7a4a20',ac:'#ffa500',       desc:'A beautifully crafted bronze lamp that burns with a warm, steady flame — Solaran lampsmiths were famous for oils that lasted months on a single fill.',     lore:'Wealthy Solaran families kept an everglow lamp burning in their window as a sign of welcome to travelers.'},
+  {id:12,name:"Scribe's Golden Pen",        rarity:'common',    shape:'blade',  c1:'#c8a878',c2:'#8b6914',ac:'#2c1810',       desc:'A fine reed pen tipped with gold, used by royal scribes to record the histories and victories of Solara\'s greatest heroes.',                             lore:'Only twelve scribes held the title of Royal Chronicler. Each pen was passed down through generations.'},
+  {id:13,name:'Artisan\'s Loom Weight',     rarity:'common',    shape:'disc',   c1:'#888',   c2:'#555',   ac:'#ccc',   sym:'⊗',desc:'A stone weight used by Solaran master weavers to create intricate tapestries — the finest textiles in the ancient world.',                              lore:'Solaran silk was worth more than gold in distant kingdoms. A single tapestry could buy a merchant ship.'},
+  {id:14,name:'Lookout\'s Signal Pipe',     rarity:'common',    shape:'horn',   c1:'#8b7355',c2:'#5c4827',ac:'#d4b483',       desc:'A carved bone flute used by Solaran lookouts to signal ships into harbor — each note carried a different happy message: safe waters, fair winds, or welcome home.',  lore:'Sailors who heard the pipe\'s melody after weeks at sea said it was the sweetest sound in the world.'},
+  {id:15,name:"Pilgrim's Journey Sash",     rarity:'common',    shape:'rope',   c1:'#f5deb3',c2:'#d2b48c',ac:'#8b4513',       desc:'A hand-woven sash worn by pilgrims journeying to the Central Temple — each color in the weave represents a blessing received along the way.',             lore:'A completed sash meant the pilgrim had visited all nine temples. It was worn with great pride for the rest of their life.'},
+  {id:16,name:'Perfumer\'s Crystal Vial',    rarity:'common',    shape:'vial',   c1:'#b0d4e8',c2:'#4682b4',ac:'#e0f4ff',       desc:'A delicate glass vial that once held Solara\'s most prized perfume — extracted from mountain flowers that bloom only at dawn.',                        lore:'A single drop was said to last an entire season. Queens of distant lands sent ships just to trade for it.'},
+  {id:17,name:'Polished Obsidian Sphere',   rarity:'common',    shape:'orb',    c1:'#1a1a2e',c2:'#0d0d1a',ac:'#6b4fa0',       desc:'A perfectly smooth obsidian sphere crafted by master stoneworkers — a testament to the Solarans\' extraordinary precision and artistry.',               lore:'These were given as gifts between rulers. Owning one meant you were considered a friend of Solara.'},
+  {id:18,name:'Governor\'s Golden Seal',    rarity:'common',    shape:'disc',   c1:'#8b0000',c2:'#4a0000',ac:'#ffd700',sym:'⊕',desc:'The official seal of a Solaran regional governor, cast in crimson enamel and gold — a mark of authority and prosperity.',                              lore:'Each governor commissioned a unique seal. Finding one is like holding a piece of Solaran leadership in your hand.'},
+  {id:19,name:'Copper Spiral Medallion',    rarity:'common',    shape:'spiral', c1:'#b87333',c2:'#8b4513',ac:'#f5c842',       desc:'A hammered copper disc etched with a beautiful spiral pattern — a symbol of eternity that Solaran mathematicians considered sacred.',                   lore:'The spiral\'s proportions follow a mathematical harmony the Solarans discovered centuries ahead of any other civilization.'},
+  {id:20,name:"Sailor's Blessing Knot",     rarity:'common',    shape:'rope',   c1:'#c8a878',c2:'#7a6040',ac:'#e8d090',       desc:'A braided cord tied in an intricate knot by Solaran sailors as a prayer for safe passage — each twist represents a day at sea.',                       lore:'Captains who completed the great crossing wore their blessing knots around their wrists for the rest of their lives.'},
+  {id:21,name:'Pocket Guardian Idol',       rarity:'common',    shape:'idol',   c1:'#8b7355',c2:'#5c4827',ac:'#d4b483',       desc:'A tiny carved figure small enough to carry in a pocket — Solaran travelers kept these as guardians for safe journeys and good fortune.',               lore:'Every traveler had their own. Merchants carried them across continents. Finding one means an adventurer passed this way.'},
+  {id:22,name:'Temple Prayer Beads',        rarity:'common',    shape:'bead',   c1:'#4a0e8f',c2:'#2d0a5c',ac:'#9b59b6',       desc:'A string of hand-polished amethyst beads used in Solaran meditation — each bead represents one of the nine virtues of the explorer.',                  lore:'Monks spent years polishing each bead to perfection. A complete set was considered a masterwork.'},
+  {id:23,name:'Friendship Ring',            rarity:'common',    shape:'ring',   c1:'#4a4a4a',c2:'#1c1c1c',ac:'#888',          desc:'A simple iron ring exchanged between Solaran friends as a bond of loyalty — the most common and most treasured artifact of the civilization.',           lore:'More of these have been found than any other Solaran artifact. It seems friendship was their greatest currency.'},
+  {id:24,name:'Golden Amber Teardrop',      rarity:'common',    shape:'orb',    c1:'#c68642',c2:'#8b5e2a',ac:'#ffd700',       desc:'A flawless drop of ancient amber, golden as honey, with a tiny iridescent butterfly perfectly preserved inside — nature\'s own treasure.',              lore:'The Solarans prized amber above rubies. They believed it held captured sunlight.'},
+  {id:25,name:'Fortune Telling Tiles',      rarity:'common',    shape:'tablet', c1:'#e8d5a0',c2:'#8b6914',ac:'#c8a030',sym:'⊗',desc:'Six polished bone tiles used in Solaran fortune-telling games — each face carved with a symbol of luck, harvest, love, or adventure.',                lore:'Festival-goers would pay handsomely to have their tiles read. A good reading meant a year of celebration.'},
+  {id:26,name:'Ceremonial Sling',           rarity:'common',    shape:'sling',  c1:'#8b6914',c2:'#5c4218',ac:'#d4b483',       desc:'A finely crafted leather sling used in Solaran coming-of-age celebrations — young adventurers proved their skill to earn their explorer\'s mark.',       lore:'The ceremony was the proudest day in a young Solaran\'s life. Passing meant you were ready to see the world.'},
+  {id:27,name:'Artisan\'s Name Tile',       rarity:'common',    shape:'tablet', c1:'#cc6633',c2:'#993300',ac:'#ffd090',sym:'?',desc:'A terracotta badge worn by Solaran craftspeople, stamped with their maker\'s mark — a sign of quality trusted across the ancient world.',               lore:'Goods bearing a Solaran maker\'s mark commanded triple the price at market. The name was a guarantee of excellence.'},
+  {id:28,name:'Shrine Offering Basket',     rarity:'common',    shape:'vessel', c1:'#deb887',c2:'#8b6914',ac:'#fff8dc',       desc:'A beautifully woven basket used to carry flowers and fruit to Solaran water shrines — a tradition of gratitude for the rivers that sustained the empire.', lore:'The shrines were always surrounded by flowers. Travelers said you could smell them a mile away.'},
+  {id:29,name:'Explorer\'s Route Map',      rarity:'common',    shape:'map',    c1:'#e8d5a0',c2:'#8b6914',ac:'#cc3300',       desc:'A leather map showing a major Solaran trade route, marked with rest stops, fresh water sources, and the best views along the way.',                     lore:'Solaran mapmakers were the finest in the world. Their routes connected civilizations that had never spoken before.'},
+  {id:30,name:'Diviner\'s Rune Stones',     rarity:'common',    shape:'shard',  c1:'#f5f0dc',c2:'#d2c4a0',ac:'#8b6914',       desc:'Seven smooth stones etched with Solaran wisdom symbols — used by village elders to guide decisions and celebrate the harvest.',                         lore:'Each stone represents a season, a virtue, or a gift. A complete set was passed from teacher to student for generations.'},
+  // ── RARE (31–55) ──
+  {id:31,name:'Brass Tide Plate',           rarity:'rare',      shape:'disc',   c1:'#b5a642',c2:'#8b8000',ac:'#ffd700',sym:'≈', desc:'A magnificent brass plate engraved with tidal charts — Solaran harbormasters used these to guide merchant fleets safely into port.',                    lore:'The precision of their tide predictions amazed every seafaring nation. Solaran ports were the safest in the world.'},
+  {id:32,name:'Jade Serpent Ring',          rarity:'rare',      shape:'ring',   c1:'#00a86b',c2:'#006400',ac:'#90ee90',        desc:'A coiled serpent ring carved from imperial jade with a tiny ruby eye — worn by Solaran sea captains who had crossed the legendary Abyssal Ocean.',       lore:'Only the bravest navigators earned the jade ring. It meant you had sailed farther than anyone thought possible.'},
+  {id:33,name:"Healer's Ceremonial Blade",  rarity:'rare',      shape:'blade',  c1:'#f5f0e8',c2:'#c8b090',ac:'#dc143c',       desc:'A beautifully crafted ivory blade carried by Solaran master healers — never used as a weapon, only as a symbol of their sacred oath to protect life.',   lore:'Each notch on the handle marks a patient healed. This one has 847 — a career of extraordinary dedication.'},
+  {id:34,name:'Silver Lunar Calendar',      rarity:'rare',      shape:'disc',   c1:'#c0c0c0',c2:'#808080',ac:'#fff', sym:'☽', desc:'A hammered silver disc engraved with the Solaran lunar calendar — an astronomical masterpiece that tracked the moon\'s phases with astonishing accuracy.',  lore:'Farmers, sailors, and festival planners all relied on these. The Solaran calendar was the gold standard of the ancient world.'},
+  {id:35,name:'Split Ruby Pendant',         rarity:'rare',      shape:'gem',    c1:'#9b1b30',c2:'#6b0f1e',ac:'#ff6b6b',       desc:'One half of a matched ruby pendant — Solaran lovers split a single gem between them as a promise, each carrying their half wherever they traveled.',    lore:'Finding one half means an extraordinary love story passed through here. The other half is out there, waiting.'},
+  {id:36,name:'Obsidian Scrying Mirror',    rarity:'rare',      shape:'disc',   c1:'#1a1a1a',c2:'#0a0a0a',ac:'#9b59b6',sym:'◉',desc:'A polished obsidian disc used by Solaran visionaries to meditate and find inspiration — the deep black surface was said to reveal one\'s true path.',    lore:'Artists, explorers, and architects all consulted scrying mirrors before their greatest works.'},
+  {id:37,name:'Hero\'s Victory Medal',      rarity:'rare',      shape:'coin',   c1:'#8b7355',c2:'#c8960c',ac:'#ffd700',sym:'☀',desc:'A gold medal awarded to heroes of the Battle of the Obsidian Plain — Solara\'s greatest military triumph, celebrated for generations.',                lore:'Four hundred warriors earned this honor. Each medal was struck with the sun crest and the hero\'s name on the reverse.'},
+  {id:38,name:'Whale-Bone Eagle',           rarity:'rare',      shape:'feather',c1:'#f5f5dc',c2:'#d2b48c',ac:'#8b6914',       desc:'A magnificent carved eagle with wings fully spread, crafted from a single whale bone — placed in the halls of Solaran commanders as a symbol of victory.', lore:'The eagle always faced north, toward the frontier. It represented the spirit of those who dared to go further.'},
+  {id:39,name:'Lapis Oracle Cube',          rarity:'rare',      shape:'shard',  c1:'#26619c',c2:'#1a4080',ac:'#ffd700',       desc:'A cube of deep blue lapis lazuli threaded with veins of gold — used by Solaran philosophers as a meditation focus and symbol of wisdom.',              lore:'Lapis was Solara\'s most treasured stone. A piece this size would have been a prized possession of the temple library.'},
+  {id:40,name:'Gold Foil Star Map',         rarity:'rare',      shape:'star',   c1:'#ffd700',c2:'#b8860b',ac:'#fff8e0',       desc:'A wafer-thin sheet of hammered gold etched with star positions — Solaran astronomers created these to guide explorers across uncharted oceans.',          lore:'The craftsmanship is breathtaking. Each star is placed with a precision that modern cartographers still admire.'},
+  {id:41,name:'Harbor Welcome Horn',        rarity:'rare',      shape:'horn',   c1:'#f5f5dc',c2:'#d2b48c',ac:'#c0c0c0',       desc:'An ivory horn tuned to carry across open water — its warm melody was the first thing sailors heard when approaching a Solaran port.',                    lore:'The sound meant safe harbor, warm food, and friends waiting on the dock. Sailors said it was the sweetest sound at sea.'},
+  {id:42,name:'Onyx Fortune Stone',         rarity:'rare',      shape:'orb',    c1:'#1a1a1a',c2:'#000',   ac:'#555',          desc:'A flawless black sphere of polished onyx — Solaran merchants rubbed these for luck before important trades, and they rarely disappointed.',              lore:'The most successful trading families passed their fortune stone down for generations. This one is worn smooth from centuries of hopeful hands.'},
+  {id:43,name:'Carnelian Heart Seal',       rarity:'rare',      shape:'disc',   c1:'#e05252',c2:'#8b0000',ac:'#ffd700',sym:'♡',desc:'A heart-shaped carnelian seal used by Solaran judges to stamp official pardons — a mark of mercy and compassion in Solaran law.',                     lore:'The heart shape reminded judges that justice and kindness were meant to go hand in hand.'},
+  {id:44,name:'Rock Crystal Solar Lens',    rarity:'rare',      shape:'gem',    c1:'#e0f0f8',c2:'#a0c8e0',ac:'#ffffff',       desc:'A masterfully faceted crystal that captures and focuses sunlight into brilliant rainbows — Solaran architects used these to illuminate their grandest halls.', lore:'The Temple of Dawn had twelve of these set into its ceiling. At noon, the entire chamber blazed with color.'},
+  {id:45,name:"Shipwright's Coral Charm",   rarity:'rare',      shape:'idol',   c1:'#ff6b6b',c2:'#cc4444',ac:'#ffdddd',       desc:'A coral figure of a sailing ship carried by master shipwrights as a badge of their craft — Solaran ships were the finest and fastest ever built.',        lore:'A shipwright\'s coral charm meant you built vessels worthy of crossing the Abyssal Ocean. The highest honor in the trade.'},
+  {id:46,name:'Amethyst Dream Stone',       rarity:'rare',      shape:'orb',    c1:'#6b2d8b',c2:'#4a1a6b',ac:'#dda0dd',       desc:'A raw amethyst prized by Solaran poets and artists — they slept with it nearby, believing it brought vivid, inspiring dreams full of wonder.',            lore:'Some of Solara\'s greatest works of art and music were said to have come from dreams guided by these stones.'},
+  {id:47,name:'Mica-Pressed Starflower',    rarity:'rare',      shape:'star',   c1:'#c8b090',c2:'#a09070',ac:'#ffb6c1',       desc:'A rare mountain flower perfectly preserved between sheets of golden mica — this species bloomed only once a century on the highest Solaran peaks.',        lore:'Catching a starflower bloom was a once-in-a-lifetime event. Pilgrims traveled for months just for the chance to see one.'},
+  {id:48,name:'Ivory Harmony Flute',        rarity:'rare',      shape:'blade',  c1:'#fef5e7',c2:'#deb887',ac:'#8b6914',       desc:'A double-reeded flute carved from ancient ivory that produces a hauntingly beautiful chord — Solaran musicians played these at sunset celebrations.',      lore:'The chord it plays brings a feeling of deep peace. Listeners say it sounds like coming home after a long journey.'},
+  {id:49,name:'Serpentine Festival Mask',   rarity:'rare',      shape:'mask',   c1:'#2e8b57',c2:'#1a5c38',ac:'#b8860b',sym:'◆',desc:'A carved green serpentine mask with copper eyes, worn during the Festival of Renewal — Solara\'s most joyful celebration of new beginnings.',           lore:'The festival lasted nine days. On the final night, everyone wearing a mask danced together until dawn.'},
+  {id:50,name:'Turquoise Guardian Eye',     rarity:'rare',      shape:'eye',    c1:'#40e0d0',c2:'#008b8b',ac:'#003333',       desc:'A turquoise eye amulet the size of a palm — Solaran guardians wore these to symbolize their watchfulness and devotion to protecting their people.',      lore:'The iris pattern in each amulet is unique, like a fingerprint. No two guardians carried the same design.'},
+  {id:51,name:'Rosewood Blessing Figure',   rarity:'rare',      shape:'idol',   c1:'#2c1810',c2:'#1a0f0a',ac:'#8b4513',       desc:'A figure carved from fragrant rosewood with arms raised in celebration — placed at water shrines to give thanks for rain and abundant harvests.',         lore:'The raised arms represent joy and gratitude. Solaran shrines were places of happiness, not sorrow.'},
+  {id:52,name:'Cinnabar Pigment Vessel',    rarity:'rare',      shape:'vessel', c1:'#cc2200',c2:'#880000',ac:'#ff6644',        desc:'A small pot of brilliant cinnabar pigment — the signature color of Solaran art, used to paint the vibrant murals that decorated every public building.',   lore:'Solaran red was the most coveted pigment in the ancient world. Artists traveled from distant lands just to learn the technique.'},
+  {id:53,name:'Ceiling Sky Mosaic Tile',    rarity:'rare',      shape:'shard',  c1:'#40c8d0',c2:'#007080',ac:'#ffd700',       desc:'A turquoise and gold tile from a grand ceiling mosaic depicting the night sky — Solaran temples had ceilings that looked like windows to the heavens.',    lore:'Standing beneath a complete sky mosaic at night, with lamplight reflecting off the gold, was said to be like floating among the stars.'},
+  {id:54,name:"Healer's Precision Compass", rarity:'rare',      shape:'compass',c1:'#f5f0e0',c2:'#c8b090',ac:'#8b6914',       desc:'A beautifully crafted bone instrument used by Solaran master healers — their medical knowledge was centuries ahead of the rest of the world.',           lore:'Solaran healers were welcomed in every kingdom. Their skill was legendary, and this instrument was their most trusted tool.'},
+  {id:55,name:'Malachite Wisdom Tablet',    rarity:'rare',      shape:'tablet', c1:'#2e8b57',c2:'#145a32',ac:'#90ee90',sym:'†',desc:'A polished malachite slab inscribed with two hundred herbal remedies — a Solaran pharmacist\'s most valuable reference, compiled over generations.',     lore:'Nearly every remedy listed has proven effective. The Solarans understood the natural world with remarkable depth.'},
+  // ── EPIC (56–70) ──
+  {id:56,name:'Stargazer\'s Crystal',        rarity:'epic',      shape:'orb',    c1:'#c8e8f8',c2:'#4682b4',ac:'#ffffff',       desc:'A flawless quartz sphere that glows with soft inner light — Solaran astronomers used these to study the stars, and poets said they held captured starlight.', lore:'On clear nights, the glow brightens. Holding one feels like cradling a tiny piece of the sky.'},
+  {id:57,name:'Ironwing Dragon Scale',      rarity:'epic',      shape:'scale',  c1:'#2c2c54',c2:'#1a1a3e',ac:'#a29bfe',       desc:'An iridescent scale that shimmers like oil on water — from the legendary Ironwing, a magnificent creature celebrated in Solaran art and song.',             lore:'The Solarans revered the Ironwing as a guardian spirit. Finding a scale was considered the luckiest omen of all.'},
+  {id:58,name:'Living Sunstone',            rarity:'epic',      shape:'gem',    c1:'#ff8c00',c2:'#cc5500',ac:'#ffff44',        desc:'An orange gem that radiates gentle warmth, like holding a piece of sunshine — Solaran royalty set these into their throne rooms to keep the halls golden and warm.', lore:'Travelers who carried a sunstone never feared the cold. It was Solara\'s most beloved gemstone.'},
+  {id:59,name:'Moonfire Chalice',           rarity:'epic',      shape:'chalice',c1:'#c0c0c0',c2:'#808080',ac:'#4169e1',sym:'☽',desc:'A silver goblet that glows with soft blue light under the full moon — used in Solara\'s most joyful celebrations to toast new ventures and grand voyages.', lore:'Drinking from a moonfire chalice under the stars was said to bring clarity and confidence for the journey ahead.'},
+  {id:60,name:'Compass of the Golden Road', rarity:'epic',      shape:'compass',c1:'#b87333',c2:'#8b4513',ac:'#ff2200',       desc:'A brass compass whose needle always points toward Solara\'s legendary Golden Road — the greatest trade route ever built, stretching across three continents.', lore:'Merchants who followed the Golden Road became wealthy beyond imagining. This compass was their most trusted guide.'},
+  {id:61,name:"Stormcaller's Rune Stone",   rarity:'epic',      shape:'tablet', c1:'#2c3e50',c2:'#1a2534',ac:'#3498db',sym:'ᚱ',desc:'A stone carved with the rune of fair weather — Solaran stormcallers carried these aboard ships, and their fleets were famous for always finding clear skies.', lore:'The Solaran navy never lost a ship to storms. Whether the runes helped or the sailors were simply that skilled is still debated.'},
+  {id:62,name:"Serpent Priest's Crown",     rarity:'epic',      shape:'crown',  c1:'#ffd700',c2:'#b8860b',ac:'#00cc00',       desc:'A crown of interlocking golden serpents with enamel scales and ruby eyes — worn by the Serpent-Priests, guardians of Solara\'s most sacred treasures.',    lore:'The Serpent-Priests were the most honored order in Solara. To wear this crown meant you were entrusted with protecting the empire\'s greatest wonders.'},
+  {id:63,name:'Phoenix Renewal Feather',    rarity:'epic',      shape:'feather',c1:'#ff4500',c2:'#8b0000',ac:'#ffd700',       desc:'A radiant feather in red and gold from the legendary Solaran Phoenix — a symbol of rebirth, resilience, and the triumph of hope over hardship.',           lore:'The Solarans believed the Phoenix returned every thousand years to bless the land with renewal. This feather is proof it was here.'},
+  {id:64,name:'Meteoric Star Gem',          rarity:'epic',      shape:'shard',  c1:'#2c3e50',c2:'#1a2534',ac:'#a29bfe',       desc:'A meteorite fragment faceted into a dazzling thirty-two-sided gem — Solaran jewelers considered star-fallen stones the rarest and most precious of all.',    lore:'A gem from the stars themselves. The Solarans set these in the crowns of their greatest explorers.'},
+  {id:65,name:'Victory Horn of Solara',     rarity:'epic',      shape:'horn',   c1:'#e8e0d0',c2:'#c0b090',ac:'#ffd700',       desc:'A great ceremonial horn banded in silver and etched with the names of Solara\'s greatest victories — sounded only in moments of true triumph.',            lore:'When this horn was blown, the entire city celebrated. Its sound carried for miles, and everyone who heard it knew: Solara had won again.'},
+  {id:66,name:'Tempest Warrior Amulet',     rarity:'epic',      shape:'disc',   c1:'#2c3e50',c2:'#1a2534',ac:'#3498db',sym:'⚡',desc:'A powerful amulet worn by Solara\'s elite Tempest Warriors — the bravest fighters in the ancient world, legendary for their courage and skill.',           lore:'A Tempest Warrior\'s amulet was earned through years of training and a final trial of bravery. Wearing one commanded instant respect.'},
+  {id:67,name:'Garnet Brotherhood Brooch',  rarity:'epic',      shape:'gem',    c1:'#8b0000',c2:'#4a0000',ac:'#ff3030',       desc:'A blood-red garnet set in silver, exchanged between sworn brothers-in-arms — a bond of loyalty that Solaran warriors held more sacred than gold.',         lore:'The two halves of a brotherhood brooch were always found together. The bond between the warriors who wore them never broke.'},
+  {id:68,name:'Celestial Sphere Fragment',  rarity:'epic',      shape:'shard',  c1:'#1a1a2e',c2:'#0d0d1a',ac:'#a29bfe',       desc:'A curved fragment of a grand celestial globe etched with silver star charts — Solaran observatories used these masterpieces to map the heavens.',           lore:'A complete celestial sphere was the crown jewel of any Solaran observatory. Even a fragment is a treasure of astronomical knowledge.'},
+  {id:69,name:'Whispering Crystal',         rarity:'epic',      shape:'skull',  c1:'#d8eef8',c2:'#90c0d8',ac:'#9b59b6',       desc:'A crystal that hums with a soft, musical tone when held — Solaran mystics believed each crystal sang a unique song meant only for the person who found it.', lore:'Every person hears something different. Most describe it as peaceful — like a lullaby from someone who loves you.'},
+  {id:70,name:'Embercore Heart Crystal',    rarity:'epic',      shape:'gem',    c1:'#8b0000',c2:'#4a0000',ac:'#ff6600',       desc:'A deep red crystal that glows warmly at its center — Solaran firekeepers used these to light the eternal flames that burned in every city\'s central plaza.', lore:'The eternal flame represented Solara\'s undying spirit. An embercore crystal was the most honored tool of the firekeepers.'},
+  // ── LEGENDARY (71–75) ──
+  {id:71,name:'Tear of Solara',             rarity:'sacred', shape:'orb',    c1:'#c8d8f0',c2:'#6080b0',ac:'#ffffff',       desc:'A crystallized gemstone said to have been blessed by the goddess Solara herself — the most sacred treasure in the entire civilization, radiating gentle warmth.', lore:'Those who hold it feel a deep sense of peace, as if being told that everything they\'ve been searching for is close.'},
+  {id:72,name:'The Eternal Flame',          rarity:'sacred', shape:'flame',  c1:'#ff8c00',c2:'#ff4500',ac:'#fff8c0',       desc:'A golden flame that has burned since the founding of Solara\'s first city — carried across oceans, through celebrations, and into every new era of prosperity.', lore:'The flame represents the enduring spirit of Solara. Wherever it burns, hope and courage follow.'},
+  {id:73,name:'The Heart of the Deep',      rarity:'sacred', shape:'void',   c1:'#0d0d1a',c2:'#1a1a2e',ac:'#6b2d8b',       desc:'A sphere of deepest purple-black crystal found at the heart of Solara\'s most magnificent underground temple — the most mysterious and beautiful of all their treasures.', lore:'The temple it came from was Solara\'s greatest architectural achievement. Even in darkness, this crystal seems to hold its own quiet light.'},
+  {id:74,name:'Crown of the First King',    rarity:'sacred', shape:'crown',  c1:'#ffd700',c2:'#b8860b',ac:'#0a0604',       desc:'A crown of pure gold and obsidian inlay worn by the founder of Solara — the visionary explorer who united nine tribes into the greatest civilization of the ancient world.', lore:'The gold is the purest ever found. It was crafted to last forever, and it has. A crown fit for the one who started it all.'},
+  {id:75,name:'The First Compass',          rarity:'sacred', shape:'compass',c1:'#ffd700',c2:'#b8860b',ac:'#f8f0e0',       desc:'The legendary instrument that guided Solara\'s first explorer across the Abyssal Ocean to discover the promised land — the most important artifact in Solaran history.', lore:'The explorer who carried it wrote just one line in their journal: "There it is. I knew it was real." And so Solara began.'},
 ];
+/* ── Ancient Relic SVG Generator ── */
+function genRelicSVG(r){
+  const c1=r.c1||'#8b7355',c2=r.c2||'#5c4827',ac=r.ac||'#f5c842',sym=r.sym||'';
+  const g={
+    coin:`<circle cx="20" cy="20" r="17" fill="${c1}" stroke="${c2}" stroke-width="2"/><circle cx="20" cy="20" r="13" fill="none" stroke="${ac}" stroke-width=".8" opacity=".5"/><circle cx="20" cy="20" r="3" fill="${ac}" opacity=".6"/><text x="20" y="17" text-anchor="middle" font-size="9" fill="${ac}" font-family="serif" opacity=".8">${sym}</text>`,
+    tablet:`<rect x="8" y="4" width="24" height="32" rx="3" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><rect x="11" y="7" width="18" height="26" rx="2" fill="none" stroke="${ac}" stroke-width=".7" opacity=".4"/><text x="20" y="23" text-anchor="middle" font-size="10" fill="${ac}" font-family="serif">${sym}</text><line x1="13" y1="27" x2="27" y2="27" stroke="${ac}" stroke-width=".6" opacity=".3"/><line x1="13" y1="30" x2="22" y2="30" stroke="${ac}" stroke-width=".6" opacity=".3"/>`,
+    vessel:`<ellipse cx="20" cy="27" rx="12" ry="10" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><rect x="15" y="12" width="10" height="15" fill="${c1}" stroke="none"/><ellipse cx="20" cy="14" rx="7" ry="4" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><ellipse cx="20" cy="11" rx="4" ry="2" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><ellipse cx="20" cy="27" rx="8" ry="6" fill="none" stroke="${ac}" stroke-width=".8" opacity=".4"/><text x="20" y="30" text-anchor="middle" font-size="7" fill="${ac}" opacity=".5">${sym}</text>`,
+    ring:`<circle cx="20" cy="20" r="14" fill="none" stroke="${c1}" stroke-width="6"/><circle cx="20" cy="20" r="14" fill="none" stroke="${c2}" stroke-width="1.5"/><circle cx="20" cy="20" r="9" fill="none" stroke="${ac}" stroke-width=".6" opacity=".4"/><circle cx="20" cy="6" r="3.5" fill="${ac}" stroke="${c2}" stroke-width="1"/><circle cx="20" cy="6" r="1.8" fill="${c2}"/>`,
+    blade:`<polygon points="20,4 22.5,30 20,33 17.5,30" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><polygon points="20,4 21.5,18 20,20 18.5,18" fill="${ac}" opacity=".35"/><rect x="15" y="33" width="10" height="4" rx="1" fill="${c2}" stroke="${c1}" stroke-width="1"/><line x1="17" y1="12" x2="23" y2="12" stroke="${ac}" stroke-width=".5" opacity=".4"/>`,
+    orb:`<defs><radialGradient id="og${r.id}" cx="38%" cy="35%"><stop offset="0%" stop-color="${ac}" stop-opacity=".9"/><stop offset="45%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></radialGradient></defs><circle cx="20" cy="20" r="16" fill="url(#og${r.id})" stroke="${c2}" stroke-width="1"/><ellipse cx="14" cy="13" rx="4" ry="3" fill="white" opacity=".12"/><circle cx="13" cy="12" r="2" fill="white" opacity=".15"/>`,
+    crown:`<polygon points="8,33 8,17 13,23 20,10 27,23 32,17 32,33" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><rect x="8" y="30" width="24" height="5" rx="1" fill="${c2}"/><circle cx="20" cy="15" r="3" fill="${ac}"/><circle cx="11" cy="23" r="2" fill="${ac}" opacity=".8"/><circle cx="29" cy="23" r="2" fill="${ac}" opacity=".8"/>`,
+    mask:`<ellipse cx="20" cy="20" rx="13" ry="16" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><ellipse cx="15" cy="17" rx="3" ry="2.5" fill="${ac}"/><ellipse cx="25" cy="17" rx="3" ry="2.5" fill="${ac}"/><path d="M14,27 Q20,31 26,27" fill="none" stroke="${ac}" stroke-width="1.2"/><text x="20" y="11" text-anchor="middle" font-size="7" fill="${ac}" opacity=".6">${sym}</text>`,
+    disc:`<circle cx="20" cy="20" r="17" fill="${c1}" stroke="${c2}" stroke-width="2"/><circle cx="20" cy="20" r="13" fill="none" stroke="${ac}" stroke-width=".8" opacity=".45"/><line x1="20" y1="8" x2="20" y2="32" stroke="${ac}" stroke-width=".5" opacity=".25"/><line x1="8" y1="20" x2="32" y2="20" stroke="${ac}" stroke-width=".5" opacity=".25"/><circle cx="20" cy="20" r="3" fill="${ac}"/><text x="20" y="14" text-anchor="middle" font-size="8" fill="${ac}" opacity=".7">${sym}</text>`,
+    compass:`<circle cx="20" cy="20" r="16" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><circle cx="20" cy="20" r="12" fill="none" stroke="${ac}" stroke-width=".7" opacity=".4"/><polygon points="20,8 22,20 20,18 18,20" fill="${ac}"/><polygon points="20,32 18,20 20,22 22,20" fill="${c2}" opacity=".7"/><line x1="8" y1="20" x2="32" y2="20" stroke="${ac}" stroke-width=".5" opacity=".3"/>`,
+    chalice:`<polygon points="12,36 14,21 26,21 28,36" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><ellipse cx="20" cy="21" rx="9" ry="4" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><rect x="18" y="33" width="4" height="4" fill="${c2}"/><rect x="14" y="36" width="12" height="2" rx="1" fill="${c2}"/><ellipse cx="20" cy="21" rx="6" ry="2.5" fill="${ac}" opacity=".25"/><text x="20" y="31" text-anchor="middle" font-size="8" fill="${ac}" opacity=".5">${sym}</text>`,
+    horn:`<path d="M7,32 Q11,22 30,9" fill="none" stroke="${c1}" stroke-width="8" stroke-linecap="round"/><path d="M7,32 Q11,22 30,9" fill="none" stroke="${c2}" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="32" r="4.5" fill="${ac}" stroke="${c2}" stroke-width="1"/><circle cx="30" cy="9" r="2" fill="${c2}"/>`,
+    gem:`<polygon points="20,5 33,16 29,34 11,34 7,16" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><polygon points="20,5 33,16 20,13 7,16" fill="${ac}" opacity=".3"/><line x1="20" y1="5" x2="20" y2="34" stroke="${ac}" stroke-width=".6" opacity=".25"/><line x1="7" y1="16" x2="33" y2="16" stroke="${ac}" stroke-width=".6" opacity=".25"/><polygon points="20,13 27,22 20,28 13,22" fill="${ac}" opacity=".15"/>`,
+    skull:`<ellipse cx="20" cy="18" rx="12" ry="11" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><rect x="14" y="27" width="12" height="8" rx="1" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><ellipse cx="16" cy="18" rx="3.5" ry="3" fill="${c2}"/><ellipse cx="24" cy="18" rx="3.5" ry="3" fill="${c2}"/><line x1="17" y1="28" x2="17" y2="35" stroke="${c2}" stroke-width="1.2"/><line x1="20" y1="28" x2="20" y2="35" stroke="${c2}" stroke-width="1.2"/><line x1="23" y1="28" x2="23" y2="35" stroke="${c2}" stroke-width="1.2"/>`,
+    eye:`<ellipse cx="20" cy="20" rx="15" ry="9" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><circle cx="20" cy="20" r="6" fill="${ac}"/><circle cx="20" cy="20" r="4" fill="${c2}"/><circle cx="18" cy="18" r="1.5" fill="white" opacity=".4"/>`,
+    lamp:`<path d="M14,30 Q12,21 15,14 Q20,7 25,14 Q28,21 26,30 Z" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><ellipse cx="20" cy="30" rx="8" ry="3" fill="${c2}"/><path d="M17,12 Q20,5 23,12" fill="${ac}" opacity=".85"/><path d="M18.5,10 Q20,3 21.5,10" fill="white" opacity=".5"/>`,
+    feather:`<path d="M21,37 Q8,26 10,11 Q16,3 23,9 Q32,17 21,37 Z" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><path d="M21,37 Q17,24 19,13" fill="none" stroke="${ac}" stroke-width="1.1"/><line x1="19" y1="13" x2="10" y2="11" stroke="${ac}" stroke-width=".6" opacity=".4"/><line x1="19.5" y1="18" x2="11" y2="18" stroke="${ac}" stroke-width=".6" opacity=".4"/><line x1="20" y1="24" x2="12" y2="25" stroke="${ac}" stroke-width=".6" opacity=".4"/>`,
+    scale:`<ellipse cx="20" cy="23" rx="14" ry="11" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><path d="M7,19 Q20,8 33,19" fill="${ac}" opacity=".25" stroke="${ac}" stroke-width=".8"/><ellipse cx="20" cy="23" rx="9" ry="7" fill="none" stroke="${ac}" stroke-width=".7" opacity=".4"/><ellipse cx="20" cy="23" rx="5" ry="3.5" fill="${ac}" opacity=".2"/>`,
+    flame:`<path d="M20,37 Q9,28 11,19 Q13,11 20,7 Q22,14 19,19 Q27,10 25,20 Q31,13 29,22 Q31,30 20,37 Z" fill="${c1}" stroke="${c2}" stroke-width="1"/><path d="M20,37 Q13,29 14,22 Q16,15 20,13 Q21,18 20,22 Q24,15 23,22 Q25,29 20,37 Z" fill="${ac}" opacity=".55"/>`,
+    void:`<defs><radialGradient id="vg${r.id}" cx="50%" cy="50%"><stop offset="0%" stop-color="${c2}"/><stop offset="55%" stop-color="${c1}"/><stop offset="100%" stop-color="#000"/></radialGradient></defs><circle cx="20" cy="20" r="17" fill="url(#vg${r.id})" stroke="${c2}" stroke-width="1"/><circle cx="20" cy="20" r="10" fill="${ac}" opacity=".08"/><circle cx="20" cy="20" r="5" fill="${ac}" opacity=".12"/>`,
+    shard:`<polygon points="20,3 32,13 35,27 24,37 8,32 5,16" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><polygon points="20,3 32,13 22,16 10,13" fill="${ac}" opacity=".28"/><line x1="20" y1="3" x2="20" y2="37" stroke="${ac}" stroke-width=".7" opacity=".25"/><line x1="5" y1="24" x2="35" y2="24" stroke="${ac}" stroke-width=".6" opacity=".2"/>`,
+    idol:`<ellipse cx="20" cy="11" rx="7" ry="8" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><rect x="15" y="17" width="10" height="13" rx="1" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><rect x="9" y="19" width="6" height="8" rx="1" fill="${c1}" stroke="${c2}" stroke-width="1"/><rect x="25" y="19" width="6" height="8" rx="1" fill="${c1}" stroke="${c2}" stroke-width="1"/><rect x="14" y="30" width="5" height="7" rx="1" fill="${c1}" stroke="${c2}" stroke-width="1"/><rect x="21" y="30" width="5" height="7" rx="1" fill="${c1}" stroke="${c2}" stroke-width="1"/><circle cx="16" cy="10" r="1.8" fill="${ac}" opacity=".8"/><circle cx="24" cy="10" r="1.8" fill="${ac}" opacity=".8"/>`,
+    bead:`<line x1="8" y1="20" x2="32" y2="20" stroke="${c2}" stroke-width="1.2"/><circle cx="8" cy="20" r="4.5" fill="${c1}" stroke="${c2}" stroke-width="1"/><circle cx="16" cy="20" r="4.5" fill="${ac}" stroke="${c2}" stroke-width="1"/><circle cx="24" cy="20" r="4.5" fill="${c1}" stroke="${c2}" stroke-width="1"/><circle cx="32" cy="20" r="4.5" fill="${ac}" stroke="${c2}" stroke-width="1"/>`,
+    map:`<rect x="5" y="5" width="30" height="30" rx="2" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><line x1="5" y1="17" x2="35" y2="17" stroke="${ac}" stroke-width=".6" opacity=".4"/><line x1="17" y1="5" x2="17" y2="35" stroke="${ac}" stroke-width=".6" opacity=".4"/><path d="M9,23 Q14,15 20,13 Q27,11 31,16" fill="none" stroke="${c2}" stroke-width="1.3"/><circle cx="20" cy="13" r="2.5" fill="${ac}"/>`,
+    scroll:`<rect x="10" y="7" width="20" height="26" rx="2" fill="${c1}" stroke="${c2}" stroke-width="1.2"/><ellipse cx="10" cy="20" rx="4.5" ry="13" fill="${c2}"/><ellipse cx="30" cy="20" rx="4.5" ry="13" fill="${c2}"/><line x1="14" y1="14" x2="26" y2="14" stroke="${ac}" stroke-width=".8" opacity=".55"/><line x1="14" y1="18" x2="26" y2="18" stroke="${ac}" stroke-width=".8" opacity=".55"/><line x1="14" y1="22" x2="22" y2="22" stroke="${ac}" stroke-width=".8" opacity=".55"/>`,
+    star:`<polygon points="20,3 23,15 35,15 26,23 29,35 20,28 11,35 14,23 5,15 17,15" fill="${c1}" stroke="${c2}" stroke-width="1.3"/><polygon points="20,7 22.5,16 31,16 24,21 26.5,30 20,26 13.5,30 16,21 9,16 17.5,16" fill="${ac}" opacity=".3"/>`,
+    vial:`<rect x="16" y="5" width="8" height="6" rx="2" fill="${c2}" stroke="${c2}" stroke-width="1"/><path d="M14,11 Q10,18 10,26 Q10,36 20,36 Q30,36 30,26 Q30,18 26,11 Z" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><ellipse cx="20" cy="26" rx="7" ry="6" fill="${ac}" opacity=".3"/><line x1="13" y1="20" x2="27" y2="20" stroke="${ac}" stroke-width=".8" opacity=".35"/>`,
+    spiral:`<circle cx="20" cy="20" r="16" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><path d="M20,20 Q24,16 24,20 Q24,26 18,26 Q11,26 11,18 Q11,9 20,9 Q30,9 30,20" fill="none" stroke="${ac}" stroke-width="1.5" stroke-linecap="round"/>`,
+    rope:`<path d="M8,10 Q20,6 32,10 Q20,14 8,18 Q20,22 32,26 Q20,30 8,34" fill="none" stroke="${c1}" stroke-width="3" stroke-linecap="round"/><path d="M8,10 Q20,6 32,10 Q20,14 8,18 Q20,22 32,26 Q20,30 8,34" fill="none" stroke="${c2}" stroke-width="1" stroke-linecap="round"/>`,
+    sling:`<path d="M10,8 Q20,20 30,8" fill="none" stroke="${c1}" stroke-width="2.5" stroke-linecap="round"/><ellipse cx="20" cy="26" rx="8" ry="5" fill="${c1}" stroke="${c2}" stroke-width="1.5"/><circle cx="20" cy="26" r="4" fill="${c2}"/><line x1="12" y1="21" x2="10" y2="8" stroke="${c1}" stroke-width="1.5"/><line x1="28" y1="21" x2="30" y2="8" stroke="${c1}" stroke-width="1.5"/>`,
+  };
+  const body=g[r.shape]||g.coin;
+  return `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">${body}</svg>`;
+}
 const ANCIENT_RARITY_COLORS={
   common:  {border:'rgba(160,120,70,.5)',  glow:'rgba(160,120,70,.0)',  pip:'#c8966e', label:'#c8966e', shimmer:false},
   rare:    {border:'rgba(80,160,255,.6)',  glow:'rgba(80,160,255,.35)', pip:'#60d8ff', label:'#60d8ff', shimmer:false},
   epic:    {border:'rgba(170,80,255,.7)',  glow:'rgba(170,80,255,.45)', pip:'#c070ff', label:'#c070ff', shimmer:true},
-  legendary:{border:'rgba(255,200,40,.8)',glow:'rgba(255,200,40,.55)', pip:'#ffd700', label:'#ffd700', shimmer:true}
+  sacred:{border:'rgba(255,200,40,.8)',glow:'rgba(255,200,40,.55)', pip:'#ffd700', label:'#ffd700', shimmer:true}
 };
-// Drop rates: Common 55%, Rare 30%, Epic 12%, Legendary 3%
+// Drop rates: Common 55%, Rare 30%, Epic 12%, Sacred 3%
 const ANCIENT_DROP_RATES=[
   {rarity:'common',   weight:55},
   {rarity:'rare',     weight:30},
   {rarity:'epic',     weight:12},
-  {rarity:'legendary',weight:3}
+  {rarity:'sacred',weight:3}
 ];
+
+/* ══ TIER-BASED REWARD SYSTEM ══
+   Gold/Silver/Bronze tiers based on mistakes AND time.
+   Bronze only requires mistake threshold (no time limit).
+   Exceeding Bronze mistake limit = no rewards at all.
+   Perfect run (0 mistakes) grants bonus gold.
+   Consecutive mistake streaks penalize gold reward. */
+const REWARD_TIERS={
+  easy:{
+    gold:  {maxMistakes:2, maxTime:300,  reward:18},
+    silver:{maxMistakes:5, maxTime:480,  reward:10},
+    bronze:{maxMistakes:8, maxTime:null, reward:4},
+    perfectBonus:8, relicChance:{gold:25,silver:15,bronze:8}
+  },
+  medium:{
+    gold:  {maxMistakes:3, maxTime:480,  reward:30},
+    silver:{maxMistakes:6, maxTime:720,  reward:18},
+    bronze:{maxMistakes:10,maxTime:null, reward:8},
+    perfectBonus:12, relicChance:{gold:25,silver:15,bronze:8}
+  },
+  hard:{
+    gold:  {maxMistakes:3, maxTime:900,  reward:45},
+    silver:{maxMistakes:7, maxTime:1200, reward:28},
+    bronze:{maxMistakes:12,maxTime:null, reward:12},
+    perfectBonus:18, relicChance:{gold:25,silver:15,bronze:8}
+  },
+  expert:{
+    gold:  {maxMistakes:2, maxTime:1500, reward:65},
+    silver:{maxMistakes:5, maxTime:2100, reward:40},
+    bronze:{maxMistakes:10,maxTime:null, reward:18},
+    perfectBonus:25, relicChance:{gold:25,silver:15,bronze:8}
+  }
+};
+
+function calcPerformanceTier(diff,mistakes,elapsed){
+  const tiers=REWARD_TIERS[diff];
+  if(!tiers)return null;
+  // Gold: must meet both mistake AND time thresholds
+  if(mistakes<=tiers.gold.maxMistakes&&elapsed<=tiers.gold.maxTime)return'gold';
+  // Silver: must meet both mistake AND time thresholds
+  if(mistakes<=tiers.silver.maxMistakes&&elapsed<=tiers.silver.maxTime)return'silver';
+  // Bronze: only mistake threshold (no time limit)
+  if(mistakes<=tiers.bronze.maxMistakes)return'bronze';
+  // Exceeded all thresholds — no reward
+  return null;
+}
+
+function calcGoldReward(diff,tier,mistakes,maxConsecMistakes){
+  const tiers=REWARD_TIERS[diff];
+  if(!tier||!tiers)return 0;
+  let gold=tiers[tier].reward;
+  // Perfect run bonus (0 mistakes)
+  if(mistakes===0)gold+=tiers.perfectBonus;
+  // Consecutive mistake penalty: 3+ in a row = -10% per streak beyond 2, max -50%
+  if(maxConsecMistakes>=3){
+    const penalty=Math.min((maxConsecMistakes-2)*0.10, 0.50);
+    gold=Math.round(gold*(1-penalty));
+  }
+  return Math.max(1,gold);
+}
 
 /* ══ ARTIFACT SOUND EFFECTS ══ */
 const SOUNDS=(()=>{
@@ -4651,13 +4751,14 @@ function loadState(){
   if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=1;
   if(!GAME_STATS.adventureCompleted) GAME_STATS.adventureCompleted=[];
   if(!GAME_STATS.adventurePlacedPieces) GAME_STATS.adventurePlacedPieces={};
+  if(!GAME_STATS.adventureEarnedPieces) GAME_STATS.adventureEarnedPieces={};
   if(GAME_STATS.gold===undefined) GAME_STATS.gold=0;
   if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
   if(!GAME_STATS.goldPiecesDate) GAME_STATS.goldPiecesDate='';
   if(!GAME_STATS.ancientRelics) GAME_STATS.ancientRelics=[];
   }catch(e){console.warn('Load failed:',e);}
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[]};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[]};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -4905,12 +5006,12 @@ function spawnWinCoins(){
 /* ══════════════════════════════════════════════════════
    RELAX MODE
 ══════════════════════════════════════════════════════ */
-let PZ={puzzle:[],solution:[],board:[],notes:[],selected:null,activeNum:null,notesMode:false,mistakes:0,score:0,streak:0,hints:3,diff:'easy',undoStack:[],timerInterval:null,elapsed:0,startTime:0};
+let PZ={puzzle:[],solution:[],board:[],notes:[],selected:null,activeNum:null,notesMode:false,mistakes:0,score:0,streak:0,hints:3,diff:'easy',undoStack:[],timerInterval:null,elapsed:0,startTime:0,consecMistakes:0,maxConsecMistakes:0};
 
 function pzStart(diff){
   clearInterval(PZ.timerInterval);
   ACTIVE_MODE='puzzle';
-  PZ={...PZ,diff,selected:null,activeNum:null,notesMode:false,mistakes:0,score:0,streak:0,hints:3,undoStack:[],elapsed:0};
+  PZ={...PZ,diff,selected:null,activeNum:null,notesMode:false,mistakes:0,score:0,streak:0,hints:3,undoStack:[],elapsed:0,consecMistakes:0,maxConsecMistakes:0};
   const diffNames={easy:'EASY',medium:'INTERMEDIATE',hard:'ADVANCED',expert:'EXPERT'};
   const badge=document.getElementById('pz-diff-badge');
   if(badge)badge.textContent=diffNames[diff]||diff.toUpperCase();
@@ -4985,14 +5086,15 @@ function pzPlace(num){
     const cell=document.querySelector(`#pz-board .cell[data-idx="${placedIdx}"]`);
     cell.classList.add('correct-flash');spawnSparkle(cell);
     setTimeout(()=>cell.classList.remove('correct-flash'),800);
-    PZ.score+=10*(PZ.streak+1);PZ.streak++;
+    PZ.consecMistakes=0;PZ.score+=10*(PZ.streak+1);PZ.streak++;
     const r=cell.getBoundingClientRect();spawnParticles(r.left+r.width/2,r.top+r.height/2,num);
     GAME_STATS.artifactCounts[num]=(GAME_STATS.artifactCounts[num]||0)+1;
     pzClearNotesCascade(placedIdx,num);PZ.selected=null;
     pzUpdateScore();pzRenderBoard();pzCheckWin();
   } else {
-    PZ.streak=0;PZ.mistakes++;pzUpdateMistakes();
+    PZ.streak=0;PZ.mistakes++;PZ.consecMistakes++;if(PZ.consecMistakes>PZ.maxConsecMistakes)PZ.maxConsecMistakes=PZ.consecMistakes;pzUpdateMistakes();
     pzUpdateScore();
+    PZ.activeNum=null;pzSyncActiveNumpad();
     const cell=document.querySelector(`#pz-board .cell[data-idx="${placedIdx}"]`);
     cell.innerHTML='';cell.appendChild(makeCellIcon(num,false));cell.classList.add('wrong-placement');
     setTimeout(()=>{cell.classList.add('wrong-fade');setTimeout(()=>{cell.classList.remove('wrong-placement','wrong-fade');cell.innerHTML='';PZ.selected=null;pzRenderBoard();},200);},500);
@@ -5049,16 +5151,26 @@ function pzCheckWin(){
   playWinChime();
   clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;
   if(GAME_STATS.puzzleWinsByDiff)GAME_STATS.puzzleWinsByDiff[PZ.diff]=(GAME_STATS.puzzleWinsByDiff[PZ.diff]||0)+1;
-  // Gold reward for Relax Mode
-  const _pzGoldMap={easy:20,medium:30,hard:45,expert:60};
-  const _pzGoldEarned=_pzGoldMap[PZ.diff]||20;
-  GAME_STATS.gold=(GAME_STATS.gold||0)+_pzGoldEarned;
-  // Show gold earned on win screen
+  // Tier-based reward system
+  const _tier=calcPerformanceTier(PZ.diff,PZ.mistakes,PZ.elapsed);
+  const _pzGoldEarned=calcGoldReward(PZ.diff,_tier,PZ.mistakes,PZ.maxConsecMistakes);
   const _wgEl=document.getElementById('win-gold-earned');
   const _wgAmt=document.getElementById('win-gold-amount');
-  if(_wgEl&&_wgAmt){_wgAmt.textContent=_pzGoldEarned;_wgEl.style.display='block';}
-  setTimeout(()=>rollAncientRelic('relax'),500);
-  setTimeout(()=>showToast(`🪙 +${_pzGoldEarned} gold earned! Total: ${GAME_STATS.gold} gold`,2500),4200);
+  const _tierNames={gold:'🥇 Gold',silver:'🥈 Silver',bronze:'🥉 Bronze'};
+  if(_tier){
+    GAME_STATS.gold=(GAME_STATS.gold||0)+_pzGoldEarned;
+    if(_wgEl&&_wgAmt){_wgAmt.textContent=_pzGoldEarned;_wgEl.style.display='block';}
+    const _tierLabel=_tierNames[_tier]||_tier;
+    const _perfectTag=PZ.mistakes===0?' ✨ Perfect Run!':'';
+    const _penaltyTag=PZ.maxConsecMistakes>=3?` (−${Math.min((PZ.maxConsecMistakes-2)*10,50)}% streak penalty)`:'';
+    // Relic drop with tier-based chance
+    const _relicChance=REWARD_TIERS[PZ.diff]?.relicChance?.[_tier]||0;
+    setTimeout(()=>rollAncientRelic('relax',_relicChance),500);
+    setTimeout(()=>showToast(`${_tierLabel} Tier! 🪙 +${_pzGoldEarned} gold${_perfectTag}${_penaltyTag}`,3200),4200);
+  } else {
+    if(_wgEl)_wgEl.style.display='none';
+    setTimeout(()=>showToast('Too many mistakes for rewards. Keep practicing!',3000),4200);
+  }
   const t=PZ.elapsed,m=PZ.mistakes,prev=BEST_TIMES[PZ.diff];
   const isRecord=!prev||t<prev.time;
   if(isRecord){BEST_TIMES[PZ.diff]={time:t,mistakes:m};document.getElementById('win-best-val').textContent='✦ New Record! ✦';}
@@ -5408,6 +5520,7 @@ function dpPlace(num){
   // WRONG
   } else {
     DP.streak=0;
+    DP.activeNum=null;DP.activeHandIdx=null;dpRenderHand();
     const _wrongCh=DP.challenges&&DP.challenges.find(c=>c.idx===placedIdx);
     const _isPopup=_wrongCh&&_wrongCh.type==='popup';
     const _isBomb=_wrongCh&&_wrongCh.type==='bomb';
@@ -7416,9 +7529,8 @@ function changeMapPage(dir){
 
 function renderAdventurePath(){
   const svg=document.getElementById('advpath-svg');
-  const DEV_UNLOCK_ALL=true; // TEMP: unlock all nodes for testing
-  const progress=DEV_UNLOCK_ALL?99:(GAME_STATS.adventureProgress||1);
-  const completed=DEV_UNLOCK_ALL?[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]:(GAME_STATS.adventureCompleted||[]);
+  const progress=GAME_STATS.adventureProgress||1;
+  const completed=GAME_STATS.adventureCompleted||[];
 
   // Page 1 positions (locations 1-10)
   const positionsP1=[
@@ -7465,6 +7577,7 @@ function renderAdventurePath(){
   let html='<defs>';
   html+='<filter id="advGlow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>';
   html+='<filter id="advShadow"><feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="rgba(0,0,0,.6)"/></filter>';
+  html+='<filter id="advBlur"><feGaussianBlur stdDeviation="2"/></filter>';
   html+='</defs>';
 
   // Draw nodes
@@ -7494,18 +7607,24 @@ function renderAdventurePath(){
       html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="#f5c842" stroke="#c09820" stroke-width="2"/>`;
       html+=`<text x="${p.x}" y="${p.y+5}" text-anchor="middle" font-family="'Cinzel',serif" font-size="12" fill="#3a1a00" font-weight="900">${i}</text>`;
     } else {
-      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="rgba(40,40,40,.6)" stroke="rgba(100,100,100,.4)" stroke-width="1.5" opacity=".5"/>`;
-      html+=`<text x="${p.x}" y="${p.y+5}" text-anchor="middle" font-family="'Cinzel',serif" font-size="12" fill="rgba(150,150,150,.5)" font-weight="900">${i}</text>`;
+      // Locked node — dark, blurred appearance with lock icon
+      html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="rgba(20,15,10,.7)" stroke="rgba(60,50,40,.5)" stroke-width="1.5"/>`;
+      html+=`<text x="${p.x}" y="${p.y+6}" text-anchor="middle" font-size="13" fill="rgba(120,100,70,.5)">🔒</text>`;
     }
 
     // Location name — positioned to left or right of circle based on align
-    const nameColor=isDone?'#f5c842':isCurrent?'#ffe066':'rgba(180,180,180,.4)';
     const anchor=p.align==='left'?'start':'end';
     const nameX=p.align==='left'?p.x+19:p.x-19;
-    const nameStroke=isDone||isCurrent?'rgba(0,0,0,.7)':'rgba(0,0,0,.4)';
-    // Text shadow for readability
-    html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="none" stroke="${nameStroke}" stroke-width="3" stroke-linejoin="round" letter-spacing=".06em">${loc.name}</text>`;
-    html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="${nameColor}" letter-spacing=".06em" font-weight="700">${loc.name}</text>`;
+    if(isLocked){
+      // Locked: show blurred "???" instead of name
+      html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="none" stroke="rgba(0,0,0,.3)" stroke-width="3" stroke-linejoin="round" letter-spacing=".06em">???</text>`;
+      html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="rgba(100,80,50,.35)" letter-spacing=".06em" font-weight="700" style="filter:url(#advBlur)">???</text>`;
+    } else {
+      const nameColor=isDone?'#f5c842':'#ffe066';
+      const nameStroke='rgba(0,0,0,.7)';
+      html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="none" stroke="${nameStroke}" stroke-width="3" stroke-linejoin="round" letter-spacing=".06em">${loc.name}</text>`;
+      html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="${nameColor}" letter-spacing=".06em" font-weight="700">${loc.name}</text>`;
+    }
 
     html+=`</g>`;
   }
@@ -7608,10 +7727,9 @@ function renderAdventurePath(){
 
 /* ── Adventure Node Click ── */
 function advNodeClicked(locationId){
-  const DEV_UNLOCK_ALL=true; // TEMP: allow clicking all nodes for testing
-  const progress=DEV_UNLOCK_ALL?99:(GAME_STATS.adventureProgress||1);
-  const completed=DEV_UNLOCK_ALL?[1,2,3,4,5,6,7,8,9,10]:(GAME_STATS.adventureCompleted||[]);
-  if(!DEV_UNLOCK_ALL&&locationId>progress){
+  const progress=GAME_STATS.adventureProgress||1;
+  const completed=GAME_STATS.adventureCompleted||[];
+  if(locationId>progress){
     showToast('Complete the previous puzzle to unlock this location');
     return;
   }
@@ -7644,9 +7762,10 @@ function openAdvJigsaw(locationId){
 
   // Set title & subtitle
   document.getElementById('adv-jig-title').textContent=loc.icon+' '+loc.name;
+  const earnedForSub=GAME_STATS.adventureEarnedPieces[locationId]||0;
   document.getElementById('adv-jig-sub').textContent=allPlaced
     ? 'Map complete! Tap the \u2715 to claim your reward!'
-    : placed.length+' / '+totalPieces+' pieces placed';
+    : `${placed.length} placed · ${Math.min(earnedForSub,totalPieces)}/${totalPieces} pieces earned`;
 
   // Render grid
   const gridSvg=document.getElementById('adv-jig-grid');
@@ -7704,10 +7823,12 @@ function openAdvJigsaw(locationId){
     el.addEventListener('click',()=>advMapRevealChest(parseInt(el.dataset.loc)));
   });
 
-  // Render tray with unplaced pieces (shuffled)
+  // Render tray with earned but unplaced pieces (shuffled)
+  // Only pieces the player has earned through daily puzzles appear in the tray
   const tray=document.getElementById('adv-jig-tray');
+  const earnedCount=GAME_STATS.adventureEarnedPieces[locationId]||0;
   const unplaced=[];
-  for(let idx=1;idx<=totalPieces;idx++){
+  for(let idx=1;idx<=Math.min(earnedCount,totalPieces);idx++){
     if(!placed.includes(idx))unplaced.push(idx);
   }
   // Shuffle
@@ -7777,25 +7898,18 @@ function _advJigRefreshGoldUI(locationId){
     GAME_STATS.goldPiecesDate=today;
   }
   const used=GAME_STATS.goldPiecesUsedToday||0;
-  const costs=[50,75,100];
-  const nextCost=used<3?costs[used]:null;
+  const nextCost=150+(used*50);
 
   // Usage label
   const usageEl=document.getElementById('adv-jig-recover-usage');
-  if(usageEl) usageEl.textContent=`Fragments recovered today: ${used} / 3`;
+  if(usageEl) usageEl.textContent=`Fragments recovered today: ${used} · Next: ${nextCost}g`;
 
   // Button label & visibility
   const btn=document.getElementById('adv-jig-recover-btn');
   if(btn){
-    if(used>=3){
-      btn.textContent='🪙 Recover Fragment — Limit Reached';
-      btn.disabled=true;
-      btn.style.opacity='.4';
-    } else {
-      btn.textContent=`🪙 Recover Fragment — ${nextCost} gold`;
-      btn.disabled=false;
-      btn.style.opacity='';
-    }
+    btn.textContent=`🪙 Recover Fragment — ${nextCost} gold`;
+    btn.disabled=false;
+    btn.style.opacity='';
     // Store current locationId on button for the handler
     btn.dataset.locId=locationId;
   }
@@ -7821,13 +7935,7 @@ function recoverFragment(){
   }
 
   const used=GAME_STATS.goldPiecesUsedToday||0;
-  if(used>=3){
-    showToast('⚓ You\'ve recovered enough fragments for today. Return tomorrow!',3000);
-    return;
-  }
-
-  const costs=[50,75,100];
-  const cost=costs[used];
+  const cost=150+(used*50);
   const currentGold=GAME_STATS.gold||0;
 
   if(currentGold<cost){
@@ -7851,6 +7959,10 @@ function recoverFragment(){
   GAME_STATS.gold=currentGold-cost;
   GAME_STATS.goldPiecesUsedToday=(used+1);
   GAME_STATS.goldPiecesDate=today;
+
+  // Ensure the piece is counted as earned (gold purchase = earn + place)
+  const currentEarned=GAME_STATS.adventureEarnedPieces[locationId]||0;
+  if(chosenPiece>currentEarned) GAME_STATS.adventureEarnedPieces[locationId]=chosenPiece;
 
   // Place the piece
   if(!GAME_STATS.adventurePlacedPieces[locationId]) GAME_STATS.adventurePlacedPieces[locationId]=[];
@@ -8482,10 +8594,6 @@ document.getElementById('reset-records').addEventListener('click',()=>{
 });
 (async()=>{
   loadState();
-  // TEMP: Force all 10 locations completed for testing
-  GAME_STATS.adventureProgress=11;
-  GAME_STATS.adventureCompleted=[1,2,3,4,5,6,7,8,9,10];
-  saveState();
   await initSupabase();
   if(AUTH_STATE.user)await loadFromCloud();
   updateMenuState();
@@ -8551,6 +8659,20 @@ function dpMapPieceEarned(dateStr){
   if(GAME_STATS.completedDates.includes(dateStr))return;
   GAME_STATS.completedDates.push(dateStr);
   GAME_STATS.mapPieces++;
+  // Earn a jigsaw piece for the current adventure location
+  const advLocId=GAME_STATS.adventureProgress||1;
+  const maxLocations=ADVENTURE_LOCATIONS.length-1; // 1-indexed
+  if(advLocId<=maxLocations){
+    const loc=ADVENTURE_LOCATIONS[advLocId];
+    if(loc){
+      const totalPieces=loc.gridCols*loc.gridRows;
+      const earned=GAME_STATS.adventureEarnedPieces[advLocId]||0;
+      if(earned<totalPieces){
+        GAME_STATS.adventureEarnedPieces[advLocId]=earned+1;
+        showToast(`🧩 Jigsaw piece ${earned+1}/${totalPieces} earned for ${loc.name}!`,2800);
+      }
+    }
+  }
   saveState();
   const cycle=((GAME_STATS.mapPieces-1)%15)+1;
   showToast(`🗺️ Map piece ${cycle}/15 collected!`,2500);
@@ -8599,10 +8721,16 @@ function updateMapProgressBar(){
 }
 
 /* ── ANCIENT RELIC DROP + RENDER ── */
-function rollAncientRelic(source){
-  // source: 'relax' (35% chance) or 'daily' (50% chance)
-  const chance=source==='daily'?50:35;
-  if(Math.random()*100>chance)return;
+function rollAncientRelic(source,overrideChance){
+  // Guaranteed drop on very first win (daily or relax)
+  const totalWins=(GAME_STATS.puzzleWins||0)+(GAME_STATS.dailyWins||0);
+  const isFirstWin=totalWins<=1&&(GAME_STATS.ancientRelics||[]).length===0;
+  // Relax mode uses tier-based chance via overrideChance; daily uses 20%
+  if(!isFirstWin){
+    const chance=overrideChance!=null?overrideChance:(source==='daily'?20:15);
+    if(chance<=0)return;
+    if(Math.random()*100>chance)return;
+  }
   const owned=new Set(GAME_STATS.ancientRelics||[]);
   if(owned.size>=75){
     // All collected — give bonus gold instead
@@ -8633,14 +8761,14 @@ function showAncientRelicUnlock(relic){
   const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
   const panel=document.getElementById('aru-panel');
   const titleEl=document.getElementById('aru-title');
-  const rarityTitles={common:'✦ COMMON RELIC ✦',rare:'✦ RARE RELIC ✦',epic:'✦✦ EPIC RELIC ✦✦',legendary:'✦✦✦ LEGENDARY RELIC ✦✦✦'};
+  const rarityTitles={common:'✦ COMMON RELIC ✦',rare:'✦ RARE RELIC ✦',epic:'✦✦ EPIC RELIC ✦✦',sacred:'✦✦✦ SACRED RELIC ✦✦✦'};
   if(panel){
     panel.style.border=`1px solid ${colors.border}`;
     panel.style.boxShadow=`0 0 60px ${colors.glow}, 0 0 120px rgba(0,0,0,.9)`;
   }
   if(titleEl){titleEl.textContent=rarityTitles[relic.rarity]||'✦ RELIC FOUND ✦';titleEl.style.color=colors.label;}
-  document.getElementById('aru-icon').textContent=relic.icon;
-  document.getElementById('aru-icon').style.color=colors.pip;
+  document.getElementById('aru-icon').innerHTML=genRelicSVG(relic).replace('<svg ','<svg style="width:60px;height:60px;filter:drop-shadow(0 0 16px '+colors.pip+');" ');
+  document.getElementById('aru-icon').style.color='';
   document.getElementById('aru-name').textContent=relic.name;
   const rarityEl=document.getElementById('aru-rarity');
   rarityEl.textContent=relic.rarity.toUpperCase();
@@ -8664,14 +8792,14 @@ function renderAncientVault(){
     const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
     if(isOwned){
       slot.className=`ar-slot ${relic.rarity}`;
-      slot.innerHTML=`<div class="ar-rarity-pip"></div><div class="ar-slot-icon">${relic.icon}</div><div class="ar-slot-name">${relic.name}</div>`;
+      slot.innerHTML=`<div class="ar-rarity-pip"></div><div class="ar-slot-icon">${genRelicSVG(relic)}</div><div class="ar-slot-name">${relic.name}</div>`;
       slot.title=relic.name;
       slot.addEventListener('click',()=>{
         const pip=document.getElementById('rd-rarity-pip');
-        const pipColors={common:'#c8966e',rare:'#60d8ff',epic:'#c070ff',legendary:'#ffd700'};
-        const pipGlow={common:'rgba(160,120,70,.4)',rare:'rgba(80,160,255,.6)',epic:'rgba(170,80,255,.7)',legendary:'rgba(255,200,40,.9)'};
+        const pipColors={common:'#c8966e',rare:'#60d8ff',epic:'#c070ff',sacred:'#ffd700'};
+        const pipGlow={common:'rgba(160,120,70,.4)',rare:'rgba(80,160,255,.6)',epic:'rgba(170,80,255,.7)',sacred:'rgba(255,200,40,.9)'};
         const r=relic.rarity;
-        document.getElementById('rd-icon').innerHTML=`<div style="font-size:64px;line-height:80px;filter:drop-shadow(0 0 14px ${colors.pip})">${relic.icon}</div>`;
+        document.getElementById('rd-icon').innerHTML=`<div style="width:80px;height:80px;filter:drop-shadow(0 0 14px ${colors.pip})">${genRelicSVG(relic).replace('<svg ','<svg style="width:80px;height:80px;" ')}</div>`;
         pip.style.background=pipColors[r];
         pip.style.boxShadow=`0 0 8px ${pipGlow[r]}`;
         document.getElementById('rd-name').textContent=relic.name;
@@ -8682,7 +8810,7 @@ function renderAncientVault(){
       });
     } else {
       slot.className='ar-slot locked';
-      slot.innerHTML=`<div class="ar-slot-icon" style="font-size:18px;opacity:.4;">🔒</div><div class="ar-slot-name" style="opacity:.3;">???</div>`;
+      slot.innerHTML=`<div class="ar-slot-icon" style="opacity:.2;filter:grayscale(1);">${genRelicSVG(relic)}</div><div class="ar-slot-name" style="opacity:.3;">???</div>`;
       slot.title='Discover this relic through Daily or Relax Mode';
     }
     container.appendChild(slot);

@@ -1,0 +1,8 @@
+Welcome to Treasure Sudoku! This first release includes:
+
+- Full Sudoku gameplay with Easy, Medium, Hard, and Expert difficulties
+- Daily puzzle mode with unique daily challenges
+- Interactive world map with multiple explorable regions
+- Treasure vault to collect and display your discovered relics
+- Themed puzzle backgrounds for each map region
+- Progress tracking and game statistics

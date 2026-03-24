@@ -1,0 +1,2 @@
+Primary: Games > Puzzle
+Secondary: Games > Board

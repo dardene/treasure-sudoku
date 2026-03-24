@@ -1,0 +1,15 @@
+Embark on a puzzle adventure where every solved Sudoku uncovers ancient relics and hidden treasures.
+
+Treasure Sudoku combines the timeless logic of Sudoku with an explorer's quest for legendary artifacts. Navigate an interactive world map, conquer puzzles across exotic locations, and build your collection of rare relics in your personal treasure vault.
+
+FEATURES:
+
+- Classic Sudoku gameplay with multiple difficulty levels — from beginner-friendly to expert challenge
+- Daily puzzles with unique rewards to keep you coming back
+- Explore a hand-illustrated world map with diverse regions to unlock
+- Collect and display rare artifacts in your interactive treasure vault
+- Beautiful themed environments — from desert ruins to arctic temples
+- Progress tracking and statistics to sharpen your skills
+- Works completely offline — play anywhere, anytime
+
+Whether you're a Sudoku master or picking up your first puzzle, Treasure Sudoku offers a fresh twist on the classic brain game. Start your expedition today.
