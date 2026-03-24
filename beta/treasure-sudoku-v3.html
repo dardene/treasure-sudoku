@@ -6448,14 +6448,9 @@ const UI_SFX=(()=>{
   function _tone(c,type,freq,dest,t0,t1){const o=c.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t0);o.connect(dest);o.start(t0);o.stop(t1);}
   function _play(fn){if(!SETTINGS.sound)return;try{const c=_ac(),m=c.createGain();m.gain.value=0.14*(SETTINGS.sfxVolume/100);m.connect(c.destination);fn(c,c.currentTime,m);}catch(e){}}
   return{
-    // 1. Wrong answer buzz — short dissonant descending tone
-    mistake(){_play((c,t,m)=>{
-      const g=c.createGain();g.connect(m);_env(g,t,.001,.6,.18);
-      const o=c.createOscillator();o.type='square';o.frequency.setValueAtTime(280,t);o.frequency.exponentialRampToValueAtTime(120,t+.15);
-      o.connect(g);o.start(t);o.stop(t+.2);
-      const g2=c.createGain();g2.connect(m);_env(g2,t+.02,.001,.3,.12);
-      _tone(c,'sawtooth',190,g2,t+.02,t+.16);
-    });},
+    // 1. Wrong answer — preloaded MP3
+    _mistakeAudio:(()=>{const a=new Audio('mistake.mp3');a.preload='auto';a.load();return a;})(),
+    mistake(){if(!SETTINGS.sound)return;try{this._mistakeAudio.volume=0.30*(SETTINGS.sfxVolume/100);this._mistakeAudio.currentTime=0;this._mistakeAudio.play().catch(()=>{});}catch(e){}},
     // 2. Menu transition whoosh — filtered noise sweep
     whoosh(){_play((c,t,m)=>{
       const bufSize=c.sampleRate*.15;const buf=c.createBuffer(1,bufSize,c.sampleRate);
@@ -6503,19 +6498,29 @@ const UI_SFX=(()=>{
   };
 })();
 
-/* ══ JIGSAW ARTIFACT PLACEMENT SOUNDS (MP3-based) ══ */
-// Maps jigsaw artifact index → MP3 file for custom placement sounds
+/* ══ JIGSAW ARTIFACT PLACEMENT SOUNDS (MP3-based, preloaded) ══ */
 const JIGSAW_SOUNDS = {
   1: 'moonstone-place.mp3',  // Moonstone Amulet
+  2: 'warhorn-place.mp3',    // Bronze War Horn
+  3: 'runetablet-place.mp3', // Amber Rune Tablet
+  4: 'ouroboros-place.mp3',  // Copper Ouroboros
 };
+// Preload all MP3s into audio buffers for instant playback
+const _jigsawAudioCache = {};
+Object.entries(JIGSAW_SOUNDS).forEach(([idx, file]) => {
+  const a = new Audio(file);
+  a.preload = 'auto';
+  a.load();
+  _jigsawAudioCache[idx] = a;
+});
 function playJigsawArtifactSound(jigsawIdx){
   if(!SETTINGS.sound)return;
-  const file = JIGSAW_SOUNDS[jigsawIdx];
-  if(!file){ playLegendaryPlace(); return; }
+  const cached = _jigsawAudioCache[jigsawIdx];
+  if(!cached){ playLegendaryPlace(); return; }
   try{
-    const audio = new Audio(file);
-    audio.volume = 0.35 * (SETTINGS.sfxVolume / 100);
-    audio.play().catch(()=>{});
+    cached.volume = 0.35 * (SETTINGS.sfxVolume / 100);
+    cached.currentTime = 0;
+    cached.play().catch(()=>{});
   }catch(e){ playLegendaryPlace(); }
 }
 
