@@ -5410,7 +5410,7 @@ function chestReset(){
   p1.className='';
   p2.classList.remove('show');p2.style.display='none';
   burst.classList.remove('active');burst.style.display='none';
-  goldFloat.classList.remove('animate');goldFloat.textContent='';goldFloat.style.display='none';
+  goldFloat.classList.remove('animate');goldFloat.textContent='';goldFloat.style.display='none';goldFloat.style.color='';goldFloat.style.fontSize='';
   relicReveal.classList.remove('show');
   document.getElementById('win-relic-beam').classList.remove('animate');
   document.getElementById('win-relic-icon').classList.remove('animate');
@@ -5542,6 +5542,32 @@ function chestAdvancePhase(){
 
   switch(CHEST_SEQ.phase){
     case'idle':
+      // No-tier: chest stays locked, show "better luck next time"
+      if(!tier){
+        CHEST_SEQ.phase='collect';
+        playChestThud();
+        if(CHEST_SEQ.sparkleInterval){clearInterval(CHEST_SEQ.sparkleInterval);CHEST_SEQ.sparkleInterval=null;}
+        tapHint.style.display='none';
+        // Sad shake — chest refuses to open
+        wrap.style.animation='chestShake .4s ease 2';
+        goldFloat.textContent='Too many mistakes — no treasure this time';
+        goldFloat.style.fontSize='16px';
+        goldFloat.style.display='block';
+        goldFloat.style.color='rgba(180,150,100,.7)';
+        goldFloat.classList.add('animate');
+        continueHint.classList.add('show');
+        // Auto-advance to results after 3s
+        CHEST_SEQ.timers.push(setTimeout(()=>{
+          continueHint.classList.remove('show');
+          p1.style.transition='opacity .4s';p1.style.opacity='0';
+          setTimeout(()=>{
+            p1.style.display='none';
+            p2.style.display='block';
+            requestAnimationFrame(()=>requestAnimationFrame(()=>p2.classList.add('show')));
+          },400);
+        },3000));
+        break;
+      }
       // Phase: Tapped — squash down (anticipation crouch)
       CHEST_SEQ.phase='tapped';
       playChestThud();
