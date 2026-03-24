@@ -9032,8 +9032,14 @@ function recoverFragment(){
   for(let i=1;i<=totalPieces;i++){if(!placed.includes(i))unplaced.push(i);}
   if(unplaced.length===0){showToast('All pieces are already placed!',2000);return;}
 
-  // Pick a random unplaced piece
-  const chosenPiece=unplaced[Math.floor(Math.random()*unplaced.length)];
+  // Pick 1-4 random unplaced pieces
+  const pieceCount=Math.min(1+Math.floor(Math.random()*4), unplaced.length);
+  const chosenPieces=[];
+  const pool=[...unplaced];
+  for(let i=0;i<pieceCount;i++){
+    const idx=Math.floor(Math.random()*pool.length);
+    chosenPieces.push(pool.splice(idx,1)[0]);
+  }
 
   // Deduct gold and track usage
   UI_SFX.purchase();
@@ -9041,16 +9047,16 @@ function recoverFragment(){
   GAME_STATS.goldPiecesUsedToday=(used+1);
   GAME_STATS.goldPiecesDate=today;
 
-  // Ensure the piece is counted as earned (gold purchase = earn + place)
-  const currentEarned=GAME_STATS.adventureEarnedPieces[locationId]||0;
-  if(chosenPiece>currentEarned) GAME_STATS.adventureEarnedPieces[locationId]=chosenPiece;
-
-  // Place the piece
+  // Place all chosen pieces
   if(!GAME_STATS.adventurePlacedPieces[locationId]) GAME_STATS.adventurePlacedPieces[locationId]=[];
-  GAME_STATS.adventurePlacedPieces[locationId].push(chosenPiece);
+  chosenPieces.forEach(p=>{
+    const currentEarned=GAME_STATS.adventureEarnedPieces[locationId]||0;
+    if(p>currentEarned) GAME_STATS.adventureEarnedPieces[locationId]=p;
+    GAME_STATS.adventurePlacedPieces[locationId].push(p);
+  });
   saveState();
 
-  showToast(`✨ Lost fragment recovered! (${cost}g spent)`,2800);
+  showToast(`✨ ${pieceCount} fragment${pieceCount>1?'s':''} recovered! (${cost}g spent)`,2800);
 
   // Coin fly animation from gold bar to grid
   _spawnCoinFly();
