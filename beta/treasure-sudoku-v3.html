@@ -5331,7 +5331,7 @@ function pzPlace(num){
     PZ.undoStack.push({idx:placedIdx,prev:PZ.board[placedIdx],prevNotes:new Set(PZ.notes[placedIdx])});
     PZ.board[placedIdx]=num;PZ.notes[placedIdx].clear();
     const _pzSlot=(ACTIVE_MODE==='puzzle')?SETTINGS.customArtifacts[num-1]||num:num;
-    if(_pzSlot>=10){playLegendaryPlace();}else{SOUNDS.play(num);}
+    if(_pzSlot>=10){const _jIdx=GAME_STATS.jigsawArtifacts[_pzSlot-10];playJigsawArtifactSound(_jIdx);}else{SOUNDS.play(num);}
     const _pzRem=PZ.board.filter(v=>v===0).length;MUSIC.setMagical(_pzRem>0&&_pzRem<=9);
     const cell=document.querySelector(`#pz-board .cell[data-idx="${placedIdx}"]`);
     cell.classList.add('correct-flash');spawnSparkle(cell);
@@ -5525,20 +5525,307 @@ function playChestTension(){
   }catch(e){}
 }
 
-function playRelicReveal(){
+/* ══ RELIC REVEAL SOUNDS — Unique per rarity, each sacred relic has its own voice ══ */
+function playRelicReveal(relic){
   if(!SETTINGS.sound)return;
   try{
     const c=new(window.AudioContext||window.webkitAudioContext)();
     if(c.state==='suspended')c.resume();
-    const m=c.createGain();m.gain.value=.14*(SETTINGS.sfxVolume/100);m.connect(c.destination);
-    [196,261.63,329.63,392,523.25].forEach((f,i)=>{
-      const t=c.currentTime+i*.09;
-      const g=c.createGain();g.connect(m);
-      g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.5,t+.015);
-      g.gain.exponentialRampToValueAtTime(.0001,t+.8);
-      const o=c.createOscillator();o.type='sine';o.frequency.value=f;
-      o.connect(g);o.start(t);o.stop(t+.85);
+    const t=c.currentTime;
+    const vol=0.16*(SETTINGS.sfxVolume/100);
+    const master=c.createGain();master.gain.value=vol;master.connect(c.destination);
+    // Helper: envelope
+    function env(g,t0,att,peak,dec){g.gain.setValueAtTime(.0001,t0);g.gain.linearRampToValueAtTime(peak,t0+att);g.gain.exponentialRampToValueAtTime(.0001,t0+att+dec);}
+    // Helper: tone
+    function tn(type,freq,dest,t0,t1){const o=c.createOscillator();o.type=type;o.frequency.setValueAtTime(freq,t0);o.connect(dest);o.start(t0);o.stop(t1);return o;}
+
+    const rarity=relic?.rarity||'common';
+
+    // ── SACRED RELICS: Each has its own unique, epic sound ──
+    if(rarity==='sacred'){
+      master.gain.value=vol*1.3; // Sacred relics are louder
+      const id=relic?.id||71;
+      switch(id){
+        case 71: // Tear of Solara — Ethereal crystalline water drop + divine choir shimmer
+          // Layer 1: Crystal water drop — high ping that descends like a tear falling
+          {const g=c.createGain();g.connect(master);env(g,t,.001,.7,.12);
+          const o=c.createOscillator();o.type='sine';o.frequency.setValueAtTime(2400,t);o.frequency.exponentialRampToValueAtTime(800,t+.15);
+          o.connect(g);o.start(t);o.stop(t+.18);}
+          // Layer 2: Crystalline ripple — the tear hitting still water
+          [1046.50,1318.51,1567.98,2093.0].forEach((f,i)=>{
+            const d=.08+i*.06;
+            const g=c.createGain();g.connect(master);env(g,t+d,.002,.45-.08*i,.35);
+            tn('sine',f,g,t+d,t+d+.4);
+            const gh=c.createGain();gh.connect(master);env(gh,t+d,.002,.12,.2);
+            tn('triangle',f*2.003,gh,t+d,t+d+.25);
+          });
+          // Layer 3: Divine choir — warm sustained chord (Cmaj7) with gentle vibrato
+          [261.63,329.63,392.0,493.88].forEach((f,i)=>{
+            const g=c.createGain();g.connect(master);
+            g.gain.setValueAtTime(0,t+.3);g.gain.linearRampToValueAtTime(.28,t+.55);
+            g.gain.setValueAtTime(.28,t+1.0);g.gain.exponentialRampToValueAtTime(.0001,t+2.2);
+            const o=c.createOscillator();o.type='sine';o.frequency.value=f;
+            const lfo=c.createOscillator();lfo.type='sine';lfo.frequency.value=4+i*.5;
+            const lg=c.createGain();lg.gain.value=2;lfo.connect(lg);lg.connect(o.frequency);
+            o.connect(g);o.start(t+.3);o.stop(t+2.3);lfo.start(t+.3);lfo.stop(t+2.3);
+          });
+          // Layer 4: Celestial sparkles — high random twinkles like light refracting
+          for(let i=0;i<10;i++){
+            const d=.4+i*.12+Math.random()*.08;
+            const f=2600+Math.random()*1800;
+            const g=c.createGain();g.connect(master);env(g,t+d,.002,.15-.01*i,.12);
+            tn('sine',f,g,t+d,t+d+.15);
+          }
+          // Layer 5: Sub warmth — the gentle warmth the lore describes
+          {const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(0,t+.2);g.gain.linearRampToValueAtTime(.2,t+.5);
+          g.gain.exponentialRampToValueAtTime(.0001,t+1.8);
+          tn('sine',65.41,g,t+.2,t+1.9);}
+          break;
+
+        case 72: // The Eternal Flame — Crackling fire whoosh + ascending blaze + warm resolve
+          // Layer 1: Fire whoosh — filtered noise sweep upward
+          {const bufSz=c.sampleRate*.3;const buf=c.createBuffer(1,bufSz,c.sampleRate);
+          const d=buf.getChannelData(0);for(let i=0;i<bufSz;i++)d[i]=(Math.random()*2-1)*.8;
+          const src=c.createBufferSource();src.buffer=buf;
+          const flt=c.createBiquadFilter();flt.type='bandpass';flt.Q.value=2;
+          flt.frequency.setValueAtTime(200,t);flt.frequency.exponentialRampToValueAtTime(3000,t+.25);
+          const g=c.createGain();g.connect(master);env(g,t,.005,.55,.28);
+          src.connect(flt);flt.connect(g);src.start(t);src.stop(t+.35);}
+          // Layer 2: Ascending flame tones — rising fire (D→F#→A→D→F#)
+          [293.66,369.99,440,587.33,739.99].forEach((f,i)=>{
+            const d=.05+i*.07;
+            const g=c.createGain();g.connect(master);env(g,t+d,.003,.5-.06*i,.3);
+            tn('sawtooth',f,g,t+d,t+d+.35);
+            // Warm harmonic
+            const gh=c.createGain();gh.connect(master);env(gh,t+d,.003,.18,.2);
+            tn('sine',f*1.5,gh,t+d,t+d+.25);
+          });
+          // Layer 3: Eternal sustain — warm pulsing flame that never dies
+          [293.66,369.99,440].forEach((f)=>{
+            const g=c.createGain();g.connect(master);
+            g.gain.setValueAtTime(0,t+.4);g.gain.linearRampToValueAtTime(.22,t+.7);
+            g.gain.setValueAtTime(.22,t+1.2);g.gain.exponentialRampToValueAtTime(.0001,t+2.5);
+            const o=c.createOscillator();o.type='sine';o.frequency.value=f;
+            // Flicker vibrato — like a flame dancing
+            const lfo=c.createOscillator();lfo.type='sine';lfo.frequency.value=6+Math.random()*3;
+            const lg=c.createGain();lg.gain.value=4;lfo.connect(lg);lg.connect(o.frequency);
+            o.connect(g);o.start(t+.4);o.stop(t+2.6);lfo.start(t+.4);lfo.stop(t+2.6);
+          });
+          // Layer 4: Crackle pops — irregular flame crackles
+          for(let i=0;i<8;i++){
+            const d=.1+Math.random()*.6;
+            const g=c.createGain();g.connect(master);env(g,t+d,.001,.3,.03);
+            const f=1200+Math.random()*2000;
+            tn('square',f,g,t+d,t+d+.04);
+          }
+          // Layer 5: Deep warmth — bass presence
+          {const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.25,t+.15);
+          g.gain.exponentialRampToValueAtTime(.0001,t+1.0);
+          tn('sine',73.42,g,t,t+1.1);}
+          break;
+
+        case 73: // Heart of the Deep — Abyssal reverb + mysterious dark pulse + haunting overtones
+          // Layer 1: Deep abyss impact — sub-bass that you FEEL
+          {const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.9,t+.005);
+          g.gain.exponentialRampToValueAtTime(.0001,t+.8);
+          const o=c.createOscillator();o.type='sine';
+          o.frequency.setValueAtTime(55,t);o.frequency.exponentialRampToValueAtTime(22,t+.7);
+          o.connect(g);o.start(t);o.stop(t+.9);}
+          // Layer 2: Dark pulse — tritone-based mysterious chord (diminished)
+          [146.83,174.61,207.65,246.94].forEach((f,i)=>{
+            const d=.1+i*.08;
+            const g=c.createGain();g.connect(master);
+            g.gain.setValueAtTime(0,t+d);g.gain.linearRampToValueAtTime(.35,t+d+.1);
+            g.gain.exponentialRampToValueAtTime(.0001,t+d+1.2);
+            tn('sine',f,g,t+d,t+d+1.3);
+          });
+          // Layer 3: Haunting overtone — eerie high whistle that fades in from silence
+          {const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(0,t+.5);g.gain.linearRampToValueAtTime(.2,t+1.0);
+          g.gain.exponentialRampToValueAtTime(.0001,t+2.2);
+          const o=c.createOscillator();o.type='sine';
+          o.frequency.setValueAtTime(880,t+.5);o.frequency.linearRampToValueAtTime(740,t+2.0);
+          o.connect(g);o.start(t+.5);o.stop(t+2.3);}
+          // Layer 4: Crystal resonance — the quiet light within the dark crystal
+          [523.25,622.25].forEach((f,i)=>{
+            const d=.8+i*.3;
+            const g=c.createGain();g.connect(master);env(g,t+d,.08,.15,.8);
+            tn('sine',f,g,t+d,t+d+.9);
+          });
+          // Layer 5: Void rumble — low-end presence that feels cavernous
+          {const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(0,t+.05);g.gain.linearRampToValueAtTime(.18,t+.2);
+          g.gain.setValueAtTime(.18,t+.8);g.gain.exponentialRampToValueAtTime(.0001,t+2.0);
+          const o=c.createOscillator();o.type='triangle';o.frequency.value=36.71;
+          const lfo=c.createOscillator();lfo.type='sine';lfo.frequency.value=2;
+          const lg=c.createGain();lg.gain.value=5;lfo.connect(lg);lg.connect(o.frequency);
+          o.connect(g);o.start(t+.05);o.stop(t+2.1);lfo.start(t+.05);lfo.stop(t+2.1);}
+          break;
+
+        case 74: // Crown of the First King — Royal brass fanfare + coronation chord + triumphant resolve
+          // Layer 1: Coronation strike — bold brass hit
+          {const g=c.createGain();g.connect(master);env(g,t,.002,.8,.15);
+          tn('sawtooth',196,g,t,t+.2);
+          const g2=c.createGain();g2.connect(master);env(g2,t,.002,.5,.12);
+          tn('square',196,g2,t,t+.16);}
+          // Layer 2: Royal fanfare — ascending D major brass (D→F#→A→D)
+          [293.66,369.99,440,587.33].forEach((f,i)=>{
+            const d=.08+i*.1;
+            const g=c.createGain();g.connect(master);env(g,t+d,.005,.55-.08*i,.4);
+            // Brass-like tone: sawtooth + filtered
+            const o=c.createOscillator();o.type='sawtooth';o.frequency.value=f;
+            const flt=c.createBiquadFilter();flt.type='lowpass';flt.frequency.value=f*3;flt.Q.value=1;
+            o.connect(flt);flt.connect(g);o.start(t+d);o.stop(t+d+.45);
+          });
+          // Layer 3: Coronation chord — full majestic D major sustained
+          [146.83,293.66,369.99,440,587.33].forEach((f)=>{
+            const g=c.createGain();g.connect(master);
+            g.gain.setValueAtTime(0,t+.5);g.gain.linearRampToValueAtTime(.22,t+.75);
+            g.gain.setValueAtTime(.22,t+1.3);g.gain.exponentialRampToValueAtTime(.0001,t+2.5);
+            tn('sine',f,g,t+.5,t+2.6);
+          });
+          // Layer 4: Gold shimmer — high metallic sparkles like gold catching light
+          for(let i=0;i<8;i++){
+            const d=.3+i*.08+Math.random()*.05;
+            const f=1800+Math.random()*1400;
+            const g=c.createGain();g.connect(master);env(g,t+d,.002,.2-.02*i,.1);
+            tn('triangle',f,g,t+d,t+d+.13);
+          }
+          // Layer 5: Regal sub bass — the weight of the crown
+          {const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.3,t+.06);
+          g.gain.exponentialRampToValueAtTime(.0001,t+.5);
+          const o=c.createOscillator();o.type='sine';
+          o.frequency.setValueAtTime(98,t);o.frequency.exponentialRampToValueAtTime(50,t+.4);
+          o.connect(g);o.start(t);o.stop(t+.6);}
+          break;
+
+        case 75: // The First Compass — Compass click + wind of discovery + adventurous resolve
+          // Layer 1: Compass needle click — sharp metallic snap
+          {const g=c.createGain();g.connect(master);env(g,t,.001,.7,.04);
+          tn('triangle',1800,g,t,t+.05);
+          const g2=c.createGain();g2.connect(master);env(g2,t+.01,.001,.5,.05);
+          tn('triangle',900,g2,t+.01,t+.07);}
+          // Layer 2: Wind of discovery — noise sweep like ocean wind
+          {const bufSz=c.sampleRate*.5;const buf=c.createBuffer(1,bufSz,c.sampleRate);
+          const d=buf.getChannelData(0);for(let i=0;i<bufSz;i++)d[i]=(Math.random()*2-1)*.5;
+          const src=c.createBufferSource();src.buffer=buf;
+          const flt=c.createBiquadFilter();flt.type='bandpass';flt.Q.value=1.5;
+          flt.frequency.setValueAtTime(400,t+.05);flt.frequency.exponentialRampToValueAtTime(2000,t+.35);
+          flt.frequency.exponentialRampToValueAtTime(600,t+.5);
+          const g=c.createGain();g.connect(master);
+          g.gain.setValueAtTime(0,t+.05);g.gain.linearRampToValueAtTime(.3,t+.2);
+          g.gain.exponentialRampToValueAtTime(.0001,t+.55);
+          src.connect(flt);flt.connect(g);src.start(t+.05);src.stop(t+.6);}
+          // Layer 3: Adventure arpeggio — G major ascending (the call to explore)
+          [392,493.88,587.33,783.99,987.77].forEach((f,i)=>{
+            const d=.1+i*.08;
+            const g=c.createGain();g.connect(master);env(g,t+d,.003,.45-.06*i,.35);
+            tn('sine',f,g,t+d,t+d+.4);
+            const gh=c.createGain();gh.connect(master);env(gh,t+d,.003,.12,.2);
+            tn('triangle',f*2.01,gh,t+d,t+d+.25);
+          });
+          // Layer 4: Horizon chord — warm sustained G major (the promised land)
+          [196,392,493.88,587.33].forEach((f)=>{
+            const g=c.createGain();g.connect(master);
+            g.gain.setValueAtTime(0,t+.5);g.gain.linearRampToValueAtTime(.25,t+.8);
+            g.gain.setValueAtTime(.25,t+1.3);g.gain.exponentialRampToValueAtTime(.0001,t+2.4);
+            tn('sine',f,g,t+.5,t+2.5);
+          });
+          // Layer 5: Second compass click — the compass finds true north
+          {const g=c.createGain();g.connect(master);env(g,t+.45,.001,.4,.06);
+          tn('triangle',2200,g,t+.45,t+.52);
+          const g2=c.createGain();g2.connect(master);env(g2,t+.47,.001,.3,.05);
+          tn('triangle',1100,g2,t+.47,t+.53);}
+          // Layer 6: Hopeful sparkle trail
+          for(let i=0;i<6;i++){
+            const d=.6+i*.1+Math.random()*.06;
+            const f=2000+Math.random()*1500;
+            const g=c.createGain();g.connect(master);env(g,t+d,.002,.14-.02*i,.1);
+            tn('sine',f,g,t+d,t+d+.13);
+          }
+          break;
+
+        default: // Fallback sacred sound (same as Tear of Solara)
+          [523.25,659.25,783.99,1046.50,1318.51].forEach((f,i)=>{
+            const g=c.createGain();g.connect(master);env(g,t+i*.08,.002,.5-.07*i,.6);
+            tn('sine',f,g,t+i*.08,t+i*.08+.65);
+          });
+      }
+      return;
+    }
+
+    // ── EPIC — Dramatic crystalline cascade + power chord ──
+    if(rarity==='epic'){
+      master.gain.value=vol*1.15;
+      // Impact hit
+      {const g=c.createGain();g.connect(master);env(g,t,.001,.65,.08);
+      const o=c.createOscillator();o.type='triangle';
+      o.frequency.setValueAtTime(350,t);o.frequency.exponentialRampToValueAtTime(150,t+.09);
+      o.connect(g);o.start(t);o.stop(t+.12);}
+      // Ascending crystal cascade (A minor → C major lift)
+      [440,523.25,659.25,783.99,1046.50].forEach((f,i)=>{
+        const d=.04+i*.07;
+        const g=c.createGain();g.connect(master);env(g,t+d,.003,.45-.06*i,.35);
+        tn('sine',f,g,t+d,t+d+.4);
+        const gh=c.createGain();gh.connect(master);env(gh,t+d,.003,.1,.18);
+        tn('triangle',f*2.01,gh,t+d,t+d+.22);
+      });
+      // Power chord sustain
+      [261.63,329.63,392].forEach((f)=>{
+        const g=c.createGain();g.connect(master);
+        g.gain.setValueAtTime(0,t+.4);g.gain.linearRampToValueAtTime(.2,t+.6);
+        g.gain.exponentialRampToValueAtTime(.0001,t+1.4);
+        tn('sine',f,g,t+.4,t+1.5);
+      });
+      // Sparkle trail
+      for(let i=0;i<5;i++){
+        const d=.35+i*.07+Math.random()*.04;
+        const f=2200+Math.random()*1200;
+        const g=c.createGain();g.connect(master);env(g,t+d,.002,.14-.02*i,.1);
+        tn('sine',f,g,t+d,t+d+.13);
+      }
+      return;
+    }
+
+    // ── RARE — Bright crystalline chime + warm shimmer ──
+    if(rarity==='rare'){
+      // Crystal tap
+      {const g=c.createGain();g.connect(master);env(g,t,.001,.55,.07);
+      tn('triangle',520,g,t,t+.1);}
+      // Ascending triad (F major)
+      [349.23,440,523.25].forEach((f,i)=>{
+        const d=.03+i*.08;
+        const g=c.createGain();g.connect(master);env(g,t+d,.003,.4-.06*i,.3);
+        tn('sine',f,g,t+d,t+d+.35);
+      });
+      // Warm shimmer overtones
+      [698.46,880].forEach((f,i)=>{
+        const d=.15+i*.06;
+        const g=c.createGain();g.connect(master);env(g,t+d,.003,.12,.2);
+        tn('triangle',f,g,t+d,t+d+.25);
+      });
+      // Soft resolve
+      {const g=c.createGain();g.connect(master);
+      g.gain.setValueAtTime(0,t+.3);g.gain.linearRampToValueAtTime(.15,t+.45);
+      g.gain.exponentialRampToValueAtTime(.0001,t+1.0);
+      tn('sine',261.63,g,t+.3,t+1.1);}
+      return;
+    }
+
+    // ── COMMON — Simple pleasant chime ──
+    // Gentle ascending two-note chime
+    [293.66,392].forEach((f,i)=>{
+      const d=i*.07;
+      const g=c.createGain();g.connect(master);env(g,t+d,.003,.4-.08*i,.25);
+      tn('sine',f,g,t+d,t+d+.3);
     });
+    // Soft overtone
+    {const g=c.createGain();g.connect(master);env(g,t+.08,.003,.1,.15);
+    tn('triangle',784,g,t+.08,t+.28);}
   }catch(e){}
 }
 
@@ -5653,7 +5940,7 @@ function chestAdvancePhase(){
       // Relic reveal
       if(CHEST_SEQ.relicEarned){
         CHEST_SEQ.timers.push(setTimeout(()=>{
-          playRelicReveal();
+          playRelicReveal(CHEST_SEQ.relicEarned);
           relicReveal.classList.add('show');
           const relic=CHEST_SEQ.relicEarned;
           const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
@@ -6045,7 +6332,7 @@ function dpPlace(num){
     DP.board[placedIdx]=num;
     DP.fogCells.delete(placedIdx);
     DP.notes[placedIdx].clear();
-    if(DP.isLegendary){playLegendaryPlace();}else{SOUNDS.play(num);}
+    if(DP.isLegendary){const _ljIdx=GAME_STATS.jigsawArtifacts[DP.handPlaced[slotIdx]-10];playJigsawArtifactSound(_ljIdx);}else{SOUNDS.play(num);}
     const _dpRem=DP.board.filter(v=>v===0).length;MUSIC.setMagical(_dpRem>0&&_dpRem<=6);
     const _dpCh=DP.challenges&&DP.challenges.find(c=>c.idx===placedIdx);if(_dpCh)dpChallengeSuccess(_dpCh);
     dpClearNotesCascade(placedIdx,num);
@@ -6215,6 +6502,22 @@ const UI_SFX=(()=>{
     });},
   };
 })();
+
+/* ══ JIGSAW ARTIFACT PLACEMENT SOUNDS (MP3-based) ══ */
+// Maps jigsaw artifact index → MP3 file for custom placement sounds
+const JIGSAW_SOUNDS = {
+  1: 'moonstone-place.mp3',  // Moonstone Amulet
+};
+function playJigsawArtifactSound(jigsawIdx){
+  if(!SETTINGS.sound)return;
+  const file = JIGSAW_SOUNDS[jigsawIdx];
+  if(!file){ playLegendaryPlace(); return; }
+  try{
+    const audio = new Audio(file);
+    audio.volume = 0.35 * (SETTINGS.sfxVolume / 100);
+    audio.play().catch(()=>{});
+  }catch(e){ playLegendaryPlace(); }
+}
 
 /* ══ LEGENDARY PLACEMENT SOUND ══ */
 // Multi-layered epic sound: deep impact → magical resonance → ascending chimes → sparkle trail
@@ -9541,6 +9844,7 @@ function rollAncientRelic(source,overrideChance){
 }
 
 function showAncientRelicUnlock(relic){
+  playRelicReveal(relic);
   const colors=ANCIENT_RARITY_COLORS[relic.rarity]||ANCIENT_RARITY_COLORS.common;
   const panel=document.getElementById('aru-panel');
   const titleEl=document.getElementById('aru-title');
