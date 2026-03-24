@@ -5496,18 +5496,13 @@ function spawnBurstParticles(tier){
   }
 }
 
-// Preloaded chest opening MP3
-const _chestOpenAudio = new Audio('chest-open.mp3');
-_chestOpenAudio.preload = 'auto';
-_chestOpenAudio.load();
+// Preload chest opening as decoded AudioBuffer
+let _chestOpenBuffer = null;
+fetch('chest-open.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{_chestOpenBuffer=d;}).catch(()=>{});
 
 function playChestThud(){
-  if(!SETTINGS.sound)return;
-  try{
-    _chestOpenAudio.volume = 0.35 * (SETTINGS.sfxVolume / 100);
-    _chestOpenAudio.currentTime = 0;
-    _chestOpenAudio.play().catch(()=>{});
-  }catch(e){}
+  if(!SETTINGS.sound||!_chestOpenBuffer)return;
+  try{ _playBuffer(_chestOpenBuffer, 0.35*(SETTINGS.sfxVolume/100)); }catch(e){}
 }
 
 function playChestTension(){
@@ -6438,8 +6433,9 @@ const UI_SFX=(()=>{
   function _play(fn){if(!SETTINGS.sound)return;try{const c=_ac(),m=c.createGain();m.gain.value=0.14*(SETTINGS.sfxVolume/100);m.connect(c.destination);fn(c,c.currentTime,m);}catch(e){}}
   return{
     // 1. Wrong answer — preloaded MP3
-    _mistakeAudio:(()=>{const a=new Audio('mistake.mp3');a.preload='auto';a.load();return a;})(),
-    mistake(){if(!SETTINGS.sound)return;try{this._mistakeAudio.volume=0.30*(SETTINGS.sfxVolume/100);this._mistakeAudio.currentTime=0;this._mistakeAudio.play().catch(()=>{});}catch(e){}},
+    _mistakeBuffer:null,
+    _mistakeInit:(()=>{fetch('mistake.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{UI_SFX._mistakeBuffer=d;}).catch(()=>{});})(),
+    mistake(){if(!SETTINGS.sound||!this._mistakeBuffer)return;try{_playBuffer(this._mistakeBuffer,0.30*(SETTINGS.sfxVolume/100));}catch(e){}},
     // 2. Menu transition whoosh — filtered noise sweep
     whoosh(){_play((c,t,m)=>{
       const bufSize=c.sampleRate*.15;const buf=c.createBuffer(1,bufSize,c.sampleRate);
@@ -6515,23 +6511,33 @@ const JIGSAW_SOUNDS = {
   24: 'voidcodex-place.mp3',    // Void Codex
   25: 'leviathan-place.mp3',    // Leviathan's Fang
 };
-// Preload all MP3s into audio buffers for instant playback
-const _jigsawAudioCache = {};
+// Shared AudioContext for instant playback (no per-play creation overhead)
+const _sfxCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+// Preload all MP3s as decoded AudioBuffers for zero-latency playback
+const _jigsawBufferCache = {};
 Object.entries(JIGSAW_SOUNDS).forEach(([idx, file]) => {
-  const a = new Audio(file);
-  a.preload = 'auto';
-  a.load();
-  _jigsawAudioCache[idx] = a;
+  fetch(file).then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(decoded=>{
+    _jigsawBufferCache[idx] = decoded;
+  }).catch(()=>{});
 });
+
+function _playBuffer(buffer, vol){
+  if(_sfxCtx.state==='suspended') _sfxCtx.resume();
+  const src = _sfxCtx.createBufferSource();
+  src.buffer = buffer;
+  const g = _sfxCtx.createGain();
+  g.gain.value = vol;
+  src.connect(g);
+  g.connect(_sfxCtx.destination);
+  src.start(0);
+}
+
 function playJigsawArtifactSound(jigsawIdx){
   if(!SETTINGS.sound)return;
-  const cached = _jigsawAudioCache[jigsawIdx];
-  if(!cached){ playLegendaryPlace(); return; }
-  try{
-    cached.volume = 0.35 * (SETTINGS.sfxVolume / 100);
-    cached.currentTime = 0;
-    cached.play().catch(()=>{});
-  }catch(e){ playLegendaryPlace(); }
+  const buf = _jigsawBufferCache[jigsawIdx];
+  if(!buf){ playLegendaryPlace(); return; }
+  try{ _playBuffer(buf, 0.35*(SETTINGS.sfxVolume/100)); }catch(e){ playLegendaryPlace(); }
 }
 
 /* ══ LEGENDARY PLACEMENT SOUND ══ */
