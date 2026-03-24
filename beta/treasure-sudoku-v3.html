@@ -5556,16 +5556,7 @@ function chestAdvancePhase(){
         goldFloat.style.color='rgba(180,150,100,.7)';
         goldFloat.classList.add('animate');
         continueHint.classList.add('show');
-        // Auto-advance to results after 5s
-        CHEST_SEQ.timers.push(setTimeout(()=>{
-          continueHint.classList.remove('show');
-          p1.style.transition='opacity .4s';p1.style.opacity='0';
-          setTimeout(()=>{
-            p1.style.display='none';
-            p2.style.display='block';
-            requestAnimationFrame(()=>requestAnimationFrame(()=>p2.classList.add('show')));
-          },400);
-        },5000));
+        // Wait for tap to continue (handled by click listener checking phase='collect')
         break;
       }
       // Phase: Tapped — squash down (anticipation crouch)
@@ -9043,6 +9034,13 @@ document.getElementById('win-chest-wrap').addEventListener('click',function(){
     chestAdvancePhase();
   } else if(CHEST_SEQ.phase==='celebrate'){
     chestAdvancePhase();
+  } else if(CHEST_SEQ.phase==='collect'&&!CHEST_SEQ.tier){
+    // No-tier: tap to continue to results
+    document.getElementById('win-continue-hint').classList.remove('show');
+    const _p1=document.getElementById('win-phase1'),_p2=document.getElementById('win-phase2');
+    _p1.style.transition='opacity .4s';_p1.style.opacity='0';
+    CHEST_SEQ.phase='done';
+    setTimeout(()=>{_p1.style.display='none';_p2.style.display='block';requestAnimationFrame(()=>requestAnimationFrame(()=>_p2.classList.add('show')));},400);
   }
 });
 
