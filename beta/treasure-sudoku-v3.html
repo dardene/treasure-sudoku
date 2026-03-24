@@ -6626,36 +6626,68 @@ function dpOpenChest(){
   if(document.getElementById('daily-chest-overlay').style.display==='none')return;
   clearInterval(_chestParticleInterval);
 
-  // Step 2 — shake + burst animation
   const icon=document.getElementById('chest-icon');
-  icon.style.animation='chestShake 0.3s ease, chestBurst 0.6s ease 0.3s forwards';
-
-  // Spawn a ring of gold rays
   const wrap=document.getElementById('chest-icon-wrap');
-  for(let i=0;i<16;i++){
-    const ray=document.createElement('div');
-    const a=(i/16)*360;
-    ray.style.cssText=`position:absolute;top:50%;left:50%;width:3px;height:50px;
-      transform-origin:0 0;border-radius:2px;pointer-events:none;
-      background:linear-gradient(to top,rgba(245,200,66,.95),transparent);
-      --a:${a}deg;transform:translate(-50%,0) rotate(${a}deg);
-      animation:goldRayBurst .7s ease .15s forwards;`;
-    wrap.appendChild(ray);setTimeout(()=>ray.remove(),1000);
-  }
+  const label=document.getElementById('chest-waiting-label');
+  if(label)label.style.display='none';
 
-  // Spawn win coins burst
-  spawnWinCoins();
+  // Phase 1: Squash down (anticipation)
+  playChestThud();
+  icon.style.animation='chestSquash .25s ease-out forwards';
 
-  // Screen flash
-  const flash=document.createElement('div');
-  flash.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(245,200,66,.25);pointer-events:none;animation:flashFade .5s ease forwards;';
-  document.body.appendChild(flash);setTimeout(()=>flash.remove(),600);
+  // Phase 2: Shake with tension
+  setTimeout(()=>{
+    playChestTension();
+    icon.style.animation='chestShake .35s ease-in-out 2';
+  },250);
 
-  // After animation — hide chest overlay, show reward panel
+  // Phase 3: Jump up
+  setTimeout(()=>{
+    icon.style.animation='chestJump .4s cubic-bezier(.2,.8,.3,1) forwards';
+  },1000);
+
+  // Phase 3b: At peak — light burst + particles
+  setTimeout(()=>{
+    playWinChime();
+    // Screen flash
+    const flash=document.createElement('div');
+    flash.style.cssText='position:fixed;inset:0;z-index:500;background:rgba(245,200,66,.3);pointer-events:none;animation:flashFade .5s ease forwards;';
+    document.body.appendChild(flash);setTimeout(()=>flash.remove(),600);
+    // Gold rays
+    for(let i=0;i<16;i++){
+      const ray=document.createElement('div');
+      const a=(i/16)*360;
+      ray.style.cssText=`position:absolute;top:50%;left:50%;width:3px;height:50px;
+        transform-origin:0 0;border-radius:2px;pointer-events:none;
+        background:linear-gradient(to top,rgba(245,200,66,.95),transparent);
+        transform:translate(-50%,0) rotate(${a}deg);
+        animation:goldRayBurst .7s ease .15s forwards;`;
+      wrap.appendChild(ray);setTimeout(()=>ray.remove(),1000);
+    }
+    spawnBurstParticles('gold');
+  },1350);
+
+  // Phase 4: Settle bounce
+  setTimeout(()=>{
+    icon.style.animation='chestSettle .6s cubic-bezier(.34,1.56,.64,1) forwards';
+    // Spawn artifact coins
+    for(let i=0;i<40;i++){
+      const cc=document.createElement('div');cc.className='coin-particle';
+      const val=Math.ceil(Math.random()*9);cc.innerHTML=ARTIFACTS.svg(val);
+      const x=(Math.random()-.5)*window.innerWidth*.9;
+      const y=-window.innerHeight*.4-Math.random()*140;
+      const dur=1.8+Math.random()*2.5;const delay=i*.06;
+      cc.style.cssText=`left:${window.innerWidth/2-10}px;top:${window.innerHeight/2}px;width:20px;height:20px;--cx:${x}px;--cy:${y}px;--cdx:${(Math.random()-.5)*130}px;--cf-dur:${dur}s;--cf-delay:${delay}s;`;
+      document.getElementById('particles').appendChild(cc);
+      setTimeout(()=>cc.remove(),(dur+delay+.5)*1000);
+    }
+  },1800);
+
+  // Phase 5: Transition to reward panel
   setTimeout(()=>{
     document.getElementById('daily-chest-overlay').style.display='none';
     dpShowRewardPanel();
-  },700);
+  },2600);
 }
 
 function dpShowRewardPanel(){
