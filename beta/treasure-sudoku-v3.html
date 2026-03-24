@@ -500,8 +500,8 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 @keyframes sparkleFloat{0%{transform:translateY(0) scale(0);opacity:0}20%{opacity:1;transform:translateY(-5px) scale(1)}100%{transform:translateY(calc(-30px - var(--sp-extra,0px))) scale(0);opacity:0}}
 @keyframes perfectPulse{0%,100%{text-shadow:0 0 10px rgba(255,220,70,.4)}50%{text-shadow:0 0 30px rgba(255,220,70,.9),0 0 60px rgba(255,180,30,.4)}}
 
-/* Chest glow element (behind video) */
-#win-chest-glow{position:absolute;width:320px;height:240px;border-radius:50%;pointer-events:none;z-index:-1;animation:chestGlowPulse 2s ease-in-out infinite;will-change:opacity;}
+/* Chest glow element (behind chest) */
+#win-chest-glow{position:absolute;width:320px;height:240px;border-radius:50%;pointer-events:none;z-index:0;animation:chestGlowPulse 2s ease-in-out infinite;will-change:opacity;top:50%;left:50%;transform:translate(-50%,-50%);}
 /* Light burst overlay */
 #win-light-burst{position:fixed;inset:0;z-index:350;pointer-events:none;display:none;background:radial-gradient(circle at 50% 45%,rgba(255,230,100,.95) 0%,rgba(255,200,50,.6) 20%,rgba(255,180,30,.2) 40%,transparent 65%);}
 #win-light-burst.active{display:block;animation:lightBurst .6s ease-out forwards;}
