@@ -5993,8 +5993,8 @@ function dpCheckWin(){
         setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold earned! Total: ${GAME_STATS.gold} gold`,2500),2600);
       }
     } else {
-      // Past 6 days, never played: 20g, no jigsaw piece, no relic
-      dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;
+      // Past 6 days, never played: 20g only, no jigsaw piece, no relic
+      GAME_STATS.completedDates.push(DP.dateStr);GAME_STATS.dailyWins++;
       const _dpGoldEarned=20;
       GAME_STATS.gold=(GAME_STATS.gold||0)+_dpGoldEarned;
       if(_dwgEl&&_dwgAmt){_dwgAmt.textContent=_dpGoldEarned;_dwgEl.style.display='block';}
