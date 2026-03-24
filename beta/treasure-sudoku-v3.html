@@ -2846,8 +2846,105 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       </div>
     </div>
 
-    <!-- Slide 7: Ready -->
+    <!-- ── REWARDS SLIDES ── -->
+
+    <!-- Slide 7: Daily Puzzle Rewards -->
     <div class="howto-slide" id="howto-slide-7">
+      <div class="howto-slide-icon">📅</div>
+      <div class="howto-slide-title">DAILY REWARDS</div>
+      <div class="howto-pills" style="margin-top:4px;">
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🪙</div>
+          <div class="howto-pill-text">Win today's puzzle: <strong>50 gold</strong></div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">✨</div>
+          <div class="howto-pill-text">No mistakes bonus: <strong>+25 gold</strong></div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🧩</div>
+          <div class="howto-pill-text">Earn a <strong>jigsaw piece</strong> for your treasure map</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🔮</div>
+          <div class="howto-pill-text">Chance to discover an <strong>ancient relic</strong></div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🔄</div>
+          <div class="howto-pill-text">Missed puzzles (past 6 days): <strong>20 gold</strong>, no jigsaw piece</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🚫</div>
+          <div class="howto-pill-text">Replaying a won puzzle: <strong>no rewards</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Relax Mode Rewards -->
+    <div class="howto-slide" id="howto-slide-8">
+      <div class="howto-slide-icon">🏅</div>
+      <div class="howto-slide-title">PERFORMANCE TIERS</div>
+      <div class="howto-slide-body" style="font-size:13px;margin-bottom:8px;">
+        Relax Mode rewards are based on <strong>mistakes</strong> and <strong>time</strong>. Fewer mistakes and faster times earn higher tiers.
+      </div>
+      <div class="howto-pills" style="margin-top:4px;">
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🥇</div>
+          <div class="howto-pill-text"><strong>Gold Tier</strong> — best rewards (up to 65g on Expert)</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🥈</div>
+          <div class="howto-pill-text"><strong>Silver Tier</strong> — moderate rewards</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🥉</div>
+          <div class="howto-pill-text"><strong>Bronze Tier</strong> — small rewards</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">❌</div>
+          <div class="howto-pill-text">Too many mistakes — <strong>no rewards</strong></div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">💎</div>
+          <div class="howto-pill-text"><strong>Perfect run</strong> (0 mistakes) earns bonus gold</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">📈</div>
+          <div class="howto-pill-text">Harder difficulties pay <strong>more gold</strong> and better relic chances</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Treasure Map & Relics -->
+    <div class="howto-slide" id="howto-slide-9">
+      <div class="howto-slide-icon">🗺️</div>
+      <div class="howto-slide-title">TREASURE MAP & RELICS</div>
+      <div class="howto-pills" style="margin-top:4px;">
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🧩</div>
+          <div class="howto-pill-text">Win daily puzzles to earn <strong>jigsaw pieces</strong> for the current location</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🔒</div>
+          <div class="howto-pill-text">Locations unlock <strong>in order</strong> — complete one to discover the next</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🪙</div>
+          <div class="howto-pill-text"><strong>Recover Fragment</strong> — buy pieces with gold (starts at 150g, price rises each purchase)</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">🏺</div>
+          <div class="howto-pill-text">Collect <strong>100 ancient relics</strong> across 4 rarities: Common, Rare, Epic, Sacred</div>
+        </div>
+        <div class="howto-pill">
+          <div class="howto-pill-icon">⭐</div>
+          <div class="howto-pill-text">Better performance = <strong>higher relic drop chance</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 10: Ready -->
+    <div class="howto-slide" id="howto-slide-10">
       <div class="howto-slide-icon">🏴‍☠️</div>
       <div class="howto-slide-title">YOUR QUEST BEGINS</div>
       <div class="howto-slide-body">
@@ -8291,8 +8388,8 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
 
 // ── Tutorial (Story + How To Play) ──
 (function(){
-  const TOTAL=8;
-  const STORY_SLIDES=3; // slides 0-2 are story, 3-7 are how to play
+  const TOTAL=11;
+  const STORY_SLIDES=3; // slides 0-2 are story, 3-6 are how to play, 7-9 are rewards, 10 is ready
   let cur=0;
   const overlay=document.getElementById('howto-overlay');
   const dotsWrap=document.getElementById('howto-dots');
@@ -8319,7 +8416,7 @@ document.getElementById('menu-settings').addEventListener('click',()=>{menuTrans
     nav.style.justifyContent=isLast?'center':'space-between';
     prevBtn.style.display=isLast?'none':'';
     // Update section label
-    sectionLabel.textContent=cur<STORY_SLIDES?'📖 THE STORY':'🎮 HOW TO PLAY';
+    sectionLabel.textContent=cur<STORY_SLIDES?'📖 THE STORY':cur<=6?'🎮 HOW TO PLAY':cur<=9?'🪙 REWARDS & RELICS':'🏴‍☠️ BEGIN';
   }
 
   function openTutorial(){overlay.classList.add('show');goTo(0);}
