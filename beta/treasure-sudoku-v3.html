@@ -5556,7 +5556,7 @@ function chestAdvancePhase(){
         goldFloat.style.color='rgba(180,150,100,.7)';
         goldFloat.classList.add('animate');
         continueHint.classList.add('show');
-        // Auto-advance to results after 3s
+        // Auto-advance to results after 5s
         CHEST_SEQ.timers.push(setTimeout(()=>{
           continueHint.classList.remove('show');
           p1.style.transition='opacity .4s';p1.style.opacity='0';
@@ -5565,7 +5565,7 @@ function chestAdvancePhase(){
             p2.style.display='block';
             requestAnimationFrame(()=>requestAnimationFrame(()=>p2.classList.add('show')));
           },400);
-        },3000));
+        },5000));
         break;
       }
       // Phase: Tapped — squash down (anticipation crouch)
