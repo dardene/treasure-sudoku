@@ -5969,25 +5969,41 @@ function dpCheckWin(){
   const _prev=DAILY_SCORES[DP.dateStr];
   const _isNewBest=!_prev||DP.score>_prev.score;
   if(_isNewBest) DAILY_SCORES[DP.dateStr]={score:DP.score,time:DP.elapsed,mistakes:5-DP.lives};
-  if(!DP.isReplay){dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;}
   GAME_STATS.dailyTotalScore+=DP.score;
-  // Gold reward for Daily Puzzle
-  const _dpGoldBase=50;
-  const _dpGoldBonus=(5-DP.lives===0)?25:0; // 25g bonus for no mistakes (lives never lost)
-  const _dpGoldEarned=_dpGoldBase+_dpGoldBonus;
-  GAME_STATS.gold=(GAME_STATS.gold||0)+_dpGoldEarned;
-  // Show gold earned on daily win screen
+  // Reward eligibility: was this date already won?
+  const _alreadyWon=GAME_STATS.completedDates.includes(DP.dateStr);
+  const _isToday=DP.dateStr===dpGetTodayStr();
   const _dwgEl=document.getElementById('dw-gold-earned');
   const _dwgAmt=document.getElementById('dw-gold-amount');
-  if(_dwgEl&&_dwgAmt){
-    _dwgAmt.textContent=_dpGoldBonus>0?`${_dpGoldBase}+${_dpGoldBonus}`:_dpGoldEarned;
-    _dwgEl.style.display='block';
-  }
-  setTimeout(()=>rollAncientRelic('daily'),600);
-  if(_dpGoldBonus>0){
-    setTimeout(()=>showToast(`🪙 +${_dpGoldBase} gold + ✨${_dpGoldBonus} gold no-mistake bonus! Total: ${GAME_STATS.gold} gold`,3000),2600);
+
+  if(!_alreadyWon){
+    // First win for this date — award rewards
+    if(_isToday){
+      // Today's puzzle: full rewards (50g + bonus, jigsaw piece, relic)
+      dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;
+      const _dpGoldBase=50;
+      const _dpGoldBonus=(5-DP.lives===0)?25:0;
+      const _dpGoldEarned=_dpGoldBase+_dpGoldBonus;
+      GAME_STATS.gold=(GAME_STATS.gold||0)+_dpGoldEarned;
+      if(_dwgEl&&_dwgAmt){_dwgAmt.textContent=_dpGoldBonus>0?`${_dpGoldBase}+${_dpGoldBonus}`:_dpGoldEarned;_dwgEl.style.display='block';}
+      setTimeout(()=>rollAncientRelic('daily'),600);
+      if(_dpGoldBonus>0){
+        setTimeout(()=>showToast(`🪙 +${_dpGoldBase} gold + ✨${_dpGoldBonus} gold no-mistake bonus! Total: ${GAME_STATS.gold} gold`,3000),2600);
+      } else {
+        setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold earned! Total: ${GAME_STATS.gold} gold`,2500),2600);
+      }
+    } else {
+      // Past 6 days, never played: 20g, no jigsaw piece, no relic
+      dpMapPieceEarned(DP.dateStr);GAME_STATS.dailyWins++;
+      const _dpGoldEarned=20;
+      GAME_STATS.gold=(GAME_STATS.gold||0)+_dpGoldEarned;
+      if(_dwgEl&&_dwgAmt){_dwgAmt.textContent=_dpGoldEarned;_dwgEl.style.display='block';}
+      setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold (past puzzle). Total: ${GAME_STATS.gold} gold`,2500),2600);
+    }
   } else {
-    setTimeout(()=>showToast(`🪙 +${_dpGoldEarned} gold earned! Total: ${GAME_STATS.gold} gold`,2500),2600);
+    // Already won this date — no rewards
+    if(_dwgEl)_dwgEl.style.display='none';
+    setTimeout(()=>showToast('No rewards for replayed puzzles.',2500),2600);
   }
   saveState();spawnWinCoins();
   showAchievement(DP.isReplay?'🔄 REPLAY COMPLETE!':'🏆 PUZZLE COMPLETE! +1500!');
