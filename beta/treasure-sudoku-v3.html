@@ -5496,33 +5496,22 @@ function spawnBurstParticles(tier){
   }
 }
 
+// Preloaded chest opening MP3
+const _chestOpenAudio = new Audio('chest-open.mp3');
+_chestOpenAudio.preload = 'auto';
+_chestOpenAudio.load();
+
 function playChestThud(){
   if(!SETTINGS.sound)return;
   try{
-    const c=new(window.AudioContext||window.webkitAudioContext)();
-    if(c.state==='suspended')c.resume();
-    const g=c.createGain();g.connect(c.destination);
-    g.gain.setValueAtTime(.25*(SETTINGS.sfxVolume/100),c.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.15);
-    const o=c.createOscillator();o.type='triangle';o.frequency.value=130;
-    o.connect(g);o.start();o.stop(c.currentTime+.15);
+    _chestOpenAudio.volume = 0.35 * (SETTINGS.sfxVolume / 100);
+    _chestOpenAudio.currentTime = 0;
+    _chestOpenAudio.play().catch(()=>{});
   }catch(e){}
 }
 
 function playChestTension(){
-  if(!SETTINGS.sound)return;
-  try{
-    const c=new(window.AudioContext||window.webkitAudioContext)();
-    if(c.state==='suspended')c.resume();
-    const g=c.createGain();g.connect(c.destination);
-    g.gain.setValueAtTime(.08*(SETTINGS.sfxVolume/100),c.currentTime);
-    g.gain.linearRampToValueAtTime(.15*(SETTINGS.sfxVolume/100),c.currentTime+.6);
-    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.85);
-    const o=c.createOscillator();o.type='sine';
-    o.frequency.setValueAtTime(200,c.currentTime);
-    o.frequency.linearRampToValueAtTime(400,c.currentTime+.8);
-    o.connect(g);o.start();o.stop(c.currentTime+.85);
-  }catch(e){}
+  // Tension is now part of the chest-open MP3 — no separate sound needed
 }
 
 /* ══ RELIC REVEAL SOUNDS — Unique per rarity, each sacred relic has its own voice ══ */
