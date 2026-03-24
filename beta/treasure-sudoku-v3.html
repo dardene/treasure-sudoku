@@ -7904,12 +7904,18 @@ function _advJigRefreshGoldUI(locationId){
   const usageEl=document.getElementById('adv-jig-recover-usage');
   if(usageEl) usageEl.textContent=`Fragments recovered today: ${used} · Next: ${nextCost}g`;
 
-  // Button label & visibility
+  // Button label & visibility — ghost out if not enough gold
   const btn=document.getElementById('adv-jig-recover-btn');
+  const currentGold=GAME_STATS.gold||0;
   if(btn){
     btn.textContent=`🪙 Recover Fragment — ${nextCost} gold`;
-    btn.disabled=false;
-    btn.style.opacity='';
+    if(currentGold<nextCost){
+      btn.disabled=true;
+      btn.style.opacity='.4';
+    } else {
+      btn.disabled=false;
+      btn.style.opacity='';
+    }
     // Store current locationId on button for the handler
     btn.dataset.locId=locationId;
   }
