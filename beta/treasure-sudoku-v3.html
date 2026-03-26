@@ -3610,7 +3610,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .adv-node-locked{opacity:.4;cursor:default;}
 
 /* Adventure Jigsaw Overlay */
-.adv-jigsaw-overlay{position:fixed;inset:0;z-index:500;background:rgba(4,2,10,.96);background-size:cover;background-position:center;backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;padding:18px 12px 24px;overflow-y:auto;transform:translateY(100%);opacity:0;transition:transform .4s ease,opacity .35s ease;pointer-events:none;}
+.adv-jigsaw-overlay{position:fixed;inset:0;z-index:500;background:rgb(4,2,10);background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;padding:18px 12px 24px;overflow-y:auto;transform:translateY(100%);opacity:0;transition:transform .4s ease,opacity .35s ease;pointer-events:none;}
 .adv-jigsaw-overlay.show{transform:translateY(0);opacity:1;pointer-events:auto;}
 .adv-jigsaw-overlay .back-btn{position:absolute;top:12px;left:12px;z-index:2;}
 .adv-jig-title{font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;margin-top:38px;text-align:center;background:rgba(10,6,2,.75);border:1px solid rgba(180,140,60,.45);border-radius:10px;padding:8px 18px;display:inline-block;}
@@ -8871,7 +8871,7 @@ function openAdvJigsaw(locationId){
   const allPlaced=(placed.length>=totalPieces);
 
   // Set title & subtitle
-  document.getElementById('adv-jig-title').textContent=loc.icon+' '+loc.name;
+  document.getElementById('adv-jig-title').textContent=loc.name;
   const earnedForSub=GAME_STATS.adventureEarnedPieces[locationId]||0;
   document.getElementById('adv-jig-sub').textContent=allPlaced
     ? 'Map complete! Tap the \u2715 to claim your reward!'
