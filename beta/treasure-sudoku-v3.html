@@ -5498,7 +5498,11 @@ function spawnBurstParticles(tier){
 
 // Preload chest opening as decoded AudioBuffer
 let _chestOpenBuffer = null;
-fetch('chest-open.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{_chestOpenBuffer=d;}).catch(()=>{});
+function _preloadChestBuffer(){
+  if(!_sfxCtx||_chestOpenBuffer) return;
+  fetch('chest-open.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{_chestOpenBuffer=d;}).catch(()=>{});
+}
+if(_sfxCtx) _preloadChestBuffer();
 
 function playChestThud(){
   if(!SETTINGS.sound||!_chestOpenBuffer)return;
@@ -6434,8 +6438,8 @@ const UI_SFX=(()=>{
   return{
     // 1. Wrong answer — preloaded MP3
     _mistakeBuffer:null,
-    _mistakeInit:(()=>{fetch('mistake.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{UI_SFX._mistakeBuffer=d;}).catch(()=>{});})(),
-    mistake(){if(!SETTINGS.sound||!this._mistakeBuffer)return;try{_playBuffer(this._mistakeBuffer,0.30*(SETTINGS.sfxVolume/100));}catch(e){}},
+    _mistakeInit:(()=>{try{if(_sfxCtx)fetch('mistake.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{UI_SFX._mistakeBuffer=d;}).catch(()=>{});}catch(e){}})(),
+    mistake(){if(!SETTINGS.sound)return;if(!this._mistakeBuffer){_ensureSfxCtx();if(_sfxCtx&&!this._mistakeBuffer)fetch('mistake.mp3').then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(d=>{this._mistakeBuffer=d;_playBuffer(d,0.30*(SETTINGS.sfxVolume/100));}).catch(()=>{});return;}try{_playBuffer(this._mistakeBuffer,0.30*(SETTINGS.sfxVolume/100));}catch(e){}},
     // 2. Menu transition whoosh — filtered noise sweep
     whoosh(){_play((c,t,m)=>{
       const bufSize=c.sampleRate*.15;const buf=c.createBuffer(1,bufSize,c.sampleRate);
@@ -6512,24 +6516,38 @@ const JIGSAW_SOUNDS = {
   25: 'leviathan-place.mp3',    // Leviathan's Fang
 };
 // Shared AudioContext for instant playback (no per-play creation overhead)
-const _sfxCtx = new (window.AudioContext || window.webkitAudioContext)();
+let _sfxCtx;
+try{ _sfxCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ _sfxCtx = null; }
+
+// Lazily init AudioContext on first user gesture if not created yet
+function _ensureSfxCtx(){
+  if(!_sfxCtx) try{ _sfxCtx = new (window.AudioContext || window.webkitAudioContext)(); _preloadJigsawBuffers(); _preloadChestBuffer(); }catch(e){}
+  if(_sfxCtx?.state==='suspended') _sfxCtx.resume();
+  return _sfxCtx;
+}
 
 // Preload all MP3s as decoded AudioBuffers for zero-latency playback
 const _jigsawBufferCache = {};
-Object.entries(JIGSAW_SOUNDS).forEach(([idx, file]) => {
-  fetch(file).then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(decoded=>{
-    _jigsawBufferCache[idx] = decoded;
-  }).catch(()=>{});
-});
+function _preloadJigsawBuffers(){
+  if(!_sfxCtx) return;
+  Object.entries(JIGSAW_SOUNDS).forEach(([idx, file]) => {
+    if(_jigsawBufferCache[idx]) return;
+    fetch(file).then(r=>r.arrayBuffer()).then(buf=>_sfxCtx.decodeAudioData(buf)).then(decoded=>{
+      _jigsawBufferCache[idx] = decoded;
+    }).catch(()=>{});
+  });
+}
+if(_sfxCtx) _preloadJigsawBuffers();
 
 function _playBuffer(buffer, vol){
-  if(_sfxCtx.state==='suspended') _sfxCtx.resume();
-  const src = _sfxCtx.createBufferSource();
+  const ctx = _ensureSfxCtx();
+  if(!ctx) return;
+  const src = ctx.createBufferSource();
   src.buffer = buffer;
-  const g = _sfxCtx.createGain();
+  const g = ctx.createGain();
   g.gain.value = vol;
   src.connect(g);
-  g.connect(_sfxCtx.destination);
+  g.connect(ctx.destination);
   src.start(0);
 }
 
