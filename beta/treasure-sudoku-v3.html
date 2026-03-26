@@ -2033,7 +2033,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ ANCIENT RELIC UNLOCK OVERLAY ═══════════════ -->
 <div id="ancient-relic-unlock">
   <div class="aru-panel" id="aru-panel">
-    <div class="aru-label">Ancient Relic Discovered</div>
+    <div class="aru-label">Ancient Collectible Discovered</div>
     <div class="aru-title" id="aru-title">✦ NEW DISCOVERY ✦</div>
     <div class="aru-icon" id="aru-icon">💎</div>
     <div class="aru-name" id="aru-name"></div>
@@ -3774,7 +3774,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .ar-slot.rare .ar-rarity-pip{background:#60d8ff;box-shadow:0 0 4px rgba(80,160,255,.6);}
 .ar-slot.epic .ar-rarity-pip{background:#c070ff;box-shadow:0 0 5px rgba(170,80,255,.7);}
 .ar-slot.sacred .ar-rarity-pip{background:#ffd700;box-shadow:0 0 7px rgba(255,200,40,.9);}
-/* Ancient Relic unlock toast overlay */
+/* Ancient Collectible unlock toast overlay */
 #ancient-relic-unlock{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);}
 #ancient-relic-unlock.show{display:flex;}
 .aru-panel{width:min(84vw,320px);background:linear-gradient(155deg,rgba(14,8,2,.98),rgba(28,17,5,.98));border-radius:24px;padding:32px 24px 28px;text-align:center;position:relative;}
@@ -4307,7 +4307,7 @@ const ANCIENT_RELICS=[
   {id:74,name:'Crown of the First King',    rarity:'sacred', shape:'crown',  c1:'#ffd700',c2:'#b8860b',ac:'#0a0604',       desc:'A crown of pure gold and obsidian inlay worn by the founder of Solara — the visionary explorer who united nine tribes into the greatest civilization of the ancient world.', lore:'The gold is the purest ever found. It was crafted to last forever, and it has. A crown fit for the one who started it all.'},
   {id:75,name:'The First Compass',          rarity:'sacred', shape:'compass',c1:'#ffd700',c2:'#b8860b',ac:'#f8f0e0',       desc:'The legendary instrument that guided Solara\'s first explorer across the Abyssal Ocean to discover the promised land — the most important artifact in Solaran history.', lore:'The explorer who carried it wrote just one line in their journal: "There it is. I knew it was real." And so Solara began.'},
 ];
-/* ── Ancient Relic SVG Generator ── */
+/* ── Ancient Collectible SVG Generator ── */
 function genRelicSVG(r){
   const c1=r.c1||'#8b7355',c2=r.c2||'#5c4827',ac=r.ac||'#f5c842',sym=r.sym||'';
   const g={
