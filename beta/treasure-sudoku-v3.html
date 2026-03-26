@@ -2988,7 +2988,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         </div>
         <div class="howto-pill">
           <div class="howto-pill-icon">🪙</div>
-          <div class="howto-pill-text"><strong>Recover Fragment</strong> — buy pieces with gold (starts at 150g, price rises each purchase)</div>
+          <div class="howto-pill-text"><strong>Recover Fragment</strong> — buy 1-3 pieces with gold (150g per purchase)</div>
         </div>
         <div class="howto-pill">
           <div class="howto-pill-icon">🏺</div>
@@ -9008,7 +9008,7 @@ function _advJigRefreshGoldUI(locationId){
     GAME_STATS.goldPiecesDate=today;
   }
   const used=GAME_STATS.goldPiecesUsedToday||0;
-  const nextCost=150+(used*50);
+  const nextCost=150;
 
   // Usage label
   const usageEl=document.getElementById('adv-jig-recover-usage');
@@ -9051,7 +9051,7 @@ function recoverFragment(){
   }
 
   const used=GAME_STATS.goldPiecesUsedToday||0;
-  const cost=150+(used*50);
+  const cost=150;
   const currentGold=GAME_STATS.gold||0;
 
   if(currentGold<cost){
@@ -9068,8 +9068,8 @@ function recoverFragment(){
   for(let i=1;i<=totalPieces;i++){if(!placed.includes(i))unplaced.push(i);}
   if(unplaced.length===0){showToast('All pieces are already placed!',2000);return;}
 
-  // Pick 1-4 random unplaced pieces
-  const pieceCount=Math.min(1+Math.floor(Math.random()*4), unplaced.length);
+  // Pick 1-3 random unplaced pieces
+  const pieceCount=Math.min(1+Math.floor(Math.random()*3), unplaced.length);
   const chosenPieces=[];
   const pool=[...unplaced];
   for(let i=0;i<pieceCount;i++){
