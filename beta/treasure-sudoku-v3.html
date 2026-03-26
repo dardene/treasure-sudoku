@@ -4209,7 +4209,7 @@ const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×
   {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18,bg:'lost-continent-bg.png'},
   {id:20,name:'Sunken City',       icon:'\u{1F3DB}', desc:'Complete the Sunken City jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:19,bg:'sunken-city-bg.png'},
   {id:21,name:'Coral Shore',       icon:'\u{1F41A}', desc:'Complete the Coral Shore jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:20,bg:'coral-shore-bg.png'},
-  {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21},
+  {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21,bg:'haunted-moors-bg.png'},
   {id:23,name:'Ancient River',     icon:'\u{1F3DE}', desc:'Complete the Ancient River jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:22},
   {id:24,name:'Frozen Abyss',      icon:'\u{1F573}', desc:'Complete the Frozen Abyss jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:23},
   {id:25,name:'Crimson Peak',      icon:'\u{1F480}', desc:'Complete the Crimson Peak jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:24}
@@ -8733,7 +8733,11 @@ function renderAdventurePath(){
       html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="rgba(100,80,50,.35)" letter-spacing=".06em" font-weight="700" style="filter:url(#advBlur)">???</text>`;
     } else {
       const nameColor=isDone?'#f5c842':'#ffe066';
-      const nameStroke='rgba(0,0,0,.7)';
+      const nameStroke='rgba(0,0,0,.85)';
+      // Background pill for readability
+      const estW=loc.name.length*7.5;
+      const pillX=p.align==='left'?nameX-4:nameX-estW-4;
+      html+=`<rect x="${pillX}" y="${p.y-9}" width="${estW+8}" height="18" rx="4" fill="rgba(10,6,2,.75)" stroke="rgba(180,140,60,.4)" stroke-width=".8"/>`;
       html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="none" stroke="${nameStroke}" stroke-width="3" stroke-linejoin="round" letter-spacing=".06em">${loc.name}</text>`;
       html+=`<text x="${nameX}" y="${p.y+5}" text-anchor="${anchor}" font-family="'Cinzel',serif" font-size="12" fill="${nameColor}" letter-spacing=".06em" font-weight="700">${loc.name}</text>`;
     }
