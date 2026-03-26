@@ -2018,7 +2018,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       <div class="jigsaw-collection" id="vault-jigsaw"></div>
     </div>
     <div class="vault-section">
-      <div class="vault-section-title">🏛️ Ancient Relics <span id="vault-ancient-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
+      <div class="vault-section-title">🏛️ Ancient Collectibles <span id="vault-ancient-count" style="font-size:9px;color:rgba(200,160,80,.6);letter-spacing:.05em;font-weight:400;"></span></div>
       <div class="vault-ancient-legend">
         <span class="ar-legend-dot common"></span>Common
         <span class="ar-legend-dot rare"></span>Rare
@@ -3745,7 +3745,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 
 /* ── Jigsaw Artifact Vault ── */
 .jigsaw-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:4px 0;max-width:340px;margin:0 auto;}
-/* ── Ancient Relics Vault ── */
+/* ── Ancient Collectibles Vault ── */
 .ancient-collection{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:4px 0;}
 .vault-ancient-legend{display:flex;align-items:center;gap:10px;font-family:'Cinzel',serif;font-size:9px;color:rgba(200,160,80,.5);letter-spacing:.08em;margin-bottom:8px;flex-wrap:wrap;}
 .ar-legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:2px;}
@@ -9868,7 +9868,7 @@ function rollAncientRelic(source,overrideChance){
     // All collected — give bonus gold instead
     GAME_STATS.gold=(GAME_STATS.gold||0)+15;
     saveState();
-    showToast('✨ All Ancient Relics collected! +15 gold bonus.',2500);
+    showToast('✨ All Ancient Collectibles collected! +15 gold bonus.',2500);
     return;
   }
   // Pick rarity by weighted roll
