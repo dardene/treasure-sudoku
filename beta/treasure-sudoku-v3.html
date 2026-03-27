@@ -4142,8 +4142,8 @@ const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×
   {id:16,name:'Enchanted Wilds',   icon:'\u2728',     desc:'Complete the Enchanted Wilds jigsaw puzzle.',   gridCols:5,gridRows:3,sceneIdx:15,bg:'enchanted-wilds-bg.png',treasureBg:'enchanted-wilds-treasure-bg.png'},
   {id:17,name:'Thunder Peaks',     icon:'\u26C8',     desc:'Complete the Thunder Peaks jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:16,bg:'thunder-peaks-bg.png',treasureBg:'thunder-peaks-treasure-bg.png'},
   {id:18,name:'Mystic Lagoon',     icon:'\u{1F30A}', desc:'Complete the Mystic Lagoon jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:17,bg:'mystic-lagoon-bg.png',treasureBg:'mystic-lagoon-treasure-bg.png'},
-  {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18,bg:'lost-continent-bg.png'},
-  {id:20,name:'Sunken City',       icon:'\u{1F3DB}', desc:'Complete the Sunken City jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:19,bg:'sunken-city-bg.png'},
+  {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18,bg:'lost-continent-bg.png',treasureBg:'lost-continent-treasure-bg.png'},
+  {id:20,name:'Sunken City',       icon:'\u{1F3DB}', desc:'Complete the Sunken City jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:19,bg:'sunken-city-bg.png',treasureBg:'sunken-city-treasure-bg.png'},
   {id:21,name:'Coral Shore',       icon:'\u{1F41A}', desc:'Complete the Coral Shore jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:20,bg:'coral-shore-bg.png'},
   {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21,bg:'haunted-moors-bg.png'},
   {id:23,name:'Ancient River',     icon:'\u{1F3DE}', desc:'Complete the Ancient River jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:22,bg:'ancient-river-bg.png'},
@@ -4842,10 +4842,12 @@ function loadState(){
       if(ss){ss.value=sv;ss.style.setProperty('--val',sv+'%');if(sp)sp.textContent=sv+'%';}
     }
   // Adventure Path defaults for existing saves
-  if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=1;
+  if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=26; // DEBUG: unlock all locations for testing
   if(!GAME_STATS.adventureCompleted) GAME_STATS.adventureCompleted=[];
   if(!GAME_STATS.adventurePlacedPieces) GAME_STATS.adventurePlacedPieces={};
   if(!GAME_STATS.adventureEarnedPieces) GAME_STATS.adventureEarnedPieces={};
+  // DEBUG: give all locations 15 earned pieces for testing
+  for(let i=1;i<=25;i++){GAME_STATS.adventureEarnedPieces[i]=15;}
   if(GAME_STATS.gold===undefined) GAME_STATS.gold=0;
   if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
   if(!GAME_STATS.goldPiecesDate) GAME_STATS.goldPiecesDate='';
