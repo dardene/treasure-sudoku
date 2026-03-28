@@ -453,7 +453,7 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
   outline:2px solid rgba(245,200,66,.7);
   outline-offset:-2px;
 }
-.back-btn{position:absolute;top:14px;left:14px;padding:7px 14px;font-size:10px;z-index:20;}
+.back-btn{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:14px;padding:7px 14px;font-size:10px;z-index:20;}
 
 /* ══════════════ WIN OVERLAY ══════════════ */
 #win-overlay{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.82);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .5s;}
@@ -683,7 +683,7 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
 /* Music toggle button (fixed top-right) */
-#music-toggle-btn{position:fixed;top:6px;right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.88);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.88);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
 #music-toggle-btn:hover{background:rgba(60,38,10,.88);box-shadow:0 0 12px rgba(200,140,40,.45);}
 #music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
@@ -737,7 +737,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .menu-btn-howto{background:linear-gradient(135deg,rgba(80,50,120,.92),rgba(110,70,160,.92));border:1px solid rgba(170,130,220,.45);color:#e8d8ff;text-shadow:0 1px 3px rgba(30,10,60,.5);}
 .menu-btn-howto:hover{background:linear-gradient(135deg,rgba(95,62,140,.96),rgba(128,85,182,.96));box-shadow:0 0 22px rgba(130,90,200,.5),0 4px 15px rgba(0,0,0,.4);}
 /* Small corner auth button on main menu */
-.menu-top-btns{position:absolute;top:10px;left:18px;display:flex;gap:8px;z-index:20;}
+.menu-top-btns{position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);left:18px;display:flex;gap:8px;z-index:20;}
 .menu-top-btn{background:rgba(8,5,1,.65);border:1px solid rgba(160,110,40,.35);border-radius:20px;color:rgba(200,160,100,.7);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.12em;padding:7px 18px;cursor:pointer;transition:all .2s;}
 .menu-top-btn:hover{border-color:rgba(220,170,60,.55);color:var(--gold);background:rgba(15,9,2,.8);}
 .menu-btn-profile{background:linear-gradient(135deg,rgba(30,60,120,.92),rgba(45,85,160,.92));border:1px solid rgba(80,140,240,.45);color:#c0d8ff;}
@@ -807,7 +807,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <button id="music-toggle-btn" title="Toggle music">🎵</button>
 
 <!-- Gold balance — top-right, left of music button, menu only -->
-<div id="menu-gold-display" style="display:none;position:fixed;top:12px;right:54px;z-index:9999;align-items:center;gap:4px;padding:0 10px;height:34px;background:rgba(20,12,4,.88);border:1px solid rgba(200,155,55,.45);border-radius:20px;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:default;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe566,#f5c842 40%,#c09820 80%,#8a6810);box-shadow:0 1px 3px rgba(0,0,0,.4);vertical-align:middle;margin-right:3px;"></span><span id="menu-gold-amount">0</span> gold</div>
+<div id="menu-gold-display" style="display:none;position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);right:54px;z-index:9999;align-items:center;gap:4px;padding:0 10px;height:34px;background:rgba(20,12,4,.88);border:1px solid rgba(200,155,55,.45);border-radius:20px;font-family:'Cinzel',serif;font-size:11px;color:#f5c842;letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:default;"><span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe566,#f5c842 40%,#c09820 80%,#8a6810);box-shadow:0 1px 3px rgba(0,0,0,.4);vertical-align:middle;margin-right:3px;"></span><span id="menu-gold-amount">0</span> gold</div>
 
 <!-- ═══════════════ ENVIRONMENT — Tropical Beach ═══════════════ -->
 <div id="env">
@@ -1942,7 +1942,34 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <button class="action-btn" id="mm-undo"><span class="icon">↩</span>UNDO</button>
         <button class="action-btn" id="mm-erase"><span class="icon">✕</span>ERASE</button>
         <button class="action-btn" id="mm-notes"><span class="icon">✎</span>NOTES</button>
+        <button class="action-btn pause-btn" id="mm-pause"><span class="icon">⏸</span>PAUSE</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MASTER MODE SAVE/QUIT DIALOG ══ -->
+<div id="mm-quit-dialog" style="display:none;position:fixed;inset:0;z-index:9200;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;flex-direction:column;">
+  <div style="background:rgba(20,12,4,.95);border:1.5px solid rgba(200,160,50,.4);border-radius:16px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+    <div style="font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:var(--gold-light);letter-spacing:.12em;margin-bottom:8px;">LEAVE PUZZLE?</div>
+    <div style="font-family:'Crimson Pro',serif;font-size:13px;color:rgba(220,190,140,.65);margin-bottom:22px;line-height:1.5;">Save your progress and continue later, or quit without saving.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="sf-continue-btn" id="mm-quit-save" style="opacity:1;padding:12px 20px;font-size:11px;width:100%;">SAVE & EXIT</button>
+      <button class="sf-continue-btn" id="mm-quit-nosave" style="opacity:1;padding:12px 20px;font-size:11px;width:100%;background:linear-gradient(135deg,rgba(120,60,20,.9),rgba(80,40,10,.9));border-color:rgba(160,100,40,.5);">QUIT WITHOUT SAVING</button>
+      <button class="ghost-btn" id="mm-quit-cancel" style="font-size:10px;opacity:.6;margin-top:4px;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MASTER MODE RESUME DIALOG ══ -->
+<div id="mm-resume-dialog" style="display:none;position:fixed;inset:0;z-index:8600;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center;flex-direction:column;">
+  <div style="background:rgba(20,12,4,.95);border:1.5px solid rgba(200,160,50,.4);border-radius:16px;padding:28px 24px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+    <div style="font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:var(--gold-light);letter-spacing:.12em;margin-bottom:8px;">SAVED PUZZLE</div>
+    <div style="font-family:'Crimson Pro',serif;font-size:13px;color:rgba(220,190,140,.65);margin-bottom:22px;line-height:1.5;" id="mm-resume-info">You have a saved puzzle in progress.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button class="sf-continue-btn" id="mm-resume-yes" style="opacity:1;padding:12px 20px;font-size:11px;width:100%;">CONTINUE PUZZLE</button>
+      <button class="sf-continue-btn" id="mm-resume-new" style="opacity:1;padding:12px 20px;font-size:11px;width:100%;background:linear-gradient(135deg,rgba(120,60,20,.9),rgba(80,40,10,.9));border-color:rgba(160,100,40,.5);">NEW PUZZLE</button>
+      <button class="ghost-btn" id="mm-resume-cancel" style="font-size:10px;opacity:.6;margin-top:4px;">Cancel</button>
     </div>
   </div>
 </div>
@@ -3624,7 +3651,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 #screen-master .stat-label{font-size:7px;}
 #screen-master .stat-value{font-size:13px;}
 #screen-master .mistakes-row{font-size:8px;margin:0;}
-#screen-master .back-btn{top:6px;left:6px;font-size:10px;padding:4px 10px;}
+#screen-master .back-btn{top:calc(env(safe-area-inset-top,0px) + 6px);left:6px;font-size:10px;padding:4px 10px;}
 .mm-puzzle-container{background:rgba(20,14,6,.75);border:1.5px solid rgba(200,160,50,.4);border-radius:16px;padding:10px;box-shadow:0 8px 40px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,220,100,.08);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);}
 .mm-grid-scroll{overflow:hidden;border:3px solid var(--gold-dark);border-radius:6px;box-shadow:0 0 0 1px rgba(0,0,0,.8),inset 0 0 20px rgba(0,0,0,.4);width:min(94vw,calc(100vh - 300px));height:min(94vw,calc(100vh - 300px));max-width:480px;max-height:480px;}
 .mm-grid{display:grid;grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(16,1fr);gap:1px;width:100%;height:100%;background:rgba(60,45,20,.25);}
@@ -3697,7 +3724,8 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 #mapv-bg{display:none;}
 #screen-mapview > *:not(.mapv-header):not(.advpath-wrap){position:relative;z-index:5;}
 #screen-mapview #mapview-back{position:fixed;top:auto;bottom:calc(20px + env(safe-area-inset-bottom, 0px));left:14px;z-index:200;}
-.mapv-header{background:rgba(20,12,4,.75);border:1px solid rgba(140,100,40,.3);border-radius:10px;padding:6px 18px 5px;text-align:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);position:fixed;top:calc(env(safe-area-inset-top,8px) + 8px);left:50%;transform:translateX(-50%);z-index:200;pointer-events:all;}
+.mapv-header{background:rgba(20,12,4,.75);border:1px solid rgba(140,100,40,.3);border-radius:10px;padding:6px 18px 5px;text-align:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);position:fixed;top:calc(env(safe-area-inset-top,8px) + 8px);left:50%;transform:translateX(-50%);z-index:200;pointer-events:all;display:none;}
+#screen-mapview.active .mapv-header{display:block;}
 .mapv-title{font-size:13px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.18em;margin-bottom:1px;}
 .mapv-sub{font-family:'Crimson Pro',serif;font-size:9px;color:var(--stone-light);letter-spacing:.18em;margin-bottom:0;text-align:center;}
 .mapv-grid-wrap{flex-shrink:0;margin-bottom:10px;}
@@ -5085,7 +5113,9 @@ const BGM=(()=>{
     }
   }
 
-  return{init,start,setVolume,toggleMute};
+  function isPlaying(){return _started&&!!_src;}
+
+  return{init,start,setVolume,toggleMute,isPlaying};
 })();
 
 /* ══ BUTTON CLICK SOUND ══
@@ -5303,19 +5333,16 @@ function menuTransitionTo(id,initFn){
   if(bottomBtns)bottomBtns.style.opacity='0';
   UI_SFX.whoosh();
   setTimeout(function(){
-    /* Brief pause on the bare beach scene */
+    if(initFn)initFn();
+    showScreen(id);
+    /* Reset panel/title/bottom opacity silently so they're ready when user returns */
     setTimeout(function(){
-      if(initFn)initFn();
-      showScreen(id);
-      /* Reset panel/title/bottom opacity silently so they're ready when user returns */
-      setTimeout(function(){
-        panel.style.transition='';
-        panel.style.opacity='';
-        skyTitle.style.transition='';
-        skyTitle.style.opacity='';
-        if(bottomBtns){bottomBtns.style.transition='';bottomBtns.style.opacity='';}
-      },100);
-    },200);
+      panel.style.transition='';
+      panel.style.opacity='';
+      skyTitle.style.transition='';
+      skyTitle.style.opacity='';
+      if(bottomBtns){bottomBtns.style.transition='';bottomBtns.style.opacity='';}
+    },100);
   },350);
 }
 
@@ -10280,8 +10307,89 @@ document.getElementById('menu-vault').addEventListener('click',()=>{menuTransiti
 document.getElementById('menu-settings').addEventListener('click',()=>{menuTransitionTo('screen-settings');});
 
 // Master Mode
-document.getElementById('menu-master').addEventListener('click',()=>mmShowRelicPicker());
-document.getElementById('mm-back').addEventListener('click',()=>{clearInterval(MM.timerInterval);showScreen('screen-menu');});
+document.getElementById('menu-master').addEventListener('click',()=>{
+  const saved=mmLoadSavedGame();
+  if(saved){
+    const mins=Math.floor(saved.elapsed/60),secs=saved.elapsed%60;
+    document.getElementById('mm-resume-info').textContent='You have a saved puzzle ('+fmtTime(saved.elapsed)+', '+saved.mistakes+' mistakes, score: '+saved.score+').';
+    document.getElementById('mm-resume-dialog').style.display='flex';
+  } else { mmShowRelicPicker(); }
+});
+/* ── Master Mode Save/Resume ── */
+function mmSaveGame(){
+  const save={
+    board:[...MM.board],solution:[...MM.solution],
+    given:[...MM.given],notes:MM.notes.map(s=>[...s]),
+    relicMap:[...MM.relicMap],elapsed:MM.elapsed,
+    mistakes:MM.mistakes,score:MM.score,streak:MM.streak,
+    undoStack:MM.undoStack.map(u=>({...u})),
+    notesMode:MM.notesMode,savedAt:Date.now()
+  };
+  localStorage.setItem('mm_saved_game',JSON.stringify(save));
+}
+function mmLoadSavedGame(){
+  try{const raw=localStorage.getItem('mm_saved_game');return raw?JSON.parse(raw):null;}catch(e){return null;}
+}
+function mmClearSavedGame(){localStorage.removeItem('mm_saved_game');}
+function mmRestoreGame(save){
+  MM.board=save.board;MM.solution=save.solution;
+  MM.given=new Set(save.given);MM.relicMap=save.relicMap;
+  MM.notes=save.notes.map(a=>new Set(a));
+  MM.elapsed=save.elapsed;MM.mistakes=save.mistakes;
+  MM.score=save.score;MM.streak=save.streak||0;
+  MM.undoStack=save.undoStack||[];
+  MM.selected=null;MM.activeNum=null;MM.notesMode=save.notesMode||false;
+  MM.startTime=Date.now()-MM.elapsed*1000;
+  clearInterval(MM.timerInterval);
+  menuTransitionTo('screen-master',function(){
+    document.getElementById('mm-timer').textContent=fmtTime(MM.elapsed);
+    document.getElementById('mm-score').textContent=MM.score;
+    document.getElementById('mm-mistakes-count').textContent=MM.mistakes;
+    document.getElementById('mm-notes').classList.remove('active');
+    mmBuildBoard();
+    mmBuildNumpad();
+    mmRenderBoard();
+    MM.timerInterval=setInterval(mmTickTimer,1000);
+  });
+  mmClearSavedGame();
+}
+document.getElementById('mm-back').addEventListener('click',()=>{
+  clearInterval(MM.timerInterval);MM.timerInterval=null;
+  MM.elapsed=Math.floor((Date.now()-MM.startTime)/1000);
+  document.getElementById('pause-overlay').classList.remove('show');
+  PAUSED={active:false,source:null};
+  document.getElementById('mm-quit-dialog').style.display='flex';
+});
+document.getElementById('mm-quit-save').addEventListener('click',()=>{
+  mmSaveGame();
+  document.getElementById('mm-quit-dialog').style.display='none';
+  showScreen('screen-menu');
+  showToast('Puzzle saved! Resume anytime from Master Mode.',3000);
+});
+document.getElementById('mm-quit-nosave').addEventListener('click',()=>{
+  mmClearSavedGame();
+  document.getElementById('mm-quit-dialog').style.display='none';
+  showScreen('screen-menu');
+});
+document.getElementById('mm-quit-cancel').addEventListener('click',()=>{
+  document.getElementById('mm-quit-dialog').style.display='none';
+  MM.startTime=Date.now()-MM.elapsed*1000;
+  MM.timerInterval=setInterval(mmTickTimer,1000);
+});
+/* Resume dialog handlers */
+document.getElementById('mm-resume-yes').addEventListener('click',()=>{
+  document.getElementById('mm-resume-dialog').style.display='none';
+  const save=mmLoadSavedGame();
+  if(save)mmRestoreGame(save);
+});
+document.getElementById('mm-resume-new').addEventListener('click',()=>{
+  document.getElementById('mm-resume-dialog').style.display='none';
+  mmClearSavedGame();
+  mmShowRelicPicker();
+});
+document.getElementById('mm-resume-cancel').addEventListener('click',()=>{
+  document.getElementById('mm-resume-dialog').style.display='none';
+});
 document.getElementById('mm-undo').addEventListener('click',mmUndo);
 document.getElementById('mm-erase').addEventListener('click',mmErase);
 document.getElementById('mm-notes').addEventListener('click',()=>{MM.notesMode=!MM.notesMode;document.getElementById('mm-notes').classList.toggle('active',MM.notesMode);});
@@ -10397,7 +10505,9 @@ let PAUSED={active:false,source:null};
 function pauseGame(source){
   if(PAUSED.active)return;
   PAUSED={active:true,source};
-  if(source==='pz'){
+  if(source==='mm'){
+    clearInterval(MM.timerInterval);MM.timerInterval=null;
+  } else if(source==='pz'){
     clearInterval(PZ.timerInterval);PZ.timerInterval=null;
   } else {
     // Stop main timer
@@ -10414,7 +10524,10 @@ function resumeGame(){
   const src=PAUSED.source;
   PAUSED={active:false,source:null};
   document.getElementById('pause-overlay').classList.remove('show');
-  if(src==='pz'){
+  if(src==='mm'){
+    MM.startTime=Date.now()-MM.elapsed*1000;
+    MM.timerInterval=setInterval(mmTickTimer,1000);
+  } else if(src==='pz'){
     PZ.startTime=Date.now()-PZ.elapsed*1000;
     PZ.timerInterval=setInterval(()=>{PZ.elapsed=Math.floor((Date.now()-PZ.startTime)/1000);document.getElementById('pz-timer').textContent=fmtTime(PZ.elapsed);},500);
   } else {
@@ -10443,6 +10556,7 @@ function resumeGame(){
   }
 }
 document.getElementById('pz-pause').addEventListener('click',()=>pauseGame('pz'));
+document.getElementById('mm-pause').addEventListener('click',()=>pauseGame('mm'));
 document.getElementById('dp-pause').addEventListener('click',()=>pauseGame('dp'));
 document.getElementById('pause-resume-btn').addEventListener('click',resumeGame);
 document.getElementById('pz-notes').addEventListener('click',function(){
@@ -10639,11 +10753,18 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   _updateCornerAuthBtn();
 })();
 (function(){
-  let _kicked=false;
+  let _bgmKicked=false;
   function _kick(e){
     if(e.target.id==='music-toggle-btn')return;
-    if(_kicked)return;_kicked=true;
+    // Resume the global SFX AudioContext every tap until it's running (iOS requires gesture context)
+    if(_sfxCtx&&_sfxCtx.state==='suspended'){
+      _sfxCtx.resume().then(()=>_preloadAllBuffers()).catch(()=>{});
+    }
+    if(_bgmKicked)return;
+    _bgmKicked=true;
     BGM.start();
+    // Retry BGM on next tap if it didn't start (e.g. MP3 not loaded yet)
+    setTimeout(()=>{if(!BGM.isPlaying())_bgmKicked=false;},2000);
   }
   document.addEventListener('click',_kick);
   document.addEventListener('touchstart',_kick);
