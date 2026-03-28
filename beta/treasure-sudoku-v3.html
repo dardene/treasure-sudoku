@@ -677,7 +677,7 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
 /* Music toggle button (fixed top-right) */
-#music-toggle-btn{position:fixed;top:12px;right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.88);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+#music-toggle-btn{position:fixed;top:6px;right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.88);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
 #music-toggle-btn:hover{background:rgba(60,38,10,.88);box-shadow:0 0 12px rgba(200,140,40,.45);}
 #music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
@@ -1724,6 +1724,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   <div class="menu-sky-title">
     <div class="menu-title">TREASURE SUDOKU</div>
     <div class="menu-subtitle">The Lost Relics of Solara</div>
+    <div class="menu-solara-badge" id="menu-solara-badge">&#x1F451; Guardian of Solara</div>
   </div>
   <div class="menu-top-btns">
     <button class="menu-top-btn" id="menu-auth-corner-btn">LOG IN</button>
@@ -1854,6 +1855,13 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         </div>
       </span>
     </button>
+    <button class="menu-btn menu-btn-master ghost-btn" id="menu-master" style="display:none;">
+      <span class="mb-icon">👑</span>
+      <span class="mb-text">
+        <span class="mb-title">MASTER MODE</span>
+        <span class="mb-master-sub">16×16 · All Relics</span>
+      </span>
+    </button>
   <!-- profile btn removed — use LOG IN corner btn instead -->
   <button id="menu-profile" style="display:none"></button>
   </div>
@@ -1897,6 +1905,55 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <button class="action-btn" id="pz-new"><span class="icon">⚔</span>NEW</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN: MASTER MODE ═══════════════ -->
+<div class="screen" id="screen-master">
+  <button class="ghost-btn back-btn" id="mm-back">&larr; Menu</button>
+  <div class="puzzle-header">
+    <div class="stat-panel">
+      <div class="stat-label">⏱ Time</div>
+      <div class="stat-value" id="mm-timer">0:00</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:clamp(12px,2.5vw,16px);font-weight:900;color:var(--gold-light);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.12em;">👑 MASTER MODE 👑</div>
+      <div style="font-family:'Crimson Pro',serif;font-size:9px;color:var(--stone-light);letter-spacing:.25em;">16×16 · Guardian of Solara</div>
+    </div>
+    <div class="stat-panel">
+      <div class="stat-label">✦ Score</div>
+      <div class="stat-value" id="mm-score">0</div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="mistakes-row">MISTAKES: <span id="mm-mistakes-count" style="color:#e63030;font-weight:700;font-size:11px;min-width:16px;display:inline-block;">0</span> / 5</div>
+    <div class="mm-grid-scroll" id="mm-grid-scroll">
+      <div class="mm-grid" id="mm-board"></div>
+    </div>
+    <div class="numpad-wrap panel" style="margin-top:6px;width:min(96vw,500px);">
+      <div class="mm-numpad" id="mm-numpad"></div>
+      <div class="actions-row">
+        <button class="action-btn" id="mm-undo"><span class="icon">↩</span>UNDO</button>
+        <button class="action-btn" id="mm-erase"><span class="icon">✕</span>ERASE</button>
+        <button class="action-btn" id="mm-notes"><span class="icon">✎</span>NOTES</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MASTER MODE RELIC PICKER ══ -->
+<div id="mm-relic-picker" style="display:none;position:fixed;inset:0;z-index:8500;background:rgba(4,2,0,.95);align-items:center;justify-content:center;flex-direction:column;padding:20px;">
+  <div style="text-align:center;max-width:420px;width:100%;">
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.3em;color:var(--gold);margin-bottom:4px;">👑 MASTER MODE</div>
+    <div style="font-family:'Cinzel',serif;font-size:18px;font-weight:900;color:var(--gold-light);letter-spacing:.14em;margin-bottom:4px;text-shadow:0 0 20px var(--glow-gold);">CHOOSE YOUR RELICS</div>
+    <div style="font-family:'Crimson Pro',serif;font-size:13px;color:rgba(220,190,140,.7);margin-bottom:16px;">Select 16 of your 25 discovered relics for the puzzle</div>
+    <div id="mm-rp-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;"></div>
+    <div style="font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:.1em;margin-bottom:14px;"><span id="mm-rp-count">0</span> / 16 selected</div>
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button class="sf-continue-btn" id="mm-rp-auto" style="opacity:1;padding:10px 20px;font-size:10px;">AUTO-SELECT</button>
+      <button class="sf-continue-btn" id="mm-rp-confirm" style="opacity:1;padding:10px 24px;font-size:10px;">BEGIN PUZZLE</button>
+    </div>
+    <button class="ghost-btn" id="mm-rp-cancel" style="margin-top:12px;font-size:10px;opacity:.6;">Cancel</button>
   </div>
 </div>
 
@@ -2456,6 +2513,52 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       Collect all 25 relics to complete the Lost Collection of Solara.
     </div>
     <button class="map-intro-btn" id="map-intro-start">BEGIN THE JOURNEY</button>
+  </div>
+</div>
+
+<!-- ═══════════════ SOLARA FINALE OVERLAY ═══════════════ -->
+<div id="solara-finale-overlay">
+  <div id="sf-light"></div>
+  <div id="sf-content">
+    <!-- Stage 1: Grand Reveal -->
+    <div class="sf-stage active" id="sf-stage-reveal">
+      <div id="sf-city-bg"></div>
+      <div id="sf-reveal-text">
+        <div class="sf-reveal-line" id="sf-line-1">The 25th seal has been broken.</div>
+        <div class="sf-reveal-line" id="sf-line-2">The Lost City of Solara rises once more.</div>
+      </div>
+      <button class="sf-continue-btn" id="sf-reveal-next">Continue</button>
+    </div>
+    <!-- Stage 2: Story Epilogue -->
+    <div class="sf-stage" id="sf-stage-epilogue">
+      <div class="sf-epi-slides">
+        <div class="sf-epi-slide active" id="sf-epi-0">
+          <div class="sf-epi-icon">&#x269C;</div>
+          <div class="sf-epi-body">The relics have been reunited. The ancient puzzle locks &mdash; once thought unbreakable &mdash; yielded to your patience and skill.</div>
+        </div>
+        <div class="sf-epi-slide" id="sf-epi-1">
+          <div class="sf-epi-icon">&#x1F3DB;</div>
+          <div class="sf-epi-body">The people of Solara hid their treasures well. But they always hoped someone worthy would find them.</div>
+        </div>
+        <div class="sf-epi-slide" id="sf-epi-2">
+          <div class="sf-epi-icon">&#x2728;</div>
+          <div class="sf-epi-body">The Lost City remembers.<br>And so will you.</div>
+          <div class="sf-epi-title-reveal">GUARDIAN OF SOLARA</div>
+        </div>
+      </div>
+      <div class="sf-epi-nav">
+        <div class="sf-epi-dots" id="sf-epi-dots"></div>
+        <button class="sf-continue-btn" id="sf-epi-next">Continue</button>
+      </div>
+    </div>
+    <!-- Stage 3: Return -->
+    <div class="sf-stage" id="sf-stage-complete">
+      <div class="sf-complete-crown">&#x1F451;</div>
+      <div class="sf-complete-title">ADVENTURE COMPLETE</div>
+      <div class="sf-complete-sub">All 25 Lost Relics of Solara have been recovered.</div>
+      <div class="sf-complete-badge">Guardian of Solara</div>
+      <button class="sf-continue-btn sf-final-btn" id="sf-finish">Return to Menu</button>
+    </div>
   </div>
 </div>
 
@@ -3472,6 +3575,79 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 .legendary-mode #pz-board{box-shadow:0 0 30px rgba(180,80,255,.35),0 0 60px rgba(140,40,200,.2);}
 .legendary-mode .puzzle-header{border-bottom:1px solid rgba(180,80,255,.3);}
 
+/* ══ MASTER MODE ══ */
+.menu-btn-master{background:linear-gradient(135deg,rgba(120,60,180,.5),rgba(80,30,140,.5))!important;border-color:rgba(180,120,255,.45)!important;}
+.mb-master-sub{font-family:'Crimson Pro',serif;font-size:9px;color:rgba(200,170,255,.7);letter-spacing:.15em;display:block;margin-top:1px;}
+#screen-master{padding:40px 0 4px!important;gap:2px!important;background:#1a120a!important;}
+#screen-master .puzzle-header{padding:2px 10px;min-height:auto;}
+#screen-master .stat-panel{padding:2px 6px;}
+#screen-master .stat-label{font-size:7px;}
+#screen-master .stat-value{font-size:13px;}
+#screen-master .mistakes-row{font-size:8px;margin:0;}
+#screen-master .back-btn{top:6px;left:6px;font-size:10px;padding:4px 10px;}
+.mm-grid-scroll{overflow:hidden;border:3px solid var(--gold-dark);border-radius:6px;box-shadow:0 0 0 1px rgba(0,0,0,.8),inset 0 0 20px rgba(0,0,0,.4);width:min(94vw,calc(100vh - 300px));height:min(94vw,calc(100vh - 300px));max-width:480px;max-height:480px;}
+.mm-grid{display:grid;grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(16,1fr);gap:0;width:100%;height:100%;}
+.mm-grid .cell{width:auto;height:auto;font-size:7px;aspect-ratio:auto;min-width:0;min-height:0;padding:0;border:1px solid rgba(60,45,20,.25)!important;}
+.mm-grid .cell .artifact-icon{width:78%;height:78%;}
+.mm-grid .cell .notes-grid{grid-template-columns:repeat(4,1fr);}
+.mm-grid .cell .note-dot{width:4px;height:4px;font-size:2.5px;}
+.mm-grid .cell.mm-box-right{border-right:3px solid #c9a84c!important;}
+.mm-grid .cell.mm-box-bottom{border-bottom:3px solid #c9a84c!important;}
+.mm-numpad-wrap{margin-top:2px!important;padding:3px 6px!important;width:min(94vw,480px)!important;}
+.mm-numpad{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;margin-bottom:2px;}
+.mm-numpad .num-btn{padding:2px;min-height:26px;}
+.mm-numpad .num-btn .btn-icon{width:22px;height:22px;margin:auto;}
+.mm-numpad .num-btn .btn-label{font-size:5px;line-height:1;margin-top:1px;}
+#screen-master .actions-row{gap:4px;margin-top:1px;}
+#screen-master .action-btn{padding:3px 8px;font-size:7px;}
+#screen-master .action-btn .icon{font-size:9px;}
+#mm-relic-picker.show{display:flex!important;}
+.mm-rp-slot{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border:1.5px solid rgba(200,160,50,.25);border-radius:10px;background:rgba(20,12,4,.7);cursor:pointer;transition:all .2s;}
+.mm-rp-slot.selected{border-color:var(--gold);background:rgba(245,200,66,.12);box-shadow:0 0 12px rgba(245,200,66,.2);}
+.mm-rp-slot .mm-rp-icon{width:32px;height:32px;}
+.mm-rp-slot .mm-rp-name{font-family:'Crimson Pro',serif;font-size:8px;color:rgba(220,190,140,.7);text-align:center;line-height:1.2;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ══ SOLARA FINALE ══ */
+#solara-finale-overlay{display:none;position:fixed;inset:0;z-index:9600;background:#000;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+#solara-finale-overlay.show{display:flex;}
+#sf-light{position:absolute;bottom:-40%;left:50%;transform:translateX(-50%);width:200%;height:80%;background:radial-gradient(ellipse at 50% 100%,rgba(245,200,66,.35) 0%,rgba(245,200,66,.08) 40%,transparent 70%);opacity:0;transition:opacity 2s ease;pointer-events:none;}
+#sf-light.on{opacity:1;}
+#sf-content{position:relative;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;}
+.sf-stage{display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;width:100%;height:100%;position:absolute;inset:0;}
+.sf-stage.active{display:flex;}
+#sf-city-bg{position:absolute;inset:0;background:url('lostcityofsolara-bg.png') center center/cover no-repeat;opacity:0;transition:opacity 3s ease;pointer-events:none;}
+#sf-city-bg.on{opacity:.45;}
+#sf-reveal-text{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;}
+.sf-reveal-line{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold-light);letter-spacing:.12em;opacity:0;transform:translateY(20px);text-shadow:0 0 30px var(--glow-gold),0 2px 8px rgba(0,0,0,.6);line-height:1.5;max-width:380px;}
+.sf-reveal-line.on{animation:sfFadeUp 2s ease forwards;}
+@keyframes sfFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.sf-continue-btn{margin-top:30px;padding:12px 32px;border:1.5px solid rgba(200,160,50,.6);border-radius:12px;background:linear-gradient(135deg,rgba(90,60,10,.95),rgba(140,95,15,.95));color:var(--gold-light);font-family:'Cinzel',serif;font-size:12px;letter-spacing:.12em;cursor:pointer;opacity:0;transition:opacity .8s ease,transform .2s;box-shadow:0 2px 16px rgba(0,0,0,.5);}
+.sf-continue-btn.on{opacity:1;}
+.sf-continue-btn:hover{transform:scale(1.04);box-shadow:0 2px 20px rgba(245,200,66,.25);}
+.sf-epi-slides{position:relative;width:100%;max-width:400px;min-height:200px;}
+.sf-epi-slide{display:none;flex-direction:column;align-items:center;text-align:center;gap:14px;animation:sfFadeUp 1s ease forwards;}
+.sf-epi-slide.active{display:flex;}
+.sf-epi-icon{font-size:48px;line-height:1;margin-bottom:4px;}
+.sf-epi-body{font-family:'Crimson Pro',serif;font-size:17px;color:rgba(220,190,140,.9);line-height:1.7;max-width:360px;}
+.sf-epi-title-reveal{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:.18em;margin-top:16px;text-shadow:0 0 25px var(--glow-gold);opacity:0;}
+.sf-epi-title-reveal.on{animation:sfTitleGlow 2s ease forwards;}
+@keyframes sfTitleGlow{from{opacity:0;transform:scale(.9);filter:brightness(2)}to{opacity:1;transform:scale(1);filter:brightness(1)}}
+.sf-epi-dots{display:flex;gap:8px;justify-content:center;margin-bottom:12px;}
+.sf-epi-dot{width:8px;height:8px;border-radius:50%;background:rgba(200,160,60,.3);transition:background .3s;}
+.sf-epi-dot.active{background:var(--gold);}
+.sf-epi-nav{display:flex;flex-direction:column;align-items:center;margin-top:20px;}
+.sf-complete-crown{font-size:64px;line-height:1;margin-bottom:12px;animation:sfCrownBounce 1.5s ease forwards;}
+@keyframes sfCrownBounce{0%{opacity:0;transform:scale(0) rotate(-15deg)}50%{opacity:1;transform:scale(1.2) rotate(5deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+.sf-complete-title{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--gold-light);letter-spacing:.15em;text-shadow:0 0 30px var(--glow-gold);margin-bottom:8px;}
+.sf-complete-sub{font-family:'Crimson Pro',serif;font-size:15px;color:rgba(220,190,140,.8);margin-bottom:18px;line-height:1.5;}
+.sf-complete-badge{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.14em;padding:8px 24px;border:1.5px solid rgba(245,200,66,.5);border-radius:24px;background:rgba(245,200,66,.08);box-shadow:0 0 20px rgba(245,200,66,.15);margin-bottom:24px;}
+.sf-final-btn{opacity:1;margin-top:8px;}
+/* Menu completion badge */
+.menu-solara-badge{display:none;font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:.1em;text-align:center;margin-top:-4px;text-shadow:0 0 12px var(--glow-gold);}
+.menu-solara-badge.show{display:block;}
+/* Map 100% banner */
+.map-complete-banner{font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-shadow:0 0 14px var(--glow-gold);opacity:.85;}
+
 /* ══ TREASURE MAP SCREEN ══ */
 #screen-mapview{flex-direction:column;align-items:center;overflow:hidden;padding:0;gap:0;background:#1a1008;min-height:100vh;min-height:100dvh;touch-action:none;overscroll-behavior:none;}
 #mapv-bg{display:none;}
@@ -4144,11 +4320,11 @@ const ADVENTURE_LOCATIONS=[null, // 1-indexed — maps to TREASURE_MAPS (all 5×
   {id:18,name:'Mystic Lagoon',     icon:'\u{1F30A}', desc:'Complete the Mystic Lagoon jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:17,bg:'mystic-lagoon-bg.png',treasureBg:'mystic-lagoon-treasure-bg.png'},
   {id:19,name:'Lost Continent',    icon:'\u{1F5FA}', desc:'Complete the Lost Continent jigsaw puzzle.',    gridCols:5,gridRows:3,sceneIdx:18,bg:'lost-continent-bg.png',treasureBg:'lost-continent-treasure-bg.png'},
   {id:20,name:'Sunken City',       icon:'\u{1F3DB}', desc:'Complete the Sunken City jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:19,bg:'sunken-city-bg.png',treasureBg:'sunken-city-treasure-bg.png'},
-  {id:21,name:'Coral Shore',       icon:'\u{1F41A}', desc:'Complete the Coral Shore jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:20,bg:'coral-shore-bg.png'},
-  {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21,bg:'haunted-moors-bg.png'},
-  {id:23,name:'Ancient River',     icon:'\u{1F3DE}', desc:'Complete the Ancient River jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:22,bg:'ancient-river-bg.png'},
-  {id:24,name:'Frozen Abyss',      icon:'\u{1F573}', desc:'Complete the Frozen Abyss jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:23,bg:'frozen-abyss-bg.png'},
-  {id:25,name:'Lost City of Solara',icon:'\u{1F3DB}', desc:'Unlock the final seal and discover the legendary lost city.',gridCols:5,gridRows:3,sceneIdx:24,bg:'lostcityofsolara-bg.png'}
+  {id:21,name:'Coral Shore',       icon:'\u{1F41A}', desc:'Complete the Coral Shore jigsaw puzzle.',       gridCols:5,gridRows:3,sceneIdx:20,bg:'coral-shore-bg.png',treasureBg:'coral-shore-treasure-bg.png'},
+  {id:22,name:'Haunted Moors',     icon:'\u{1F47B}', desc:'Complete the Haunted Moors jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:21,bg:'haunted-moors-bg.png',treasureBg:'haunted-moors-treasure-bg.png'},
+  {id:23,name:'Ancient River',     icon:'\u{1F3DE}', desc:'Complete the Ancient River jigsaw puzzle.',     gridCols:5,gridRows:3,sceneIdx:22,bg:'ancient-river-bg.png',treasureBg:'ancient-river-treasure-bg.png'},
+  {id:24,name:'Frozen Abyss',      icon:'\u{1F573}', desc:'Complete the Frozen Abyss jigsaw puzzle.',      gridCols:5,gridRows:3,sceneIdx:23,bg:'frozen-abyss-bg.png',treasureBg:'frozen-abyss-treasure-bg.png'},
+  {id:25,name:'Lost City of Solara',icon:'\u{1F3DB}', desc:'Unlock the final seal and discover the legendary lost city.',gridCols:5,gridRows:3,sceneIdx:24,bg:'lostcityofsolara-bg.png',treasureBg:'lostcityofsolara-bg.png'}
 ];
 
 // (generatePieceEdges and getAdvEdges removed — Adventure Path now uses standard PIECE_EDGES)
@@ -4842,11 +5018,12 @@ function loadState(){
       if(ss){ss.value=sv;ss.style.setProperty('--val',sv+'%');if(sp)sp.textContent=sv+'%';}
     }
   // Adventure Path defaults for existing saves
-  if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=26; // DEBUG: unlock all locations for testing
+  if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=1;
   if(!GAME_STATS.adventureCompleted) GAME_STATS.adventureCompleted=[];
   if(!GAME_STATS.adventurePlacedPieces) GAME_STATS.adventurePlacedPieces={};
   if(!GAME_STATS.adventureEarnedPieces) GAME_STATS.adventureEarnedPieces={};
-  // DEBUG: give all locations 15 earned pieces for testing
+  // DEBUG: unlock all locations + give all pieces for testing
+  GAME_STATS.adventureProgress=26;
   for(let i=1;i<=25;i++){GAME_STATS.adventureEarnedPieces[i]=15;}
   if(GAME_STATS.gold===undefined) GAME_STATS.gold=0;
   if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
@@ -8542,7 +8719,9 @@ function switchMapTab(tabName){
   advContent.style.display='';
   dailyContent.style.display='none';
   title.textContent='\u269C TREASURE MAP \u269C';
-  sub.textContent='Chart your course through 25 legendary locations';
+  const allComplete=GAME_STATS.solaraComplete||(GAME_STATS.adventureCompleted&&GAME_STATS.adventureCompleted.length>=25);
+  sub.textContent=allComplete?'100% COMPLETE \u2014 All 25 Relics Recovered':'Chart your course through 25 legendary locations';
+  if(allComplete)sub.classList.add('map-complete-banner');else sub.classList.remove('map-complete-banner');
   renderAdventurePath();
 }
 
@@ -8637,7 +8816,7 @@ function renderAdventurePath(){
     const isCurrent=i===progress&&!isDone;
     const isLocked=i>progress;
 
-    let nodeClass='adv-node-locked';
+    let nodeClass=isLocked?'adv-node-locked':'adv-node-unlocked';
     if(isDone) nodeClass='adv-node-completed';
     else if(isCurrent){nodeClass='adv-node-current';currentNodeY=p.y;}
 
@@ -8652,8 +8831,8 @@ function renderAdventurePath(){
       html+=`<circle cx="${p.x}" cy="${p.y}" r="${r+5}" fill="none" stroke="rgba(245,200,66,.4)" stroke-width="2" filter="url(#advGlow)"/>`;
       html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="#f5c842" stroke="#c09820" stroke-width="2"/>`;
       html+=`<text x="${p.x}" y="${p.y+5}" text-anchor="middle" font-family="'Cinzel',serif" font-size="12" fill="#3a1a00" font-weight="900">${i}</text>`;
-    } else if((DEV_MODE_P1 && !isPage2) || (DEV_MODE_P2 && isPage2)) {
-      // DEV mode: bright visible circles with numbers
+    } else if(!isLocked) {
+      // Unlocked but not yet completed — bright accessible node
       html+=`<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="#f5c842" stroke="#a07010" stroke-width="2"/>`;
       html+=`<text x="${p.x}" y="${p.y+5}" text-anchor="middle" font-family="'Cinzel',serif" font-size="12" fill="#3a1a00" font-weight="900">${i}</text>`;
     } else {
@@ -9305,6 +9484,16 @@ function advJigsawComplete(locationId){
   document.body.appendChild(flash);setTimeout(()=>flash.remove(),800);
 
   const loc=ADVENTURE_LOCATIONS[locationId];
+
+  // Location 25 (Lost City of Solara) — skip relic reveal, go straight to finale ceremony
+  if(locationId===25){
+    setTimeout(()=>{
+      document.getElementById('adv-jigsaw-overlay').classList.remove('show');
+      setTimeout(()=>showSolaraFinale(),800);
+    },1800);
+    return;
+  }
+
   const relicMsg=locationId<25?'The path to the next relic has been revealed!':'You have collected ALL the Lost Relics of Solara!';
   showToast(loc.icon+' Relic of '+loc.name+' discovered! '+relicMsg);
 
@@ -9320,6 +9509,443 @@ function advJigsawComplete(locationId){
 }
 
 /* ══════════════════════════════════════════════════════
+   MASTER MODE — 16×16 SUDOKU ENGINE
+══════════════════════════════════════════════════════ */
+const MM={
+  solution:null,board:null,given:null,selected:null,activeNum:null,
+  notesMode:false,notes:null,mistakes:0,maxMistakes:5,score:0,streak:0,
+  elapsed:0,timerInterval:null,startTime:0,undoStack:[],
+  relicMap:null // maps 1-16 to JIGSAW_ARTIFACTS indices
+};
+
+function mmGenerate16(){
+  const N=16,B=4;
+  const grid=[];
+  for(let r=0;r<N;r++){grid[r]=[];for(let c=0;c<N;c++)grid[r][c]=(B*(r%B)+Math.floor(r/B)+c)%N+1;}
+  // Shuffle rows within bands
+  for(let band=0;band<B;band++){
+    const rows=[];for(let i=0;i<B;i++)rows.push(band*B+i);
+    shuffle(rows);
+    const tmp=rows.map(r=>[...grid[r]]);
+    for(let i=0;i<B;i++)grid[band*B+i]=tmp[i];
+  }
+  // Shuffle cols within stacks
+  for(let stack=0;stack<B;stack++){
+    const cols=[];for(let i=0;i<B;i++)cols.push(stack*B+i);
+    shuffle(cols);
+    for(let r=0;r<N;r++){const tmp=cols.map(c=>grid[r][c]);for(let i=0;i<B;i++)grid[r][stack*B+i]=tmp[i];}
+  }
+  // Shuffle bands
+  const bands=shuffle([0,1,2,3]);
+  const tmpG=bands.flatMap(b=>{const rs=[];for(let i=0;i<B;i++)rs.push([...grid[b*B+i]]);return rs;});
+  for(let r=0;r<N;r++)grid[r]=tmpG[r];
+  // Shuffle stacks
+  const stacks=shuffle([0,1,2,3]);
+  for(let r=0;r<N;r++){const tmp=stacks.flatMap(s=>grid[r].slice(s*B,s*B+B));grid[r]=tmp;}
+  // Relabel
+  const perm=shuffle([...Array(N)].map((_,i)=>i+1));
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++)grid[r][c]=perm[grid[r][c]-1];
+  return grid;
+}
+
+function mmGeneratePuzzle(){
+  const N=16,total=N*N;
+  const sol=mmGenerate16();
+  const flat=sol.flat();
+  const puz=[...flat];
+  const indices=shuffle([...Array(total).keys()]);
+  const removeTarget=120; // remove ~120 of 256 cells
+  let removed=0;
+  for(const idx of indices){
+    if(removed>=removeTarget)break;
+    puz[idx]=0;removed++;
+  }
+  return{puzzle:puz,solution:flat};
+}
+
+function mmStart(relicIndices){
+  // relicIndices: array of 16 JIGSAW_ARTIFACTS indices
+  MM.relicMap=relicIndices;
+  const{puzzle,solution}=mmGeneratePuzzle();
+  MM.solution=solution;MM.board=[...puzzle];
+  MM.given=new Set();for(let i=0;i<256;i++)if(puzzle[i]!==0)MM.given.add(i);
+  MM.notes=Array(256).fill(null).map(()=>new Set());
+  MM.selected=null;MM.activeNum=null;MM.notesMode=false;
+  MM.mistakes=0;MM.score=0;MM.streak=0;MM.undoStack=[];
+  MM.elapsed=0;MM.startTime=Date.now();
+  clearInterval(MM.timerInterval);
+  MM.timerInterval=setInterval(mmTickTimer,1000);
+  document.getElementById('mm-timer').textContent='0:00';
+  document.getElementById('mm-score').textContent='0';
+  document.getElementById('mm-mistakes-count').textContent='0';
+  document.getElementById('mm-notes').classList.remove('active');
+  showScreen('screen-master');
+  mmBuildBoard();mmBuildNumpad();
+}
+
+function mmTickTimer(){
+  MM.elapsed=Math.floor((Date.now()-MM.startTime)/1000);
+  const m=Math.floor(MM.elapsed/60),s=MM.elapsed%60;
+  document.getElementById('mm-timer').textContent=m+':'+(s<10?'0':'')+s;
+}
+
+function mmGetArtifact(num){
+  if(!MM.relicMap||num<1||num>16)return null;
+  return JIGSAW_ARTIFACTS[MM.relicMap[num-1]];
+}
+
+function mmBuildBoard(){
+  const board=document.getElementById('mm-board');
+  let html='';
+  for(let i=0;i<256;i++){
+    const r=Math.floor(i/16),c=i%16;
+    const isGiven=MM.given.has(i);
+    const val=MM.board[i];
+    let cls='cell';
+    if(isGiven)cls+=' given';
+    if(c%4===3&&c<15)cls+=' mm-box-right';
+    if(r%4===3&&r<15)cls+=' mm-box-bottom';
+    html+=`<div class="${cls}" data-idx="${i}" data-row="${r}" data-col="${c}">`;
+    if(isGiven&&val){
+      const art=mmGetArtifact(val);
+      html+=`<div class="artifact-icon">${art?art.svg:val}</div>`;
+    }
+    html+='</div>';
+  }
+  board.innerHTML=html;
+  board.querySelectorAll('.cell').forEach(el=>{
+    el.addEventListener('click',()=>mmSelectCell(parseInt(el.dataset.idx)));
+  });
+}
+
+function mmRenderBoard(){
+  const cells=document.querySelectorAll('#mm-board .cell');
+  const selIdx=MM.selected;
+  const selR=selIdx!==null?Math.floor(selIdx/16):-1;
+  const selC=selIdx!==null?selIdx%16:-1;
+  const selBox=selIdx!==null?Math.floor(selR/4)*4*16+Math.floor(selC/4):-1;
+  const activeVal=MM.activeNum;
+
+  cells.forEach(el=>{
+    const i=parseInt(el.dataset.idx);
+    const r=Math.floor(i/16),c=i%16;
+    const val=MM.board[i];
+    const isGiven=MM.given.has(i);
+
+    el.classList.remove('selected','highlighted','relic-match','relic-dim');
+
+    if(i===selIdx)el.classList.add('selected');
+    else if(selIdx!==null&&(r===selR||c===selC||(Math.floor(r/4)===Math.floor(selR/4)&&Math.floor(c/4)===Math.floor(selC/4))))el.classList.add('highlighted');
+
+    if(activeVal&&val===activeVal)el.classList.add('relic-match');
+
+    if(!isGiven){
+      if(val){
+        const art=mmGetArtifact(val);
+        el.innerHTML=`<div class="artifact-icon">${art?art.svg:val}</div>`;
+      } else if(MM.notes[i].size>0){
+        let ng='<div class="notes-grid">';
+        for(let n=1;n<=16;n++){
+          const art=mmGetArtifact(n);
+          ng+=`<div class="note-dot${MM.notes[i].has(n)?' on':''}" style="${MM.notes[i].has(n)&&art?'background:'+art.glow.replace('.9)','.6)')+';border-radius:50%;':''}">${MM.notes[i].has(n)?n:''}</div>`;
+        }
+        ng+='</div>';
+        el.innerHTML=ng;
+      } else {
+        el.innerHTML='';
+      }
+    }
+  });
+  mmUpdateNumpad();
+}
+
+function mmSelectCell(i){
+  if(MM.given.has(i)){
+    const val=MM.board[i];
+    MM.activeNum=(MM.activeNum===val)?null:val;
+    MM.selected=null;
+  } else if(MM.board[i]!==0){
+    const val=MM.board[i];
+    MM.activeNum=(MM.activeNum===val)?null:val;
+    MM.selected=i;
+  } else {
+    if(MM.selected===i){MM.selected=null;}
+    else{
+      MM.selected=i;
+      if(MM.activeNum)mmPlace(MM.activeNum);
+    }
+  }
+  mmRenderBoard();
+}
+
+function mmPlace(num){
+  const i=MM.selected;
+  if(i===null||MM.given.has(i))return;
+
+  if(MM.notesMode){
+    if(MM.notes[i].has(num))MM.notes[i].delete(num);else MM.notes[i].add(num);
+    mmRenderBoard();return;
+  }
+
+  if(num===MM.solution[i]){
+    MM.undoStack.push({idx:i,prev:MM.board[i],prevNotes:new Set(MM.notes[i])});
+    MM.board[i]=num;MM.notes[i].clear();
+    MM.streak++;MM.score+=10*(Math.min(MM.streak,5));
+    document.getElementById('mm-score').textContent=MM.score;
+    SOUNDS.play(num%6+1);
+    mmClearNotes(i,num);
+    mmRenderBoard();
+    if(!MM.board.includes(0))mmWin();
+  } else {
+    MM.mistakes++;MM.streak=0;
+    document.getElementById('mm-mistakes-count').textContent=MM.mistakes;
+    SOUNDS.play(7);
+    const cell=document.querySelector(`#mm-board .cell[data-idx="${i}"]`);
+    if(cell){cell.classList.add('wrong');setTimeout(()=>cell.classList.remove('wrong'),500);}
+    if(MM.mistakes>=MM.maxMistakes)mmLose();
+  }
+}
+
+function mmClearNotes(idx,num){
+  const r=Math.floor(idx/16),c=idx%16;
+  const br=Math.floor(r/4)*4,bc=Math.floor(c/4)*4;
+  for(let i=0;i<16;i++){
+    MM.notes[r*16+i].delete(num);
+    MM.notes[i*16+c].delete(num);
+  }
+  for(let dr=0;dr<4;dr++)for(let dc=0;dc<4;dc++)MM.notes[(br+dr)*16+(bc+dc)].delete(num);
+}
+
+function mmBuildNumpad(){
+  const pad=document.getElementById('mm-numpad');
+  let html='';
+  for(let n=1;n<=16;n++){
+    const art=mmGetArtifact(n);
+    const label=art?art.label:n;
+    const svg=art?art.svg:`<span style="font-size:14px;color:var(--gold)">${n}</span>`;
+    html+=`<button class="num-btn" data-n="${n}"><div class="btn-icon">${svg}</div><div class="btn-label">${label}</div></button>`;
+  }
+  pad.innerHTML=html;
+  pad.querySelectorAll('.num-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const n=parseInt(btn.dataset.n);
+      if(MM.activeNum===n){MM.activeNum=null;}
+      else{MM.activeNum=n;if(MM.selected!==null&&!MM.given.has(MM.selected)&&MM.board[MM.selected]===0)mmPlace(n);}
+      mmRenderBoard();
+    });
+  });
+}
+
+function mmUpdateNumpad(){
+  const counts={};
+  for(let n=1;n<=16;n++)counts[n]=0;
+  for(const v of MM.board)if(v>0)counts[v]=(counts[v]||0)+1;
+  document.querySelectorAll('#mm-numpad .num-btn').forEach(btn=>{
+    const n=parseInt(btn.dataset.n);
+    btn.classList.toggle('used-up',counts[n]>=16);
+    btn.classList.toggle('active-relic',MM.activeNum===n);
+  });
+}
+
+function mmUndo(){
+  if(!MM.undoStack.length)return;
+  const{idx,prev,prevNotes}=MM.undoStack.pop();
+  MM.board[idx]=prev;MM.notes[idx]=prevNotes;
+  mmRenderBoard();
+}
+
+function mmErase(){
+  const i=MM.selected;
+  if(i===null||MM.given.has(i))return;
+  if(MM.board[i]!==0){
+    MM.undoStack.push({idx:i,prev:MM.board[i],prevNotes:new Set(MM.notes[i])});
+    MM.board[i]=0;
+  }
+  MM.notes[i].clear();
+  mmRenderBoard();
+}
+
+function mmWin(){
+  clearInterval(MM.timerInterval);
+  const m=Math.floor(MM.elapsed/60),s=MM.elapsed%60;
+  playWinChime();
+  const cx=window.innerWidth/2,cy=window.innerHeight/3;
+  for(let i=0;i<4;i++)setTimeout(()=>spawnParticles(cx,cy,Math.ceil(Math.random()*9),10),i*300);
+  setTimeout(()=>{
+    showToast('👑 MASTER MODE COMPLETE! Time: '+m+':'+(s<10?'0':'')+s+' · Score: '+MM.score+' · Mistakes: '+MM.mistakes,5000);
+  },800);
+}
+
+function mmLose(){
+  clearInterval(MM.timerInterval);
+  showToast('Too many mistakes! The ancient puzzle remains unsolved.',3000);
+  setTimeout(()=>showScreen('screen-menu'),3500);
+}
+
+// Relic Picker for Master Mode
+function mmShowRelicPicker(){
+  const picker=document.getElementById('mm-relic-picker');
+  const grid=document.getElementById('mm-rp-grid');
+  const selected=new Set();
+  grid.innerHTML='';
+
+  for(let i=1;i<=25;i++){
+    const art=JIGSAW_ARTIFACTS[i];
+    if(!art)continue;
+    const slot=document.createElement('div');
+    slot.className='mm-rp-slot';
+    slot.dataset.idx=i;
+    slot.innerHTML=`<div class="mm-rp-icon">${art.svg}</div><div class="mm-rp-name">${art.label}</div>`;
+    slot.addEventListener('click',()=>{
+      if(selected.has(i)){selected.delete(i);slot.classList.remove('selected');}
+      else if(selected.size<16){selected.add(i);slot.classList.add('selected');}
+      document.getElementById('mm-rp-count').textContent=selected.size;
+      document.getElementById('mm-rp-confirm').style.opacity=selected.size===16?'1':'.4';
+    });
+    grid.appendChild(slot);
+  }
+
+  document.getElementById('mm-rp-count').textContent='0';
+  document.getElementById('mm-rp-confirm').style.opacity='.4';
+  picker.classList.add('show');
+
+  document.getElementById('mm-rp-auto').onclick=()=>{
+    selected.clear();
+    grid.querySelectorAll('.mm-rp-slot').forEach(s=>s.classList.remove('selected'));
+    const indices=shuffle([...Array(25)].map((_,i)=>i+1));
+    for(let j=0;j<16;j++){
+      selected.add(indices[j]);
+      grid.querySelector(`.mm-rp-slot[data-idx="${indices[j]}"]`).classList.add('selected');
+    }
+    document.getElementById('mm-rp-count').textContent='16';
+    document.getElementById('mm-rp-confirm').style.opacity='1';
+  };
+
+  document.getElementById('mm-rp-confirm').onclick=()=>{
+    if(selected.size!==16)return;
+    picker.classList.remove('show');
+    mmStart([...selected]);
+  };
+
+  document.getElementById('mm-rp-cancel').onclick=()=>{
+    picker.classList.remove('show');
+    showScreen('screen-menu');
+  };
+}
+
+/* ══════════════════════════════════════════════════════
+   SOLARA FINALE CEREMONY
+══════════════════════════════════════════════════════ */
+function showSolaraFinale(){
+  const overlay=document.getElementById('solara-finale-overlay');
+  overlay.classList.add('show');
+
+  // Stage 1: Grand Reveal
+  const light=document.getElementById('sf-light');
+  const cityBg=document.getElementById('sf-city-bg');
+  const line1=document.getElementById('sf-line-1');
+  const line2=document.getElementById('sf-line-2');
+  const revealNext=document.getElementById('sf-reveal-next');
+
+  // Sequence: darkness → golden light rises → city fades in → text appears
+  setTimeout(()=>light.classList.add('on'),500);
+  setTimeout(()=>cityBg.classList.add('on'),1500);
+  setTimeout(()=>line1.classList.add('on'),2800);
+  setTimeout(()=>line2.classList.add('on'),4200);
+  setTimeout(()=>revealNext.classList.add('on'),5800);
+
+  // Play win chime if available
+  try{playWinChime();}catch(e){}
+
+  // Stage 1 → Stage 2
+  revealNext.onclick=()=>{
+    document.getElementById('sf-stage-reveal').classList.remove('active');
+    document.getElementById('sf-stage-epilogue').classList.add('active');
+    initEpilogue();
+  };
+}
+
+function initEpilogue(){
+  let cur=0;
+  const total=3;
+  const dots=document.getElementById('sf-epi-dots');
+  const nextBtn=document.getElementById('sf-epi-next');
+  dots.innerHTML='';
+  for(let i=0;i<total;i++){
+    const d=document.createElement('div');
+    d.className='sf-epi-dot'+(i===0?' active':'');
+    dots.appendChild(d);
+  }
+  nextBtn.classList.add('on');
+
+  function goTo(n){
+    document.getElementById('sf-epi-'+cur).classList.remove('active');
+    cur=n;
+    document.getElementById('sf-epi-'+cur).classList.add('active');
+    dots.querySelectorAll('.sf-epi-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+
+    // On last slide, show the title reveal animation
+    if(cur===2){
+      nextBtn.textContent='Continue';
+      setTimeout(()=>{
+        document.querySelector('.sf-epi-title-reveal').classList.add('on');
+      },800);
+    }
+  }
+
+  nextBtn.onclick=()=>{
+    if(cur<total-1){
+      goTo(cur+1);
+    } else {
+      // Move to completion stage
+      document.getElementById('sf-stage-epilogue').classList.remove('active');
+      document.getElementById('sf-stage-complete').classList.add('active');
+      initCompleteStage();
+    }
+  };
+}
+
+function initCompleteStage(){
+  // Particle burst
+  try{
+    const cx=window.innerWidth/2,cy=window.innerHeight/2;
+    for(let i=0;i<3;i++){
+      setTimeout(()=>spawnParticles(cx,cy,Math.ceil(Math.random()*9),10),i*400);
+    }
+  }catch(e){}
+
+  // Mark game as fully complete
+  GAME_STATS.solaraComplete=true;
+  saveState();
+  updateSolaraBadge();
+
+  // Return to menu
+  document.getElementById('sf-finish').onclick=()=>{
+    const overlay=document.getElementById('solara-finale-overlay');
+    overlay.classList.remove('show');
+    // Reset finale state for re-openability
+    document.getElementById('sf-light').classList.remove('on');
+    document.getElementById('sf-city-bg').classList.remove('on');
+    document.getElementById('sf-line-1').classList.remove('on');
+    document.getElementById('sf-line-2').classList.remove('on');
+    document.getElementById('sf-reveal-next').classList.remove('on');
+    document.getElementById('sf-stage-complete').classList.remove('active');
+    document.getElementById('sf-stage-reveal').classList.add('active');
+    document.querySelector('.sf-epi-title-reveal').classList.remove('on');
+    document.getElementById('sf-epi-next').classList.remove('on');
+    showScreen('screen-menu');
+    renderAdventurePath();
+  };
+}
+
+function updateSolaraBadge(){
+  const badge=document.getElementById('menu-solara-badge');
+  if(badge)badge.classList.toggle('show',!!GAME_STATS.solaraComplete);
+  const masterBtn=document.getElementById('menu-master');
+  if(masterBtn)masterBtn.style.display=GAME_STATS.solaraComplete?'':'none';
+}
+
+/* ══════════════════════════════════════════════════════
    EVENT LISTENERS
 ══════════════════════════════════════════════════════ */
 // Menu
@@ -9327,6 +9953,13 @@ document.getElementById('menu-daily').addEventListener('click',()=>{menuTransiti
 document.getElementById('menu-puzzle').addEventListener('click',()=>{menuTransitionTo('screen-puzzle',()=>showDiffPicker(diff=>pzStart(diff)));});
 document.getElementById('menu-vault').addEventListener('click',()=>{menuTransitionTo('screen-vault',()=>renderVault());});
 document.getElementById('menu-settings').addEventListener('click',()=>{menuTransitionTo('screen-settings');});
+
+// Master Mode
+document.getElementById('menu-master').addEventListener('click',()=>mmShowRelicPicker());
+document.getElementById('mm-back').addEventListener('click',()=>{clearInterval(MM.timerInterval);showScreen('screen-menu');});
+document.getElementById('mm-undo').addEventListener('click',mmUndo);
+document.getElementById('mm-erase').addEventListener('click',mmErase);
+document.getElementById('mm-notes').addEventListener('click',()=>{MM.notesMode=!MM.notesMode;document.getElementById('mm-notes').classList.toggle('active',MM.notesMode);});
 
 // ── Tutorial (Story + How To Play) ──
 (function(){
@@ -9654,6 +10287,7 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   if(AUTH_STATE.user)await loadFromCloud();
   updateMenuState();
   updateMapProgressBar();
+  updateSolaraBadge();
   BGM.init();BCLICK.init();
   // Check for saved mid-game state
   if(GAME_STATS.activeGame&&GAME_STATS.activeGame.state){
@@ -9764,7 +10398,9 @@ function showJigsawReveal(idx,returnTo){
   overlay.style.display='flex';
   document.getElementById('luo-close').onclick=()=>{
     overlay.style.display='none';
-    if(returnTo==='adventure'){
+    if(returnTo==='finale'){
+      showSolaraFinale();
+    } else if(returnTo==='adventure'){
       showScreen('screen-mapview');
       renderAdventurePath();
     } else {
