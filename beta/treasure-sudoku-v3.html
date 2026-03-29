@@ -5484,12 +5484,7 @@ function showDiffPicker(onSelect){
    TOAST & ACHIEVEMENTS
 ══════════════════════════════════════════════════════ */
 let toastTimer=null;
-function showToast(msg,dur=2200){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove('show'),dur);
-}
+function showToast(msg,dur=2200){return;}
 let achieveTimer=null;
 function showAchievement(msg){
   let el=document.getElementById('achieve-toast');
