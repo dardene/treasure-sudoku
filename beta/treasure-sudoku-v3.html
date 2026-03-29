@@ -1737,19 +1737,13 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
     <button class="menu-top-btn" id="menu-settings">SETTINGS</button>
   </div>
   <div class="menu-panel panel">
-    <button class="menu-btn menu-btn-howto ghost-btn" id="menu-howto">
-      <span class="mb-icon">📖</span>
-      <span class="mb-text">
-        <span class="mb-title">TUTORIAL</span>
-      </span>
-    </button>
-    <button class="menu-btn menu-btn-primary ghost-btn" id="menu-daily">
+    <button class="menu-btn menu-btn-howto ghost-btn" id="menu-daily">
       <span class="mb-icon">📅</span>
       <span class="mb-text">
         <span class="mb-title">DAILY PUZZLE</span>
       </span>
     </button>
-    <button class="menu-btn menu-btn-battle ghost-btn" id="menu-puzzle">
+    <button class="menu-btn menu-btn-primary ghost-btn" id="menu-puzzle">
       <span class="mb-icon"><svg width="32" height="32" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;overflow:visible">
         <defs>
           <clipPath id="pz-c">
@@ -1795,6 +1789,16 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
       </svg></span>
       <span class="mb-text">
         <span class="mb-title">RELAX MODE</span>
+      </span>
+    </button>
+    <button class="menu-btn menu-btn-battle ghost-btn" id="menu-map">
+      <span class="mb-icon">🗺️</span>
+      <span class="mb-text">
+        <span class="mb-title">TREASURE MAP</span>
+        <div class="mb-map-bar-wrap">
+          <div class="mb-map-bar"><div class="mb-map-bar-fill" id="menu-map-fill" style="width:0%"></div></div>
+          <span class="mb-map-bar-label" id="menu-map-label">0 / 15</span>
+        </div>
       </span>
     </button>
     <button class="menu-btn menu-btn-vault ghost-btn" id="menu-vault">
@@ -1851,14 +1855,11 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
         <span class="mb-title">ACHIEVEMENT VAULT</span>
       </span>
     </button>
-    <button class="menu-btn menu-btn-map ghost-btn" id="menu-map">
-      <span class="mb-icon">🗺️</span>
+    <button class="menu-btn menu-btn-map ghost-btn" id="menu-howto">
+      <span class="mb-icon">📖</span>
       <span class="mb-text">
-        <span class="mb-title">TREASURE MAP</span>
-        <div class="mb-map-bar-wrap">
-          <div class="mb-map-bar"><div class="mb-map-bar-fill" id="menu-map-fill" style="width:0%"></div></div>
-          <span class="mb-map-bar-label" id="menu-map-label">0 / 15</span>
-        </div>
+        <span class="mb-title">THE STORY</span>
+        <span class="mb-sub">TUTORIAL + LORE</span>
       </span>
     </button>
     <button class="menu-btn menu-btn-master ghost-btn" id="menu-master" style="display:none;">
