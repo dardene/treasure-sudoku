@@ -5176,36 +5176,85 @@ const BCLICK=(()=>{
 const SETTINGS={sound:true,particles:true,highlight:true,showErrors:true,customArtifacts:[1,2,3,4,5,6,7,8,9],musicVolume:20,sfxVolume:100};
 let ACTIVE_MODE='daily'; // 'daily' | 'puzzle' | 'legendary'
 
-/* ── PERSISTENT STORAGE ── */
+/* ── PERSISTENT STORAGE (IndexedDB + localStorage fallback) ── */
 const SAVE_KEY='treasure_sudoku_save';
+const IDB_NAME='treasure_sudoku_db';
+const IDB_VERSION=1;
+const IDB_STORE='gameData';
+let _idb=null;
+let _idbReady=false;
+
+function _openIDB(){
+  return new Promise((resolve,reject)=>{
+    if(!window.indexedDB){reject(new Error('IndexedDB not supported'));return;}
+    const req=indexedDB.open(IDB_NAME,IDB_VERSION);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains(IDB_STORE))db.createObjectStore(IDB_STORE);
+    };
+    req.onsuccess=()=>{_idb=req.result;_idbReady=true;resolve(_idb);};
+    req.onerror=()=>reject(req.error);
+  });
+}
+function _idbPut(key,value){
+  if(!_idb)return Promise.resolve();
+  return new Promise((resolve,reject)=>{
+    const tx=_idb.transaction(IDB_STORE,'readwrite');
+    tx.objectStore(IDB_STORE).put(value,key);
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error);
+  });
+}
+function _idbGet(key){
+  if(!_idb)return Promise.resolve(null);
+  return new Promise((resolve,reject)=>{
+    const tx=_idb.transaction(IDB_STORE,'readonly');
+    const req=tx.objectStore(IDB_STORE).get(key);
+    req.onsuccess=()=>resolve(req.result??null);
+    req.onerror=()=>reject(req.error);
+  });
+}
+function _idbDelete(key){
+  if(!_idb)return Promise.resolve();
+  return new Promise((resolve,reject)=>{
+    const tx=_idb.transaction(IDB_STORE,'readwrite');
+    tx.objectStore(IDB_STORE).delete(key);
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error);
+  });
+}
+
+function _buildSaveData(){
+  return{bestTimes:BEST_TIMES,gameStats:GAME_STATS,settings:SETTINGS,dailyScores:DAILY_SCORES,_savedAt:Date.now()};
+}
 function saveState(){
-  try{localStorage.setItem(SAVE_KEY,JSON.stringify({bestTimes:BEST_TIMES,gameStats:GAME_STATS,settings:SETTINGS,dailyScores:DAILY_SCORES}));}catch(e){console.warn('Save failed:',e);}
+  const data=_buildSaveData();
+  // Always write to localStorage as fast sync backup
+  try{localStorage.setItem(SAVE_KEY,JSON.stringify(data));}catch(e){console.warn('localStorage save failed:',e);}
+  // Write to IndexedDB for durable storage
+  _idbPut(SAVE_KEY,data).catch(e=>console.warn('IndexedDB save failed:',e));
   if(AUTH_STATE&&AUTH_STATE.user){syncToCloud().catch(()=>{});}
 }
-function loadState(){
-  try{
-    const raw=localStorage.getItem(SAVE_KEY);
-    if(!raw)return;
-    const d=JSON.parse(raw);
-    if(d.bestTimes)Object.assign(BEST_TIMES,d.bestTimes);
-    if(d.gameStats)Object.assign(GAME_STATS,d.gameStats);
-    if(d.dailyScores)Object.assign(DAILY_SCORES,d.dailyScores);
-    if(d.settings){
-      Object.assign(SETTINGS,d.settings);
-      ['set-sound','set-particles','set-highlight','set-errors'].forEach(id=>{
-        const key={
-          'set-sound':'sound','set-particles':'particles',
-          'set-highlight':'highlight','set-errors':'showErrors'
-        }[id];
-        document.getElementById(id)?.classList.toggle('on',SETTINGS[key]);
-      });
-      // Sync volume sliders
-      const mv=SETTINGS.musicVolume??20,sv=SETTINGS.sfxVolume??100;
-      const ms=document.getElementById('music-vol-slider'),mp=document.getElementById('music-vol-pct');
-      if(ms){ms.value=mv;ms.style.setProperty('--val',mv+'%');if(mp)mp.textContent=mv+'%';}
-      const ss=document.getElementById('sfx-vol-slider'),sp=document.getElementById('sfx-vol-pct');
-      if(ss){ss.value=sv;ss.style.setProperty('--val',sv+'%');if(sp)sp.textContent=sv+'%';}
-    }
+
+function _applySaveData(d){
+  if(d.bestTimes)Object.assign(BEST_TIMES,d.bestTimes);
+  if(d.gameStats)Object.assign(GAME_STATS,d.gameStats);
+  if(d.dailyScores)Object.assign(DAILY_SCORES,d.dailyScores);
+  if(d.settings){
+    Object.assign(SETTINGS,d.settings);
+    ['set-sound','set-particles','set-highlight','set-errors'].forEach(id=>{
+      const key={
+        'set-sound':'sound','set-particles':'particles',
+        'set-highlight':'highlight','set-errors':'showErrors'
+      }[id];
+      document.getElementById(id)?.classList.toggle('on',SETTINGS[key]);
+    });
+    const mv=SETTINGS.musicVolume??20,sv=SETTINGS.sfxVolume??100;
+    const ms=document.getElementById('music-vol-slider'),mp=document.getElementById('music-vol-pct');
+    if(ms){ms.value=mv;ms.style.setProperty('--val',mv+'%');if(mp)mp.textContent=mv+'%';}
+    const ss=document.getElementById('sfx-vol-slider'),sp=document.getElementById('sfx-vol-pct');
+    if(ss){ss.value=sv;ss.style.setProperty('--val',sv+'%');if(sp)sp.textContent=sv+'%';}
+  }
   // Adventure Path defaults for existing saves
   if(!GAME_STATS.adventureProgress) GAME_STATS.adventureProgress=1;
   if(!GAME_STATS.adventureCompleted) GAME_STATS.adventureCompleted=[];
@@ -5222,7 +5271,32 @@ function loadState(){
   if(!GAME_STATS.storySeen&&localStorage.getItem('ts_story_seen')){GAME_STATS.storySeen=true;localStorage.removeItem('ts_story_seen');}
   if(!GAME_STATS.mapIntroSeen&&localStorage.getItem('ts_map_intro_seen')){GAME_STATS.mapIntroSeen=true;localStorage.removeItem('ts_map_intro_seen');}
   if(!GAME_STATS.leaderboardName&&localStorage.getItem('ts_lb_name')){GAME_STATS.leaderboardName=localStorage.getItem('ts_lb_name');localStorage.removeItem('ts_lb_name');}
-  }catch(e){console.warn('Load failed:',e);}
+}
+
+function loadState(){
+  // Sync load from localStorage (immediate, blocks render)
+  try{
+    const raw=localStorage.getItem(SAVE_KEY);
+    if(raw)_applySaveData(JSON.parse(raw));
+  }catch(e){console.warn('localStorage load failed:',e);}
+}
+
+async function loadStateAsync(){
+  // Try IndexedDB first (more durable), fall back to localStorage
+  let idbData=null,lsData=null;
+  try{idbData=await _idbGet(SAVE_KEY);}catch(e){}
+  try{const raw=localStorage.getItem(SAVE_KEY);if(raw)lsData=JSON.parse(raw);}catch(e){}
+  // Use whichever save is newer
+  const idbTime=idbData?._savedAt||0;
+  const lsTime=lsData?._savedAt||0;
+  const best=idbTime>=lsTime?idbData:lsData;
+  if(best)_applySaveData(best);
+  // If IndexedDB had no data but localStorage did, migrate
+  if(!idbData&&lsData)_idbPut(SAVE_KEY,lsData).catch(()=>{});
+  // If IndexedDB was newer, sync back to localStorage
+  if(idbTime>lsTime&&idbData){
+    try{localStorage.setItem(SAVE_KEY,JSON.stringify(idbData));}catch(e){}
+  }
 }
 
 /* ── MID-GAME SAVE & RESUME ── */
@@ -7875,7 +7949,10 @@ async function shareDailyResults(savedData){
 
 const LB_KEY='ts_daily_lb_v1';
 function lbLoad(){try{return JSON.parse(localStorage.getItem(LB_KEY)||'{}');}catch(e){return{};}}
-function lbSave(d){localStorage.setItem(LB_KEY,JSON.stringify(d));}
+function lbSave(d){
+  try{localStorage.setItem(LB_KEY,JSON.stringify(d));}catch(e){}
+  _idbPut(LB_KEY,d).catch(()=>{});
+}
 function lbGetTodayKey(){return`lb_${dpGetTodayStr()}`;}
 
 async function lbLoadAndRank(){
@@ -9891,17 +9968,87 @@ function mmGenerate16(){
   return grid;
 }
 
+function countSolutions16(puzzle,limit=2){
+  // Constraint-propagation + backtracking solver for 16x16 Sudoku
+  const N=16,B=4,T=N*N;
+  // candidates: bitmask of possible values (bits 0-15 = values 1-16)
+  const ALL=(1<<N)-1;
+  const cands=new Uint16Array(T);
+  // Initialize candidates
+  for(let i=0;i<T;i++)cands[i]=(puzzle[i]===0)?ALL:0;
+  // Eliminate given values
+  function eliminate(cands,pos,val){
+    const bit=1<<(val-1);
+    const r=Math.floor(pos/N),c=pos%N;
+    const br=Math.floor(r/B)*B,bc=Math.floor(c/B)*B;
+    for(let i=0;i<N;i++){
+      cands[r*N+i]&=~bit;
+      cands[i*N+c]&=~bit;
+    }
+    for(let dr=0;dr<B;dr++)for(let dc=0;dc<B;dc++)cands[(br+dr)*N+(bc+dc)]&=~bit;
+    cands[pos]=0;
+  }
+  for(let i=0;i<T;i++)if(puzzle[i]!==0)eliminate(cands,i,puzzle[i]);
+  // Propagate naked singles until no more progress
+  function propagate(cands,grid){
+    let changed=true;
+    while(changed){
+      changed=false;
+      for(let i=0;i<T;i++){
+        if(grid[i]!==0||cands[i]===0)continue;
+        if((cands[i]&(cands[i]-1))===0){// exactly one bit set
+          const val=Math.log2(cands[i])+1;
+          grid[i]=val;eliminate(cands,i,val);changed=true;
+        }else if(cands[i]===0)return false;// contradiction
+      }
+    }
+    // Check for contradictions: empty cell with no candidates
+    for(let i=0;i<T;i++)if(grid[i]===0&&cands[i]===0)return false;
+    return true;
+  }
+  let count=0;
+  function solve(grid,cands){
+    if(count>=limit)return;
+    const g=grid.slice();const cn=new Uint16Array(cands);
+    if(!propagate(cn,g))return;
+    // Find unsolved cell with fewest candidates (MRV)
+    let best=-1,bestCount=17;
+    for(let i=0;i<T;i++){
+      if(g[i]!==0)continue;
+      const bc=popcount(cn[i]);
+      if(bc<bestCount){bestCount=bc;best=i;}
+    }
+    if(best===-1){count++;return;}// all cells filled = solution
+    let bits=cn[best];
+    while(bits&&count<limit){
+      const bit=bits&(-bits);// lowest set bit
+      const val=Math.log2(bit)+1;
+      const g2=g.slice();const cn2=new Uint16Array(cn);
+      g2[best]=val;eliminate(cn2,best,val);
+      solve(g2,cn2);
+      bits^=bit;
+    }
+  }
+  function popcount(x){x=x-((x>>1)&0x5555);x=(x&0x3333)+((x>>2)&0x3333);return((x+(x>>4))&0x0F0F)*0x0101>>8;}
+  const grid=puzzle.slice();
+  solve(grid,cands);
+  return count;
+}
 function mmGeneratePuzzle(){
   const N=16,total=N*N;
   const sol=mmGenerate16();
   const flat=sol.flat();
   const puz=[...flat];
   const indices=shuffle([...Array(total).keys()]);
-  const removeTarget=120; // remove ~120 of 256 cells
+  const removeTarget=110; // target ~110 of 256 cells removed
   let removed=0;
+  const deadline=Date.now()+8000; // 8-second budget
   for(const idx of indices){
-    if(removed>=removeTarget)break;
-    puz[idx]=0;removed++;
+    if(removed>=removeTarget||Date.now()>deadline)break;
+    const backup=puz[idx];
+    puz[idx]=0;
+    if(countSolutions16(puz)!==1)puz[idx]=backup;
+    else removed++;
   }
   return{puzzle:puz,solution:flat};
 }
@@ -10325,12 +10472,16 @@ function mmSaveGame(){
     undoStack:MM.undoStack.map(u=>({...u})),
     notesMode:MM.notesMode,savedAt:Date.now()
   };
-  localStorage.setItem('mm_saved_game',JSON.stringify(save));
+  try{localStorage.setItem('mm_saved_game',JSON.stringify(save));}catch(e){}
+  _idbPut('mm_saved_game',save).catch(()=>{});
 }
 function mmLoadSavedGame(){
   try{const raw=localStorage.getItem('mm_saved_game');return raw?JSON.parse(raw):null;}catch(e){return null;}
 }
-function mmClearSavedGame(){localStorage.removeItem('mm_saved_game');}
+function mmClearSavedGame(){
+  localStorage.removeItem('mm_saved_game');
+  _idbDelete('mm_saved_game').catch(()=>{});
+}
 function mmRestoreGame(save){
   MM.board=save.board;MM.solution=save.solution;
   MM.given=new Set(save.given);MM.relicMap=save.relicMap;
@@ -10721,7 +10872,8 @@ document.getElementById('reset-records').addEventListener('click',()=>{
   saveState();showToast('Records reset!');
 });
 (async()=>{
-  loadState();
+  loadState(); // fast sync load from localStorage
+  try{await _openIDB();await loadStateAsync();}catch(e){console.warn('IndexedDB init:',e);}
   await initSupabase();
   if(AUTH_STATE.user)await loadFromCloud();
   updateMenuState();
