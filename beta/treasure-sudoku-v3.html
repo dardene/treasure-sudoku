@@ -3432,6 +3432,20 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </div>
 </div>
 
+<!-- ═══════════════ ONBOARDING OVERLAY ═══════════════ -->
+<div id="onboard-overlay" style="display:none;position:fixed;inset:0;z-index:800;pointer-events:none;">
+  <div id="onboard-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,.7);pointer-events:all;"></div>
+  <div id="onboard-spotlight" style="position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.7);pointer-events:none;transition:all .4s ease;z-index:1;"></div>
+  <div id="onboard-tooltip" style="position:absolute;z-index:2;pointer-events:all;max-width:280px;width:85%;background:rgba(20,12,4,.96);border:1.5px solid rgba(200,160,50,.5);border-radius:14px;padding:16px 18px;box-shadow:0 8px 30px rgba(0,0,0,.6);transition:all .4s ease;">
+    <div id="onboard-title" style="font-family:'Cinzel',serif;font-size:13px;font-weight:900;color:var(--gold-light);letter-spacing:.1em;margin-bottom:6px;"></div>
+    <div id="onboard-text" style="font-family:'Crimson Pro',serif;font-size:13px;color:var(--stone-light);line-height:1.55;margin-bottom:14px;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div id="onboard-step-dots" style="display:flex;gap:5px;"></div>
+      <button id="onboard-next" class="gold-btn" style="padding:8px 20px;font-size:10px;letter-spacing:.1em;">NEXT</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════════ RATING PROMPT ═══════════════ -->
 <div id="rating-prompt-overlay" style="display:none;position:fixed;inset:0;z-index:500;align-items:center;justify-content:center;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);">
   <div class="win-panel" style="max-width:340px;width:88%;padding:28px 24px;text-align:center;animation:panelRise .5s cubic-bezier(.34,1.56,.64,1) both;">
@@ -5396,7 +5410,7 @@ function resumeActiveGame(){
   }catch(e){console.warn('Resume failed:',e);clearActiveGame();}
   return false;
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[],activeGame:null,storySeen:false,mapIntroSeen:false,leaderboardName:'',masterWins:0,masterBestTime:null,masterBestScore:null,masterFewestMistakes:null,relaxHistory:{easy:[],medium:[],hard:[],expert:[]},masterHistory:[],totalWins:0,ratingPromptState:'none',ratingPromptLastShown:0};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[],activeGame:null,storySeen:false,mapIntroSeen:false,leaderboardName:'',masterWins:0,masterBestTime:null,masterBestScore:null,masterFewestMistakes:null,relaxHistory:{easy:[],medium:[],hard:[],expert:[]},masterHistory:[],totalWins:0,ratingPromptState:'none',ratingPromptLastShown:0,onboardingSeen:false};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -5669,6 +5683,7 @@ function pzStart(diff){
       UI_SFX.timerTick();
     }
   },500);
+  setTimeout(()=>maybeShowOnboarding('puzzle'),600);
 }
 function pzUpdateBest(){const b=BEST_TIMES[PZ.diff];document.getElementById('pz-best').textContent=b?`Best: ${fmtTime(b.time)}`:'Best: --';}
 function pzUpdateMistakes(){const el=document.getElementById('pz-mistakes-count');if(el)el.textContent=PZ.mistakes;}
@@ -6623,6 +6638,7 @@ function dpBegin(){
     document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);
   },500);
   dpChallengeInit();
+  setTimeout(()=>maybeShowOnboarding('daily'),600);
 }
 
 /* ── DRAW HAND ── */
@@ -10789,6 +10805,92 @@ document.getElementById('df-menu').addEventListener('click',()=>{document.getEle
 document.getElementById('dw-leaderboard').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';maybeShowRatingPrompt();openLeaderboard();});
 document.getElementById('dw-menu').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';maybeShowRatingPrompt();showScreen('screen-menu');});
 document.getElementById('dw-share').addEventListener('click',shareDailyResults);
+
+// Onboarding — first-game tutorial overlay
+const ONBOARD_STEPS=[
+  {target:'pz-board',title:'THE PUZZLE GRID',text:'Tap any empty cell to select it. Given symbols are locked — empty cells are yours to fill.',pos:'below'},
+  {target:'pz-numpad',title:'THE NUMBER PAD',text:'After selecting a cell, tap a number to place it. Match every row, column, and box.',pos:'above'},
+  {target:'pz-notes',title:'NOTES MODE',text:'Toggle notes to pencil in possibilities. Tap again to turn it off. Great for tricky cells.',pos:'above'},
+  {target:'pz-hint',title:'HINTS',text:'Stuck? Use a hint to reveal one cell. You get 3 per puzzle — use them wisely.',pos:'above'},
+  {target:'pz-undo',title:'UNDO & ERASE',text:'Made a mistake? Undo your last move, or erase a cell to clear it. No penalty for either.',pos:'above'},
+];
+let _onboardStep=0;
+function maybeShowOnboarding(mode){
+  if(GAME_STATS.onboardingSeen)return;
+  if(mode==='daily'){
+    ONBOARD_STEPS[0].target='dp-board';
+    ONBOARD_STEPS[1].target='dp-numpad';
+    ONBOARD_STEPS[2].target='dp-notes';
+    ONBOARD_STEPS[3].target='dp-hint';
+    ONBOARD_STEPS[4].target='dp-undo';
+  } else {
+    ONBOARD_STEPS[0].target='pz-board';
+    ONBOARD_STEPS[1].target='pz-numpad';
+    ONBOARD_STEPS[2].target='pz-notes';
+    ONBOARD_STEPS[3].target='pz-hint';
+    ONBOARD_STEPS[4].target='pz-undo';
+  }
+  _onboardStep=0;
+  document.getElementById('onboard-overlay').style.display='block';
+  onboardRenderStep();
+}
+function onboardRenderStep(){
+  const step=ONBOARD_STEPS[_onboardStep];
+  const el=document.getElementById(step.target);
+  if(!el){onboardFinish();return;}
+  const rect=el.getBoundingClientRect();
+  const pad=8;
+  const spot=document.getElementById('onboard-spotlight');
+  spot.style.top=(rect.top-pad)+'px';
+  spot.style.left=(rect.left-pad)+'px';
+  spot.style.width=(rect.width+pad*2)+'px';
+  spot.style.height=(rect.height+pad*2)+'px';
+  document.getElementById('onboard-title').textContent=step.title;
+  document.getElementById('onboard-text').textContent=step.text;
+  const tip=document.getElementById('onboard-tooltip');
+  const isLast=_onboardStep===ONBOARD_STEPS.length-1;
+  document.getElementById('onboard-next').textContent=isLast?'GOT IT!':'NEXT';
+  // Position tooltip — ensure it stays on screen
+  tip.style.top='auto';tip.style.bottom='auto';
+  if(step.pos==='below'){
+    const belowY=rect.bottom+pad+12;
+    if(belowY+160>window.innerHeight){
+      tip.style.bottom='12px';
+    } else {
+      tip.style.top=belowY+'px';
+    }
+  } else {
+    const aboveBottom=window.innerHeight-rect.top+pad+12;
+    if(aboveBottom+160>window.innerHeight){
+      tip.style.top='12px';
+    } else {
+      tip.style.bottom=aboveBottom+'px';
+    }
+  }
+  tip.style.left='50%';
+  tip.style.transform='translateX(-50%)';
+  // Step dots
+  const dots=document.getElementById('onboard-step-dots');
+  dots.innerHTML='';
+  for(let i=0;i<ONBOARD_STEPS.length;i++){
+    const d=document.createElement('div');
+    d.style.cssText=`width:7px;height:7px;border-radius:50%;background:${i===_onboardStep?'var(--gold)':'rgba(200,160,100,.3)'};transition:background .3s;`;
+    dots.appendChild(d);
+  }
+}
+function onboardFinish(){
+  document.getElementById('onboard-overlay').style.display='none';
+  GAME_STATS.onboardingSeen=true;
+  saveState();
+}
+document.getElementById('onboard-next').addEventListener('click',(e)=>{
+  e.stopPropagation();
+  _onboardStep++;
+  if(_onboardStep>=ONBOARD_STEPS.length)onboardFinish();
+  else onboardRenderStep();
+});
+document.getElementById('onboard-tooltip').addEventListener('click',(e)=>{e.stopPropagation();});
+document.getElementById('onboard-backdrop').addEventListener('click',()=>{onboardFinish();});
 
 // Rating prompt
 function maybeShowRatingPrompt(){
