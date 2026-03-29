@@ -683,8 +683,8 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
 /* Music toggle button (fixed top-right) */
-#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(200,155,55,.45);background:rgba(20,12,4,.88);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(0,0,0,.4);}
-#music-toggle-btn:hover{background:rgba(60,38,10,.88);box-shadow:0 0 12px rgba(200,140,40,.45);}
+#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(160,115,40,.45);background:linear-gradient(135deg,rgba(40,25,8,.9),rgba(60,38,12,.9));cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 3px 12px rgba(0,0,0,.5);}
+#music-toggle-btn:hover{background:linear-gradient(135deg,rgba(60,38,12,.95),rgba(80,50,15,.95));box-shadow:0 0 12px rgba(200,140,40,.45);}
 #music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
 .vol-row{padding:12px 0;border-bottom:1px solid rgba(180,140,60,.15);}
@@ -1882,6 +1882,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ SCREEN: PUZZLE ═══════════════ -->
 <div class="screen" id="screen-puzzle">
   <button class="ghost-btn back-btn" id="puzzle-back">← Menu</button>
+  <button class="ghost-btn" id="pz-help-btn" style="position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:52px;padding:6px 11px;font-size:15px;font-weight:700;min-width:0;line-height:1;border-radius:50%;border-color:rgba(200,160,50,.5);color:var(--gold);z-index:9999;" title="How to play">?</button>
   <div class="puzzle-header">
     <div class="stat-panel">
       <div class="stat-label">⏱ Time</div>
@@ -2032,6 +2033,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ SCREEN: DAILY PUZZLE ═══════════════ -->
 <div class="screen" id="screen-daily">
   <button class="ghost-btn back-btn" id="daily-back">← Menu</button>
+  <button class="ghost-btn" id="dp-help-btn" style="position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:52px;padding:6px 11px;font-size:15px;font-weight:700;min-width:0;line-height:1;border-radius:50%;border-color:rgba(200,160,50,.5);color:var(--gold);z-index:9999;" title="How to play">?</button>
 
   <!-- HUD -->
   <div style="width:min(95vw,520px);display:flex;justify-content:center;align-items:center;gap:clamp(10px,4vw,36px);margin-bottom:3px;margin-top:10px;padding:0 4px;">
@@ -5688,9 +5690,7 @@ function pzStart(diff){
   },500);
   if(!GAME_STATS.onboardingSeen){clearInterval(PZ.timerInterval);setTimeout(()=>maybeShowOnboarding('puzzle'),600);}
 }
-function pzResetTimer(){
-  PZ.startTime=Date.now();PZ.elapsed=0;
-  document.getElementById('pz-timer').textContent='0:00';
+function _pzStartTimerInterval(){
   let _lastTickSec=-1;
   PZ.timerInterval=setInterval(()=>{
     PZ.elapsed=Math.floor((Date.now()-PZ.startTime)/1000);
@@ -5701,6 +5701,20 @@ function pzResetTimer(){
       document.getElementById('pz-timer').style.color=PZ.elapsed>=goldTime-10?'#e63030':'#f5c842';
       UI_SFX.timerTick();
     }
+  },500);
+}
+function pzResetTimer(){
+  PZ.startTime=Date.now();PZ.elapsed=0;
+  document.getElementById('pz-timer').textContent='0:00';
+  _pzStartTimerInterval();
+}
+function pzResumeTimer(){_pzStartTimerInterval();}
+function dpResumeTimer(){
+  DP.timerInterval=setInterval(()=>{
+    if(!DP.isReplay&&!DP.isLegendary&&dpGetTodayStr()!==DP.dateStr){clearInterval(DP.timerInterval);showToast('🌅 A new day has begun! Refreshing daily puzzle...',3000);setTimeout(()=>{dpStart();},2500);return;}
+    if(DP.gameOver||DP.completed)return;
+    DP.elapsed=Math.floor((Date.now()-DP.startTime)/1000);
+    document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);
   },500);
 }
 function pzUpdateBest(){const b=BEST_TIMES[PZ.diff];document.getElementById('pz-best').textContent=b?`Best: ${fmtTime(b.time)}`:'Best: --';}
@@ -10672,6 +10686,8 @@ document.getElementById('adv-jigsaw-back').addEventListener('click',()=>{
 // Back buttons
 document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();document.getElementById('dp-rules-overlay').style.display='none';document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
 document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);clearActiveGame();document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
+document.getElementById('pz-help-btn').addEventListener('click',()=>{clearInterval(PZ.timerInterval);_onboardIsReplay=true;_onboardMode='puzzle';_onboardSteps=ONBOARD_RELAX;_onboardStep=0;document.getElementById('onboard-overlay').style.display='block';onboardRenderStep();});
+document.getElementById('dp-help-btn').addEventListener('click',()=>{clearInterval(DP.timerInterval);_onboardIsReplay=true;_onboardMode='daily';_onboardSteps=ONBOARD_DAILY;_onboardStep=0;document.getElementById('onboard-overlay').style.display='block';onboardRenderStep();});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
 // Vault scroll buttons
 (function(){
@@ -10897,13 +10913,21 @@ function onboardRenderStep(){
     dots.appendChild(d);
   }
 }
+let _onboardIsReplay=false;
 function onboardFinish(){
   document.getElementById('onboard-overlay').style.display='none';
   const flag=_onboardMode==='daily'?'onboardingDailySeen':'onboardingSeen';
   GAME_STATS[flag]=true;
   saveState();
-  if(ACTIVE_MODE==='puzzle')pzResetTimer();
-  if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now();DP.elapsed=0;document.getElementById('dp-timer').textContent='0:00';}
+  if(_onboardIsReplay){
+    // Resume timer from where it was paused
+    if(ACTIVE_MODE==='puzzle'){PZ.startTime=Date.now()-PZ.elapsed*1000;pzResumeTimer();}
+    if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now()-DP.elapsed*1000;dpResumeTimer();}
+  } else {
+    if(ACTIVE_MODE==='puzzle')pzResetTimer();
+    if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now();DP.elapsed=0;document.getElementById('dp-timer').textContent='0:00';dpResumeTimer();}
+  }
+  _onboardIsReplay=false;
 }
 document.getElementById('onboard-next').addEventListener('click',(e)=>{
   e.stopPropagation();
