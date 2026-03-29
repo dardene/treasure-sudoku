@@ -7663,6 +7663,9 @@ function dpShowRewardPanel(){
 function showStoryIntro(){
   if(GAME_STATS.storySeen)return;
   GAME_STATS.storySeen=true;saveState();
+  // Persist as standalone flag so clearing cache doesn't replay the intro
+  try{localStorage.setItem('ts_story_seen_v2','1');}catch(e){}
+  _idbPut('ts_story_seen_v2',true).catch(()=>{});
   const overlay=document.getElementById('story-intro-overlay');
   const linesWrap=document.getElementById('story-intro-lines');
   const btn=document.getElementById('story-intro-btn');
@@ -10900,7 +10903,12 @@ document.getElementById('reset-records').addEventListener('click',()=>{
     if(_sbClient()&&!AUTH_STATE.user){
       showScreen('screen-auth');
     }
-    if(!GAME_STATS.storySeen){setTimeout(showStoryIntro, 800);}
+    // Check standalone story flag in case main save was cleared
+    if(!GAME_STATS.storySeen){
+      const seenLS=localStorage.getItem('ts_story_seen_v2');
+      if(seenLS){GAME_STATS.storySeen=true;saveState();}
+      else{_idbGet('ts_story_seen_v2').then(v=>{if(v){GAME_STATS.storySeen=true;saveState();}else{showStoryIntro();}}).catch(()=>{showStoryIntro();});}
+    }
     showScreen('screen-menu');
   }
   // Update corner auth button state
