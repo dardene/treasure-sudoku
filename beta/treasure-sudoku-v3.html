@@ -6670,7 +6670,7 @@ function dpBegin(){
     document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);
   },500);
   dpChallengeInit();
-  if(!GAME_STATS.onboardingDailySeen){clearInterval(DP.timerInterval);setTimeout(()=>maybeShowOnboarding('daily'),600);}
+  if(!GAME_STATS.onboardingDailySeen){clearInterval(DP.timerInterval);dpChallengePause();setTimeout(()=>maybeShowOnboarding('daily'),600);}
 }
 
 /* ── DRAW HAND ── */
@@ -7250,6 +7250,27 @@ function dpChallengeExpire(ch){
   dpRenderBoard();
   DP.challengeQueue.shift();
   dpChallengeScheduleNext();
+}
+// Pause all challenge timers (tutorial overlay)
+let _challengePausedAt=0;
+function dpChallengePause(){
+  _challengePausedAt=Date.now();
+  clearTimeout(DP.challengeScheduleId);DP.challengeScheduleId=null;
+  if(DP.challenges)DP.challenges.forEach(ch=>clearInterval(ch.countdownId));
+}
+function dpChallengeResume(){
+  if(!_challengePausedAt)return;
+  // Resume active challenge countdowns
+  if(DP.challenges)DP.challenges.forEach(ch=>{
+    ch.countdownId=setInterval(()=>{
+      if(!DP.challenges.includes(ch))return;
+      ch.timeLeft--;dpChallengeUpdateTimerDisplay();
+      if(ch.timeLeft<=0)dpChallengeExpire(ch);
+    },1000);
+  });
+  // Re-schedule next challenge
+  if(DP.challengeQueue&&DP.challengeQueue.length)dpChallengeScheduleNext();
+  _challengePausedAt=0;
 }
 // Stop all challenge timers (win, game over, back button)
 function dpChallengeStop(){
@@ -10687,7 +10708,7 @@ document.getElementById('adv-jigsaw-back').addEventListener('click',()=>{
 document.getElementById('daily-back').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();document.getElementById('dp-rules-overlay').style.display='none';document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
 document.getElementById('puzzle-back').addEventListener('click',()=>{clearInterval(PZ.timerInterval);clearActiveGame();document.getElementById('pause-overlay').classList.remove('show');PAUSED={active:false,source:null};showScreen('screen-menu');});
 document.getElementById('pz-help-btn').addEventListener('click',()=>{clearInterval(PZ.timerInterval);_onboardIsReplay=true;_onboardMode='puzzle';_onboardSteps=ONBOARD_RELAX;_onboardStep=0;document.getElementById('onboard-overlay').style.display='block';onboardRenderStep();});
-document.getElementById('dp-help-btn').addEventListener('click',()=>{clearInterval(DP.timerInterval);_onboardIsReplay=true;_onboardMode='daily';_onboardSteps=ONBOARD_DAILY;_onboardStep=0;document.getElementById('onboard-overlay').style.display='block';onboardRenderStep();});
+document.getElementById('dp-help-btn').addEventListener('click',()=>{clearInterval(DP.timerInterval);dpChallengePause();_onboardIsReplay=true;_onboardMode='daily';_onboardSteps=ONBOARD_DAILY;_onboardStep=0;_onboardSwapDemo();document.getElementById('onboard-overlay').style.display='block';onboardRenderStep();});
 document.getElementById('vault-back').addEventListener('click',()=>showScreen('screen-menu'));
 // Vault scroll buttons
 (function(){
@@ -10860,12 +10881,84 @@ const ONBOARD_DAILY=[
 let _onboardSteps=ONBOARD_RELAX;
 let _onboardStep=0;
 let _onboardMode='puzzle';
+let _onboardDemoState=null; // stores real DP state while demo puzzle is shown
+
+function _onboardSwapDemo(){
+  // Save real state and show a demo puzzle so the tutorial doesn't reveal the actual puzzle
+  _onboardDemoState={
+    puzzle:[...DP.puzzle],solution:[...DP.solution],board:[...DP.board],
+    notes:DP.notes.map(s=>new Set(s)),fogCells:new Set(DP.fogCells),
+    challenges:[...DP.challenges],challengeQueue:[...DP.challengeQueue],
+    hand:[...DP.hand],handPlaced:[...DP.handPlaced],
+  };
+  // Generate a fresh demo puzzle
+  const demo=generatePuzzle('easy');
+  DP.puzzle=[...demo.puzzle];DP.solution=[...demo.solution];DP.board=[...demo.puzzle];
+  DP.notes=Array(81).fill(null).map(()=>new Set());
+  DP.fogCells=new Set();
+  for(let i=0;i<81;i++){if(DP.puzzle[i]===0)DP.fogCells.add(i);}
+  DP.challenges=[];DP.challengeQueue=[];
+  // Place a few relics so the board looks partially solved
+  const empties=[];for(let i=0;i<81;i++){if(DP.puzzle[i]===0)empties.push(i);}
+  const fill=shuffle([...empties]).slice(0,Math.min(12,empties.length));
+  fill.forEach(i=>{DP.board[i]=DP.solution[i];DP.fogCells.delete(i);});
+  // Give demo hand
+  const remaining=empties.filter(i=>!fill.includes(i));
+  DP.hand=remaining.slice(0,5).map(i=>DP.solution[i]);
+  if(DP.hand.length<5){for(let n=1;DP.hand.length<5;n++)DP.hand.push(n);}
+  DP.handPlaced=Array(5).fill(false);
+  dpBuildBoard();dpRenderHand();
+}
+
+function _onboardRestoreReal(){
+  if(!_onboardDemoState)return;
+  DP.puzzle=_onboardDemoState.puzzle;DP.solution=_onboardDemoState.solution;
+  DP.board=_onboardDemoState.board;DP.notes=_onboardDemoState.notes;
+  DP.fogCells=_onboardDemoState.fogCells;
+  DP.challenges=_onboardDemoState.challenges;DP.challengeQueue=_onboardDemoState.challengeQueue;
+  DP.hand=_onboardDemoState.hand;DP.handPlaced=_onboardDemoState.handPlaced;
+  _onboardDemoState=null;
+  dpBuildBoard();dpRenderHand();
+}
+
+function _onboardClearChallenges(){
+  // Remove any injected demo challenges before rendering a new step
+  document.querySelectorAll('#dp-board .challenge-bomb, #dp-board .challenge-popup').forEach(c=>{
+    c.className='cell';c.innerHTML='';
+    const idx=+c.dataset.idx;
+    if(DP.board[idx]===0&&DP.fogCells&&DP.fogCells.has(idx))c.classList.add('fog-cell');
+  });
+}
+
+function _onboardInjectChallenge(type){
+  _onboardClearChallenges();
+  // Find an empty cell on the demo board to show a bomb or treasure bag
+  const cells=document.getElementById('dp-board').querySelectorAll('.cell');
+  let targetIdx=-1;
+  // Pick an empty cell near the center for visibility
+  const center=[30,31,39,40,41,49,50,32,48,22,58];
+  for(const ci of center){if(DP.board[ci]===0){targetIdx=ci;break;}}
+  if(targetIdx===-1){for(let i=0;i<81;i++){if(DP.board[i]===0){targetIdx=i;break;}}}
+  if(targetIdx===-1)return;
+  const cell=cells[targetIdx];
+  if(!cell)return;
+  // Clear fog on this cell so it's visible
+  cell.classList.remove('fog-cell');
+  // Add challenge styling
+  cell.className='cell '+(type==='bomb'?'challenge-bomb':'challenge-popup');
+  cell.innerHTML='';
+  const ov=document.createElement('div');ov.className='challenge-overlay';
+  ov.innerHTML=`<span class="ch-icon${type==='bomb'?' ch-icon-bomb':' ch-icon-chest'}">${type==='bomb'?'💣':'💰'}</span><span class="ch-time">${type==='bomb'?'12':'10'}</span>`;
+  cell.appendChild(ov);
+}
+
 function maybeShowOnboarding(mode){
   const flag=mode==='daily'?'onboardingDailySeen':'onboardingSeen';
   if(GAME_STATS[flag])return;
   _onboardMode=mode;
   _onboardSteps=mode==='daily'?ONBOARD_DAILY:ONBOARD_RELAX;
   _onboardStep=0;
+  if(mode==='daily')_onboardSwapDemo();
   document.getElementById('onboard-overlay').style.display='block';
   onboardRenderStep();
 }
@@ -10904,6 +10997,12 @@ function onboardRenderStep(){
   }
   tip.style.left='50%';
   tip.style.transform='translateX(-50%)';
+  // Inject bomb/treasure bag visuals on the relevant tutorial steps (clean up between steps)
+  if(_onboardMode==='daily'&&_onboardDemoState){
+    if(step.title==='BOMBS')_onboardInjectChallenge('bomb');
+    else if(step.title==='TREASURE BAGS')_onboardInjectChallenge('popup');
+    else _onboardClearChallenges();
+  }
   // Step dots
   const dots=document.getElementById('onboard-step-dots');
   dots.innerHTML='';
@@ -10916,16 +11015,18 @@ function onboardRenderStep(){
 let _onboardIsReplay=false;
 function onboardFinish(){
   document.getElementById('onboard-overlay').style.display='none';
+  // Restore real puzzle if demo was active
+  if(_onboardMode==='daily'&&_onboardDemoState)_onboardRestoreReal();
   const flag=_onboardMode==='daily'?'onboardingDailySeen':'onboardingSeen';
   GAME_STATS[flag]=true;
   saveState();
   if(_onboardIsReplay){
     // Resume timer from where it was paused
     if(ACTIVE_MODE==='puzzle'){PZ.startTime=Date.now()-PZ.elapsed*1000;pzResumeTimer();}
-    if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now()-DP.elapsed*1000;dpResumeTimer();}
+    if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now()-DP.elapsed*1000;dpResumeTimer();dpChallengeResume();}
   } else {
     if(ACTIVE_MODE==='puzzle')pzResetTimer();
-    if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now();DP.elapsed=0;document.getElementById('dp-timer').textContent='0:00';dpResumeTimer();}
+    if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now();DP.elapsed=0;document.getElementById('dp-timer').textContent='0:00';dpResumeTimer();dpChallengeResume();}
   }
   _onboardIsReplay=false;
 }
