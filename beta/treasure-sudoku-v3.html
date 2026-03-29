@@ -683,8 +683,8 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
 /* Music toggle button (fixed top-right) */
-#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 6px);right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(160,115,40,.45);background:linear-gradient(135deg,rgba(40,25,8,.9),rgba(60,38,12,.9));cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background .2s,box-shadow .2s;box-shadow:0 3px 12px rgba(0,0,0,.5);}
-#music-toggle-btn:hover{background:linear-gradient(135deg,rgba(60,38,12,.95),rgba(80,50,15,.95));box-shadow:0 0 12px rgba(200,140,40,.45);}
+#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(160,110,40,.35);background:rgba(8,5,1,.65);color:rgba(200,160,100,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.5);}
+#music-toggle-btn:hover{border-color:rgba(220,170,60,.55);color:var(--gold);background:rgba(15,9,2,.8);box-shadow:0 0 12px rgba(200,140,40,.45);}
 #music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
 .vol-row{padding:12px 0;border-bottom:1px solid rgba(180,140,60,.15);}
@@ -1882,7 +1882,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ SCREEN: PUZZLE ═══════════════ -->
 <div class="screen" id="screen-puzzle">
   <button class="ghost-btn back-btn" id="puzzle-back">← Menu</button>
-  <button class="ghost-btn" id="pz-help-btn" style="position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:52px;padding:6px 11px;font-size:15px;font-weight:700;min-width:0;line-height:1;border-radius:50%;border-color:rgba(200,160,50,.5);color:var(--gold);z-index:9999;" title="How to play">?</button>
+  <button class="ghost-btn" id="pz-help-btn" style="position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);right:52px;padding:6px 11px;font-size:15px;font-weight:700;min-width:0;line-height:1;border-radius:50%;border-color:rgba(200,160,50,.5);color:var(--gold);z-index:9999;" title="How to play">?</button>
   <div class="puzzle-header">
     <div class="stat-panel">
       <div class="stat-label">⏱ Time</div>
@@ -2033,7 +2033,7 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 <!-- ═══════════════ SCREEN: DAILY PUZZLE ═══════════════ -->
 <div class="screen" id="screen-daily">
   <button class="ghost-btn back-btn" id="daily-back">← Menu</button>
-  <button class="ghost-btn" id="dp-help-btn" style="position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);right:52px;padding:6px 11px;font-size:15px;font-weight:700;min-width:0;line-height:1;border-radius:50%;border-color:rgba(200,160,50,.5);color:var(--gold);z-index:9999;" title="How to play">?</button>
+  <button class="ghost-btn" id="dp-help-btn" style="position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);right:52px;padding:6px 11px;font-size:15px;font-weight:700;min-width:0;line-height:1;border-radius:50%;border-color:rgba(200,160,50,.5);color:var(--gold);z-index:9999;" title="How to play">?</button>
 
   <!-- HUD -->
   <div style="width:min(95vw,520px);display:flex;justify-content:center;align-items:center;gap:clamp(10px,4vw,36px);margin-bottom:3px;margin-top:10px;padding:0 4px;">
