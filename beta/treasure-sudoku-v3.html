@@ -3432,6 +3432,18 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
   </div>
 </div>
 
+<!-- ═══════════════ RATING PROMPT ═══════════════ -->
+<div id="rating-prompt-overlay" style="display:none;position:fixed;inset:0;z-index:500;align-items:center;justify-content:center;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);">
+  <div class="win-panel" style="max-width:340px;width:88%;padding:28px 24px;text-align:center;animation:panelRise .5s cubic-bezier(.34,1.56,.64,1) both;">
+    <div style="font-size:36px;margin-bottom:8px;filter:drop-shadow(0 0 14px rgba(245,200,66,.7));letter-spacing:4px;">⭐⭐⭐⭐⭐</div>
+    <div style="font-family:'Cinzel Decorative','Cinzel',serif;font-size:16px;font-weight:900;color:var(--gold);text-shadow:0 0 20px var(--glow-gold);letter-spacing:.08em;margin-bottom:6px;">ENJOYING THE ADVENTURE?</div>
+    <div style="font-family:'Crimson Pro',serif;font-size:14px;color:var(--stone-light);line-height:1.6;margin-bottom:20px;opacity:.85;">Your rating helps other treasure hunters discover the game!</div>
+    <button id="rating-yes" class="gold-btn" style="width:100%;padding:12px;font-size:11px;letter-spacing:.12em;margin-bottom:10px;">⭐ RATE TREASURE SUDOKU</button>
+    <button id="rating-later" class="ghost-btn" style="width:100%;padding:10px;font-size:10px;letter-spacing:.1em;margin-bottom:8px;border-color:rgba(200,155,55,.4);color:rgba(220,185,130,.7);">NOT NOW</button>
+    <button id="rating-never" style="background:none;border:none;color:rgba(200,160,100,.35);font-family:'Crimson Pro',serif;font-size:11px;cursor:pointer;padding:6px;">Don't ask again</button>
+  </div>
+</div>
+
 <!-- ═══════════════ SHARE SHEET ═══════════════ -->
 <div id="share-sheet" style="display:none;position:fixed;inset:0;z-index:600;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);">
   <div class="ss-panel">
@@ -5270,6 +5282,9 @@ function _applySaveData(d){
   // TODO: REMOVE BEFORE PRODUCTION — players should start at adventureProgress=1 with no pieces
   GAME_STATS.adventureProgress=26;
   for(let i=1;i<=25;i++){GAME_STATS.adventureEarnedPieces[i]=15;}
+  if(!GAME_STATS.totalWins)GAME_STATS.totalWins=0;
+  if(!GAME_STATS.ratingPromptState)GAME_STATS.ratingPromptState='none';
+  if(!GAME_STATS.ratingPromptLastShown)GAME_STATS.ratingPromptLastShown=0;
   if(GAME_STATS.gold===undefined) GAME_STATS.gold=0;
   if(GAME_STATS.goldPiecesUsedToday===undefined) GAME_STATS.goldPiecesUsedToday=0;
   if(!GAME_STATS.goldPiecesDate) GAME_STATS.goldPiecesDate='';
@@ -5381,7 +5396,7 @@ function resumeActiveGame(){
   }catch(e){console.warn('Resume failed:',e);clearActiveGame();}
   return false;
 }
-const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[],activeGame:null,storySeen:false,mapIntroSeen:false,leaderboardName:'',masterWins:0,masterBestTime:null,masterBestScore:null,masterFewestMistakes:null,relaxHistory:{easy:[],medium:[],hard:[],expert:[]},masterHistory:[]};
+const GAME_STATS={puzzleWins:0,dailyWins:0,dailyTotalScore:0,artifactCounts:Array(10).fill(0),mapPieces:0,completedDates:[],placedMapPieces:[],currentMapCycle:0,puzzleWinsByDiff:{easy:0,medium:0,hard:0,expert:0},jigsawArtifacts:[],adventureProgress:1,adventureCompleted:[],adventurePlacedPieces:{},adventureEarnedPieces:{},gold:0,goldPiecesUsedToday:0,goldPiecesDate:'',ancientRelics:[],activeGame:null,storySeen:false,mapIntroSeen:false,leaderboardName:'',masterWins:0,masterBestTime:null,masterBestScore:null,masterFewestMistakes:null,relaxHistory:{easy:[],medium:[],hard:[],expert:[]},masterHistory:[],totalWins:0,ratingPromptState:'none',ratingPromptLastShown:0};
 const BEST_TIMES={easy:null,medium:null,hard:null,expert:null}; // {time, mistakes}
 let DAILY_SCORES={}; // { 'YYYY-M-D': { score, time, mistakes } } — best score per date
 
@@ -6388,7 +6403,7 @@ function pzCheckWin(){
   if(!PZ.board.every((v,i)=>v!==0&&v===PZ.solution[i]))return;
   clearActiveGame();
   playWinChime();
-  clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;
+  clearInterval(PZ.timerInterval);GAME_STATS.puzzleWins++;GAME_STATS.totalWins=(GAME_STATS.totalWins||0)+1;
   if(GAME_STATS.puzzleWinsByDiff)GAME_STATS.puzzleWinsByDiff[PZ.diff]=(GAME_STATS.puzzleWinsByDiff[PZ.diff]||0)+1;
   // Calculate rewards
   const _tier=calcPerformanceTier(PZ.diff,PZ.mistakes,PZ.elapsed);
@@ -7379,7 +7394,7 @@ function dpErase(){
 function dpCheckWin(){
   if(!DP.board.every((v,i)=>v!==0&&v===DP.solution[i]))return;
   playWinChime();
-  DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();
+  DP.completed=true;clearInterval(DP.timerInterval);dpChallengeStop();clearActiveGame();GAME_STATS.totalWins=(GAME_STATS.totalWins||0)+1;
   dpClearAllFog();
 
   DP.score+=1500;
@@ -10272,7 +10287,7 @@ function mmWin(){
   playWinChime();
   const cx=window.innerWidth/2,cy=window.innerHeight/3;
   for(let i=0;i<4;i++)setTimeout(()=>spawnParticles(cx,cy,Math.ceil(Math.random()*9),10),i*300);
-  GAME_STATS.masterWins=(GAME_STATS.masterWins||0)+1;
+  GAME_STATS.masterWins=(GAME_STATS.masterWins||0)+1;GAME_STATS.totalWins=(GAME_STATS.totalWins||0)+1;
   if(GAME_STATS.masterBestTime===null||MM.elapsed<GAME_STATS.masterBestTime)GAME_STATS.masterBestTime=MM.elapsed;
   if(GAME_STATS.masterBestScore===null||MM.score>GAME_STATS.masterBestScore)GAME_STATS.masterBestScore=MM.score;
   if(GAME_STATS.masterFewestMistakes===null||MM.mistakes<GAME_STATS.masterFewestMistakes)GAME_STATS.masterFewestMistakes=MM.mistakes;
@@ -10283,6 +10298,7 @@ function mmWin(){
   setTimeout(()=>{
     showToast(solaraCrown()+' MASTER MODE COMPLETE! Time: '+m+':'+(s<10?'0':'')+s+' · Score: '+MM.score+' · Mistakes: '+MM.mistakes,5000);
   },800);
+  setTimeout(()=>maybeShowRatingPrompt(),6000);
 }
 
 function mmLose(){
@@ -10747,8 +10763,8 @@ document.getElementById('dp-notes').addEventListener('click',function(){
 document.getElementById('dp-leaderboard-btn').addEventListener('click',openLeaderboard);
 
 // Win overlays
-document.getElementById('win-play-again').addEventListener('click',()=>{document.getElementById('win-overlay').classList.remove('show');pzStart(PZ.diff);});
-document.getElementById('win-menu').addEventListener('click',()=>{clearInterval(PZ.timerInterval);document.getElementById('win-overlay').classList.remove('show');showScreen('screen-menu');});
+document.getElementById('win-play-again').addEventListener('click',()=>{document.getElementById('win-overlay').classList.remove('show');maybeShowRatingPrompt();pzStart(PZ.diff);});
+document.getElementById('win-menu').addEventListener('click',()=>{clearInterval(PZ.timerInterval);document.getElementById('win-overlay').classList.remove('show');maybeShowRatingPrompt();showScreen('screen-menu');});
 
 // Win chest tap — open lid then reveal results
 document.getElementById('win-chest-wrap').addEventListener('click',function(){
@@ -10770,9 +10786,36 @@ document.getElementById('win-chest-wrap').addEventListener('click',function(){
 document.getElementById('df-menu').addEventListener('click',()=>{document.getElementById('daily-fail-overlay').style.display='none';showScreen('screen-menu');});
 
 // Daily win overlay
-document.getElementById('dw-leaderboard').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';openLeaderboard();});
-document.getElementById('dw-menu').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';showScreen('screen-menu');});
+document.getElementById('dw-leaderboard').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';maybeShowRatingPrompt();openLeaderboard();});
+document.getElementById('dw-menu').addEventListener('click',()=>{document.getElementById('daily-win-overlay').style.display='none';maybeShowRatingPrompt();showScreen('screen-menu');});
 document.getElementById('dw-share').addEventListener('click',shareDailyResults);
+
+// Rating prompt
+function maybeShowRatingPrompt(){
+  if(GAME_STATS.ratingPromptState==='never')return;
+  const totalWins=(GAME_STATS.totalWins||0);
+  if(totalWins<3)return;
+  // Only prompt on wins 3, 10, 25, 50, then every 50 after
+  const triggers=[3,10,25,50];
+  const shouldShow=triggers.includes(totalWins)||(totalWins>50&&totalWins%50===0);
+  if(!shouldShow)return;
+  // Don't show more than once per 7 days
+  const now=Date.now(),sevenDays=7*24*60*60*1000;
+  if(GAME_STATS.ratingPromptLastShown&&(now-GAME_STATS.ratingPromptLastShown)<sevenDays)return;
+  GAME_STATS.ratingPromptLastShown=now;
+  saveState();
+  setTimeout(()=>{document.getElementById('rating-prompt-overlay').style.display='flex';},1200);
+}
+function closeRatingPrompt(){document.getElementById('rating-prompt-overlay').style.display='none';}
+document.getElementById('rating-yes').addEventListener('click',()=>{
+  GAME_STATS.ratingPromptState='rated';saveState();closeRatingPrompt();
+  // In native iOS this would call SKStoreReviewController; for now show toast
+  showToast('Thank you for your support! ⭐',2500);
+});
+document.getElementById('rating-later').addEventListener('click',()=>{closeRatingPrompt();});
+document.getElementById('rating-never').addEventListener('click',()=>{
+  GAME_STATS.ratingPromptState='never';saveState();closeRatingPrompt();
+});
 
 // Difficulty picker — back button returns to menu
 document.getElementById('diff-picker-back').addEventListener('click',()=>{
