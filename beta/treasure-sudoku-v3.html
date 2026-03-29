@@ -6623,8 +6623,11 @@ function dpStart(isLegendary=false, replayDateStr=null){
   // Update HUD
   dpUpdateHUD();
 
-  // Today's puzzle: always show rules first (even on replay) — timer starts on Begin tap
-  if(!isLegendary && dateStr===dpGetTodayStr()){
+  // First-time player: skip rules, go straight to tutorial
+  // Returning player: show rules before every game
+  if(!GAME_STATS.onboardingDailySeen){
+    dpBegin();
+  } else if(!isLegendary && dateStr===dpGetTodayStr()){
     const[ry,rm,rd]=dateStr.split('-').map(Number);
     const rDate=new Date(ry,rm-1,rd);
     document.getElementById('dp-rules-date').textContent=rDate.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
