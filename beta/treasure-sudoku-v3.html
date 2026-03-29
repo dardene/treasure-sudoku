@@ -683,7 +683,7 @@ button svg,button span,button div,.menu-btn svg,.menu-btn span,.menu-btn div,.gh
 .sr-label{font-size:11px;letter-spacing:.1em;color:var(--stone-light);}
 .sr-sub{font-size:9px;font-family:'Crimson Pro',serif;color:rgba(180,140,80,.6);margin-top:2px;}
 /* Music toggle button (fixed top-right) */
-#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:12px;z-index:9999;width:34px;height:34px;border-radius:50%;border:1px solid rgba(160,115,40,.45);background:linear-gradient(135deg,rgba(40,25,8,.9),rgba(60,38,12,.9));color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.5);}
+#music-toggle-btn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);right:12px;z-index:9999;width:28px;height:28px;border-radius:50%;border:1px solid rgba(160,115,40,.45);background:linear-gradient(135deg,rgba(40,25,8,.9),rgba(60,38,12,.9));color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;box-shadow:0 3px 12px rgba(0,0,0,.5);}
 #music-toggle-btn:hover{background:linear-gradient(135deg,rgba(60,38,12,.95),rgba(80,50,15,.95));box-shadow:0 0 12px rgba(200,140,40,.45);}
 #music-toggle-btn.muted{opacity:.55;}
 /* Volume sliders */
@@ -5486,14 +5486,7 @@ function showDiffPicker(onSelect){
 let toastTimer=null;
 function showToast(msg,dur=2200){return;}
 let achieveTimer=null;
-function showAchievement(msg){
-  let el=document.getElementById('achieve-toast');
-  if(!el){el=document.createElement('div');el.id='achieve-toast';el.className='achieve-pop';document.body.appendChild(el);}
-  el.textContent=msg;
-  el.classList.add('show');
-  clearTimeout(achieveTimer);
-  achieveTimer=setTimeout(()=>el.classList.remove('show'),2600);
-}
+function showAchievement(msg){return;}
 
 /* ══════════════════════════════════════════════════════
    SUDOKU ENGINE
@@ -5634,12 +5627,7 @@ function spawnParticles(x,y,num,count=6){
     p.className='coin-particle';pc.appendChild(p);setTimeout(()=>p.remove(),1000);
   }
 }
-function floatText(x,y,text){
-  const el=document.createElement('div');el.className='floating-coin';
-  el.textContent=text;el.style.cssText=`left:${x}px;top:${y}px;color:var(--gold);font-size:13px;font-family:'Cinzel',serif;font-weight:700;text-shadow:0 0 8px var(--glow-gold);--fu-d:.9s;`;
-  document.getElementById('particles').appendChild(el);
-  setTimeout(()=>el.remove(),1000);
-}
+function floatText(x,y,text){return;}
 function spawnWinCoins(){
   if(!SETTINGS.particles)return;
   const pc=document.getElementById('particles');
