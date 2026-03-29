@@ -3433,15 +3433,18 @@ input[type=range].vol-slider::-webkit-slider-runnable-track{height:4px;border-ra
 </div>
 
 <!-- ═══════════════ ONBOARDING OVERLAY ═══════════════ -->
-<div id="onboard-overlay" style="display:none;position:fixed;inset:0;z-index:800;pointer-events:none;">
-  <div id="onboard-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,.7);pointer-events:all;"></div>
-  <div id="onboard-spotlight" style="position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.7);pointer-events:none;transition:all .4s ease;z-index:1;"></div>
+<div id="onboard-overlay" style="display:none;position:fixed;inset:0;z-index:800;pointer-events:all;">
+  <div id="onboard-backdrop" style="position:absolute;inset:0;background:transparent;pointer-events:none;"></div>
+  <div id="onboard-spotlight" style="position:absolute;border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.72);pointer-events:none;transition:all .4s ease;z-index:1;"></div>
   <div id="onboard-tooltip" style="position:absolute;z-index:2;pointer-events:all;max-width:280px;width:85%;background:rgba(20,12,4,.96);border:1.5px solid rgba(200,160,50,.5);border-radius:14px;padding:16px 18px;box-shadow:0 8px 30px rgba(0,0,0,.6);transition:all .4s ease;">
     <div id="onboard-title" style="font-family:'Cinzel',serif;font-size:13px;font-weight:900;color:var(--gold-light);letter-spacing:.1em;margin-bottom:6px;"></div>
     <div id="onboard-text" style="font-family:'Crimson Pro',serif;font-size:13px;color:var(--stone-light);line-height:1.55;margin-bottom:14px;"></div>
     <div style="display:flex;justify-content:space-between;align-items:center;">
       <div id="onboard-step-dots" style="display:flex;gap:5px;"></div>
-      <button id="onboard-next" class="gold-btn" style="padding:8px 20px;font-size:10px;letter-spacing:.1em;">NEXT</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button id="onboard-skip" style="background:none;border:none;color:rgba(200,160,100,.4);font-family:'Crimson Pro',serif;font-size:11px;cursor:pointer;padding:4px 8px;">Skip</button>
+        <button id="onboard-next" class="gold-btn" style="padding:8px 20px;font-size:10px;letter-spacing:.1em;">NEXT</button>
+      </div>
     </div>
   </div>
 </div>
@@ -5683,7 +5686,25 @@ function pzStart(diff){
       UI_SFX.timerTick();
     }
   },500);
-  setTimeout(()=>maybeShowOnboarding('puzzle'),600);
+  if(!GAME_STATS.onboardingSeen){
+    clearInterval(PZ.timerInterval);
+    setTimeout(()=>maybeShowOnboarding('puzzle'),600);
+  }
+}
+function pzResetTimer(){
+  PZ.startTime=Date.now();PZ.elapsed=0;
+  document.getElementById('pz-timer').textContent='0:00';
+  let _lastTickSec=-1;
+  PZ.timerInterval=setInterval(()=>{
+    PZ.elapsed=Math.floor((Date.now()-PZ.startTime)/1000);
+    document.getElementById('pz-timer').textContent=fmtTime(PZ.elapsed);
+    const goldTime=REWARD_TIERS[PZ.diff]?.gold?.maxTime;
+    if(goldTime&&PZ.elapsed>=goldTime-30&&PZ.elapsed<=goldTime&&PZ.elapsed!==_lastTickSec){
+      _lastTickSec=PZ.elapsed;
+      document.getElementById('pz-timer').style.color=PZ.elapsed>=goldTime-10?'#e63030':'#f5c842';
+      UI_SFX.timerTick();
+    }
+  },500);
 }
 function pzUpdateBest(){const b=BEST_TIMES[PZ.diff];document.getElementById('pz-best').textContent=b?`Best: ${fmtTime(b.time)}`:'Best: --';}
 function pzUpdateMistakes(){const el=document.getElementById('pz-mistakes-count');if(el)el.textContent=PZ.mistakes;}
@@ -6638,7 +6659,10 @@ function dpBegin(){
     document.getElementById('dp-timer').textContent=fmtTime(DP.elapsed);
   },500);
   dpChallengeInit();
-  setTimeout(()=>maybeShowOnboarding('daily'),600);
+  if(!GAME_STATS.onboardingSeen){
+    clearInterval(DP.timerInterval);
+    setTimeout(()=>maybeShowOnboarding('daily'),600);
+  }
 }
 
 /* ── DRAW HAND ── */
@@ -10882,6 +10906,8 @@ function onboardFinish(){
   document.getElementById('onboard-overlay').style.display='none';
   GAME_STATS.onboardingSeen=true;
   saveState();
+  if(ACTIVE_MODE==='puzzle')pzResetTimer();
+  if(ACTIVE_MODE==='daily'||ACTIVE_MODE==='legendary'){DP.startTime=Date.now();DP.elapsed=0;}
 }
 document.getElementById('onboard-next').addEventListener('click',(e)=>{
   e.stopPropagation();
@@ -10889,8 +10915,7 @@ document.getElementById('onboard-next').addEventListener('click',(e)=>{
   if(_onboardStep>=ONBOARD_STEPS.length)onboardFinish();
   else onboardRenderStep();
 });
-document.getElementById('onboard-tooltip').addEventListener('click',(e)=>{e.stopPropagation();});
-document.getElementById('onboard-backdrop').addEventListener('click',()=>{onboardFinish();});
+document.getElementById('onboard-skip').addEventListener('click',(e)=>{e.stopPropagation();onboardFinish();});
 
 // Rating prompt
 function maybeShowRatingPrompt(){
